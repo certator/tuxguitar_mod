@@ -1,1 +1,2 @@
 # Add here the TGPlugin implementation class names.
+org.herac.tuxguitar.app.tools.custom.tuner.TGTunerPlugin

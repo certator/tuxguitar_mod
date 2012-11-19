@@ -8,7 +8,7 @@ default: build
 
 PACKAGE?=tuxguitar
 
-JNI_OS?=linux
+JNI_OS?=macos
 JAVA_HOME?=/usr/lib/jvm/java-6-sun/
 JAVA_VERS?=1.4
 
@@ -50,7 +50,7 @@ subdirs?=\
  TuxGuitar-converter \
  TuxGuitar-community \
  TuxGuitar-tuner \
-#}subdirs
+}subdirs
 
 subdirs_jni?=\
  TuxGuitar-alsa \
@@ -146,6 +146,9 @@ INSTALL_JAR_DIR?=${INSTALL_SHARE_DIR}/
 
 build: help all
 
+debug:
+	echo ${JNI_OS}
+
 rebuild: clean fix build
 
 all: ${all}
@@ -208,12 +211,12 @@ install-linux:
 	install -s TuxGuitar*/jni/lib*.so ${INSTALL_LIB_DIR}
 
 clean:
-	find . -iname "*.class" -exec rm -fv "{}" \;
-	find . -iname "*.jar" -exec rm -fv "{}" \;
-	find . -iname "*.jnilib" -exec rm -fv "{}" \;
-	find . -iname "*.o" -exec rm -fv "{}" \;
-	find . -iname "*.so" -exec rm -fv "{}" \;
-	find . -type l -exec rm -fv "{}" \;
+	find  . -wholename './_3rd_party' -prune -name 123  -or -iname "*.class" -exec rm -fv "{}" \;
+	find  . -wholename './_3rd_party' -prune -name 123  -or -iname "*.jar" -exec rm -fv "{}" \;
+	find  . -wholename './_3rd_party' -prune -name 123  -or -iname "*.jnilib" -exec rm -fv "{}" \;
+	find  . -wholename './_3rd_party' -prune -name 123  -or -iname "*.o" -exec rm -fv "{}" \;
+	find  . -wholename './_3rd_party' -prune -name 123  -or -iname "*.so" -exec rm -fv "{}" \;
+	find  . -wholename './_3rd_party' -prune -name 123  -or -type l -exec rm -fv "{}" \;
 	rm -rf TuxGuitar/tmp
 
 run: ${PACKAGE_EXEC}

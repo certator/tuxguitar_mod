@@ -40,7 +40,9 @@ public class TGFileUtils {
 		try {
 			if(TG_STATIC_SHARED_PATHS != null){
 				for( int i = 0; i < TG_STATIC_SHARED_PATHS.length ; i ++ ){
-					File file = new File(TG_STATIC_SHARED_PATHS[i] + File.separator + resource);
+					String s = TG_STATIC_SHARED_PATHS[i] + File.separator + resource;
+					File file = new File(s);
+					System.out.println("open: " + s);
 					if( isExistentAndReadable( file ) ){
 						return new FileInputStream( file );
 					}
