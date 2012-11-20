@@ -5,6 +5,10 @@
 #include <AudioUnit/AudioUnit.h>
 #include <AudioToolbox/AudioToolbox.h>
 
+//#include <CoreServices/CoreServices.h> //for file stuff
+#include <Carbon/Carbon.h>
+
+
 // some MIDI constants:
 enum
 {
@@ -43,7 +47,7 @@ class MidiPlayer
             //create the nodes of the graph
             AUNode synthNode, limiterNode, outNode;
             
-            ComponentDescription cd;
+            AudioComponentDescription cd;
             cd.componentManufacturer = kAudioUnitManufacturer_Apple;
             cd.componentFlags = 0;
             cd.componentFlagsMask = 0;

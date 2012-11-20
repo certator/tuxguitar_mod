@@ -57,6 +57,7 @@ subdirs_jni?=\
  TuxGuitar-oss \
  TuxGuitar-fluidsynth \
  TuxGuitar-jack \
+ TuxGuitar-AudioUnit \
  #}subdirs_jni
 
 #
