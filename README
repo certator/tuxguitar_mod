@@ -40,3 +40,8 @@ $/home/user/TuxGuitar-*/tuxguitar
 Export JAVA_HOME:
 $export JAVA_HOME=/usr/lib/jvm/java-1.5.0-sun
 $/home/user/TuxGuitar-*/tuxguitar           
+
+
+
+Eclipse:
+put TGMain.launch to ~/Documents/workspace/.metadata/.plugins/org.eclipse.debug.core/.launches
