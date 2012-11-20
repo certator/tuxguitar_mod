@@ -2,7 +2,6 @@ CXX = g++
 
 ARCH = -arch x86_64
 
-#SDK = /Developer/SDKs/* # works for 10.6.8
 SDK = $(shell xcode-select --print-path)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk # works for 10.8.2
 JAVA_FRAMEWORK = $(SDK)/System/Library/Frameworks/JavaVM.framework
 
@@ -18,7 +17,7 @@ all:	$(LIBRARY)
 
 $(LIBRARY):	clean
 #	g++ $(INCLUDES) -isysroot $(SDK) -arch ppc $(LIBRARIES) -msse -dynamiclib -o ppc_$(LIBRARY) $(FILENAME)
-	g++ $(INCLUDES) -isysroot $(SDK) $(ARCH) $(LIBRARIES) -msse -dynamiclib -o intel_$(LIBRARY) $(FILENAME)
+	g++ $(ARCH) $(LIBRARIES) -msse -dynamiclib -o intel_$(LIBRARY) $(FILENAME)
 	lipo -create intel_$(LIBRARY) -output $(LIBRARY)
 
 clean:

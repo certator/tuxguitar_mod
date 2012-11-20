@@ -20,8 +20,8 @@ all:	$(LIBRARY)
 
 $(LIBRARY):	clean
 #	g++ $(INCLUDES) -isysroot $(SDK) -arch ppc $(LIBRARIES) -msse -bundle -o ppc_$(LIBRARY) $(FILENAME)
-	g++ $(INCLUDES) -isysroot $(SDK) -arch i386 $(LIBRARIES) -msse -bundle -o intel_$(LIBRARY) $(FILENAME)
-	g++ $(INCLUDES64) -isysroot $(SDK64) -arch x86_64 $(LIBRARIES) -msse -bundle -o intel64_$(LIBRARY) $(FILENAME)
+	g++ -arch i386 $(LIBRARIES) -msse -bundle -o intel_$(LIBRARY) $(FILENAME)
+	g++ -arch x86_64 $(LIBRARIES) -msse -bundle -o intel64_$(LIBRARY) $(FILENAME)
 	lipo -create intel_$(LIBRARY) intel64_$(LIBRARY) -output $(LIBRARY)
 
 clean:
