@@ -59,6 +59,12 @@ GCJ?=gcj
 GCJFLAGS+=-fbootstrap-classes -fjni -I$(SOURCE_PATH) -I$(SWT_PATH)
 LDFLAGS?=
 
+info:
+	echo $(TG_LIBRARY_PATH_JNI)
+	echo $(TG_SHARE_PATH)
+	echo $(TG_NATIVE_PLUGINS_PATH)
+	echo $(TG_NATIVE_PLUGINS_EXTENSION)
+
 default: all
 
 all: objects library binary

@@ -1,6 +1,6 @@
 CXX = g++
 
-ARCH = arch x86_64
+ARCH = -arch x86_64
 
 #SDK = /Developer/SDKs/* # works for 10.6.8
 SDK = $(shell xcode-select --print-path)/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.7.sdk # works for 10.8.2
