@@ -1,6 +1,6 @@
 package org.herac.tuxguitar.app;
 
-import java.util.Map.Entry;
+//import java.util.Map.Entry;
 
 public class TGMain {
 	
