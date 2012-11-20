@@ -212,13 +212,10 @@ install-linux:
 	install -s TuxGuitar*/jni/lib*.so ${INSTALL_LIB_DIR}
 
 clean:
-	find  . -wholename './_3rd_party' -prune -name 123  -or -iname "*.class" -exec rm -fv "{}" \;
-	find  . -wholename './_3rd_party' -prune -name 123  -or -iname "*.jar" -exec rm -fv "{}" \;
-	find  . -wholename './_3rd_party' -prune -name 123  -or -iname "*.jnilib" -exec rm -fv "{}" \;
-	find  . -wholename './_3rd_party' -prune -name 123  -or -iname "*.o" -exec rm -fv "{}" \;
-	find  . -wholename './_3rd_party' -prune -name 123  -or -iname "*.so" -exec rm -fv "{}" \;
-	find  . -wholename './_3rd_party' -prune -name 123  -or -type l -exec rm -fv "{}" \;
-	rm -rf TuxGuitar/tmp
+	find  . -wholename './_3rd_party' -prune -name 123 -or \
+	 \( -name "*.jar" -or -name "*.class" -or -name "*.o" -or -name "*.so" -or -name "*.jnilib" \) \
+	 -and -type f \
+	 -exec rm -fv "{}" \;
 
 run: ${PACKAGE_EXEC}
 	cd ./TuxGuitar && APP_HOME=. ; ${SHELL} $<
