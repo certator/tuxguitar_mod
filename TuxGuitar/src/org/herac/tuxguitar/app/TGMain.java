@@ -10,7 +10,7 @@ public class TGMain {
 		for (Entry<Object, Object> entry : System.getProperties().entrySet())
 		{
 			
-			System.out.println("property: " + entry.getKey().toString() + " = " + entry.getValue().toString());
+			//System.out.println("property: " + entry.getKey().toString() + " = " + entry.getValue().toString());
 		}
 		
 		TuxGuitar.instance().displayGUI(args);
