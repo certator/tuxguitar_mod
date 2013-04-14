@@ -179,7 +179,13 @@ public class TGNoteImpl extends TGNote {
 				this.noteOrientation.setHeight(r.getHeight());
 				String visualNote = (getEffect().isDeadNote())?"X":Integer.toString(getValue());
 				visualNote = (getEffect().isGhostNote())?"(" + visualNote + ")":visualNote;
-				painter.drawString(visualNote, this.noteOrientation.getX(), this.noteOrientation.getY());
+
+				final int fmWidth = painter.getFMWidth(visualNote);
+				final int fmHeight = painter.getFMHeight();
+				painter.initPath(TGPainter.PATH_FILL);
+				painter.addRectangle(this.noteOrientation.getX(),this.noteOrientation.getY()+(int)(fmHeight*0.2),fmWidth, (int)(fmHeight*0.60));
+				painter.closePath();
+				painter.drawString(visualNote, this.noteOrientation.getX(), this.noteOrientation.getY(), true);
 			}
 			
 			//-------------efectos--------------------------------------
