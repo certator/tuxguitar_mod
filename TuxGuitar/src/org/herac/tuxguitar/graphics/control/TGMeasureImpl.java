@@ -782,6 +782,16 @@ public class TGMeasureImpl extends TGMeasure{
 					//painter.drawString(repetitions,x2 - numberSize.getWidth() + getSpacing() - size,(y1 - numberSize.getHeight()) - Math.round(scale));
 				}
 			}
+		}else if (this.hasDoubleBar()){
+			int width = Math.round(3f * scale);
+			painter.initPath();
+			painter.setAntialias(false);
+			painter.setLineWidth(lineWidthSmall);
+			painter.moveTo(x2 + getSpacing() - width, y1);
+			painter.lineTo(x2 + getSpacing() - width, y2);
+			painter.moveTo(x2 + getSpacing(), y1);
+			painter.lineTo(x2 + getSpacing(), y2);
+			painter.closePath();
 		}else{
 			painter.initPath();
 			painter.setAntialias(false);
@@ -792,7 +802,7 @@ public class TGMeasureImpl extends TGMeasure{
 		}
 		painter.setLineWidth(lineWidthSmall);
 	}
-	
+
 	/**
 	 * Pinta la Clave
 	 */

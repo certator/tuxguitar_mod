@@ -210,6 +210,9 @@ public class GP5OutputStream extends GTPOutputStream {
 		if (measure.hasMarker()) {
 			flags |= 0x20;
 		}
+		if (measure.hasDoubleBar()) {
+			flags |= 0x80;
+		}
 		writeUnsignedByte(flags);
 		
 		if ((flags & 0x01) != 0) {

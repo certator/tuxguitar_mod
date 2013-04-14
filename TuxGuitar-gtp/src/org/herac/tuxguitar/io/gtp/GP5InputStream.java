@@ -345,6 +345,9 @@ public class GP5InputStream extends GTPInputStream {
 			this.keySignature = readKeySignature();
 			this.skip(1);
 		}
+		if ((flags & 0x80) != 0) {
+			header.setDoubleBar(true);
+		}
 		if ((flags & 0x01) != 0 || (flags & 0x02) != 0) {
 			skip(4);
 		}

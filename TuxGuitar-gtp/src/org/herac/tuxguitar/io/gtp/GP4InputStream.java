@@ -312,6 +312,9 @@ public class GP4InputStream extends GTPInputStream {
 			this.keySignature = readKeySignature();
 			this.skip(1);
 		}
+		if ((flags & 0x80) != 0) {
+			header.setDoubleBar(true);
+		}
 		return header;
 	}
 	

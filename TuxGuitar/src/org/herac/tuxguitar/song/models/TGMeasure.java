@@ -109,7 +109,14 @@ public abstract class TGMeasure {
 	public int getRepeatClose() {
 		return this.header.getRepeatClose();
 	}
-	
+
+	/**
+	 * True if it has double bar separator at the end of the measure
+	 */
+	public boolean hasDoubleBar() {
+		return this.header.hasDoubleBar();
+	}
+
 	public long getStart() {
 		return this.header.getStart();
 	}

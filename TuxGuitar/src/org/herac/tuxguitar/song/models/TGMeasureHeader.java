@@ -27,6 +27,7 @@ public abstract class TGMeasureHeader {
 	private boolean repeatOpen;
 	private int repeatAlternative;
 	private int repeatClose;
+	private boolean doubleBar;
 	private int tripletFeel;
 	private TGSong song;
 	
@@ -63,7 +64,21 @@ public abstract class TGMeasureHeader {
 	public int getRepeatAlternative() {
 		return this.repeatAlternative;
 	}
-	
+
+	/**
+	 * True if it has double bar separator at the end of the measure
+	 */
+	public boolean hasDoubleBar() {
+		return this.doubleBar;
+	}
+
+	/**
+	 * Set presence of a double bar separator at the end of the measure
+	 */
+	public void setDoubleBar(boolean doubleBar) {
+		this.doubleBar = doubleBar;
+	}
+
 	/**
 	 * bitwise value 1 TO 8.
 	 * (1 << AlternativeNumber)
@@ -150,6 +165,7 @@ public abstract class TGMeasureHeader {
 		this.repeatOpen = measure.isRepeatOpen();
 		this.repeatClose = measure.getRepeatClose();
 		this.repeatAlternative = measure.getRepeatAlternative();
+		this.doubleBar = measure.hasDoubleBar();
 		this.checkMarker();
 	}
 	
@@ -161,9 +177,11 @@ public abstract class TGMeasureHeader {
 		header.setRepeatAlternative(getRepeatAlternative());
 		header.setRepeatClose(getRepeatClose());
 		header.setTripletFeel(getTripletFeel());
+		header.setDoubleBar(hasDoubleBar());
 		getTimeSignature().copy(header.getTimeSignature());
 		getTempo().copy(header.getTempo());
 		header.setMarker(hasMarker()?(TGMarker)getMarker().clone(factory):null);
 		return header;
 	}
+
 }
