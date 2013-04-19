@@ -3,7 +3,7 @@ TuxGuitar 1.3-SNAPSHOT
 
 [TuxGuitar](http://tuxguitar.herac.com.ar/) is a multitrack tablature editor and player written in Java [SWT](http://www.eclipse.org/swt/).
 
-This branch is a full rework of the build process with [Maven](http://http://maven.apache.org/), which is not especially a good idea for JNI modules :-D Anaywy, help to improve it is welcome.
+This branch is a full rework of the build process with [Maven](http://http://maven.apache.org/), which is not especially a good idea for JNI modules :-D Anyway, help to improve it is welcome.
 
 Right now, only tested with Ubuntu.
 
