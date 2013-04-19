@@ -12,7 +12,7 @@ Build Java
 
 This command build all pure Java code and plugins
 
-    $ mvn clean compile
+    $ mvn clean package
 
 Build JNI plugins
 -----------------
@@ -24,7 +24,7 @@ Before that, it is needed to install all expected headers and lib.
 
 Then...
 
-    $ mvn clean compile -Plinux-jni
+    $ mvn clean package -Plinux-jni
 
 Execute
 -------
