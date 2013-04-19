@@ -18,22 +18,68 @@
 	<name>TuxGuitar :: SWT</name>
 	<description>TuxGuitar SWT dependancies</description>
 
-	<!-- TODO rework it with http://maven.eclipse.org/nexus/content/repositories/testing/org/eclipse/swt/ -->
+	<repositories>
+		<repository>
+			<id>testing.nexus.eclipse.org</id>
+			<url>http://maven.eclipse.org/nexus/content/repositories/testing/</url>
+			<!-- http://maven.eclipse.org/nexus/content/repositories/testing/org/eclipse/swt/ -->
+		</repository>
+	</repositories>
+
 	<!-- TODO fix activation keys, i found no documentation at all -->
 
 	<profiles>
+		<profile>
+			<id>macosx_cocoa_x86_64</id>
+			<activation>
+				<os>
+					<family>mac</family>
+					<version>[10,11)</version>
+					<arch>x86_64</arch>
+				</os>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.eclipse.swt</groupId>
+					<artifactId>org.eclipse.swt.cocoa.macosx</artifactId>
+					<version>3.6.2</version>
+					<scope>compile</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>macosx_cocoa</id>
+			<activation>
+				<os>
+					<family>mac</family>
+					<version>[9,11)</version>
+					<arch>x86</arch>
+				</os>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.eclipse.swt</groupId>
+					<artifactId>org.eclipse.swt.cocoa.macosx</artifactId>
+					<version>3.6.2</version>
+					<scope>compile</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+
 		<profile>
 			<id>macosx_carbon</id>
 			<activation>
 				<os>
 					<family>mac</family>
+					<version>[8,10)</version>
 				</os>
 			</activation>
 			<dependencies>
 				<dependency>
-					<groupId>org.eclipse.swt.carbon</groupId>
-					<artifactId>macosx</artifactId>
-					<version>3.3.0-v3346</version>
+					<groupId>org.eclipse.swt</groupId>
+					<artifactId>org.eclipse.swt.carbon.macosx</artifactId>
+					<version>3.6.2</version>
 					<scope>compile</scope>
 				</dependency>
 			</dependencies>
@@ -49,9 +95,9 @@
 			</activation>
 			<dependencies>
 				<dependency>
-					<groupId>org.eclipse.swt.win32.win32</groupId>
-					<artifactId>x86</artifactId>
-					<version>3.3.0-v3346</version>
+					<groupId>org.eclipse.swt</groupId>
+					<artifactId>org.eclipse.swt.win32.win32.x86</artifactId>
+					<version>3.6.2</version>
 					<scope>compile</scope>
 				</dependency>
 			</dependencies>
@@ -67,9 +113,9 @@
 			</activation>
 			<dependencies>
 				<dependency>
-					<groupId>org.eclipse.swt.gtk.linux</groupId>
-					<artifactId>x86</artifactId>
-					<version>3.3.0-v3346</version>
+					<groupId>org.eclipse.swt</groupId>
+					<artifactId>org.eclipse.swt.gtk.linux.x86</artifactId>
+					<version>3.6.2</version>
 					<scope>compile</scope>
 				</dependency>
 			</dependencies>
@@ -85,9 +131,9 @@
 			</activation>
 			<dependencies>
 				<dependency>
-					<groupId>org.eclipse.swt.gtk.linux</groupId>
-					<artifactId>x86_64</artifactId>
-					<version>3.3.0-v3346</version>
+					<groupId>org.eclipse.swt</groupId>
+					<artifactId>org.eclipse.swt.gtk.linux.x86_64</artifactId>
+					<version>3.6.2</version>
 					<scope>compile</scope>
 				</dependency>
 			</dependencies>
