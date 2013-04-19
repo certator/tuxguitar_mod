@@ -23,6 +23,7 @@ Before that, it is needed to install all expected headers and lib.
     $ sudo apt-get install libfluidsynth-dev oss4-dev libjack-dev libasound2-dev
 
 Then...
+
     $ mvn clean compile -Plinux-jni
 
 Execute
