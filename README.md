@@ -17,7 +17,7 @@ This command build all pure Java code and plugins
 Build JNI plugins
 -----------------
 
-This command build all JNI plugins available for Linux.
+Another profile allow to build all JNI plugins available for Linux.
 Before that, it is needed to install all expected headers and lib.
 
     $ sudo apt-get install libfluidsynth-dev oss4-dev libjack-dev libasound2-dev
@@ -25,6 +25,10 @@ Before that, it is needed to install all expected headers and lib.
 Then...
 
     $ mvn clean package -Plinux-jni
+
+If you dont have all this dependencies, you can use the next command.
+
+    $ mvn clean package -Plinux-jni --fail-never
 
 Execute
 -------
