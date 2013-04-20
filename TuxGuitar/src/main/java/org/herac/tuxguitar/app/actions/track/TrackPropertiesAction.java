@@ -188,7 +188,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		colorButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
 				ColorDialog dlg = new ColorDialog(TrackPropertiesAction.this.dialog);
-				dlg.setRGB(TrackPropertiesAction.this.dialog.getDisplay().getSystemColor(SWT.COLOR_BLACK).getRGB());
+				dlg.setRGB(new RGB(trackColor.getR(), trackColor.getG(), trackColor.getB()));
 				dlg.setText(TuxGuitar.getProperty("choose-color"));
 				RGB rgb = dlg.open();
 				if (rgb != null) {
