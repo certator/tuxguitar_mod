@@ -43,6 +43,13 @@ public class TGTableCanvasPainter implements PaintListener{
 			painter.closePath();
 			
 			TGColor trackColor = painter.createColor(this.track.getColor().getR(),this.track.getColor().getG(),this.track.getColor().getB());
+			// selected color computed according to dark/light of the trackColor
+			TGColor selectedColor;
+			if (this.track.getColor().getR() + this.track.getColor().getG() + this.track.getColor().getB() < (255 * 3 / 2)) {
+				selectedColor = new TGColorImpl(painter.getGC().getDevice().getSystemColor(SWT.COLOR_WHITE));
+			} else {
+				selectedColor = new TGColorImpl(painter.getGC().getDevice().getSystemColor(SWT.COLOR_BLACK));
+			}
 			painter.setBackground(trackColor);
 			painter.setForeground(trackColor);
 			
@@ -62,7 +69,7 @@ public class TGTableCanvasPainter implements PaintListener{
 				}
 				boolean hasCaret = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getMeasure().equals(measure);
 				if((playing && measure.isPlaying(this.viewer.getEditor().getTablature().getViewLayout())) || (!playing && hasCaret)){
-					painter.setBackground(new TGColorImpl(painter.getGC().getDevice().getSystemColor(SWT.COLOR_BLACK)));
+					painter.setBackground(selectedColor);
 					painter.initPath(TGPainter.PATH_FILL);
 					painter.setAntialias(false);
 					painter.addRectangle(x + 4,y + 4,size - 9,size - 8);
@@ -72,7 +79,7 @@ public class TGTableCanvasPainter implements PaintListener{
 				x += size;
 			}
 			trackColor.dispose();
-			
+
 			TuxGuitar.instance().unlock();
 		}
 	}
