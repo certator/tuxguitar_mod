@@ -15,6 +15,8 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -77,7 +79,6 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 	protected Combo offsetCombo;
 	protected int stringCount;
 	protected Combo instrumentCombo;
-	protected Color colorButtonValue;
 	protected boolean percussionChannel;
 	
 	public TrackPropertiesAction() {
@@ -184,6 +185,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		
 		final Button colorButton = new Button(bottom, SWT.PUSH);
 		colorButton.setLayoutData(getAlignmentData(MINIMUM_LEFT_CONTROLS_WIDTH,SWT.FILL));
+		colorButton.setAlignment(SWT.RIGHT);
 		colorButton.setText(TuxGuitar.getProperty("choose"));
 		colorButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
@@ -201,7 +203,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		});
 		colorButton.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {
-				TrackPropertiesAction.this.disposeButtonColor();
+				TrackPropertiesAction.this.disposeButtonColor(colorButton);
 			}
 		});
 		this.setButtonColor(colorButton);
@@ -600,15 +602,24 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 	
 	protected void setButtonColor(Button button){
 		Color color = new Color(this.dialog.getDisplay(), this.trackColor.getR(), this.trackColor.getG(), this.trackColor.getB());
-		button.setForeground( color );
-		this.disposeButtonColor();
-		this.colorButtonValue = color;
+
+		final int size = 16;
+		Image icon = new Image(TuxGuitar.instance().getDisplay(), size, size);
+		GC gc = new GC(icon);
+		gc.setBackground(color);
+		gc.fillRectangle(0, 0, size, size);
+		gc.dispose();
+		color.dispose();
+
+		this.disposeButtonColor(button);
+		button.setImage(icon);
 	}
-	
-	protected void disposeButtonColor(){
-		if(this.colorButtonValue != null && !this.colorButtonValue.isDisposed()){
-			this.colorButtonValue.dispose();
-			this.colorButtonValue = null;
+
+	protected void disposeButtonColor(Button button){
+		Image icon = button.getImage();
+		button.setImage(null);
+		if(icon != null && !icon.isDisposed()){
+			icon.dispose();
 		}
 	}
 	
