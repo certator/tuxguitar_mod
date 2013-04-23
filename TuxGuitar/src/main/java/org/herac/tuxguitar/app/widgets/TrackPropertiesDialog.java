@@ -4,18 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
@@ -166,32 +160,23 @@ public class TrackPropertiesDialog extends Shell implements TGUpdateListener {
 		colorLabel.setText(TuxGuitar.getProperty("track.color") + ":");
 		colorLabel.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,true));
 
-		final Button colorButton = new Button(bottom, SWT.PUSH);
+		final ColorButton colorButton = new ColorButton(bottom);
 		colorButton.setLayoutData(getAlignmentData(MINIMUM_LEFT_CONTROLS_WIDTH,SWT.FILL));
 		colorButton.setAlignment(SWT.RIGHT);
-		colorButton.setText(TuxGuitar.getProperty("choose"));
+		colorButton.setText(TuxGuitar.getProperty("color"));
+		colorButton.setColor(trackColor.getRGB());
+
 		colorButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				ColorDialog dlg = new ColorDialog(TrackPropertiesDialog.this);
-				dlg.setRGB(new RGB(trackColor.getR(), trackColor.getG(), trackColor.getB()));
-				dlg.setText(TuxGuitar.getProperty("choose-color"));
-				RGB rgb = dlg.open();
+				RGB rgb = colorButton.getColor();
 				if (rgb != null) {
 					TrackPropertiesDialog.this.trackColor.setR(rgb.red);
 					TrackPropertiesDialog.this.trackColor.setG(rgb.green);
 					TrackPropertiesDialog.this.trackColor.setB(rgb.blue);
-					TrackPropertiesDialog.this.setButtonColor(colorButton);
 				}
 			}
 		});
-		colorButton.addDisposeListener(new DisposeListener() {
-			@Override
-			public void widgetDisposed(DisposeEvent e) {
-				TrackPropertiesDialog.this.disposeButtonColor(colorButton);
-			}
-		});
-		this.setButtonColor(colorButton);
 	}
 
 	private void initTuningInfo(Composite composite,TGTrackImpl track) {
@@ -596,29 +581,6 @@ public class TrackPropertiesDialog extends Shell implements TGUpdateListener {
 		}
 
 		return transpositions;
-	}
-
-	private void setButtonColor(Button button){
-		Color color = new Color(this.getDisplay(), this.trackColor.getR(), this.trackColor.getG(), this.trackColor.getB());
-
-		final int size = 16;
-		Image icon = new Image(TuxGuitar.instance().getDisplay(), size, size);
-		GC gc = new GC(icon);
-		gc.setBackground(color);
-		gc.fillRectangle(0, 0, size, size);
-		gc.dispose();
-		color.dispose();
-
-		this.disposeButtonColor(button);
-		button.setImage(icon);
-	}
-
-	private void disposeButtonColor(Button button){
-		Image icon = button.getImage();
-		button.setImage(null);
-		if(icon != null && !icon.isDisposed()){
-			icon.dispose();
-		}
 	}
 
 	private void updateTuningGroup(boolean enabled) {

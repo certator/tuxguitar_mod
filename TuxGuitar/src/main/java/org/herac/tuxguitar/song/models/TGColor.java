@@ -1,5 +1,6 @@
 package org.herac.tuxguitar.song.models;
 
+import org.eclipse.swt.graphics.RGB;
 import org.herac.tuxguitar.song.factory.TGFactory;
 
 public abstract class TGColor {
@@ -65,6 +66,10 @@ public abstract class TGColor {
 		color.setG(g);
 		color.setB(b);
 		return color;
+	}
+
+	public RGB getRGB() {
+		return new RGB(r, g, b);
 	}
 	
 }
