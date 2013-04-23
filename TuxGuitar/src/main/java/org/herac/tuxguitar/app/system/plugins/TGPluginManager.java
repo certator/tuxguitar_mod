@@ -10,24 +10,24 @@ import org.herac.tuxguitar.util.TGServiceReader;
 
 public class TGPluginManager {
 	
-	private List plugins;
+	private final List<TGPlugin> plugins;
 	
 	public TGPluginManager(){
-		this.plugins = new ArrayList();
+		this.plugins = new ArrayList<TGPlugin>();
 		this.initPlugins();
 	}
 	
-	public List getPlugins(){
+	public List<TGPlugin> getPlugins(){
 		return this.plugins;
 	}
 	
 	public void initPlugins(){
 		try{
 			//Search available providers
-			Iterator it = TGServiceReader.lookupProviders(TGPlugin.class,TGClassLoader.instance().getClassLoader());
+			Iterator<TGPlugin> it = TGServiceReader.lookupProviders(TGPlugin.class,TGClassLoader.instance().getClassLoader());
 			while(it.hasNext()){
 				try{
-					TGPlugin plugin = (TGPlugin)it.next();
+					TGPlugin plugin = it.next();
 					plugin.init();
 					this.plugins.add(plugin);
 				}catch(TGPluginException exception){
@@ -42,10 +42,10 @@ public class TGPluginManager {
 	}
 	
 	public void closePlugins(){
-		Iterator it = this.plugins.iterator();
+		Iterator<TGPlugin> it = this.plugins.iterator();
 		while(it.hasNext()){
 			try{
-				((TGPlugin)it.next()).close();
+				it.next().close();
 			}catch(TGPluginException exception){
 				MessageDialog.errorMessage(exception);
 			}catch(Throwable throwable){
@@ -55,10 +55,10 @@ public class TGPluginManager {
 	}
 	
 	public void openPlugins(){
-		Iterator it = this.plugins.iterator();
+		Iterator<TGPlugin> it = this.plugins.iterator();
 		while(it.hasNext()){
 			try{
-				TGPlugin plugin = (TGPlugin)it.next();
+				TGPlugin plugin = it.next();
 				plugin.setEnabled(isEnabled(plugin));
 			}catch(TGPluginException exception){
 				MessageDialog.errorMessage(exception);

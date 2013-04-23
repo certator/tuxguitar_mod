@@ -5,11 +5,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.herac.tuxguitar.util.TGClassLoader;
-
 public class JNILibraryLoader {
-
-	private static final String JNI_EXTENSION = ".jnilib";
 
 	private static final String JNI_TMP_PATH = (System.getProperty( "java.io.tmpdir" ) + File.separator);
 

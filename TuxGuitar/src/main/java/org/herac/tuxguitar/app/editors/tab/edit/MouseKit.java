@@ -15,13 +15,12 @@ import org.herac.tuxguitar.app.undo.undoables.measure.UndoableMeasureGeneric;
 import org.herac.tuxguitar.graphics.TGImage;
 import org.herac.tuxguitar.graphics.TGPainter;
 import org.herac.tuxguitar.graphics.control.TGBeatImpl;
+import org.herac.tuxguitar.graphics.control.TGLayout;
 import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
 import org.herac.tuxguitar.graphics.control.TGNoteImpl;
 import org.herac.tuxguitar.graphics.control.TGTrackImpl;
 import org.herac.tuxguitar.graphics.control.TGTrackSpacing;
 import org.herac.tuxguitar.graphics.control.TGVoiceImpl;
-import org.herac.tuxguitar.graphics.control.TGLayout;
-
 import org.herac.tuxguitar.song.managers.TGSongManager;
 import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGDuration;
@@ -33,7 +32,7 @@ import org.herac.tuxguitar.song.models.TGVoice;
 public class MouseKit {
 	private static final int FIRST_LINE_VALUES[] = new int[] {65,45,52,55};
 	
-	private EditorKit kit;
+	private final EditorKit kit;
 	private TGImage back = null;
 	private int lastx;
 	private int lasty;
@@ -235,7 +234,7 @@ public class MouseKit {
 	}
 	
 	private boolean removeNote(int value,TGVoice voice) {
-		Iterator it = voice.getNotes().iterator();
+		Iterator<TGNote> it = voice.getNotes().iterator();
 		while (it.hasNext()) {
 			TGNoteImpl note = (TGNoteImpl) it.next();
 			
@@ -293,13 +292,13 @@ public class MouseKit {
 	}
 	
 	private int findBestString(TGTrack track,TGVoice voice,int value){
-		List strings = new ArrayList();
+		List<TGString> strings = new ArrayList<TGString>();
 		for(int number = 1;number <= track.stringCount();number++){
 			boolean used = false;
 			TGString string = track.getString(number);
-			Iterator it = voice.getNotes().iterator();
+			Iterator<TGNote> it = voice.getNotes().iterator();
 			while (it.hasNext()) {
-				TGNote note = (TGNote) it.next();
+				TGNote note = it.next();
 				if(note.getString() == string.getNumber()){
 					used = true;
 				}
@@ -312,7 +311,7 @@ public class MouseKit {
 		int minFret = -1;
 		int stringForValue = 0;
 		for(int i = 0;i < strings.size();i++){
-			TGString string = (TGString)strings.get(i);
+			TGString string = strings.get(i);
 			int fret = value - string.getValue();
 			if((fret >= 0) && (minFret < 0 || fret < minFret)){
 				stringForValue = string.getNumber();
@@ -328,7 +327,7 @@ public class MouseKit {
 		int bestDiff = -1;
 		TGVoiceImpl bestVoice = null;
 		TGDuration duration = this.kit.getTablature().getCaret().getDuration();
-		Iterator it = measure.getBeats().iterator();
+		Iterator<TGBeat> it = measure.getBeats().iterator();
 		while(it.hasNext()){
 			TGBeatImpl beat = (TGBeatImpl)it.next();
 			TGVoiceImpl voice = beat.getVoiceImpl( voiceIndex );

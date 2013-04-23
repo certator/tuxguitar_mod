@@ -70,7 +70,7 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 	protected static final int[] DIVISIONS = new int[] {1,2,3,4,6,8,16};
 	
 	private MatrixConfig config;
-	private MatrixListener listener;
+	private final MatrixListener listener;
 	private Shell dialog;
 	private Composite composite;
 	private Composite toolbar;
@@ -129,6 +129,7 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 		
 		this.addListeners();
 		this.dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				removeListeners();
 				TuxGuitar.instance().updateCache(true);
@@ -207,6 +208,7 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 			divisionsCombo.select(0);
 		}
 		divisionsCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int index = divisionsCombo.getSelectionIndex();
 				if(index >= 0 && index < DIVISIONS.length){
@@ -222,6 +224,7 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 		this.settings.setToolTipText(TuxGuitar.getProperty("settings"));
 		this.settings.setLayoutData(new GridData(SWT.RIGHT,SWT.FILL,true,true));
 		this.settings.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				configure();
 			}
@@ -256,12 +259,14 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 		this.editor.addMouseTrackListener(this.listener);
 		this.editor.getHorizontalBar().setIncrement(SCROLL_INCREMENT);
 		this.editor.getHorizontalBar().addListener(SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				redrawLocked();
 			}
 		});
 		this.editor.getVerticalBar().setIncrement(SCROLL_INCREMENT);
 		this.editor.getVerticalBar().addListener(SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				redrawLocked();
 			}
@@ -413,9 +418,9 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 		if( this.clientArea != null ){
 			TGMeasure measure = getMeasure();
 			if(measure != null){
-				Iterator it = measure.getBeats().iterator();
+				Iterator<TGBeat> it = measure.getBeats().iterator();
 				while(it.hasNext()){
-					TGBeat beat = (TGBeat)it.next();
+					TGBeat beat = it.next();
 					paintBeat(painter, measure, beat, fromX, fromY);
 				}
 			}
@@ -586,7 +591,7 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 		
 		for(int v = 0; v < beat.countVoices(); v ++){
 			TGVoice voice = beat.getVoice( v );
-			Iterator it = voice.getNotes().iterator();
+			Iterator<TGNote> it = voice.getNotes().iterator();
 			while (it.hasNext()) {
 				TGNoteImpl note = (TGNoteImpl) it.next();
 				if (note.getRealValue() == value) {
@@ -616,15 +621,15 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 			TGMeasure measure = getMeasure();
 			Caret caret = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret();
 			
-			List strings = measure.getTrack().getStrings();
+			List<TGString> strings = measure.getTrack().getStrings();
 			for(int i = 0;i < strings.size();i ++){
-				TGString string = (TGString)strings.get(i);
+				TGString string = strings.get(i);
 				if(value >= string.getValue()){
 					boolean emptyString = true;
 					
 					for(int v = 0; v < beat.countVoices(); v ++){
 						TGVoice voice = beat.getVoice( v );
-						Iterator it = voice.getNotes().iterator();
+						Iterator<TGNote> it = voice.getNotes().iterator();
 						while (it.hasNext()) {
 							TGNoteImpl note = (TGNoteImpl) it.next();
 							if (note.getString() == string.getNumber()) {
@@ -676,6 +681,7 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 	
 	protected void play(final int value){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				TGTrack tgTrack = getMeasure().getTrack();
 				TGChannel tgChannel = TuxGuitar.instance().getSongManager().getChannel(tgTrack.getChannelId());
@@ -806,6 +812,7 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 		}
 	}
 	
+	@Override
 	public void loadIcons(){
 		if( !isDisposed() ){
 			this.dialog.setImage(TuxGuitar.instance().getIconManager().getAppIcon());
@@ -816,6 +823,7 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 		}
 	}
 	
+	@Override
 	public void loadProperties() {
 		if( !isDisposed() ){
 			this.dialog.setText(TuxGuitar.getProperty("matrix.editor"));
@@ -892,6 +900,7 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 	}
 	
 	protected class DisposeListenerImpl implements DisposeListener{
+		@Override
 		public void widgetDisposed(DisposeEvent e) {
 			disposeAll();
 		}
@@ -903,6 +912,7 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 			super();
 		}
 		
+		@Override
 		public void paintControl(PaintEvent e) {
 			if(!TuxGuitar.instance().isLocked()){
 				TuxGuitar.instance().lock();
@@ -912,6 +922,7 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 			}
 		}
 		
+		@Override
 		public void mouseUp(MouseEvent e) {
 			getEditor().setFocus();
 			if(e.button == 1){
@@ -923,37 +934,44 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 			}
 		}
 		
+		@Override
 		public void mouseMove(MouseEvent e) {
 			if(!TuxGuitar.instance().isLocked() && !ActionLock.isLocked()){
 				updateSelection(e.y);
 			}
 		}
 		
+		@Override
 		public void mouseExit(MouseEvent e) {
 			if(!TuxGuitar.instance().isLocked() && !ActionLock.isLocked()){
 				updateSelection(-1);
 			}
 		}
 		
+		@Override
 		public void mouseEnter(MouseEvent e) {
 			if(!TuxGuitar.instance().isLocked() && !ActionLock.isLocked()){
 				redrawLocked();
 			}
 		}
 		
+		@Override
 		public void mouseDoubleClick(MouseEvent e) {
 			// TODO Auto-generated method stub
 		}
 		
+		@Override
 		public void mouseDown(MouseEvent e) {
 			// TODO Auto-generated method stub
 		}
 		
+		@Override
 		public void mouseHover(MouseEvent e) {
 			// TODO Auto-generated method stub
 		}
 	}
 	
+	@Override
 	public void doRedraw(int type) {
 		if( type == TGRedrawListener.NORMAL ){
 			this.redraw();

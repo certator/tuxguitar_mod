@@ -34,7 +34,7 @@ public class ChordRecognizer extends Composite {
 	
 	private ChordDialog dialog;
 	private List proposalList;
-	private java.util.List proposalParameters;
+	private java.util.List<int[]> proposalParameters;
 	
 	// this var keep a control to running threads.
 	private long runningProcess;
@@ -59,7 +59,7 @@ public class ChordRecognizer extends Composite {
 		composite.setLayout(new GridLayout());
 		composite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		
-		this.proposalParameters = new ArrayList();
+		this.proposalParameters = new ArrayList<int[]>();
 		
 		this.proposalList = new List(composite,SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		this.proposalList.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
@@ -75,7 +75,7 @@ public class ChordRecognizer extends Composite {
 	
 	/** sets the current chord to be selected proposal */
 	protected void showChord(int index) {
-		int[] params = (int[])this.proposalParameters.get(index);
+		int[] params = this.proposalParameters.get(index);
 		this.dialog.getSelector().adjustWidgets(params[TONIC_INDEX],
 		                                        params[CHORD_INDEX],
 		                                        params[ALTERATION_INDEX],
@@ -173,14 +173,14 @@ public class ChordRecognizer extends Composite {
 	protected int[] makeProposals(final long processId, TGChord chord,final boolean sharp) {
 		
 		int[] tuning = this.dialog.getSelector().getTuning();
-		java.util.List notesInside = new ArrayList();
+		java.util.List<Integer> notesInside = new ArrayList<Integer>();
 		
 		// find and put in all the distinct notes
 		for (int i=0; i<tuning.length; i++) {
 			int fret = chord.getStrings()[i];
 			if (fret!=-1) {
 				Integer note = new Integer((tuning[tuning.length-1-i] + fret) % 12);
-				Iterator it = notesInside.iterator();
+				Iterator<Integer> it = notesInside.iterator();
 				boolean found=false;
 				while (it.hasNext())
 					if (it.next().equals(note))
@@ -193,7 +193,7 @@ public class ChordRecognizer extends Composite {
 		// Now search:
 		// go through all the possible tonics
 		// it is required because tonic isn't mandatory in a chord
-		java.util.List allProposals = new ArrayList(10);
+		java.util.List<Proposal> allProposals = new ArrayList<Proposal>(10);
 		
 		for (int tonic=0; tonic<12; tonic++) {
 			
@@ -211,9 +211,9 @@ public class ChordRecognizer extends Composite {
 				//ChordDatabase.ChordInfo info = (ChordDatabase.ChordInfo)chordItr.next();
 				boolean foundNote = false;
 				for (int i=0; i<info.getRequiredNotes().length; i++) { // go through all the requred notes
-					Iterator nit = notesInside.iterator();
+					Iterator<Integer> nit = notesInside.iterator();
 					while (nit.hasNext()) // go through all the needed notes
-						if (((Integer)nit.next()).intValue() == (tonic+info.getRequiredNotes()[i]-1)%12) {
+						if (nit.next().intValue() == (tonic+info.getRequiredNotes()[i]-1)%12) {
 							foundNote=true;
 							if (tonic+info.getRequiredNotes()[i]-1 == tonic)
 								currentProp.dontHaveGrade+=15; // this means penalty for not having tonic is -65
@@ -265,13 +265,13 @@ public class ChordRecognizer extends Composite {
 			}
 		}
 		
-		Iterator props = allProposals.iterator();
-		java.util.List unsortedProposals = new ArrayList(5);
+		Iterator<Proposal> props = allProposals.iterator();
+		java.util.List<Proposal> unsortedProposals = new ArrayList<Proposal>(5);
 		while (props.hasNext()) {
 			// place the still missing alterations notes accordingly... bass also
 			///////////////////////////////////////////////////////////////
 			
-			final Proposal current = (Proposal)props.next();
+			final Proposal current = props.next();
 			
 			boolean bassIsOnlyInBass = true;
 			// ---------------- bass tone ----------------
@@ -335,7 +335,7 @@ public class ChordRecognizer extends Composite {
 		int howManyIncomplete = ChordSettings.instance().getIncompleteChords();
 		
 		for (int i=0; i<unsortedProposals.size() && cut==-1; i++) {
-			int prior = ((Proposal)unsortedProposals.get(i)).dontHaveGrade;
+			int prior = unsortedProposals.get(i).dontHaveGrade;
 			if (prior<0) 
 				cut=i+howManyIncomplete;
 		}
@@ -346,7 +346,7 @@ public class ChordRecognizer extends Composite {
 		
 		int firstNegative = 0;
 		for (int i=0; i<unsortedProposals.size(); i++) {
-			final Proposal current = (Proposal)unsortedProposals.get(i);
+			final Proposal current = unsortedProposals.get(i);
 			if (firstNegative==0 && current.unusualGrade<0) 
 				firstNegative=current.unusualGrade;
 			
@@ -366,7 +366,7 @@ public class ChordRecognizer extends Composite {
 		}
 		if (this.proposalParameters.size()==0)
 			return null;
-		return (int[])this.proposalParameters.get(0);
+		return this.proposalParameters.get(0);
 	}
 	
 	/** adjusts widgets on the Recognizer combo */
@@ -503,18 +503,18 @@ public class ChordRecognizer extends Composite {
 	 * @param sortIndex 1 to sort by don'tHaveGrade, 2 to sort by unusualGrade
 	 * @return sorted list by selected criteria
 	 */
-	public void shellsort( java.util.List a, int sortIndex ){
+	public void shellsort( java.util.List<Proposal> a, int sortIndex ){
 		int length = a.size();
 		for( int gap = length / 2; gap > 0;
 					 gap = gap == 2 ? 1 : (int) ( gap / 2.2 ) )
 			for( int i = gap; i < length; i++ ){
-				Proposal tmp = (Proposal)a.get(i);
+				Proposal tmp = a.get(i);
 				int j = i;
 				
 				for( ; j >= gap && 
 				(  sortIndex == 1 ?
-				tmp.dontHaveGrade > ((Proposal)a.get(j - gap)).dontHaveGrade :
-				tmp.unusualGrade > ((Proposal)a.get(j - gap)).unusualGrade  )
+				tmp.dontHaveGrade > a.get(j - gap).dontHaveGrade :
+				tmp.unusualGrade > a.get(j - gap).unusualGrade  )
 				; 
 				j -= gap )
 					a.set(j, a.get(j - gap));
@@ -567,7 +567,7 @@ public class ChordRecognizer extends Composite {
 		}
 		
 		/** initialize with needed notes */
-		public Proposal(java.util.List notes) {
+		public Proposal(java.util.List<Integer> notes) {
 			this.params = new int[9];
 			for (int i=0; i<9; i++)
 				this.params[i]=-1;
@@ -575,7 +575,7 @@ public class ChordRecognizer extends Composite {
 			int length = notes.size();
 			this.missingNotes = new int[length];
 			for (int i = 0; i< length; i++){ // deep copy, because of clone() method
-				this.missingNotes[i] = ((Integer)notes.get(i)).intValue();
+				this.missingNotes[i] = notes.get(i).intValue();
 			}
 			this.missingCount = length;
 		}

@@ -44,10 +44,10 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 	protected Button buttonOK;
 	protected Button buttonCancel;
 	
-	protected List outputFormats;
+	protected List<TGConverterFormat> outputFormats;
 	
 	public TGConverterDialog() {
-		this.outputFormats = new ArrayList();
+		this.outputFormats = new ArrayList<TGConverterFormat>();
 	}
 	
 	public void show() {
@@ -55,6 +55,7 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 		this.dialog.setLayout(new GridLayout());
 		this.dialog.setMinimumSize(SHELL_WIDTH,SWT.DEFAULT);
 		this.dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				TuxGuitar.instance().getIconManager().removeLoader( TGConverterDialog.this );
 				TuxGuitar.instance().getLanguageManager().removeLoader( TGConverterDialog.this );
@@ -85,6 +86,7 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 		
 		this.inputFolderChooser = new Button(composite,SWT.PUSH);
 		this.inputFolderChooser.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				DirectoryDialog directoryDialog = new DirectoryDialog(TGConverterDialog.this.dialog);
 				String selection = directoryDialog.open();
@@ -102,6 +104,7 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 		
 		this.outputFolderChooser = new Button(composite,SWT.PUSH);
 		this.outputFolderChooser.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				DirectoryDialog directoryDialog = new DirectoryDialog(TGConverterDialog.this.dialog);
 				String selection = directoryDialog.open();
@@ -119,6 +122,7 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 		this.buttonOK = new Button(buttons, SWT.PUSH);
 		this.buttonOK.setLayoutData(getGridData(80,25));
 		this.buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				String inputFolderValue = inputFolder.getText();
 				String outputFolderValue = outputFolder.getText();
@@ -144,6 +148,7 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 		this.buttonCancel = new Button(buttons, SWT.PUSH);
 		this.buttonCancel.setLayoutData(getGridData(80,25));
 		this.buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TGConverterDialog.this.dialog.dispose();
 			}
@@ -174,15 +179,15 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 	private void addFileFormats(Combo combo){
 		this.outputFormats.clear();
 		
-		Iterator outputStreams = TGFileFormatManager.instance().getOutputStreams();
+		Iterator<TGOutputStreamBase> outputStreams = TGFileFormatManager.instance().getOutputStreams();
 		while(outputStreams.hasNext()){
-			TGOutputStreamBase stream = (TGOutputStreamBase)outputStreams.next();
+			TGOutputStreamBase stream = outputStreams.next();
 			addFileFormats(combo, stream.getFileFormat() , stream );
 		}
 		
-		Iterator exporters = TGFileFormatManager.instance().getExporters();
+		Iterator<TGRawExporter> exporters = TGFileFormatManager.instance().getExporters();
 		while (exporters.hasNext()) {
-			TGRawExporter exporter = (TGRawExporter)exporters.next();
+			TGRawExporter exporter = exporters.next();
 			if( exporter instanceof TGLocalFileExporter ){
 				addFileFormats(combo, ((TGLocalFileExporter)exporter).getFileFormat() , exporter );
 			}
@@ -213,11 +218,12 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 	
 	protected TGConverterFormat getFileFormat(int index){
 		if(index >= 0 && index < this.outputFormats.size()){
-			return (TGConverterFormat)this.outputFormats.get(index);
+			return this.outputFormats.get(index);
 		}
 		return null;
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.loadProperties(true);
 	}
@@ -237,6 +243,7 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 		}
 	}
 	
+	@Override
 	public void loadIcons() {
 		this.loadIcons(true);
 	}

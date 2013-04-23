@@ -12,34 +12,34 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import javax.management.RuntimeErrorException;
+import org.herac.tuxguitar.app.system.plugins.TGPlugin;
 
 public class TGServiceReader {
 	
 	private static final String SERVICE_PATH = new String("META-INF/services/");
 	
-	public static Iterator lookupProviders(Class spi){
-		return TGServiceReader.lookupProviders(spi,TGClassLoader.instance().getClassLoader());
+	public static Iterator<TGPlugin> lookupProviders(Class<?> spi){
+		return lookupProviders(spi,TGClassLoader.instance().getClassLoader());
 	}
 	
-	public static Iterator lookupProviders(Class spi,ClassLoader loader){
+	public static Iterator<TGPlugin> lookupProviders(Class<?> spi,ClassLoader loader){
 		try{
 			if (spi == null || loader == null){
 				throw new IllegalArgumentException();
 			}
 			return new IteratorImpl(spi,loader,loader.getResources(SERVICE_PATH + spi.getName()));
 		}catch (IOException ioex){
-			return Collections.EMPTY_LIST.iterator();
+			return Collections.emptyIterator();
 		}
 	}
 	
-	private static final class IteratorImpl implements Iterator{
-		private Class spi;
-		private ClassLoader loader;
-		private Enumeration urls;
-		private Iterator iterator;
+	private static final class IteratorImpl implements Iterator<TGPlugin> {
+		private final Class<?> spi;
+		private final ClassLoader loader;
+		private final Enumeration<URL> urls;
+		private Iterator<String> iterator;
 		
-		public IteratorImpl(Class spi,ClassLoader loader,Enumeration urls){
+		public IteratorImpl(Class<?> spi,ClassLoader loader,Enumeration<URL> urls){
 			this.spi = spi;
 			this.loader = loader;
 			this.urls = urls;
@@ -47,9 +47,9 @@ public class TGServiceReader {
 		}
 		
 		private void initialize(){
-			List providers = new ArrayList();
+			List<String> providers = new ArrayList<String>();
 			while (this.urls.hasMoreElements()) {
-				URL url = (URL) this.urls.nextElement();
+				URL url = this.urls.nextElement();
 				try {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 					String line = null;
@@ -76,18 +76,20 @@ public class TGServiceReader {
 			return line;
 		}
 		
+		@Override
 		public boolean hasNext() {
 			return (this.iterator != null && this.iterator.hasNext());
 		}
 		
-		public Object next() {
+		@Override
+		public TGPlugin next() {
 			if (!hasNext()){
 				throw new NoSuchElementException();
 			}
 			try {
-				Object provider = this.loader.loadClass( (String)this.iterator.next() ).newInstance();
+				Object provider = this.loader.loadClass( this.iterator.next() ).newInstance();
 				if(this.spi.isInstance(provider)){
-					return provider;
+					return (TGPlugin) provider;
 				}
 			} catch (Throwable throwable) {
 				throwable.printStackTrace();
@@ -96,6 +98,7 @@ public class TGServiceReader {
 			throw new NoSuchElementException();
 		}
 		
+		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}

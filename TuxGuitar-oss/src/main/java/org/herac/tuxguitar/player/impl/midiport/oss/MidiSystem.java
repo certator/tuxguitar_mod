@@ -3,6 +3,7 @@ package org.herac.tuxguitar.player.impl.midiport.oss;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.herac.tuxguitar.player.base.MidiOutputPort;
 import org.herac.tuxguitar.util.JNILibraryLoader;
 
 public class MidiSystem{
@@ -15,16 +16,17 @@ public class MidiSystem{
 	
 	private long instance;
 	private boolean open;
-	private List ports;
+	private final List<MidiOutputPort> ports;
 	private MidiOutputPortImpl connection;
 	
 	public MidiSystem() {
 		this.instance = malloc();
 		this.open = false;
-		this.ports = new ArrayList();
+		this.ports = new ArrayList<MidiOutputPort>();
 		this.connection = null;
 	}
 	
+	@Override
 	public void finalize(){
 		if(this.instance != 0 ){
 			this.free(this.instance);
@@ -50,7 +52,7 @@ public class MidiSystem{
 		}
 	}
 	
-	public List findPorts(){
+	public List<MidiOutputPort> findPorts(){
 		this.ports.clear();
 		if(this.instance != 0 && this.open){
 			this.findPorts(this.instance);

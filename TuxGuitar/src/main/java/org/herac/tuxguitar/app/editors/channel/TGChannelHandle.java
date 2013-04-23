@@ -63,11 +63,11 @@ public class TGChannelHandle {
 		}
 	}
 	
-	public List getChannels(){
+	public List<TGChannel> getChannels(){
 		return getManager().getChannels();
 	}
 	
-	public List getFreeChannels( TGChannel forChannel ){
+	public List<Integer> getFreeChannels( TGChannel forChannel ){
 		return getManager().getFreeChannels(forChannel);
 	}
 	

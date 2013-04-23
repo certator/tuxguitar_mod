@@ -32,6 +32,7 @@ public class ChangeTiedNoteAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		Caret caret = getEditor().getTablature().getCaret();
 		if(caret.getSelectedNote() != null){
@@ -77,9 +78,9 @@ public class ChangeTiedNoteAction extends Action{
 					return;
 				}
 				// Check if is there any note at same string.
-				Iterator it = voice.getNotes().iterator();
+				Iterator<TGNote> it = voice.getNotes().iterator();
 				while( it.hasNext() ){
-					TGNote current = (TGNote) it.next();
+					TGNote current = it.next();
 					if(current.getString() == note.getString()){
 						note.setValue( current.getValue() );
 						return;
@@ -94,6 +95,7 @@ public class ChangeTiedNoteAction extends Action{
 		}
 	}
 	
+	@Override
 	public void updateTablature() {
 		fireUpdate(getEditor().getTablature().getCaret().getMeasure().getNumber());
 	}

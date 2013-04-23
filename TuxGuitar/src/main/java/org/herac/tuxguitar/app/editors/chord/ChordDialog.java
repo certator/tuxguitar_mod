@@ -65,6 +65,7 @@ public class ChordDialog {
 		this.dialog.setLayout(new GridLayout());
 		this.dialog.setText(TuxGuitar.getProperty("chord.editor"));
 		this.dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				TuxGuitar.instance().getCustomChordManager().write();
 			}
@@ -111,6 +112,7 @@ public class ChordDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				setChord(getEditor().getChord());
 				setResult(RESULT_SAVE);
@@ -122,6 +124,7 @@ public class ChordDialog {
 		buttonClean.setText(TuxGuitar.getProperty("clean"));
 		buttonClean.setLayoutData(getButtonData());
 		buttonClean.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				setResult(RESULT_CLEAN);
 				getDialog().dispose();
@@ -132,6 +135,7 @@ public class ChordDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				getDialog().dispose();
 			}
@@ -205,9 +209,9 @@ public class ChordDialog {
 	
 	private int[] findCurrentTuning(TGTrack track){
 		int[] tuning = new int[track.stringCount()];
-		Iterator it = track.getStrings().iterator();
+		Iterator<TGString> it = track.getStrings().iterator();
 		while(it.hasNext()){
-			TGString string = (TGString)it.next();
+			TGString string = it.next();
 			tuning[(tuning.length - string.getNumber())] = string.getValue();
 		}
 		return tuning;
@@ -219,15 +223,15 @@ public class ChordDialog {
 		if(chord == null){
 			chord = manager.getFactory().newChord(measure.getTrack().stringCount());
 			chord.setFirstFret(1);
-			List notes = manager.getMeasureManager().getNotes(measure, start);
+			List<TGNote> notes = manager.getMeasureManager().getNotes(measure, start);
 			if(!notes.isEmpty()){
 				int maxValue = -1;
 				int minValue = -1;
 				
 				//verifico el first fret
-				Iterator it = notes.iterator();
+				Iterator<TGNote> it = notes.iterator();
 				while(it.hasNext()){
-					TGNote note = (TGNote)it.next(); 
+					TGNote note = it.next(); 
 					if(maxValue < 0 || maxValue < note.getValue()){
 						maxValue = note.getValue();
 					}
@@ -242,7 +246,7 @@ public class ChordDialog {
 				//agrego los valores
 				it = notes.iterator();
 				while(it.hasNext()){
-					TGNote note = (TGNote)it.next();
+					TGNote note = it.next();
 					chord.addFretValue( ( note.getString() - 1) , note.getValue());
 				}
 			}

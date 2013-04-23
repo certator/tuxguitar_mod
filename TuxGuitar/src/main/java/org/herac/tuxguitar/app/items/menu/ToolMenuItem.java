@@ -29,8 +29,8 @@ import org.herac.tuxguitar.app.tools.custom.TGCustomToolManager;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class ToolMenuItem extends MenuItems {
-	private MenuItem settingsMenuItem;
-	private Menu menu;
+	private final MenuItem settingsMenuItem;
+	private final Menu menu;
 	private MenuItem scale;
 	private MenuItem browser;
 	private MenuItem transpose;
@@ -43,6 +43,7 @@ public class ToolMenuItem extends MenuItems {
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		this.transpose = new MenuItem(this.menu, SWT.PUSH);
 		this.transpose.addSelectionListener(TuxGuitar.instance().getAction(TransposeAction.NAME));
@@ -53,9 +54,9 @@ public class ToolMenuItem extends MenuItems {
 		this.browser = new MenuItem(this.menu, SWT.PUSH);
 		this.browser.addSelectionListener(TuxGuitar.instance().getAction(TGBrowserAction.NAME));
 		
-		Iterator it = TGCustomToolManager.instance().getCustomTools();
+		Iterator<TGCustomTool> it = TGCustomToolManager.instance().getCustomTools();
 		while(it.hasNext()){
-			TGCustomTool tool = (TGCustomTool)it.next();
+			TGCustomTool tool = it.next();
 			MenuItem menuItem = new MenuItem(this.menu, SWT.PUSH);
 			menuItem.setText(tool.getName());
 			menuItem.addSelectionListener(TuxGuitar.instance().getAction(tool.getAction()));
@@ -82,6 +83,7 @@ public class ToolMenuItem extends MenuItems {
 		this.loadProperties();
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.settingsMenuItem, "tools", null);
 		setMenuItemTextAndAccelerator(this.transpose, "tools.transpose", TransposeAction.NAME);
@@ -96,6 +98,7 @@ public class ToolMenuItem extends MenuItems {
 		//Nothing to do
 	}
 	
+	@Override
 	public void update(){
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
 		this.transpose.setEnabled( !running );

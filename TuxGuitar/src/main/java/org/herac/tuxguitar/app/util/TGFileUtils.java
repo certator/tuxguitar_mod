@@ -72,9 +72,9 @@ public class TGFileUtils {
 		return null;
 	}
 	
-	public static Enumeration getResourceUrls(String resource) {
+	public static Enumeration<URL> getResourceUrls(String resource) {
 		try {
-			Vector vector = new Vector();
+			Vector<URL> vector = new Vector<URL>();
 			if(TG_STATIC_SHARED_PATHS != null){
 				for( int i = 0; i < TG_STATIC_SHARED_PATHS.length ; i ++ ){
 					File file = new File(TG_STATIC_SHARED_PATHS[i] + File.separator + resource);
@@ -83,9 +83,9 @@ public class TGFileUtils {
 					}
 				}
 			}
-			Enumeration resources = TGClassLoader.instance().getClassLoader().getResources(resource);
+			Enumeration<URL> resources = TGClassLoader.instance().getClassLoader().getResources(resource);
 			while( resources.hasMoreElements() ){
-				URL url = (URL)resources.nextElement();
+				URL url = resources.nextElement();
 				if( !vector.contains(url) ){
 					vector.addElement( url );
 				}
@@ -119,9 +119,9 @@ public class TGFileUtils {
 	
 	public static void loadClasspath(){
 		try {
-			Enumeration plugins = getResourceUrls("plugins");
+			Enumeration<URL> plugins = getResourceUrls("plugins");
 			while( plugins.hasMoreElements() ){
-				URL url = (URL)plugins.nextElement();
+				URL url = plugins.nextElement();
 				TGClassLoader.instance().addPaths(new File(url.getFile()));
 			}
 			
@@ -161,14 +161,14 @@ public class TGFileUtils {
 			InputStream stream = getResourceAsStream(resource + "/list.properties" );
 			if( stream != null ){
 				BufferedReader reader = new BufferedReader( new InputStreamReader(stream) );
-				List fileNameList = new ArrayList();
+				List<String> fileNameList = new ArrayList<String>();
 				String fileName = null;
 				while( (fileName = reader.readLine()) != null ){
 					fileNameList.add( fileName );
 				}
 				String[] fileNames = new String[ fileNameList.size() ];
 				for (int i = 0 ; i < fileNames.length ; i ++ ){
-					fileNames[ i ] = (String)fileNameList.get( i );
+					fileNames[ i ] = fileNameList.get( i );
 				}
 				return fileNames;
 			}

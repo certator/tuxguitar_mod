@@ -7,7 +7,7 @@ package org.herac.tuxguitar.io.abc.base;
  * @author peter
  *
  */
-public class ABCLocation implements Comparable {
+public class ABCLocation implements Comparable<Object> {
 
 	private String part;
 	private int ticks;

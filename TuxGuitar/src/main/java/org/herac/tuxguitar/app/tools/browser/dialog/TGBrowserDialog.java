@@ -50,11 +50,11 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 	public static final int CALL_ELEMENT = 6;
 	
 	private TGBrowserCollection collection;
-	private TGBrowserConnection connection;
+	private final TGBrowserConnection connection;
 	private Shell dialog;
 	protected Table table;
 	protected TableColumn column;
-	protected List elements;
+	protected List<TGBrowserElement> elements;
 	protected TGBrowserMenuBar menu;
 	protected TGBrowserToolBar toolBar;
 	
@@ -99,6 +99,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		this.updateTable();
 		this.dialog.setSize(SHELL_WIDTH,SHELL_HEIGHT);
 		this.dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				exit();
 			}
@@ -122,6 +123,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		this.column = new TableColumn(this.table, SWT.LEFT);
 		
 		this.table.addListener (SWT.MouseDoubleClick, new Listener() {
+			@Override
 			public void handleEvent (Event event) {
 				openElement();
 			}
@@ -141,13 +143,14 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 	private void updateTable(){
 		if(!isDisposed()){
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					if(!isDisposed()){
 						TGBrowserDialog.this.table.removeAll();
 						if(TGBrowserDialog.this.elements != null){
-							Iterator it = TGBrowserDialog.this.elements.iterator();
+							Iterator<TGBrowserElement> it = TGBrowserDialog.this.elements.iterator();
 							while(it.hasNext()){
-								TGBrowserElement element = (TGBrowserElement)it.next();
+								TGBrowserElement element = it.next();
 								TableItem item = new TableItem(TGBrowserDialog.this.table, SWT.NONE);
 								item.setImage(element.isFolder()?TuxGuitar.instance().getIconManager().getBrowserFolder():TuxGuitar.instance().getIconManager().getBrowserFile());
 								item.setText(element.getName());
@@ -176,6 +179,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 	public void updateCollections(final TGBrowserCollection selection){
 		if(!isDisposed()){
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					if(!isDisposed()){
 						TGBrowserDialog.this.menu.updateCollections(selection);
@@ -189,7 +193,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 	public TGBrowserElement getSelection(int index){
 		if(!isDisposed() && getConnection().isOpen()){
 			if(this.elements != null && index >= 0 && index < this.elements.size()){
-				return (TGBrowserElement)this.elements.get(index);
+				return this.elements.get(index);
 			}
 		}
 		return null;
@@ -199,7 +203,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		this.elements = null;
 	}
 	
-	protected void addElements(List elements){
+	protected void addElements(List<TGBrowserElement> elements){
 		this.elements = elements;
 	}
 	
@@ -234,8 +238,10 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		}
 	}
 	
+	@Override
 	public void notifyLockStatusChanged(){
 		new SyncThread(new Runnable() {
+			@Override
 			public void run() {
 				if(!isDisposed()){
 					updateBars();
@@ -245,6 +251,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		}).start();
 	}
 	
+	@Override
 	public void notifyOpened(int callId) {
 		if(!isDisposed()){
 			this.removeElements();
@@ -255,6 +262,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		}
 	}
 	
+	@Override
 	public void notifyClosed(int callId) {
 		if(callId != CALL_OPEN){
 			this.setCollection(null);
@@ -267,6 +275,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		}
 	}
 	
+	@Override
 	public void notifyError(int callId,Throwable throwable){
 		if(!isDisposed()){
 			this.updateTable();
@@ -275,6 +284,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		}
 	}
 	
+	@Override
 	public void notifyCd(int callId) {
 		if(!isDisposed()){
 			this.getConnection().release();
@@ -282,7 +292,8 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		}
 	}
 	
-	public void notifyElements(int callId,List elements) {
+	@Override
+	public void notifyElements(int callId,List<TGBrowserElement> elements) {
 		if(!isDisposed()){
 			this.addElements(elements);
 			this.updateTable();
@@ -290,10 +301,12 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		}
 	}
 	
+	@Override
 	public void notifyStream(int callId,final InputStream stream,final TGBrowserElement element) {
 		if(!isDisposed()){
 			ActionLock.lock();
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					if(!TuxGuitar.isDisposed()){
 						TuxGuitar.instance().getPlayer().reset();
@@ -314,10 +327,12 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 									return;
 								}
 								new Thread(new Runnable() {
+									@Override
 									public void run() {
 										if(!TuxGuitar.isDisposed()){
 											FileActionUtils.save(fileName);
 											new SyncThread(new Runnable() {
+												@Override
 												public void run() {
 													if(!TuxGuitar.isDisposed()){
 														openStream(stream,element);
@@ -339,6 +354,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 	
 	protected void openStream(final InputStream stream,final TGBrowserElement element){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				if(!TuxGuitar.isDisposed()){
 					try {
@@ -355,6 +371,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		}).start();
 	}
 	
+	@Override
 	public void loadIcons() {
 		if(!isDisposed()){
 			this.getShell().setImage(TuxGuitar.instance().getIconManager().getAppIcon());
@@ -362,6 +379,7 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		}
 	}
 	
+	@Override
 	public void loadProperties() {
 		if(!isDisposed()){
 			this.dialog.setText(TuxGuitar.getProperty("browser.dialog"));
@@ -370,10 +388,12 @@ public class TGBrowserDialog implements TGBrowserFactoryHandler,TGBrowserConnect
 		}
 	}
 	
+	@Override
 	public void notifyAdded() {
 		reload();
 	}
 	
+	@Override
 	public void notifyRemoved() {
 		if(getCollection() != null){
 			closeCollection();

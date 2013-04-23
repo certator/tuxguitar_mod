@@ -11,13 +11,13 @@ import org.herac.tuxguitar.io.base.TGFileFormatException;
 
 public class ImageWriter {
 	
-	public static void write(ImageFormat format, String path, List pages) throws TGFileFormatException {
+	public static void write(ImageFormat format, String path, List<ImageData> pages) throws TGFileFormatException {
 		try {
 			for(int i = 0; i < pages.size() ; i ++ ) {
 				OutputStream stream = new FileOutputStream(new File(path + File.separator + "page-" + i + format.getExtension() ));
 				
 				ImageLoader loader = new ImageLoader();
-				loader.data = new ImageData[] { (ImageData)pages.get(i) };
+				loader.data = new ImageData[] { pages.get(i) };
 				loader.save(stream, format.getFormat() );
 				
 				stream.flush();

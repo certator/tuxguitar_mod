@@ -16,13 +16,14 @@ public class UndoableChannelGeneric implements UndoableEdit{
 	private int doAction;
 	private UndoableCaretHelper undoCaret;
 	private UndoableCaretHelper redoCaret;
-	private List undoChannels;
-	private List redoChannels;
+	private List<TGChannel> undoChannels;
+	private List<TGChannel> redoChannels;
 	
 	private UndoableChannelGeneric(){
 		super();
 	}
 	
+	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
 			throw new CannotRedoException();
@@ -32,6 +33,7 @@ public class UndoableChannelGeneric implements UndoableEdit{
 		this.doAction = UNDO_ACTION;
 	}
 	
+	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
 			throw new CannotUndoException();
@@ -41,10 +43,12 @@ public class UndoableChannelGeneric implements UndoableEdit{
 		this.doAction = REDO_ACTION;
 	}
 	
+	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
 	
+	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
@@ -63,11 +67,11 @@ public class UndoableChannelGeneric implements UndoableEdit{
 		return this;
 	}
 	
-	private List getChannels(){
-		List channels = new ArrayList();
-		Iterator it = TuxGuitar.instance().getSongManager().getChannels().iterator();
+	private List<TGChannel> getChannels(){
+		List<TGChannel> channels = new ArrayList<TGChannel>();
+		Iterator<TGChannel> it = TuxGuitar.instance().getSongManager().getChannels().iterator();
 		while( it.hasNext() ){
-			channels.add(cloneChannel((TGChannel)it.next()));
+			channels.add(cloneChannel(it.next()));
 		}
 		return channels;
 	}
@@ -76,13 +80,13 @@ public class UndoableChannelGeneric implements UndoableEdit{
 		return channel.clone(TuxGuitar.instance().getSongManager().getFactory());
 	}
 	
-	private void updateSongChannels( List channels ){
+	private void updateSongChannels( List<TGChannel> channels ){
 		TGSongManager tgSongManager = TuxGuitar.instance().getSongManager();
 		tgSongManager.removeAllChannels();
 		
-		Iterator it = channels.iterator();
+		Iterator<TGChannel> it = channels.iterator();
 		while( it.hasNext() ){
-			tgSongManager.addChannel(cloneChannel((TGChannel)it.next()));
+			tgSongManager.addChannel(cloneChannel(it.next()));
 		}
 		
 		TuxGuitar.instance().updateCache(true);

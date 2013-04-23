@@ -69,8 +69,8 @@ public class FretBoard extends Composite {
 	private static final int STRING_SPACING = TuxGuitar.instance().getConfig().getIntConfigValue(TGConfigKeys.FRETBOARD_STRING_SPACING);
 	private static final String[] NOTE_NAMES = TGMusicKeyUtils.getSharpKeyNames(TGMusicKeyUtils.PREFIX_FRETBOARD);
 	
-	private FretBoardListener listener;
-	private FretBoardConfig config;
+	private final FretBoardListener listener;
+	private final FretBoardConfig config;
 	private Composite toolComposite;
 	private Label durationLabel;
 	private Label scaleName;
@@ -154,6 +154,7 @@ public class FretBoard extends Composite {
 		this.handSelector.add(TuxGuitar.getProperty("fretboard.left-mode"));
 		this.handSelector.select( this.getDirection(this.config.getDirection()) );
 		this.handSelector.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateDirection(FretBoard.this.handSelector.getSelectionIndex());
 			}
@@ -180,6 +181,7 @@ public class FretBoard extends Composite {
 		this.settings.setToolTipText(TuxGuitar.getProperty("settings"));
 		this.settings.setLayoutData(new GridData(SWT.RIGHT,SWT.FILL,true,true));
 		this.settings.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				configure();
 			}
@@ -416,9 +418,9 @@ public class FretBoard extends Composite {
 			
 			for(int v = 0; v < this.beat.countVoices(); v ++){
 				TGVoice voice = this.beat.getVoice( v );
-				Iterator it = voice.getNotes().iterator();
+				Iterator<TGNote> it = voice.getNotes().iterator();
 				while (it.hasNext()) {
-					TGNote note = (TGNote) it.next();
+					TGNote note = it.next();
 					int fretIndex = note.getValue();
 					int stringIndex = note.getString() - 1;
 					if (fretIndex >= 0 && fretIndex < this.frets.length && stringIndex >= 0 && stringIndex < this.strings.length) {
@@ -526,9 +528,9 @@ public class FretBoard extends Composite {
 		if(this.beat != null){
 			for(int v = 0; v < this.beat.countVoices(); v ++){
 				TGVoice voice = this.beat.getVoice( v );
-				Iterator it = voice.getNotes().iterator();
+				Iterator<TGNote> it = voice.getNotes().iterator();
 				while (it.hasNext()) {
-					TGNote note = (TGNote) it.next();
+					TGNote note = it.next();
 					if (note.getValue() == fret && note.getString() == string) {
 						//comienza el undoable
 						UndoableMeasureGeneric undoable = UndoableMeasureGeneric.startUndo();
@@ -628,6 +630,7 @@ public class FretBoard extends Composite {
 		return this.externalBeat;
 	}
 	
+	@Override
 	public void redraw() {
 		if(!super.isDisposed() && !TuxGuitar.instance().isLocked()){
 			super.redraw();
@@ -642,6 +645,7 @@ public class FretBoard extends Composite {
 		}
 	 }
 	
+	@Override
 	public void dispose(){
 		super.dispose();
 		this.disposeFretBoardImage();
@@ -684,6 +688,7 @@ public class FretBoard extends Composite {
 		return this.frets[this.frets.length - 1];
 	}
 	
+	@Override
 	public void layout(){
 		super.layout();
 	}
@@ -713,11 +718,13 @@ public class FretBoard extends Composite {
 			super();
 		}
 		
+		@Override
 		public void paintControl(PaintEvent e) {
 			TGPainterImpl painter = new TGPainterImpl(e.gc);
 			paintEditor(painter);
 		}
 		
+		@Override
 		public void mouseUp(MouseEvent e) {
 			getFretBoardComposite().setFocus();
 			if(e.button == 1){
@@ -736,10 +743,12 @@ public class FretBoard extends Composite {
 			}
 		}
 		
+		@Override
 		public void mouseDown(MouseEvent e) {
 			//Not implemented
 		}
 		
+		@Override
 		public void mouseDoubleClick(MouseEvent e) {
 			//Not implemented
 		}

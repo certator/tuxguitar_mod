@@ -28,9 +28,9 @@ public class TGSongWriter {
 	
 	public void write(TGFactory factory,TGSong song,String path) throws TGFileFormatException{
 		try {
-			Iterator it = TGFileFormatManager.instance().getOutputStreams();
+			Iterator<TGOutputStreamBase> it = TGFileFormatManager.instance().getOutputStreams();
 			while(it.hasNext()){
-				TGOutputStreamBase writer = (TGOutputStreamBase)it.next();
+				TGOutputStreamBase writer = it.next();
 				if(isSupportedExtension(writer,path)){
 					writer.init(factory,new BufferedOutputStream(new FileOutputStream(new File(path))));
 					writer.writeSong(song);

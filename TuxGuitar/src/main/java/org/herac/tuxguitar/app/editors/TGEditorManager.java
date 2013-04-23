@@ -7,40 +7,40 @@ import org.herac.tuxguitar.song.models.TGBeat;
 
 public class TGEditorManager {
 	
-	private List redrawListeners;
-	private List updateListeners;
-	private List beatViewerListeners;
+	private List<TGRedrawListener> redrawListeners;
+	private List<TGUpdateListener> updateListeners;
+	private List<TGExternalBeatViewerListener> beatViewerListeners;
 	
 	public TGEditorManager(){
-		this.redrawListeners = new ArrayList();
-		this.updateListeners = new ArrayList();
-		this.beatViewerListeners = new ArrayList();
+		this.redrawListeners = new ArrayList<TGRedrawListener>();
+		this.updateListeners = new ArrayList<TGUpdateListener>();
+		this.beatViewerListeners = new ArrayList<TGExternalBeatViewerListener>();
 	}
 	
 	public void doRedraw( int type ){
 		for(int i = 0; i < this.redrawListeners.size(); i ++){
-			TGRedrawListener listener = (TGRedrawListener) this.redrawListeners.get( i );
+			TGRedrawListener listener = this.redrawListeners.get( i );
 			listener.doRedraw( type );
 		}
 	}
 	
 	public void doUpdate( int type ){
 		for(int i = 0; i < this.updateListeners.size(); i ++){
-			TGUpdateListener listener = (TGUpdateListener) this.updateListeners.get( i );
+			TGUpdateListener listener = this.updateListeners.get( i );
 			listener.doUpdate( type );
 		}
 	}
 	
 	public void showExternalBeat( TGBeat beat ){
 		for(int i = 0; i < this.beatViewerListeners.size(); i ++){
-			TGExternalBeatViewerListener listener = (TGExternalBeatViewerListener) this.beatViewerListeners.get( i );
+			TGExternalBeatViewerListener listener = this.beatViewerListeners.get( i );
 			listener.showExternalBeat(beat);
 		}
 	}
 	
 	public void hideExternalBeat(){
 		for(int i = 0; i < this.beatViewerListeners.size(); i ++){
-			TGExternalBeatViewerListener listener = (TGExternalBeatViewerListener) this.beatViewerListeners.get( i );
+			TGExternalBeatViewerListener listener = this.beatViewerListeners.get( i );
 			listener.hideExternalBeat();
 		}
 	}

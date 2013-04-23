@@ -16,7 +16,7 @@ import java.util.List;
 public class UndoableManager {
 	private static final int LIMIT = 100;
 	private int indexOfNextAdd;
-	private List edits;
+	private List<UndoableEdit> edits;
 	
 	public UndoableManager() {
 		this.init();
@@ -79,14 +79,14 @@ public class UndoableManager {
 	
 	private void checkForUnused() {
 		while (this.edits.size() > this.indexOfNextAdd) {
-			UndoableEdit edit = (UndoableEdit) this.edits.get(this.indexOfNextAdd);
+			UndoableEdit edit = this.edits.get(this.indexOfNextAdd);
 			remove(edit);
 		}
 	}
 	
 	private void checkForLimit() {
 		while (this.edits.size() >= LIMIT) {
-			UndoableEdit edit = (UndoableEdit) this.edits.get(0);
+			UndoableEdit edit = this.edits.get(0);
 			remove(edit);
 			this.indexOfNextAdd--;
 		}
@@ -99,7 +99,7 @@ public class UndoableManager {
 	private UndoableEdit editToBeUndone() {
 		int index = this.indexOfNextAdd - 1;
 		if (index >= 0 && index < this.edits.size()) {
-			return (UndoableEdit) this.edits.get(index);
+			return this.edits.get(index);
 		}
 		return null;
 	}
@@ -107,14 +107,14 @@ public class UndoableManager {
 	private UndoableEdit editToBeRedone() {
 		int index = this.indexOfNextAdd;
 		if (index >= 0 && index < this.edits.size()) {
-			return (UndoableEdit) this.edits.get(index);
+			return this.edits.get(index);
 		}
 		return null;
 	}
 	
 	private void init() {
 		this.indexOfNextAdd = 0;
-		this.edits = new ArrayList();
+		this.edits = new ArrayList<UndoableEdit>();
 	}
 	
 	private void reset() {

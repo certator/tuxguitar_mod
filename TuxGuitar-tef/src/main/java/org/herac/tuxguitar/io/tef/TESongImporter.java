@@ -20,6 +20,7 @@ import org.herac.tuxguitar.song.managers.TGSongManager;
 import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGChannel;
 import org.herac.tuxguitar.song.models.TGChord;
+import org.herac.tuxguitar.song.models.TGDivisionType;
 import org.herac.tuxguitar.song.models.TGDuration;
 import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGMeasureHeader;
@@ -28,7 +29,6 @@ import org.herac.tuxguitar.song.models.TGSong;
 import org.herac.tuxguitar.song.models.TGString;
 import org.herac.tuxguitar.song.models.TGTimeSignature;
 import org.herac.tuxguitar.song.models.TGTrack;
-import org.herac.tuxguitar.song.models.TGDivisionType;
 
 public class TESongImporter implements TGLocalFileImporter{
 	
@@ -47,23 +47,28 @@ public class TESongImporter implements TGLocalFileImporter{
 		super();
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat() {
 		return new TGFileFormat("Tef","*.tef");
 	}
 	
+	@Override
 	public String getImportName() {
 		return "Tef";
 	}
 	
+	@Override
 	public boolean configure(boolean setDefaults){
 		return true;
 	}
 	
+	@Override
 	public void init(TGFactory factory,InputStream stream) {
 		this.manager = new TGSongManager(factory);
 		this.stream = stream;
 	}
 	
+	@Override
 	public TGSong importSong() throws TGFileFormatException {
 		try {
 			if( this.manager != null && this.stream != null ){
@@ -137,9 +142,9 @@ public class TESongImporter implements TGLocalFileImporter{
 	}
 	
 	private void addComponents(TESong song){
-		Iterator it = song.getComponents().iterator();
+		Iterator<TEComponent> it = song.getComponents().iterator();
 		while(it.hasNext()){
-			TEComponent component = (TEComponent)it.next();
+			TEComponent component = it.next();
 			
 			if(component.getMeasure() >= 0 && component.getMeasure() < this.manager.getSong().countMeasureHeaders()){
 				int offset = 0;
@@ -241,7 +246,8 @@ public class TESongImporter implements TGLocalFileImporter{
 	}
 	
 	public void sortComponents(TESong song){
-		Collections.sort(song.getComponents(),new Comparator() {
+		Collections.sort(song.getComponents(),new Comparator<Object>() {
+			@Override
 			public int compare(Object o1, Object o2) {
 				if(o1 instanceof TEComponent && o2 instanceof TEComponent){
 					TEComponent c1 = (TEComponent)o1;
@@ -281,12 +287,12 @@ class TGSongAdjuster{
 	}
 	
 	public TGSong process(){
-		Iterator tracks = this.manager.getSong().getTracks();
+		Iterator<TGTrack> tracks = this.manager.getSong().getTracks();
 		while(tracks.hasNext()){
-			TGTrack track = (TGTrack)tracks.next();
-			Iterator measures = track.getMeasures();
+			TGTrack track = tracks.next();
+			Iterator<TGMeasure> measures = track.getMeasures();
 			while(measures.hasNext()){
-				TGMeasure measure = (TGMeasure)measures.next();
+				TGMeasure measure = measures.next();
 				this.process(measure);
 			}
 		}

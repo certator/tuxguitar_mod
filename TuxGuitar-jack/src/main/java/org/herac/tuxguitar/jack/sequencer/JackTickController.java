@@ -16,8 +16,8 @@ public class JackTickController {
 	private long tickLength;
 	private double tick;
 	
-	private Object lock;
-	private JackSequencer sequencer;
+	private final Object lock;
+	private final JackSequencer sequencer;
 	
 	public JackTickController(JackSequencer sequencer){
 		this.lock = new Object();
@@ -29,7 +29,7 @@ public class JackTickController {
 			long frameRate = this.sequencer.getJackClient().getTransportFrameRate();
 			this.lastFrame = this.frame;
 			this.frame = this.sequencer.getJackClient().getTransportFrame();
-			this.tick += ((double)TGDuration.QUARTER_TIME * ((double)getTempo() * (double)(this.frame - this.lastFrame) / 60.00) / (double)frameRate);
+			this.tick += (TGDuration.QUARTER_TIME * ((double)getTempo() * (double)(this.frame - this.lastFrame) / 60.00) / frameRate);
 		}
 	}
 	
@@ -91,13 +91,13 @@ public class JackTickController {
 		double tempo = 120;
 		double tick = TGDuration.QUARTER_TIME;
 		
-		List tempoChanges = this.sequencer.getJackEventController().getTempoChanges();
+		List<long[]> tempoChanges = this.sequencer.getJackEventController().getTempoChanges();
 		for(int i = 0; i < tempoChanges.size(); i ++){
-			long[] tc = (long[])tempoChanges.get(i);
+			long[] tc = tempoChanges.get(i);
 			double tcTick = tc[0];
 			double tcValue = tc[1];
 			
-			double tickFrames = ( (((double)frameRate * (tcTick - tick)) / (double)TGDuration.QUARTER_TIME ) * (60.00 / tempo) );
+			double tickFrames = ( ((frameRate * (tcTick - tick)) / TGDuration.QUARTER_TIME ) * (60.00 / tempo) );
 			if( framePos + tickFrames <= frame ){
 				framePos += tickFrames;
 				tempo = tcValue;
@@ -107,8 +107,8 @@ public class JackTickController {
 			}
 		}
 		if( frame > framePos ){
-			double timeFrame = ( ( (double)(frame - framePos) / (double)frameRate ) * 1000.00 );
-			double timeTick =  ( ( timeFrame * (double)TGDuration.QUARTER_TIME ) / 1000.00 );
+			double timeFrame = ( ( (frame - framePos) / frameRate ) * 1000.00 );
+			double timeTick =  ( ( timeFrame * TGDuration.QUARTER_TIME ) / 1000.00 );
 			
 			tick += ( timeTick * ( tempo / 60.00 ) );
 		}
@@ -121,13 +121,13 @@ public class JackTickController {
 		double tempo = 120;
 		double frame = 0;
 		
-		List tempoChanges = this.sequencer.getJackEventController().getTempoChanges();
+		List<long[]> tempoChanges = this.sequencer.getJackEventController().getTempoChanges();
 		for(int i = 0; i < tempoChanges.size(); i ++){
-			long[] tc = (long[])tempoChanges.get(i);
+			long[] tc = tempoChanges.get(i);
 			double tcTick = tc[0];
 			double tcValue = tc[1];
 			
-			double tickFrames = ((((double) frameRate * (tcTick - tickPos)) / (double)TGDuration.QUARTER_TIME ) * (60.00 / tempo));
+			double tickFrames = (((frameRate * (tcTick - tickPos)) / TGDuration.QUARTER_TIME ) * (60.00 / tempo));
 			if( tcTick <= tick ){
 				frame += tickFrames;
 				tempo = tcValue;
@@ -137,8 +137,8 @@ public class JackTickController {
 			}
 		}
 		if( tick > tickPos ){
-			double timeTick = ( ( (double)( tick - tickPos ) / (double)TGDuration.QUARTER_TIME ) * 1000.00 );
-			double timeFrame = ( ( timeTick * (double)frameRate ) / 1000.00 );
+			double timeTick = ( ( ( tick - tickPos ) / TGDuration.QUARTER_TIME ) * 1000.00 );
+			double timeFrame = ( ( timeTick * frameRate ) / 1000.00 );
 			
 			frame += (timeFrame * ( 60.00 / tempo));
 		}

@@ -41,6 +41,7 @@ public class RepeatAlternativeAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		TGMeasure measure = getEditor().getTablature().getCaret().getMeasure();
 		showCloseRepeatDialog(getEditor().getTablature().getShell(), measure);
@@ -81,6 +82,7 @@ public class RepeatAlternativeAction extends Action{
 			buttonOK.setText(TuxGuitar.getProperty("ok"));
 			buttonOK.setLayoutData(getButtonData());
 			buttonOK.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					int values = 0;
 					for(int i = 0; i < selections.length; i ++){
@@ -94,6 +96,7 @@ public class RepeatAlternativeAction extends Action{
 			buttonClean.setText(TuxGuitar.getProperty("clean"));
 			buttonClean.setLayoutData(getButtonData());
 			buttonClean.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					update(measure,0);
 					dialog.dispose();
@@ -103,6 +106,7 @@ public class RepeatAlternativeAction extends Action{
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					dialog.dispose();
 				}
@@ -129,9 +133,9 @@ public class RepeatAlternativeAction extends Action{
 	
 	protected int getExistentEndings(TGMeasure measure){
 		int existentEndings = 0;
-		Iterator it = getSongManager().getSong().getMeasureHeaders();
+		Iterator<TGMeasureHeader> it = getSongManager().getSong().getMeasureHeaders();
 		while(it.hasNext()){
-			TGMeasureHeader header = (TGMeasureHeader)it.next();
+			TGMeasureHeader header = it.next();
 			if(header.getNumber() == measure.getNumber()){
 				break;
 			}

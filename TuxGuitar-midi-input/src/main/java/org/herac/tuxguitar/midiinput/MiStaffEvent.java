@@ -16,7 +16,7 @@ class MiStaffEvent
 	static final byte	TIE_BEAT	= 8;
 
 	private byte		f_Type		= NONE;				// event type
-	private ArrayList	f_Notes		= new ArrayList();	// note on list
+	private ArrayList<MiStaffNote>	f_Notes		= new ArrayList<MiStaffNote>();	// note on list
 	private TGBeat		f_Beat;							// TuxGuitar beat (optional)
 	private long		f_BeginTime;					// begin time [ticks]
 
@@ -31,7 +31,7 @@ class MiStaffEvent
 	boolean		isOnBeat()		{ return((f_Type & ON_BEAT) == ON_BEAT); }
 	boolean		isOffBeat()		{ return((f_Type & OFF_BEAT) == OFF_BEAT); }
 	boolean		isTieBeat()		{ return((f_Type & TIE_BEAT) == TIE_BEAT); }
-	ArrayList	getNotes()		{ return(f_Notes); }
+	ArrayList<MiStaffNote>	getNotes()		{ return(f_Notes); }
 	long		getBeginTime()	{ return(f_BeginTime); }
 
 	void		setBeat(TGBeat inBeat)	{ f_Beat = inBeat; }
@@ -49,9 +49,9 @@ class MiStaffEvent
 
 	if(!f_Notes.isEmpty())
 		{
-		for(Iterator it = f_Notes.iterator(); it.hasNext();)
+		for(Iterator<MiStaffNote> it = f_Notes.iterator(); it.hasNext();)
 			{
-			MiStaffNote	sn	= (MiStaffNote)it.next();
+			MiStaffNote	sn	= it.next();
 
 			out += (sn.isTied() ? "   T: " : "   N: ");
 			out += sn;
@@ -131,9 +131,9 @@ class MiStaffEvent
 
 	void	normalizeDurations()
 	{
-	for(Iterator it = f_Notes.iterator(); it.hasNext();)
+	for(Iterator<MiStaffNote> it = f_Notes.iterator(); it.hasNext();)
 		{
-		MiStaffNote	sn	= (MiStaffNote)it.next();
+		MiStaffNote	sn	= it.next();
 		sn.normalizeDuration();
 		}
 	}

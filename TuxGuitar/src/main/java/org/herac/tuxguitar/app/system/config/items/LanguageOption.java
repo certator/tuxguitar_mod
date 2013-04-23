@@ -29,6 +29,7 @@ public class LanguageOption extends Option{
 		this.initialized = false;
 	}
 	
+	@Override
 	public void createOption(){
 		getToolItem().setText(TuxGuitar.getProperty("settings.config.language"));
 		getToolItem().setImage(TuxGuitar.instance().getIconManager().getOptionLanguage());
@@ -61,20 +62,16 @@ public class LanguageOption extends Option{
 		}
 	}
 	
-	protected List getLanguageItems(String[] languages){
-		List list = new ArrayList();
+	protected List<LanguageItem> getLanguageItems(String[] languages){
+		List<LanguageItem> list = new ArrayList<LanguageItem>();
 		if( languages != null ){
 			for(int i = 0;i < languages.length; i ++){
 				list.add( new LanguageItem(languages[i],TuxGuitar.getProperty("locale." + languages[i] ) ) );
 			}
-			Collections.sort(list, new Comparator() {
-				public int compare(Object o1, Object o2) {
-					if( o1 instanceof LanguageItem && o2 instanceof LanguageItem){
-						LanguageItem l1 = (LanguageItem)o1;
-						LanguageItem l2 = (LanguageItem)o2;
-						return l1.getValue().compareTo( l2.getValue() );
-					}
-					return 0;
+			Collections.sort(list, new Comparator<LanguageItem>() {
+				@Override
+				public int compare(LanguageItem l1, LanguageItem l2) {
+					return l1.getValue().compareTo( l2.getValue() );
 				}
 			} );
 		}
@@ -83,17 +80,19 @@ public class LanguageOption extends Option{
 	
 	protected void loadConfig(){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				final String language = getConfig().getStringConfigValue(TGConfigKeys.LANGUAGE);
-				final List languages = getLanguageItems( TuxGuitar.instance().getLanguageManager().getLanguages() );
+				final List<LanguageItem> languages = getLanguageItems( TuxGuitar.instance().getLanguageManager().getLanguages() );
 				new SyncThread(new Runnable() {
+					@Override
 					public void run() {
 						if(!isDisposed()){
 							// Load default item
 							loadTableItem(TuxGuitar.getProperty("locale.default"), new String(), true);
 							
 							for(int i = 0;i < languages.size(); i ++){
-								LanguageItem item = (LanguageItem)languages.get( i );
+								LanguageItem item = languages.get( i );
 								loadTableItem(item.getValue(),item.getKey(),(language != null && item.getKey().equals( language )));
 							}
 							
@@ -107,6 +106,7 @@ public class LanguageOption extends Option{
 		}).start();
 	}
 	
+	@Override
 	public void updateConfig(){
 		if(this.initialized){
 			String language = null;
@@ -120,12 +120,14 @@ public class LanguageOption extends Option{
 		}
 	}
 	
+	@Override
 	public void updateDefaults(){
 		if(this.initialized){
 			getConfig().setProperty(TGConfigKeys.LANGUAGE,getDefaults().getProperty(TGConfigKeys.LANGUAGE));
 		}
 	}
 	
+	@Override
 	public void applyConfig(boolean force){
 		if(force || this.initialized){
 			boolean changed = force;
@@ -146,6 +148,7 @@ public class LanguageOption extends Option{
 			
 			if(changed){
 				addSyncThread(new Runnable() {
+					@Override
 					public void run() {
 						TuxGuitar.instance().loadLanguage();
 					}
@@ -154,13 +157,14 @@ public class LanguageOption extends Option{
 		}
 	}
 	
+	@Override
 	public Point computeSize(){
 		return this.computeSize(SWT.DEFAULT,SWT.NONE);
 	}
 	
 	private class LanguageItem {
-		private String key;
-		private String value;
+		private final String key;
+		private final String value;
 		
 		public LanguageItem(String key, String value){
 			this.key = key;

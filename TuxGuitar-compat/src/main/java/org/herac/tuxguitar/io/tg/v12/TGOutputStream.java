@@ -37,9 +37,11 @@ import org.herac.tuxguitar.song.models.TGTimeSignature;
 import org.herac.tuxguitar.song.models.TGTrack;
 import org.herac.tuxguitar.song.models.TGVoice;
 import org.herac.tuxguitar.song.models.effects.TGEffectBend;
+import org.herac.tuxguitar.song.models.effects.TGEffectBend.BendPoint;
 import org.herac.tuxguitar.song.models.effects.TGEffectGrace;
 import org.herac.tuxguitar.song.models.effects.TGEffectHarmonic;
 import org.herac.tuxguitar.song.models.effects.TGEffectTremoloBar;
+import org.herac.tuxguitar.song.models.effects.TGEffectTremoloBar.TremoloBarPoint;
 import org.herac.tuxguitar.song.models.effects.TGEffectTremoloPicking;
 import org.herac.tuxguitar.song.models.effects.TGEffectTrill;
 /**
@@ -58,24 +60,29 @@ public class TGOutputStream extends TGStream implements TGLocalFileExporter{
 		return (extension.toLowerCase().equals(TG_FORMAT_EXTENSION));
 	}
 	
+	@Override
 	public String getExportName(){
 		return "TuxGuitar 1.2";
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("TuxGuitar","*.tg");
 	}
 	
+	@Override
 	public boolean configure(boolean setDefaults){
 		return true;
 	}
 	
+	@Override
 	public void init(TGFactory factory,OutputStream stream) {
 		this.factory = factory;
 		this.channelAux = null;
 		this.dataOutputStream = new DataOutputStream(stream);
 	}
 	
+	@Override
 	public void exportSong(TGSong song) throws TGFileFormatException {
 		try{
 			this.writeVersion();
@@ -124,9 +131,9 @@ public class TGOutputStream extends TGStream implements TGLocalFileExporter{
 		
 		//escribo las pistas
 		TGMeasureHeader lastHeader = null;
-		Iterator headers = song.getMeasureHeaders();
+		Iterator<TGMeasureHeader> headers = song.getMeasureHeaders();
 		while(headers.hasNext()){
-			TGMeasureHeader header = (TGMeasureHeader)headers.next();
+			TGMeasureHeader header = headers.next();
 			writeMeasureHeader(header,lastHeader);
 			lastHeader = header;
 		}
@@ -163,9 +170,9 @@ public class TGOutputStream extends TGStream implements TGLocalFileExporter{
 		
 		//escribo los compases
 		TGMeasure lastMeasure = null;
-		Iterator measures  = track.getMeasures();
+		Iterator<TGMeasure> measures  = track.getMeasures();
 		while(measures.hasNext()){
-			TGMeasure measure = (TGMeasure)measures.next();
+			TGMeasure measure = measures.next();
 			writeMeasure(measure,lastMeasure);
 			lastMeasure = measure;
 		}
@@ -174,9 +181,9 @@ public class TGOutputStream extends TGStream implements TGLocalFileExporter{
 		writeByte(track.getStrings().size());
 		
 		//escribo las cuerdas
-		Iterator stringIt  = track.getStrings().iterator();
+		Iterator<TGString> stringIt  = track.getStrings().iterator();
 		while(stringIt.hasNext()){
-			TGString string = (TGString)stringIt.next();
+			TGString string = stringIt.next();
 			writeInstrumentString(string);
 		}
 		
@@ -580,9 +587,9 @@ public class TGOutputStream extends TGStream implements TGLocalFileExporter{
 		//escribo la cantidad de puntos
 		writeByte(effect.getPoints().size());
 		
-		Iterator it = effect.getPoints().iterator();
+		Iterator<BendPoint> it = effect.getPoints().iterator();
 		while(it.hasNext()){
-			TGEffectBend.BendPoint point = (TGEffectBend.BendPoint)it.next();
+			TGEffectBend.BendPoint point = it.next();
 			
 			//escribo la posicion
 			writeByte(point.getPosition());
@@ -596,9 +603,9 @@ public class TGOutputStream extends TGStream implements TGLocalFileExporter{
 		//escribo la cantidad de puntos
 		writeByte(effect.getPoints().size());
 		
-		Iterator it = effect.getPoints().iterator();
+		Iterator<TremoloBarPoint> it = effect.getPoints().iterator();
 		while(it.hasNext()){
-			TGEffectTremoloBar.TremoloBarPoint point = (TGEffectTremoloBar.TremoloBarPoint)it.next();
+			TGEffectTremoloBar.TremoloBarPoint point = it.next();
 			
 			//escribo la posicion
 			writeByte(point.getPosition());

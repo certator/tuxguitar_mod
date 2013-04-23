@@ -68,9 +68,9 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 	private Menu menu;
 	private Menu popupMenu;
 	private CoolBar coolBar;
-	private List loadedToolItems;
-	private List loadedMenuItems;
-	private List loadedPopupMenuItems;
+	private List<ItemBase> loadedToolItems;
+	private List<ItemBase> loadedMenuItems;
+	private List<ItemBase> loadedPopupMenuItems;
 	private ToolItems[] toolItems;
 	
 	private boolean layout_locked;
@@ -79,9 +79,9 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 	private boolean updateCoolBarWrapIndicesEnabled;
 	
 	public ItemManager(){
-		this.loadedToolItems = new ArrayList();
-		this.loadedMenuItems = new ArrayList();
-		this.loadedPopupMenuItems = new ArrayList();
+		this.loadedToolItems = new ArrayList<ItemBase>();
+		this.loadedMenuItems = new ArrayList<ItemBase>();
+		this.loadedPopupMenuItems = new ArrayList<ItemBase>();
 		this.layout_locked = false;
 		this.setDefaultToolBars();
 		this.loadItems();
@@ -175,7 +175,7 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 		int coolBarWidth = this.coolBar.getClientArea().width;
 		int coolItemsWidth = 0;
 		
-		List coolItemIndices = new ArrayList();
+		List<Integer> coolItemIndices = new ArrayList<Integer>();
 		
 		CoolItem[] items = this.coolBar.getItems();
 		for(int i = 0;i < items.length; i ++){
@@ -192,7 +192,7 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 		
 		int[] coolItemIndicesArray = new int[ coolItemIndices.size() ];
 		for(int i = 0;i < coolItemIndicesArray.length; i ++){
-			coolItemIndicesArray[i] = ((Integer)coolItemIndices.get(i)).intValue();
+			coolItemIndicesArray[i] = coolItemIndices.get(i).intValue();
 		}
 		
 		this.coolBar.setWrapIndices( coolItemIndicesArray );
@@ -301,8 +301,8 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 		this.showMenuItems(this.loadedPopupMenuItems);
 	}
 	
-	private void showMenuItems(List items){
-		Iterator it = items.iterator();
+	private void showMenuItems(List<ItemBase> items){
+		Iterator<ItemBase> it = items.iterator();
 		while(it.hasNext()){
 			MenuItems item = (MenuItems)it.next();
 			item.showItems();
@@ -317,10 +317,10 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 		}
 	}
 	
-	public void updateItems(List items){
-		Iterator it = items.iterator();
+	public void updateItems(List<ItemBase> items){
+		Iterator<ItemBase> it = items.iterator();
 		while(it.hasNext()){
-			ItemBase item = (ItemBase)it.next();
+			ItemBase item = it.next();
 			item.update();
 		}
 	}
@@ -333,10 +333,10 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 		}
 	}
 	
-	public void loadProperties(List items){
-		Iterator it = items.iterator();
+	public void loadProperties(List<ItemBase> items){
+		Iterator<ItemBase> it = items.iterator();
 		while(it.hasNext()){
-			ItemBase item = (ItemBase)it.next();
+			ItemBase item = it.next();
 			item.loadProperties();
 		}
 	}

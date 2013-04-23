@@ -13,12 +13,12 @@ import org.herac.tuxguitar.song.models.TGNote;
 
 class MiBuffer
 {
-	private ArrayList	f_Notes			= new ArrayList();	// time-ordered list of notes
-	private ArrayList	f_NoteOffMap	= new ArrayList();	// time-ordered map of NOTE_OFF events
+	private final ArrayList<MiNote>	f_Notes			= new ArrayList<MiNote>();	// time-ordered list of notes
+	private final ArrayList<MiNote>	f_NoteOffMap	= new ArrayList<MiNote>();	// time-ordered map of NOTE_OFF events
 	private	long		f_StartTime		= -1;				// first MIDI time stamp [microseconds]
 	private	long		f_StopTime		= -1;				// last MIDI time stamp [microseconds]
 
-	private	boolean		s_TESTING = true;
+	private final	boolean		s_TESTING = true;
 
 
 	public void startRecording(long inTimeStamp)
@@ -46,9 +46,9 @@ class MiBuffer
 	}
 
 
-	static void	dump(ArrayList inList, String inTitle)
+	static void	dump(ArrayList<MiNote> inList, String inTitle)
 	{
-	Iterator	it = inList.iterator();
+	Iterator<MiNote>	it = inList.iterator();
 
 	System.out.println();
 	System.out.println("dumping " + inTitle + "...");
@@ -58,7 +58,7 @@ class MiBuffer
 
 	while(it.hasNext())
 		{
-		MiNote	n = (MiNote)it.next();
+		MiNote	n = it.next();
 
 		System.out.println(
 			"str: "		+ n.getString() +
@@ -192,20 +192,20 @@ class MiBuffer
 
 		}
 
-	Iterator	onIt;
+	Iterator<MiNote>	onIt;
 
 	// determine notes duration
 	onIt = f_Notes.iterator();
 	while(onIt.hasNext())
 		{
-		MiNote	on = (MiNote)onIt.next();
+		MiNote	on = onIt.next();
 
-		Iterator	offIt = f_NoteOffMap.iterator();
+		Iterator<MiNote>	offIt = f_NoteOffMap.iterator();
 		boolean		found = false;
 
 		while(offIt.hasNext() && !found)
 			{
-			MiNote	off = (MiNote)offIt.next();
+			MiNote	off = offIt.next();
 
 			if(	on.getString()	== off.getString() &&
 				on.getFret()	== off.getFret())
@@ -225,7 +225,7 @@ class MiBuffer
 	onIt = f_Notes.iterator();
 	while(onIt.hasNext())
 		{
-		MiNote	on = (MiNote)onIt.next();
+		MiNote	on = onIt.next();
 /*
 		System.out.println(
 				"str: "		+ on.getString() +
@@ -258,11 +258,11 @@ class MiBuffer
 	{
 	TGSongManager	tgSongMgr	= TuxGuitar.instance().getSongManager();
 	TGChord			tgChord		= tgSongMgr.getFactory().newChord(inStringsCount);
-	Iterator		it			= f_Notes.iterator();
+	Iterator<MiNote>		it			= f_Notes.iterator();
 
 	while(it.hasNext())
 		{
-		MiNote	note = (MiNote)it.next();
+		MiNote	note = it.next();
 
 		tgChord.addFretValue(note.getString() - 1, note.getFret());
 		}
@@ -275,11 +275,11 @@ class MiBuffer
 	{
 	TGSongManager	tgSongMgr	= TuxGuitar.instance().getSongManager();
 	TGBeat			tgBeat		= tgSongMgr.getFactory().newBeat();
-	Iterator		it			= f_Notes.iterator();
+	Iterator<MiNote>		it			= f_Notes.iterator();
 
 	while(it.hasNext())
 		{
-		MiNote	note	= (MiNote)it.next();
+		MiNote	note	= it.next();
 		TGNote	tgNote	= tgSongMgr.getFactory().newNote();
 
 		tgNote.setString(note.getString());
@@ -291,14 +291,14 @@ class MiBuffer
 	}
 
 
-	public TreeSet	toPitchesSet()
+	public TreeSet<Byte>	toPitchesSet()
 	{
-	TreeSet		pitches	= new TreeSet();
-	Iterator	it		= f_Notes.iterator();
+	TreeSet<Byte>		pitches	= new TreeSet<Byte>();
+	Iterator<MiNote>	it		= f_Notes.iterator();
 
 	while(it.hasNext())
 		{
-		MiNote	note = (MiNote)it.next();
+		MiNote	note = it.next();
 
 		pitches.add(new Byte(note.getPitch()));
 		}

@@ -12,15 +12,15 @@ import org.herac.tuxguitar.song.models.TGChannel;
 
 public class TGChannelList {
 	
-	private List channelItems;
-	private TGChannelManagerDialog dialog;
+	private final List<TGChannelItem> channelItems;
+	private final TGChannelManagerDialog dialog;
 	
 	protected ScrolledComposite channelItemAreaSC;
 	protected Composite channelItemArea;
 	
 	public TGChannelList(TGChannelManagerDialog dialog){
 		this.dialog = dialog;
-		this.channelItems = new ArrayList();
+		this.channelItems = new ArrayList<TGChannelItem>();
 	}
 	
 	public void show(final Composite parent){
@@ -37,7 +37,7 @@ public class TGChannelList {
 	
 	public void removeChannelsAfter( int count ){
 		while(!this.channelItems.isEmpty() && this.channelItems.size() > count ){
-			TGChannelItem tgChannelItem = (TGChannelItem)this.channelItems.get(0);
+			TGChannelItem tgChannelItem = this.channelItems.get(0);
 			tgChannelItem.dispose();
 			
 			this.channelItemAreaSC.setMinSize(this.channelItemArea.computeSize(SWT.DEFAULT, SWT.DEFAULT));
@@ -55,24 +55,24 @@ public class TGChannelList {
 			this.channelItemArea.layout(true,true);
 			this.channelItems.add(tgChannelItem);
 		}
-		return (TGChannelItem)this.channelItems.get(index);
+		return this.channelItems.get(index);
 	}
 	
 	public void loadProperties(){
-		Iterator it = this.channelItems.iterator();
+		Iterator<TGChannelItem> it = this.channelItems.iterator();
 		while( it.hasNext() ){
-			TGChannelItem tgChannelItem = (TGChannelItem)it.next();
+			TGChannelItem tgChannelItem = it.next();
 			tgChannelItem.loadProperties();
 		}
 	}
 	
 	public void updateItems(){
-		List channels = this.dialog.getHandle().getChannels();
+		List<TGChannel> channels = this.dialog.getHandle().getChannels();
 		
 		this.removeChannelsAfter(channels.size());
 		
 		for( int i = 0 ; i < channels.size() ; i ++ ){
-			TGChannel channel = (TGChannel)channels.get(i);
+			TGChannel channel = channels.get(i);
 			TGChannelItem tgChannelItem = getOrCreateChannelItemAt(i);
 			tgChannelItem.setChannel(channel);
 			tgChannelItem.updateItems();

@@ -31,14 +31,17 @@ public class TGBrowserFactoryImpl implements TGBrowserFactory{
 		super();
 	}
 	
+	@Override
 	public String getType(){
 		return "ftp";
 	}
 	
+	@Override
 	public String getName(){
 		return "FTP";
 	}
 	
+	@Override
 	public TGBrowser newTGBrowser(TGBrowserData data) {
 		if(data instanceof TGBrowserDataImpl){
 			return new TGBrowserImpl((TGBrowserDataImpl)data);
@@ -46,10 +49,12 @@ public class TGBrowserFactoryImpl implements TGBrowserFactory{
 		return null;
 	}
 	
+	@Override
 	public TGBrowserData parseData(String string) {
 		return TGBrowserDataImpl.fromString(string);
 	}
 	
+	@Override
 	public TGBrowserData dataDialog(Shell parent) {
 		return new TGBrowserDataDialog().show(parent);
 	}
@@ -141,6 +146,7 @@ class TGBrowserDataDialog{
 		proxyPwdText.setEnabled(false);
 		
 		hasProxy.addSelectionListener(new SelectionAdapter(){
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				proxyHostText.setEnabled(hasProxy.getSelection());
 				proxyPortText.setEnabled(hasProxy.getSelection());
@@ -163,6 +169,7 @@ class TGBrowserDataDialog{
 		buttonOk.setText(TuxGuitar.getProperty("ok"));
 		buttonOk.setLayoutData(data);
 		buttonOk.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				String name = nameText.getText();
 				String host = hostText.getText();
@@ -174,13 +181,13 @@ class TGBrowserDataDialog{
 				String proxyUser = proxyUserText.getText();
 				String proxyPwd = proxyPwdText.getText();
 				
-				List errors = validate(name, host, proxyHost, proxyPortStr, hasProxy.getSelection());
+				List<String> errors = validate(name, host, proxyHost, proxyPortStr, hasProxy.getSelection());
 				if( !errors.isEmpty() ){
 					StringWriter buffer = new StringWriter();
 					PrintWriter writer = new PrintWriter( buffer );
-					Iterator it = errors.iterator();
+					Iterator<String> it = errors.iterator();
 					while( it.hasNext() ){
-						writer.println( "*" + (String)it.next() );
+						writer.println( "*" + it.next() );
 					}
 					MessageDialog.errorMessage(parent, buffer.getBuffer().toString() );
 				}else{
@@ -196,6 +203,7 @@ class TGBrowserDataDialog{
 		buttonCancel.setLayoutData(data);
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}
@@ -208,15 +216,15 @@ class TGBrowserDataDialog{
 		return this.data;
 	}
 	
-	protected List validate(String name, String host, String pHost, String pPort, boolean pEnabled){
-		List errors = new ArrayList();
+	protected List<String> validate(String name, String host, String pHost, String pPort, boolean pEnabled){
+		List<String> errors = new ArrayList<String>();
 		// Check the Name
 		if (name == null || name.trim().length() == 0) {
 			errors.add("Please enter the Name");
 		}else{
-			Iterator it = TGBrowserManager.instance().getCollections();
+			Iterator<TGBrowserCollection> it = TGBrowserManager.instance().getCollections();
 			while(it.hasNext()){
-				TGBrowserCollection collection = (TGBrowserCollection)it.next();
+				TGBrowserCollection collection = it.next();
 				if(name.equals(collection.getData().getTitle())){
 					errors.add("A collection named \"" + name + "\" already exists");
 					break;

@@ -8,7 +8,7 @@ import java.util.List;
 public class MidiTrack {
 	
 	private long ticks;
-	private List events = new ArrayList();
+	private final List<MidiEvent> events = new ArrayList<MidiEvent>();
 	
 	public void add(MidiEvent event) {
 		this.events.add(event);
@@ -16,7 +16,7 @@ public class MidiTrack {
 	}
 	
 	public MidiEvent get(int index){
-		return (MidiEvent)this.events.get(index);
+		return this.events.get(index);
 	}
 	
 	public int size(){
@@ -28,7 +28,8 @@ public class MidiTrack {
 	}
 	
 	public void sort(){
-		final Comparator comparator = new Comparator() {
+		final Comparator<Object> comparator = new Comparator<Object>() {
+			@Override
 			public int compare(Object o1, Object o2) {
 				if(o1 instanceof MidiEvent && o2 instanceof MidiEvent){
 					MidiEvent e1 = (MidiEvent)o1;

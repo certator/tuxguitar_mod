@@ -9,6 +9,7 @@ import java.util.List;
 import org.herac.tuxguitar.song.managers.TGSongManager;
 import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGChord;
+import org.herac.tuxguitar.song.models.TGDivisionType;
 import org.herac.tuxguitar.song.models.TGDuration;
 import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGMeasureHeader;
@@ -20,7 +21,6 @@ import org.herac.tuxguitar.song.models.TGStroke;
 import org.herac.tuxguitar.song.models.TGTempo;
 import org.herac.tuxguitar.song.models.TGTimeSignature;
 import org.herac.tuxguitar.song.models.TGTrack;
-import org.herac.tuxguitar.song.models.TGDivisionType;
 import org.herac.tuxguitar.song.models.TGVoice;
 import org.herac.tuxguitar.song.models.effects.TGEffectGrace;
 
@@ -38,11 +38,11 @@ public class LilypondOutputStream {
 	
 	private TGSongManager manager;
 	
-	private PrintWriter writer;
+	private final PrintWriter writer;
 	
-	private LilypondSettings settings;
+	private final LilypondSettings settings;
 	
-	private LilypondTempData temp;
+	private final LilypondTempData temp;
 	
 	public LilypondOutputStream(OutputStream stream,LilypondSettings settings){
 		this.writer = new PrintWriter(stream);
@@ -279,7 +279,7 @@ public class LilypondOutputStream {
 		if(skippedCount > 0){
 			this.writer.print(indent(1));
 			for(int i = 0 ; i <  skippedCount ; i ++){
-				this.writer.print("\\skip " + ((String)this.temp.getSkippedLyricBeats().get(i)) + " ");
+				this.writer.print("\\skip " + this.temp.getSkippedLyricBeats().get(i) + " ");
 			}
 			this.writer.println();
 		}
@@ -692,7 +692,7 @@ public class LilypondOutputStream {
 	}
 	
 	private void addEffectsBeforeBeat(TGVoice voice){
-		List graceNotes = new ArrayList();
+		List<TGNote> graceNotes = new ArrayList<TGNote>();
 		for( int i = 0 ; i < voice.countNotes() ; i ++ ){
 			TGNote note = voice.getNote(i);
 			if( note.getEffect().isGrace() ){
@@ -705,7 +705,7 @@ public class LilypondOutputStream {
 			
 			int duration = 0;
 			for( int i = 0 ; i < graceNotes.size() ; i ++ ){
-				TGNote note = (TGNote)graceNotes.get( i );
+				TGNote note = graceNotes.get( i );
 				TGMeasure measure = voice.getBeat().getMeasure();
 				TGString string = measure.getTrack().getString(note.getString());
 				TGEffectGrace grace = note.getEffect().getGrace();
@@ -798,9 +798,9 @@ public class LilypondOutputStream {
 					return false;
 				}
 				// Check if is there any note at same string.
-				Iterator it = voice.getNotes().iterator();
+				Iterator<TGNote> it = voice.getNotes().iterator();
 				while( it.hasNext() ){
-					TGNote current = (TGNote) it.next();
+					TGNote current = it.next();
 					if(current.getString() == note.getString()){
 						return current.isTiedNote();
 					}
@@ -890,9 +890,9 @@ public class LilypondOutputStream {
 	
 	private String getLilypondTuning(TGTrack track){
 		String tuning = ("\\with { stringTunings = #`( ");
-		Iterator strings = track.getStrings().iterator();
+		Iterator<TGString> strings = track.getStrings().iterator();
 		while(strings.hasNext()){
-			TGString string = (TGString)strings.next();
+			TGString string = strings.next();
 			if ( this.settings.getLilypondVersion().compareTo("2.13.46") < 0) {
 				tuning += ( (string.getValue() - 60) + " ");
 			} else {
@@ -941,10 +941,10 @@ public class LilypondOutputStream {
 		private boolean repeatAlternativeOpen;
 		private boolean divisionTypeOpen;
 		private boolean multipleVoices;
-		private List skippedLyricBeats;
+		private final List<String> skippedLyricBeats;
 		
 		protected LilypondTempData(){
-			this.skippedLyricBeats = new ArrayList();
+			this.skippedLyricBeats = new ArrayList<String>();
 			this.reset();
 		}
 		
@@ -1008,7 +1008,7 @@ public class LilypondOutputStream {
 			this.skippedLyricBeats.add( duration );
 		}
 		
-		public List getSkippedLyricBeats(){
+		public List<String> getSkippedLyricBeats(){
 			return this.skippedLyricBeats;
 		}
 	}

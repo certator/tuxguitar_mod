@@ -16,17 +16,17 @@ public class TGBrowserManager {
 	
 	private static TGBrowserManager instance;
 	
-	private List factories;
-	private List collections;
-	private List collectionInfos;
+	private List<TGBrowserFactory> factories;
+	private List<TGBrowserCollection> collections;
+	private List<TGBrowserCollectionInfo> collectionInfos;
 	private boolean changes;
 	
 	private TGBrowserFactoryHandler handler;
 	
 	private TGBrowserManager(){
-		this.factories = new ArrayList();
-		this.collections = new ArrayList();
-		this.collectionInfos = new ArrayList();
+		this.factories = new ArrayList<TGBrowserFactory>();
+		this.collections = new ArrayList<TGBrowserCollection>();
+		this.collectionInfos = new ArrayList<TGBrowserCollectionInfo>();
 		this.readCollections();
 		this.addDefaultFactory();
 	}
@@ -42,14 +42,14 @@ public class TGBrowserManager {
 		this.handler = handler;
 	}
 	
-	public Iterator getFactories(){
+	public Iterator<TGBrowserFactory> getFactories(){
 		return this.factories.iterator();
 	}
 	
 	public TGBrowserFactory getFactory(String type){
-		Iterator factories = getFactories();
+		Iterator<TGBrowserFactory> factories = getFactories();
 		while(factories.hasNext()){
-			TGBrowserFactory factory = (TGBrowserFactory)factories.next();
+			TGBrowserFactory factory = factories.next();
 			if(factory.getType().equals(type)){
 				return factory;
 			}
@@ -60,9 +60,9 @@ public class TGBrowserManager {
 	public void addFactory(TGBrowserFactory factory){
 		this.factories.add(factory);
 		
-		Iterator it = this.collectionInfos.iterator();
+		Iterator<TGBrowserCollectionInfo> it = this.collectionInfos.iterator();
 		while(it.hasNext()){
-			TGBrowserCollectionInfo info = (TGBrowserCollectionInfo)it.next();
+			TGBrowserCollectionInfo info = it.next();
 			if(info.getType().equals(factory.getType())){
 				TGBrowserCollection collection = new TGBrowserCollection();
 				collection.setType(factory.getType());
@@ -81,7 +81,7 @@ public class TGBrowserManager {
 		
 		int index = 0;
 		while(index < this.collections.size()){
-			TGBrowserCollection collection = (TGBrowserCollection)this.collections.get(index);
+			TGBrowserCollection collection = this.collections.get(index);
 			if(collection.getType().equals(factory.getType())){
 				removeCollection(collection);
 				continue;
@@ -97,7 +97,7 @@ public class TGBrowserManager {
 		this.collectionInfos.add(info);
 	}
 	
-	public Iterator getCollections(){
+	public Iterator<TGBrowserCollection> getCollections(){
 		return this.collections.iterator();
 	}
 	
@@ -123,9 +123,9 @@ public class TGBrowserManager {
 	}
 	
 	public TGBrowserCollection getCollection(String type, TGBrowserData data ){
-		Iterator it = this.getCollections();
+		Iterator<TGBrowserCollection> it = this.getCollections();
 		while( it.hasNext() ){
-			TGBrowserCollection collection = ( TGBrowserCollection ) it.next();
+			TGBrowserCollection collection = it.next();
 			if( collection.getType().equals(type) && collection.getData().equals(data) ){
 				return collection;
 			}
@@ -135,7 +135,7 @@ public class TGBrowserManager {
 	
 	public TGBrowserCollection getCollection(int index){
 		if(index >= 0 && index < countCollections()){
-			return (TGBrowserCollection)this.collections.get(index);
+			return this.collections.get(index);
 		}
 		return null;
 	}

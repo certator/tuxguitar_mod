@@ -5,19 +5,19 @@ import java.util.List;
 
 public class PTTrack {
 	
-	private List sections;
-	private List infos;
+	private final List<PTSection> sections;
+	private final List<PTTrackInfo> infos;
 	
 	public PTTrack(){
-		this.sections = new ArrayList();
-		this.infos = new ArrayList();
+		this.sections = new ArrayList<PTSection>();
+		this.infos = new ArrayList<PTTrackInfo>();
 	}
 	
-	public List getInfos(){
+	public List<PTTrackInfo> getInfos(){
 		return this.infos;
 	}
 	
-	public List getSections(){
+	public List<PTSection> getSections(){
 		return this.sections;
 	}
 	
@@ -25,12 +25,12 @@ public class PTTrack {
 		for(int i = getSections().size(); i <= index; i ++){
 			getSections().add(new PTSection(i));
 		}
-		return (PTSection)getSections().get(index);
+		return getSections().get(index);
 	}
 	
 	public PTTrackInfo getInfo(int number){
 		for(int i = 0; i < getInfos().size(); i++){
-			PTTrackInfo info = (PTTrackInfo)getInfos().get(i);
+			PTTrackInfo info = getInfos().get(i);
 			if( (  (1 << info.getNumber()) & number ) != 0 ){
 				return info;
 			}
@@ -41,7 +41,7 @@ public class PTTrack {
 	public PTTrackInfo getDefaultInfo(){
 		PTTrackInfo defaultInfo = null;
 		for(int i = 0; i < getInfos().size(); i++){
-			PTTrackInfo info = (PTTrackInfo)getInfos().get(i);
+			PTTrackInfo info = getInfos().get(i);
 			if( defaultInfo == null || info.getNumber() < defaultInfo.getNumber() ){
 				defaultInfo = info;
 			}

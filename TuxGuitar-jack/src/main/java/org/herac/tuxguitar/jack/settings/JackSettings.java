@@ -9,11 +9,11 @@ import org.herac.tuxguitar.app.system.plugins.TGPluginConfigManager;
 
 public class JackSettings {
 	
-	private List listeners;
+	private List<JackSettingsListener> listeners;
 	private TGConfigManager config;
 	
 	public JackSettings(){
-		this.listeners = new ArrayList();
+		this.listeners = new ArrayList<JackSettingsListener>();
 		this.config = new TGPluginConfigManager("tuxguitar-jack");
 		this.config.init();
 	}
@@ -41,9 +41,9 @@ public class JackSettings {
 	}
 	
 	public void fireListeners(){
-		Iterator it = this.listeners.iterator();
+		Iterator<JackSettingsListener> it = this.listeners.iterator();
 		while( it.hasNext() ){
-			JackSettingsListener listener = (JackSettingsListener) it.next();
+			JackSettingsListener listener = it.next();
 			listener.loadSettings( getConfig() );
 		}
 	}

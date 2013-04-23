@@ -11,6 +11,7 @@ import org.herac.tuxguitar.app.undo.CannotUndoException;
 import org.herac.tuxguitar.app.undo.UndoableEdit;
 import org.herac.tuxguitar.app.undo.undoables.UndoableCaretHelper;
 import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
+import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGTrack;
 
 public class UndoableChangeKeySignature implements UndoableEdit{
@@ -20,7 +21,7 @@ public class UndoableChangeKeySignature implements UndoableEdit{
 	private long position;
 	private int redoableKeySignature;
 	private int undoableKeySignature;
-	private List nextKeySignaturePositions;
+	private List<KeySignaturePosition> nextKeySignaturePositions;
 	private boolean toEnd;
 	private TGTrack track;
 	
@@ -28,6 +29,7 @@ public class UndoableChangeKeySignature implements UndoableEdit{
 		super();
 	}
 	
+	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
 			throw new CannotRedoException();
@@ -39,15 +41,16 @@ public class UndoableChangeKeySignature implements UndoableEdit{
 		this.doAction = UNDO_ACTION;
 	}
 	
+	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
 			throw new CannotUndoException();
 		}
 		TuxGuitar.instance().getSongManager().getTrackManager().changeKeySignature(this.track,this.position,this.undoableKeySignature,this.toEnd);
 		if(this.toEnd){
-			Iterator it = this.nextKeySignaturePositions.iterator();
+			Iterator<KeySignaturePosition> it = this.nextKeySignaturePositions.iterator();
 			while(it.hasNext()){
-				KeySignaturePosition ksp = (KeySignaturePosition)it.next();
+				KeySignaturePosition ksp = it.next();
 				TuxGuitar.instance().getSongManager().getTrackManager().changeKeySignature(this.track,ksp.getPosition(),ksp.getKeySignature(),true);
 			}
 		}
@@ -57,10 +60,12 @@ public class UndoableChangeKeySignature implements UndoableEdit{
 		this.doAction = REDO_ACTION;
 	}
 	
+	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
 	
+	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
@@ -73,10 +78,10 @@ public class UndoableChangeKeySignature implements UndoableEdit{
 		undoable.position = caret.getPosition();
 		undoable.undoableKeySignature = caret.getMeasure().getKeySignature();
 		undoable.track = caret.getTrack();
-		undoable.nextKeySignaturePositions = new ArrayList();
+		undoable.nextKeySignaturePositions = new ArrayList<KeySignaturePosition>();
 		
 		int prevKeySignature = undoable.undoableKeySignature;
-		Iterator it = caret.getTrack().getMeasures();
+		Iterator<TGMeasure> it = caret.getTrack().getMeasures();
 		while(it.hasNext()){
 			TGMeasureImpl measure = (TGMeasureImpl)it.next();
 			if(measure.getStart() > undoable.position){
@@ -104,8 +109,8 @@ public class UndoableChangeKeySignature implements UndoableEdit{
 	}
 	
 	private class KeySignaturePosition{
-		private long position;
-		private int keySignature;
+		private final long position;
+		private final int keySignature;
 		
 		public KeySignaturePosition(long position,int keySignature) {
 			this.position = position;

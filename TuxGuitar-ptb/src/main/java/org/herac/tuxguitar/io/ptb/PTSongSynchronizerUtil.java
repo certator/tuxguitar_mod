@@ -33,21 +33,21 @@ public class PTSongSynchronizerUtil {
 	}
 	
 	private static void applyInfos(PTTrack src, PTTrack dst){
-		Iterator it = src.getInfos().iterator();
+		Iterator<PTTrackInfo> it = src.getInfos().iterator();
 		while( it.hasNext() ){
-			PTTrackInfo srcInfo = (PTTrackInfo)it.next();
+			PTTrackInfo srcInfo = it.next();
 			dst.getInfos().add( srcInfo.getClone() );
 		}
 	}
 	
 	private static void applyRepeats(PTTrack src, PTTrack dst){
-		applyRepeats(src, dst, new PTIndex(0,0,0), new PTSongSynchronizerData(), new ArrayList() );
+		applyRepeats(src, dst, new PTIndex(0,0,0), new PTSongSynchronizerData(), new ArrayList<PTDirection>() );
 	}
 	
-	private static void applyRepeats(PTTrack src, PTTrack dst, PTIndex index, PTSongSynchronizerData rd, List useds){
+	private static void applyRepeats(PTTrack src, PTTrack dst, PTIndex index, PTSongSynchronizerData rd, List<PTDirection> useds){
 		
 		for( int s = index.s; s < src.getSections().size(); s ++){
-			PTSection srcSection = (PTSection) src.getSections().get(s);
+			PTSection srcSection = src.getSections().get(s);
 			srcSection.sort();
 			
 			PTSection dstSection = new PTSection( srcSection.getNumber() );
@@ -55,14 +55,14 @@ public class PTSongSynchronizerUtil {
 			dst.getSections().add( dstSection );
 			
 			for( int p = (s == index.s ? index.p : 0); p < srcSection.getPositions().size(); p ++){
-				PTPosition srcPosition = (PTPosition)srcSection.getPositions().get(p);
+				PTPosition srcPosition = srcSection.getPositions().get(p);
 				srcPosition.sort();
 				
 				PTPosition dstPosition = new PTPosition(srcPosition.getPosition() );
 				dstSection.getPositions().add( dstPosition );
 				
 				for(int c = (s == index.s && p == index.p ? index.c : 0); c < srcPosition.getComponents().size(); c ++){
-					PTComponent component = (PTComponent)srcPosition.getComponents().get(c);
+					PTComponent component = srcPosition.getComponents().get(c);
 					
 					if(!rd.skip){
 						dstPosition.addComponent( component.getClone() );
@@ -287,10 +287,10 @@ public class PTSongSynchronizerUtil {
 		}
 	}
 	
-	private static boolean canUseDirection(PTDirection direction, List useds){
+	private static boolean canUseDirection(PTDirection direction, List<PTDirection> useds){
 		boolean inUse = false;
 		for( int i = 0 ; i < useds.size() && !inUse; i ++ ){
-			PTDirection used = (PTDirection)useds.get( i );
+			PTDirection used = useds.get( i );
 			if( used.equals( direction )){
 				return false;
 			}
@@ -299,19 +299,19 @@ public class PTSongSynchronizerUtil {
 		return true;
 	}
 	
-	private static PTIndex findUnusedDirection(PTTrack src, List useds, int value, int sEndIndex, int pEndIndex){
+	private static PTIndex findUnusedDirection(PTTrack src, List<PTDirection> useds, int value, int sEndIndex, int pEndIndex){
 		return findUnusedDirection(src, useds, value, sEndIndex, pEndIndex, 0 );
 	}
 	
-	private static PTIndex findUnusedDirection(PTTrack src, List useds, int value, int sEndIndex, int pEndIndex, int activeSymbol){
+	private static PTIndex findUnusedDirection(PTTrack src, List<PTDirection> useds, int value, int sEndIndex, int pEndIndex, int activeSymbol){
 		for( int s = 0; s < ( sEndIndex >= 0 ? sEndIndex+1 : src.getSections().size() ); s ++){
-			PTSection section = (PTSection) src.getSections().get( s );
+			PTSection section = src.getSections().get( s );
 			
 			for( int p = 0; p < (s == sEndIndex ? pEndIndex+1 : section.getPositions().size() ); p ++){
-				PTPosition position = (PTPosition)section.getPositions().get(p);
+				PTPosition position = section.getPositions().get(p);
 				
 				for( int c = 0; c < position.getComponents().size() ; c ++){
-					PTComponent component = (PTComponent)position.getComponents().get( c );
+					PTComponent component = position.getComponents().get( c );
 					if(component instanceof PTDirection){
 						PTDirection direction = (PTDirection)component;
 						if( direction.getDirection() == value && ( activeSymbol == 0 || direction.getActiveSymbol() == activeSymbol)){

@@ -54,8 +54,8 @@ public class Piano extends Composite{
 	
 	private int duration;
 	private boolean changes;
-	private PianoListener listener;
-	private PianoConfig config;
+	private final PianoListener listener;
+	private final PianoConfig config;
 	private Composite pianoComposite;
 	private Composite toolComposite;
 	private Label durationLabel;
@@ -137,6 +137,7 @@ public class Piano extends Composite{
 		this.settings.setToolTipText(TuxGuitar.getProperty("settings"));
 		this.settings.setLayoutData(new GridData(SWT.RIGHT,SWT.FILL,true,true));
 		this.settings.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				configure();
 			}
@@ -362,9 +363,9 @@ public class Piano extends Composite{
 		if(this.beat != null){
 			for(int v = 0; v < this.beat.countVoices(); v ++){
 				TGVoice voice = this.beat.getVoice( v );
-				Iterator it = voice.getNotes().iterator();
+				Iterator<TGNote> it = voice.getNotes().iterator();
 				while (it.hasNext()) {
-					TGNote note = (TGNote) it.next();
+					TGNote note = it.next();
 					if (getRealNoteValue(note) == value) {
 						//comienza el undoable
 						UndoableMeasureGeneric undoable = UndoableMeasureGeneric.startUndo();
@@ -387,16 +388,16 @@ public class Piano extends Composite{
 	private boolean addNote(int value) {
 		Caret caret = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret();
 		
-		List strings = caret.getTrack().getStrings();
+		List<TGString> strings = caret.getTrack().getStrings();
 		for(int i = 0;i < strings.size();i ++){
-			TGString string = (TGString)strings.get(i);
+			TGString string = strings.get(i);
 			if(value >= string.getValue()){
 				boolean emptyString = true;
 				
 				if(this.beat != null){
 					for(int v = 0; v < this.beat.countVoices(); v ++){
 						TGVoice voice = this.beat.getVoice( v );
-						Iterator it = voice.getNotes().iterator();
+						Iterator<TGNote> it = voice.getNotes().iterator();
 						while (it.hasNext()) {
 							TGNoteImpl note = (TGNoteImpl) it.next();
 							if (note.getString() == string.getNumber()) {
@@ -497,6 +498,7 @@ public class Piano extends Composite{
 		}
 	}
 	
+	@Override
 	public void redraw() {
 		if(!super.isDisposed() && !TuxGuitar.instance().isLocked()){
 			super.redraw();
@@ -511,6 +513,7 @@ public class Piano extends Composite{
 		}
 	}
 	
+	@Override
 	public void dispose(){
 		super.dispose();
 		this.image.dispose();
@@ -552,6 +555,7 @@ public class Piano extends Composite{
 			super();
 		}
 		
+		@Override
 		public void paintControl(PaintEvent e) {
 			if(!TuxGuitar.instance().isLocked()){
 				TuxGuitar.instance().lock();
@@ -564,9 +568,9 @@ public class Piano extends Composite{
 				if(Piano.this.beat != null){
 					for(int v = 0; v < Piano.this.beat.countVoices(); v ++){
 						TGVoice voice = Piano.this.beat.getVoice( v );
-						Iterator it = voice.getNotes().iterator();
+						Iterator<TGNote> it = voice.getNotes().iterator();
 						while(it.hasNext()){
-							TGNote note = (TGNote)it.next();
+							TGNote note = it.next();
 							paintNote(painter, getRealNoteValue( note ) );
 						}
 					}
@@ -575,6 +579,7 @@ public class Piano extends Composite{
 			}
 		}
 		
+		@Override
 		public void mouseUp(MouseEvent e) {
 			getPianoComposite().setFocus();
 			if(e.button == 1){
@@ -593,10 +598,12 @@ public class Piano extends Composite{
 			}
 		}
 		
+		@Override
 		public void mouseDoubleClick(MouseEvent e) {
 			//Not implemented
 		}
 		
+		@Override
 		public void mouseDown(MouseEvent e) {
 			//Not implemented
 		}

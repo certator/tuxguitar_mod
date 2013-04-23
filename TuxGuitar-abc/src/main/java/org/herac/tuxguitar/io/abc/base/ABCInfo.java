@@ -15,8 +15,8 @@ public class ABCInfo {
 	private String discography;
 	private String filename;
 	private String group;
-	private List history;
-	private List note;
+	private List<String> history;
+	private List<String> note;
 	private String information;
 	private String origin;
 	private String source;
@@ -43,7 +43,7 @@ public class ABCInfo {
 	public String getNotes() {
 		if(this.note==null) return null;
 		String s="";
-		for(int i=0;i<note.size();i++) s+=(String)note.get(i)+"\n";
+		for(int i=0;i<note.size();i++) s+=note.get(i)+"\n";
 		return s;
 	}
 	
@@ -154,7 +154,7 @@ public class ABCInfo {
 	}
 
 	public void addHistory(String string) {
-		if(history==null) history=new ArrayList();
+		if(history==null) history=new ArrayList<String>();
 		history.add(string);
 	}
 
@@ -165,7 +165,7 @@ public class ABCInfo {
 	/**
 	 * @return the history
 	 */
-	public List getHistory() {
+	public List<String> getHistory() {
 		return history;
 	}
 
@@ -177,7 +177,7 @@ public class ABCInfo {
 	}
 
 	public void addNote(String string) {
-		if(note==null) note=new ArrayList();
+		if(note==null) note=new ArrayList<String>();
 		note.add(string);
 	}
 

@@ -35,6 +35,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		super(browser);
 	}
 	
+	@Override
 	public void init(Shell shell){
 		this.composite = new Composite(shell,SWT.NONE);
 		this.composite.setLayout(getLayout());
@@ -47,13 +48,14 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		
 		//---New Book----------------------------------------------------------
 		this.newBrowserMenu = new Menu(this.composite);
-		Iterator bookTypes = TGBrowserManager.instance().getFactories();
+		Iterator<TGBrowserFactory> bookTypes = TGBrowserManager.instance().getFactories();
 		while(bookTypes.hasNext()) {
-			final TGBrowserFactory bookType = (TGBrowserFactory)bookTypes.next();
+			final TGBrowserFactory bookType = bookTypes.next();
 			MenuItem item = new MenuItem(this.newBrowserMenu, SWT.PUSH);
 			item.setText(bookType.getName());
 			item.setData(bookType);
 			item.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					newCollection( bookType.getType());
 				}
@@ -62,6 +64,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		this.newBrowser = new ToolItem(this.toolBar,SWT.DROP_DOWN);
 		this.newBrowser.setImage(TuxGuitar.instance().getIconManager().getBrowserNew());
 		this.newBrowser.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				if (event.detail == SWT.ARROW) {
 					ToolItem item = (ToolItem) event.widget;
@@ -78,6 +81,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		this.root = new ToolItem(this.toolBar,SWT.PUSH);
 		this.root.setImage(TuxGuitar.instance().getIconManager().getBrowserRoot());
 		this.root.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getBrowser().getConnection().cdRoot(TGBrowserDialog.CALL_CD_ROOT);
 			}
@@ -87,6 +91,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		this.back = new ToolItem(this.toolBar,SWT.PUSH);
 		this.back.setImage(TuxGuitar.instance().getIconManager().getBrowserBack());
 		this.back.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getBrowser().getConnection().cdUp(TGBrowserDialog.CALL_CD_UP);
 			}
@@ -96,6 +101,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		this.refresh = new ToolItem(this.toolBar,SWT.PUSH);
 		this.refresh.setImage(TuxGuitar.instance().getIconManager().getBrowserRefresh());
 		this.refresh.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getBrowser().getConnection().listElements(TGBrowserDialog.CALL_LIST);
 			}
@@ -108,12 +114,14 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		this.collections = new TGBrowserCollectionCombo(this.composite, SWT.READ_ONLY);
 		this.collections.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,true));
 		this.collections.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateCollection();
 			}
 		});
 	}
 	
+	@Override
 	public void updateItems(){
 		this.newBrowser.setEnabled(!getBrowser().getConnection().isLocked());
 		this.collections.setEnabled(!getBrowser().getConnection().isLocked());
@@ -122,13 +130,14 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		this.refresh.setEnabled(!getBrowser().getConnection().isLocked() && getBrowser().getConnection().isOpen());
 	}
 	
+	@Override
 	public void updateCollections(TGBrowserCollection selection){
 		int index = 0;
 		this.collections.removeAll();
 		
-		Iterator it = TGBrowserManager.instance().getCollections();
+		Iterator<TGBrowserCollection> it = TGBrowserManager.instance().getCollections();
 		while(it.hasNext()){
-			TGBrowserCollection collection = (TGBrowserCollection)it.next();
+			TGBrowserCollection collection = it.next();
 			if(collection.getData() != null){
 				this.collections.add(collection);
 				if(selection != null && selection.equals(collection)){
@@ -147,6 +156,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		this.composite.layout(true,true);
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.newBrowser.setToolTipText(TuxGuitar.getProperty("browser.collection.new"));
 		this.root.setToolTipText(TuxGuitar.getProperty("browser.go-root"));

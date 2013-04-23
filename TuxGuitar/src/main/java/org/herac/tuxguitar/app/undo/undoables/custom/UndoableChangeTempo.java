@@ -16,15 +16,16 @@ public class UndoableChangeTempo implements UndoableEdit{
 	private int doAction;
 	private UndoableCaretHelper undoCaret;
 	private UndoableCaretHelper redoCaret;
-	private List undoableTempos;
-	private List redoableTempos;
+	private final List<TGTempo> undoableTempos;
+	private final List<TGTempo> redoableTempos;
 	
 	private UndoableChangeTempo(){
 		super();
-		this.undoableTempos = new ArrayList();
-		this.redoableTempos = new ArrayList();
+		this.undoableTempos = new ArrayList<TGTempo>();
+		this.redoableTempos = new ArrayList<TGTempo>();
 	}
 	
+	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
 			throw new CannotRedoException();
@@ -35,6 +36,7 @@ public class UndoableChangeTempo implements UndoableEdit{
 		this.doAction = UNDO_ACTION;
 	}
 	
+	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
 			throw new CannotUndoException();
@@ -45,10 +47,12 @@ public class UndoableChangeTempo implements UndoableEdit{
 		this.doAction = REDO_ACTION;
 	}
 	
+	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
 	
+	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
@@ -67,21 +71,21 @@ public class UndoableChangeTempo implements UndoableEdit{
 		return this;
 	}
 	
-	private void getTempos(List list){
-		Iterator it = TuxGuitar.instance().getSongManager().getSong().getMeasureHeaders();
+	private void getTempos(List<TGTempo> list){
+		Iterator<TGMeasureHeader> it = TuxGuitar.instance().getSongManager().getSong().getMeasureHeaders();
 		while(it.hasNext()){
-			TGMeasureHeader header = (TGMeasureHeader)it.next();
+			TGMeasureHeader header = it.next();
 			list.add(header.getTempo().clone(TuxGuitar.instance().getSongManager().getFactory()));
 		}
 	}
 	
-	private void setTempos(List tempos){
+	private void setTempos(List<TGTempo> tempos){
 		int length = tempos.size();
 		if(length != TuxGuitar.instance().getSongManager().getSong().countMeasureHeaders()){
 			return;
 		}
 		for(int i =0; i < length; i ++){
-			TGTempo tempo = ((TGTempo)tempos.get(i)).clone(TuxGuitar.instance().getSongManager().getFactory());
+			TGTempo tempo = tempos.get(i).clone(TuxGuitar.instance().getSongManager().getFactory());
 			TuxGuitar.instance().getSongManager().changeTempo(TuxGuitar.instance().getSongManager().getMeasureHeader(i + 1),tempo);
 		}
 		TuxGuitar.instance().fireUpdate();

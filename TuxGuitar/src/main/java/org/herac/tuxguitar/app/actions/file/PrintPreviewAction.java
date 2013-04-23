@@ -46,6 +46,7 @@ public class PrintPreviewAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		try{
 			final PrintStyles data = PrintStylesDialog.open(TuxGuitar.instance().getShell());
@@ -62,6 +63,7 @@ public class PrintPreviewAction extends Action{
 	
 	public void printPreview(final PrintStyles data){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try{
 					final TGSongManager manager = new TGSongManager();
@@ -78,6 +80,7 @@ public class PrintPreviewAction extends Action{
 	
 	public void printPreview(final TGSongManager manager, final PrintStyles data){
 		new SyncThread(new Runnable() {
+			@Override
 			public void run() {
 				try{
 					TGResourceFactory factory = new TGResourceFactoryImpl(TuxGuitar.instance().getDisplay());
@@ -94,6 +97,7 @@ public class PrintPreviewAction extends Action{
 	
 	public void printPreview(final PrintLayout layout){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try{
 					layout.loadStyles(1f);
@@ -108,49 +112,56 @@ public class PrintPreviewAction extends Action{
 	
 	private class PrintDocumentImpl implements PrintDocument{
 		
-		private TGPainterImpl painter;
-		private TGRectangle bounds;
-		private List pages;
+		private final TGPainterImpl painter;
+		private final TGRectangle bounds;
+		private final List<Image> pages;
 		
 		public PrintDocumentImpl(TGRectangle bounds){
 			this.bounds = bounds;
 			this.painter = new TGPainterImpl();
-			this.pages = new ArrayList();
+			this.pages = new ArrayList<Image>();
 		}
 		
+		@Override
 		public TGPainter getPainter() {
 			return this.painter;
 		}
 		
+		@Override
 		public TGRectangle getBounds(){
 			return this.bounds;
 		}
 		
+		@Override
 		public void pageStart() {
 			Image page = new Image(TuxGuitar.instance().getDisplay(),this.bounds.getWidth() - this.bounds.getX(), this.bounds.getHeight() - this.bounds.getY());
 			this.painter.init( page );
 			this.pages.add( page );
 		}
 		
+		@Override
 		public void pageFinish() {
 			this.painter.dispose();
 		}
 		
+		@Override
 		public void start() {
 			// Not implemented
 		}
 		
+		@Override
 		public void finish() {
 			final TGRectangle bounds = this.bounds;
-			final List pages = this.pages;
+			final List<Image> pages = this.pages;
 			try {
 				TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable(){
+					@Override
 					public void run() {
 						PrintPreview preview = new PrintPreview(pages,bounds);
 						preview.showPreview(getEditor().getTablature().getShell());
-						Iterator it = pages.iterator();
+						Iterator<Image> it = pages.iterator();
 						while(it.hasNext()){
-							Image image = (Image)it.next();
+							Image image = it.next();
 							image.dispose();
 						}
 					}
@@ -160,6 +171,7 @@ public class PrintPreviewAction extends Action{
 			}
 		}
 		
+		@Override
 		public boolean isPaintable(int page) {
 			return true;
 		}

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author peter
  *
  */
-public class ABCEvent implements Comparable {
+public class ABCEvent implements Comparable<Object> {
 	// types
 	public static final int BAR = 0;
 	public static final int BAR_BAR = 1;
@@ -120,7 +120,7 @@ public class ABCEvent implements Comparable {
 	private int tripletP;
 	private int tripletQ;
 	private int tripletR;
-	private ArrayList lyrics;
+	private ArrayList<String> lyrics;
 	
 	public ABCEvent(int type, String parm, int value) {
 		this.type=type;
@@ -650,12 +650,12 @@ public class ABCEvent implements Comparable {
 	public String[] getLyrics() {
 		if(this.lyrics==null) return null;
 		String[] s=new String[lyrics.size()];
-		for(int i=0;i<s.length;i++) s[i]=(String)lyrics.get(i);
+		for(int i=0;i<s.length;i++) s[i]=lyrics.get(i);
 		return s;
 	}
 
 	public void setLyrics(String lyrics) {
-		if(this.lyrics==null) this.lyrics=new ArrayList();
+		if(this.lyrics==null) this.lyrics=new ArrayList<String>();
 		this.lyrics.add(lyrics);
 	}
 

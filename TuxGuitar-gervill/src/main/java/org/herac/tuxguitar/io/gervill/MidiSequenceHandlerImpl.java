@@ -10,11 +10,11 @@ import org.herac.tuxguitar.song.models.TGTimeSignature;
 
 public class MidiSequenceHandlerImpl extends MidiSequenceHandler{
 	
-	private List events;
+	private List<MidiEvent> events;
 	
 	public MidiSequenceHandlerImpl(int tracks ){
 		super(tracks);
-		this.events = new ArrayList();
+		this.events = new ArrayList<MidiEvent>();
 	}
 	
 	public void addControlChange(long tick,int track,int channel, int controller, int value) {
@@ -49,7 +49,7 @@ public class MidiSequenceHandlerImpl extends MidiSequenceHandler{
 		// not implemented
 	}
 	
-	public List getEvents(){
+	public List<MidiEvent> getEvents(){
 		return this.events;
 	}
 }

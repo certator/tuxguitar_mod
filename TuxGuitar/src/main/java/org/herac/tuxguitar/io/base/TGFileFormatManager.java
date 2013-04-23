@@ -14,20 +14,20 @@ public class TGFileFormatManager {
 	
 	private static TGFileFormatManager instance;
 	
-	private TGSongLoader loader;
-	private TGSongWriter writer;
-	private List inputStreams;
-	private List outputStreams;
-	private List exporters;
-	private List importers;
+	private final TGSongLoader loader;
+	private final TGSongWriter writer;
+	private final List<TGInputStreamBase> inputStreams;
+	private final List<TGOutputStreamBase> outputStreams;
+	private final List<TGRawExporter> exporters;
+	private final List<TGRawImporter> importers;
 	
 	private TGFileFormatManager(){
 		this.loader = new TGSongLoader();
 		this.writer = new TGSongWriter();
-		this.inputStreams = new ArrayList();
-		this.outputStreams = new ArrayList();
-		this.exporters = new ArrayList();
-		this.importers = new ArrayList();
+		this.inputStreams = new ArrayList<TGInputStreamBase>();
+		this.outputStreams = new ArrayList<TGOutputStreamBase>();
+		this.exporters = new ArrayList<TGRawExporter>();
+		this.importers = new ArrayList<TGRawImporter>();
 		this.addDefaultStreams();
 	}
 	
@@ -94,27 +94,27 @@ public class TGFileFormatManager {
 		return this.exporters.size();
 	}
 	
-	public Iterator getInputStreams(){
+	public Iterator<TGInputStreamBase> getInputStreams(){
 		return this.inputStreams.iterator();
 	}
 	
-	public Iterator getOutputStreams(){
+	public Iterator<TGOutputStreamBase> getOutputStreams(){
 		return this.outputStreams.iterator();
 	}
 	
-	public Iterator getImporters(){
+	public Iterator<TGRawImporter> getImporters(){
 		return this.importers.iterator();
 	}
 	
-	public Iterator getExporters(){
+	public Iterator<TGRawExporter> getExporters(){
 		return this.exporters.iterator();
 	}
 	
-	public List getInputFormats(){
-		List formats = new ArrayList();
-		Iterator it = getInputStreams();
+	public List<TGFileFormat> getInputFormats(){
+		List<TGFileFormat> formats = new ArrayList<TGFileFormat>();
+		Iterator<TGInputStreamBase> it = getInputStreams();
 		while(it.hasNext()){
-			TGInputStreamBase stream = (TGInputStreamBase)it.next();
+			TGInputStreamBase stream = it.next();
 			TGFileFormat format = stream.getFileFormat();
 			if(!existsFormat(format, formats)){
 				formats.add(format);
@@ -123,11 +123,11 @@ public class TGFileFormatManager {
 		return formats;
 	}
 	
-	public List getOutputFormats(){
-		List formats = new ArrayList();
-		Iterator it = getOutputStreams();
+	public List<TGFileFormat> getOutputFormats(){
+		List<TGFileFormat> formats = new ArrayList<TGFileFormat>();
+		Iterator<TGOutputStreamBase> it = getOutputStreams();
 		while(it.hasNext()){
-			TGOutputStreamBase stream = (TGOutputStreamBase)it.next();
+			TGOutputStreamBase stream = it.next();
 			TGFileFormat format = stream.getFileFormat();
 			if(!existsFormat(format, formats)){
 				formats.add(format);
@@ -136,10 +136,10 @@ public class TGFileFormatManager {
 		return formats;
 	}
 	
-	private boolean existsFormat(TGFileFormat format,List formats){
-		Iterator it = formats.iterator();
+	private boolean existsFormat(TGFileFormat format,List<TGFileFormat> formats){
+		Iterator<TGFileFormat> it = formats.iterator();
 		while(it.hasNext()){
-			TGFileFormat comparator = (TGFileFormat)it.next();
+			TGFileFormat comparator = it.next();
 			if(comparator.getName().equals(format.getName()) || comparator.getSupportedFormats().equals(format.getSupportedFormats())){
 				return true;
 			}

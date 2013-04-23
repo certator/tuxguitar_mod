@@ -26,7 +26,7 @@ public class MeasureTransferable implements Transferable {
 	public static final int TRANSFER_TYPE_REPLACE = 1;
 	public static final int TRANSFER_TYPE_INSERT = 2;
 	
-	private TablatureEditor tablatureEditor;
+	private final TablatureEditor tablatureEditor;
 	private TGSongSegment segment;
 	private int transferType;
 	private int pasteCount;
@@ -47,6 +47,7 @@ public class MeasureTransferable implements Transferable {
 		skipMarkers(this.segment);
 	}
 	
+	@Override
 	public void insertTransfer() throws CannotInsertTransferException {
 		TGSongSegmentHelper helper = new TGSongSegmentHelper(TuxGuitar.instance().getSongManager());
 		TGSongSegment segment = helper.createSegmentCopies(this.segment, this.pasteCount );
@@ -71,7 +72,7 @@ public class MeasureTransferable implements Transferable {
 		UndoableInsertMeasure undoable = new UndoableInsertMeasure(toTrack);
 		TuxGuitar.instance().getFileHistory().setUnsavedFile();
 		
-		TGMeasureHeader first = (TGMeasureHeader)segment.getHeaders().get(0);
+		TGMeasureHeader first = segment.getHeaders().get(0);
 		int fromNumber = measure.getNumber();
 		long theMove = (measure.getStart() - first.getStart());
 		
@@ -87,7 +88,7 @@ public class MeasureTransferable implements Transferable {
 		if (measure == null || segment.isEmpty()) {
 			throw new CannotInsertTransferException();
 		}
-		TGMeasureHeader first = (TGMeasureHeader)segment.getHeaders().get(0);
+		TGMeasureHeader first = segment.getHeaders().get(0);
 		
 		//Si el segmento tiene una sola pista,
 		//la pego en la pista seleccionada
@@ -121,9 +122,9 @@ public class MeasureTransferable implements Transferable {
 	}
 	
 	private void skipMarkers(TGSongSegment segment){
-		Iterator it = segment.getHeaders().iterator();
+		Iterator<TGMeasureHeader> it = segment.getHeaders().iterator();
 		while(it.hasNext()){
-			TGMeasureHeader header = (TGMeasureHeader)it.next();
+			TGMeasureHeader header = it.next();
 			header.setMarker(null);
 		}
 	}

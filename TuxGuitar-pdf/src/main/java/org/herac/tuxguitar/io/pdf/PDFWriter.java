@@ -22,14 +22,14 @@ public class PDFWriter {
 	 * @param printDocument
 	 * @throws TGFileFormatException
 	 */
-	public static void write(OutputStream out,List pages) throws TGFileFormatException {
+	public static void write(OutputStream out,List<ImageData> pages) throws TGFileFormatException {
 		try {
 			Document document = new Document();
 			PdfWriter.getInstance(document,out);
 			document.open();
-			Iterator it = pages.iterator();
+			Iterator<ImageData> it = pages.iterator();
 			while(it.hasNext()){
-				ImageData data = (ImageData)it.next();
+				ImageData data = it.next();
 				document.newPage();
 				document.add(convertToIText(data));
 			}

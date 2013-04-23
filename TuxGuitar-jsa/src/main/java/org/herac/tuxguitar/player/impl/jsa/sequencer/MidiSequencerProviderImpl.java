@@ -20,16 +20,17 @@ public class MidiSequencerProviderImpl implements MidiSequencerProvider{
 		super();
 	}
 	
-	public List listSequencers() throws MidiPlayerException {
+	@Override
+	public List<MidiSequencer> listSequencers() throws MidiPlayerException {
 		try {
-			List sequencers = new ArrayList();
+			List<MidiSequencer> sequencers = new ArrayList<MidiSequencer>();
 			MidiDevice.Info[] infos = MidiSystem.getMidiDeviceInfo();
 			for(int i = 0; i < infos.length; i++){
 				try {
-					Iterator it = sequencers.iterator();
+					Iterator<MidiSequencer> it = sequencers.iterator();
 					boolean exists = false;
 					while(it.hasNext()){
-						if( ((MidiSequencer)it.next()).getKey().equals(infos[i].getName()) ){
+						if( it.next().getKey().equals(infos[i].getName()) ){
 							exists = true;
 							break;
 						}
@@ -50,6 +51,7 @@ public class MidiSequencerProviderImpl implements MidiSequencerProvider{
 		}
 	}
 	
+	@Override
 	public void closeAll() throws MidiPlayerException {
 		// Not implemented
 	}

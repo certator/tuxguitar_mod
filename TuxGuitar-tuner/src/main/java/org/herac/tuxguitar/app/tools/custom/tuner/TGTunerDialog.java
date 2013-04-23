@@ -32,7 +32,7 @@ public class TGTunerDialog implements TGTunerListener {
 	protected Label currentFrequency = null;
 	protected Shell dialog = null;
 	protected TGTunerRoughWidget roughTuner = null;
-	protected ArrayList allStringButtons = null;
+	protected ArrayList<TGTuningString> allStringButtons = null;
 	protected TGTunerFineWidget fineTuner = null;
 	
 	TGTunerDialog(int[] tuning) {
@@ -57,7 +57,7 @@ public class TGTunerDialog implements TGTunerListener {
 		Composite specialComposite = new Composite(group,SWT.NONE);
 		specialComposite.setLayout(new GridLayout(2,false));
 		specialComposite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		this.allStringButtons = new ArrayList(this.tuning.length);
+		this.allStringButtons = new ArrayList<TGTuningString>(this.tuning.length);
 		
 		this.fineTuner = new TGTunerFineWidget(specialComposite);
 		
@@ -191,9 +191,9 @@ public class TGTunerDialog implements TGTunerListener {
 			public void widgetSelected(SelectionEvent arg0) {
 				// disable all others
 				TGTunerDialog.this.fineTuner.setCurrentFrequency(-1);
-				Iterator it = TGTunerDialog.this.allStringButtons.iterator();
+				Iterator<TGTuningString> it = TGTunerDialog.this.allStringButtons.iterator();
 				while (it.hasNext()) {
-					TGTuningString tmp = (TGTuningString)it.next();
+					TGTuningString tmp = it.next();
 					tmp.getStringButton().setSelection(false);
 				}
 			}

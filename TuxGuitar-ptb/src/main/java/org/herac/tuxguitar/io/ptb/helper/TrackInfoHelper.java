@@ -8,11 +8,11 @@ import org.herac.tuxguitar.song.models.TGTrack;
 
 public class TrackInfoHelper {
 	
-	private List staffTracks = new ArrayList();
+	private List<TGTrack> staffTracks = new ArrayList<TGTrack>();
 	private PTTrackInfo defaultInfo;
 	
 	public TrackInfoHelper(){
-		this.staffTracks = new ArrayList();
+		this.staffTracks = new ArrayList<TGTrack>();
 	}
 	
 	public void reset(PTTrackInfo defaultInfo){
@@ -26,7 +26,7 @@ public class TrackInfoHelper {
 	
 	public TGTrack getStaffTrack(int staff) {
 		if(staff >= 0 && staff < this.staffTracks.size() ){
-			return (TGTrack)this.staffTracks.get( staff );
+			return this.staffTracks.get( staff );
 		}
 		return null;
 	}

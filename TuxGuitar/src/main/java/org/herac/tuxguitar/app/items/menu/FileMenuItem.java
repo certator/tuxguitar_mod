@@ -44,8 +44,8 @@ import org.herac.tuxguitar.io.base.TGRawImporter;
  */
 public class FileMenuItem extends MenuItems {
 	
-	private MenuItem fileMenuItem;
-	private Menu menu;
+	private final MenuItem fileMenuItem;
+	private final Menu menu;
 	private Menu newSongMenu;
 	private Menu importMenu; 
 	private Menu exportMenu; 
@@ -64,16 +64,17 @@ public class FileMenuItem extends MenuItems {
 	private MenuItem[] historyFiles;
 	private MenuItem exit;
 	
-	private List importItems;
-	private List exportItems;
+	private final List<MenuItem> importItems;
+	private final List<MenuItem> exportItems;
 	
 	public FileMenuItem(Shell shell,Menu parent, int style) {
 		this.fileMenuItem = new MenuItem(parent, style);
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
-		this.importItems = new ArrayList();
-		this.exportItems = new ArrayList();
+		this.importItems = new ArrayList<MenuItem>();
+		this.exportItems = new ArrayList<MenuItem>();
 	}
 	
+	@Override
 	public void showItems(){
 		//---------------------------------------------------
 		//--NEW--
@@ -166,9 +167,9 @@ public class FileMenuItem extends MenuItems {
 			//--SEPARATOR--
 			new MenuItem(this.newSongMenu, SWT.SEPARATOR);
 			
-			Iterator it = TuxGuitar.instance().getTemplateManager().getTemplates();
+			Iterator<TGTemplate> it = TuxGuitar.instance().getTemplateManager().getTemplates();
 			while( it.hasNext() ){
-				TGTemplate tgTemplate = (TGTemplate)it.next();
+				TGTemplate tgTemplate = it.next();
 				
 				ActionData actionData = new ActionData();
 				actionData.put(NewFileAction.PROPERTY_TEMPLATE, tgTemplate);
@@ -182,12 +183,12 @@ public class FileMenuItem extends MenuItems {
 	}
 	
 	private void addImporters(){
-		List importersRaw = new ArrayList();
-		List importersFile = new ArrayList();
+		List<TGRawImporter> importersRaw = new ArrayList<TGRawImporter>();
+		List<TGRawImporter> importersFile = new ArrayList<TGRawImporter>();
 		
-		Iterator importers = TGFileFormatManager.instance().getImporters();
+		Iterator<TGRawImporter> importers = TGFileFormatManager.instance().getImporters();
 		while(importers.hasNext()){
-			TGRawImporter importer = (TGRawImporter)importers.next();
+			TGRawImporter importer = importers.next();
 			if( importer instanceof TGLocalFileImporter ){
 				importersFile.add( importer );
 			}else{
@@ -222,12 +223,12 @@ public class FileMenuItem extends MenuItems {
 	}
 	
 	private void addExporters(){
-		List exportersRaw = new ArrayList();
-		List exportersFile = new ArrayList();
+		List<TGRawExporter> exportersRaw = new ArrayList<TGRawExporter>();
+		List<TGRawExporter> exportersFile = new ArrayList<TGRawExporter>();
 		
-		Iterator exporters = TGFileFormatManager.instance().getExporters();
+		Iterator<TGRawExporter> exporters = TGFileFormatManager.instance().getExporters();
 		while(exporters.hasNext()){
-			TGRawExporter exporter = (TGRawExporter)exporters.next();
+			TGRawExporter exporter = exporters.next();
 			if( exporter instanceof TGLocalFileExporter ){
 				exportersFile.add( exporter );
 			}else{
@@ -268,10 +269,10 @@ public class FileMenuItem extends MenuItems {
 	}
 	
 	private void updateHistoryFiles(){
-		List urls = TuxGuitar.instance().getFileHistory().getURLs();
+		List<URL> urls = TuxGuitar.instance().getFileHistory().getURLs();
 		this.historyFiles = new MenuItem[urls.size()];
 		for(int i = 0;i < this.historyFiles.length; i++){
-			URL url = (URL)urls.get(i);
+			URL url = urls.get(i);
 			ActionData actionData = new ActionData();
 			actionData.put(OpenFileAction.PROPERTY_URL, url);
 			this.historyFiles[i] = new MenuItem(this.historyMenu, SWT.PUSH);
@@ -291,6 +292,7 @@ public class FileMenuItem extends MenuItems {
 		return url;
 	}
 	
+	@Override
 	public void update(){
 		if(TuxGuitar.instance().getFileHistory().isChanged()){
 			disposeHistoryFiles();
@@ -299,6 +301,7 @@ public class FileMenuItem extends MenuItems {
 		}
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.fileMenuItem, "file", null);
 		setMenuItemTextAndAccelerator(this.newSong, "file.new", null);
@@ -315,9 +318,9 @@ public class FileMenuItem extends MenuItems {
 		if( this.importItem != null ){
 			setMenuItemTextAndAccelerator(this.importItem, "file.import", ImportSongAction.NAME);
 			
-			Iterator importItems = this.importItems.iterator();
+			Iterator<MenuItem> importItems = this.importItems.iterator();
 			while(importItems.hasNext()){
-				MenuItem item = (MenuItem)importItems.next();
+				MenuItem item = importItems.next();
 				
 				Object itemImporter = ((ActionData)item.getData()).get(ImportSongAction.PROPERTY_IMPORTER);
 				if( itemImporter instanceof TGLocalFileImporter ){
@@ -330,9 +333,9 @@ public class FileMenuItem extends MenuItems {
 		if( this.exportItem != null ){
 			setMenuItemTextAndAccelerator(this.exportItem, "file.export", ExportSongAction.NAME);
 			
-			Iterator exportItems = this.exportItems.iterator();
+			Iterator<MenuItem> exportItems = this.exportItems.iterator();
 			while(exportItems.hasNext()){
-				MenuItem item = (MenuItem)exportItems.next();
+				MenuItem item = exportItems.next();
 				
 				Object itemExporter = ((ActionData)item.getData()).get(ExportSongAction.PROPERTY_EXPORTER);
 				if( itemExporter instanceof TGLocalFileExporter ){

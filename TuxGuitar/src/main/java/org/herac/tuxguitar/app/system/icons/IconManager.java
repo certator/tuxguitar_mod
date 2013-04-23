@@ -13,8 +13,8 @@ import org.herac.tuxguitar.song.models.TGDuration;
 
 public class IconManager {
 	private String theme;
-	private List loaders;
-	private List disposableIcons;
+	private List<IconLoader> loaders;
+	private List<Image> disposableIcons;
 	
 	private Image[] durations;
 	private Image editUndo;
@@ -143,8 +143,8 @@ public class IconManager {
 	private Image settings;
 	
 	public IconManager(){
-		this.loaders = new ArrayList();
-		this.disposableIcons = new ArrayList();
+		this.loaders = new ArrayList<IconLoader>();
+		this.disposableIcons = new ArrayList<Image>();
 		this.loadIcons();
 	}
 	
@@ -161,15 +161,15 @@ public class IconManager {
 	}
 	
 	private void fireChanges(){
-		Iterator it = this.loaders.iterator();
+		Iterator<IconLoader> it = this.loaders.iterator();
 		while(it.hasNext()){
-			IconLoader loader = (IconLoader)it.next();
+			IconLoader loader = it.next();
 			loader.loadIcons();
 		}
 	}
 	
 	public void reloadIcons(){
-		List disposableIcons = purgeDisposableIcons();
+		List<Resource> disposableIcons = purgeDisposableIcons();
 		this.loadIcons();
 		this.fireChanges();
 		this.disposeIcons(disposableIcons);
@@ -318,19 +318,19 @@ public class IconManager {
 		return image;
 	}
 	
-	private List purgeDisposableIcons(){
-		List disposableIcons = new ArrayList();
-		Iterator it = this.disposableIcons.iterator();
+	private List<Resource> purgeDisposableIcons(){
+		List<Resource> disposableIcons = new ArrayList<Resource>();
+		Iterator<Image> it = this.disposableIcons.iterator();
 		while( it.hasNext() ){
-			Resource resource = (Resource)it.next();
+			Resource resource = it.next();
 			disposableIcons.add( resource );
 		}
 		this.disposableIcons.clear();
 		return disposableIcons;
 	}
 	
-	public void disposeIcons(List resources){
-		Iterator it = resources.iterator();
+	public void disposeIcons(List<Resource> resources){
+		Iterator<Resource> it = resources.iterator();
 		while( it.hasNext() ){
 			Image image = (Image)it.next();
 			image.dispose();

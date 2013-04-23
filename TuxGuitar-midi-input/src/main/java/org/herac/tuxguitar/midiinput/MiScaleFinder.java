@@ -2,7 +2,6 @@ package org.herac.tuxguitar.midiinput;
 
 import java.util.Iterator;
 import java.util.TreeSet;
-//import java.util.Arrays;	// just for debugging
 
 import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.tools.scale.ScaleManager;
@@ -91,14 +90,14 @@ class MiScaleFinder
 	}
 
 
-	static private int		countMatches(TreeSet inScale, int[] inRefSequence)
+	static private int		countMatches(TreeSet<Byte> inScale, int[] inRefSequence)
 	{
 	int			count	= 0;
-	Iterator	it		= inScale.iterator();
+	Iterator<Byte>	it		= inScale.iterator();
 
 	while(it.hasNext())
 		{
-		int		pitch = ((Byte)it.next()).intValue();
+		int		pitch = it.next().intValue();
 		boolean	found = false;
 
 		for(int i = 0; i < inRefSequence.length && !found; i++)
@@ -115,7 +114,7 @@ class MiScaleFinder
 	}
 
 
-	static public int		findMatchingScale(TreeSet inScale)
+	static public int		findMatchingScale(TreeSet<Byte> inScale)
 	{
 	ScaleManager	scaleMgr		= TuxGuitar.instance().getScaleManager();
 	int				scalesCount		= scaleMgr.countScales(),
@@ -126,8 +125,8 @@ class MiScaleFinder
 
 	if(!inScale.isEmpty())
 		{
-		int		loPitch	= ((Byte)inScale.first()).intValue(),
-				hiPitch	= ((Byte)inScale.last()).intValue();
+		int		loPitch	= inScale.first().intValue(),
+				hiPitch	= inScale.last().intValue();
 
 		//System.out.println("Input: "	+ inScale);
 		//System.out.println("loPitch: "	+ loPitch);
@@ -176,6 +175,7 @@ class MiScaleFinder
 	{
 	try	{
 		TGSynchronizer.instance().addRunnable( new TGSynchronizer.TGRunnable() {
+			@Override
 			public void run() throws Throwable {
 				TuxGuitar.instance().getScaleManager().selectScale(inIndex, inKey);
 			}

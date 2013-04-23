@@ -13,11 +13,12 @@ import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.editors.tab.Tablature;
 import org.herac.tuxguitar.app.system.config.TGConfigKeys;
 import org.herac.tuxguitar.graphics.control.TGBeatImpl;
+import org.herac.tuxguitar.graphics.control.TGLayout;
 import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
 import org.herac.tuxguitar.graphics.control.TGTrackImpl;
 import org.herac.tuxguitar.graphics.control.TGTrackSpacing;
-import org.herac.tuxguitar.graphics.control.TGLayout;
 import org.herac.tuxguitar.song.models.TGBeat;
+import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGString;
 
 public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackListener,MenuListener{
@@ -27,9 +28,9 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 	
 	private int mouseMode;
 	private boolean natural;
-	private Tablature tablature;
-	private MouseKit mouseKit;
-	private Point position;
+	private final Tablature tablature;
+	private final MouseKit mouseKit;
+	private final Point position;
 	private boolean menuOpen;
 	
 	public EditorKit(Tablature tablature){
@@ -110,7 +111,7 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		TGMeasureImpl measure = null;
 		int minorDistance = 0;
 		
-		Iterator it = track.getMeasures();
+		Iterator<TGMeasure> it = track.getMeasures();
 		while(it.hasNext()){
 			TGMeasureImpl m = (TGMeasureImpl)it.next();
 			if(!m.isOutOfBounds() && m.getTs() != null){
@@ -133,7 +134,7 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		int posX = measure.getHeaderImpl().getLeftSpacing(getTablature().getViewLayout()) + measure.getPosX();
 		int bestDiff = -1;
 		TGBeatImpl bestBeat = null;
-		Iterator it = measure.getBeats().iterator();
+		Iterator<TGBeat> it = measure.getBeats().iterator();
 		while(it.hasNext()){
 			TGBeatImpl beat = (TGBeatImpl)it.next();
 			if(!beat.getVoice(voice).isEmpty()){
@@ -156,9 +157,9 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		int minorDistance = 0;
 		int firstStringY = measure.getPosY() + measure.getTs().getPosition(TGTrackSpacing.POSITION_TABLATURE);
 		
-		Iterator it = measure.getTrack().getStrings().iterator();
+		Iterator<TGString> it = measure.getTrack().getStrings().iterator();
 		while(it.hasNext()){
-			TGString currString = (TGString)it.next();
+			TGString currString = it.next();
 			int distanceX = Math.abs(y - (firstStringY + ((currString.getNumber() * stringSpacing) - stringSpacing)));
 			if(string == null || distanceX < minorDistance){
 				string = currString;
@@ -169,11 +170,13 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		return string;
 	}
 	
+	@Override
 	public void mouseDown(MouseEvent e) {
 		this.position.x = e.x;
 		this.position.y = e.y;
 	}
 	
+	@Override
 	public void mouseUp(MouseEvent e) {
 		this.position.x = e.x;
 		this.position.y = e.y;
@@ -186,6 +189,7 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		}
 	}
 	
+	@Override
 	public void mouseMove(MouseEvent e) {
 		if(!this.menuOpen && !TuxGuitar.instance().getPlayer().isRunning()){
 			if(isScoreEnabled() && getMouseMode() == MOUSE_MODE_EDITION){
@@ -194,6 +198,7 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		}
 	}
 	
+	@Override
 	public void mouseExit(MouseEvent e) {
 		if(!this.menuOpen && !TuxGuitar.instance().getPlayer().isRunning()){
 			if(isScoreEnabled() && getMouseMode() == MOUSE_MODE_EDITION){
@@ -202,25 +207,30 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		}
 	}
 	
+	@Override
 	public void menuShown(MenuEvent e) {
 		this.menuOpen = true;
 		this.select();
 		TuxGuitar.instance().updateCache(true);
 	}
 	
+	@Override
 	public void menuHidden(MenuEvent e){
 		this.menuOpen = false;
 		TuxGuitar.instance().updateCache(true);
 	}
 	
+	@Override
 	public void mouseDoubleClick(MouseEvent e) {
 		//not implemented
 	}
 	
+	@Override
 	public void mouseEnter(MouseEvent e) {
 		//not implemented
 	}
 	
+	@Override
 	public void mouseHover(MouseEvent e) {
 		//not implemented
 	}

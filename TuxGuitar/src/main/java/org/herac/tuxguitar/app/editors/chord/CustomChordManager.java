@@ -12,7 +12,7 @@ import org.herac.tuxguitar.song.models.TGChord;
 public class CustomChordManager {
 	
 	private long lastEdit;
-	private List chords;
+	private List<TGChord> chords;
 	
 	public CustomChordManager() {
 		this.chords = ChordXMLReader.getChords(getUserFileName());
@@ -25,7 +25,7 @@ public class CustomChordManager {
 	
 	public TGChord getChord(int index) {
 		if (index >= 0 && index < countChords()) {
-			return ((TGChord) this.chords.get(index)).clone(TuxGuitar.instance().getSongManager().getFactory());
+			return this.chords.get(index).clone(TuxGuitar.instance().getSongManager().getFactory());
 		}
 		return null;
 	}
@@ -44,7 +44,7 @@ public class CustomChordManager {
 	
 	public void renameChord(int index, String name) {
 		if (index >= 0 && index < countChords()) {
-			((TGChord) this.chords.get(index)).setName(name);
+			this.chords.get(index).setName(name);
 			this.setLastEdit();
 		}
 	}

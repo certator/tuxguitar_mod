@@ -36,6 +36,7 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		super(browser);
 	}
 	
+	@Override
 	public void init(Shell shell){
 		this.menu = new Menu(shell, SWT.BAR);
 		
@@ -47,6 +48,7 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		this.open = new MenuItem(menuFile,SWT.PUSH);
 		this.open.setImage(TuxGuitar.instance().getIconManager().getFileOpen());
 		this.open.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getBrowser().openElement();
 			}
@@ -56,6 +58,7 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		
 		this.exit = new MenuItem(menuFile,SWT.PUSH);
 		this.exit.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getBrowser().getShell().dispose();
 			}
@@ -85,6 +88,7 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		
 		this.close = new MenuItem(menuCollection,SWT.PUSH);
 		this.close.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				closeCollection();
 			}
@@ -98,6 +102,7 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		this.root = new MenuItem(menuGo,SWT.PUSH);
 		this.root.setImage(TuxGuitar.instance().getIconManager().getBrowserRoot());
 		this.root.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getBrowser().getConnection().cdRoot(TGBrowserDialog.CALL_CD_ROOT);
 			}
@@ -107,6 +112,7 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		this.back = new MenuItem(menuGo,SWT.PUSH);
 		this.back.setImage(TuxGuitar.instance().getIconManager().getBrowserBack());
 		this.back.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getBrowser().getConnection().cdUp(TGBrowserDialog.CALL_CD_UP);
 			}
@@ -116,6 +122,7 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		this.refresh = new MenuItem(menuGo,SWT.PUSH);
 		this.refresh.setImage(TuxGuitar.instance().getIconManager().getBrowserRefresh());
 		this.refresh.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getBrowser().getConnection().listElements(TGBrowserDialog.CALL_LIST);
 			}
@@ -124,6 +131,7 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		shell.setMenuBar(this.menu);
 	}
 	
+	@Override
 	public void updateItems(){
 		this.open.setEnabled(!getBrowser().getConnection().isLocked() && getBrowser().getConnection().isOpen());
 		this.root.setEnabled(!getBrowser().getConnection().isLocked() && getBrowser().getConnection().isOpen());
@@ -135,6 +143,7 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		this.close.setEnabled(!getBrowser().getConnection().isLocked());
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.menuFileItem.setText(TuxGuitar.getProperty("browser.menu.file"));
 		this.menuCollectionItem.setText(TuxGuitar.getProperty("browser.menu.collection"));
@@ -150,6 +159,7 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		this.refresh.setText(TuxGuitar.getProperty("browser.refresh"));
 	}
 	
+	@Override
 	public void updateCollections(TGBrowserCollection selection){
 		MenuItem[] openItems = this.openCollection.getItems();
 		for(int i = 0;i < openItems.length; i ++){
@@ -159,13 +169,14 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		for(int i = 0;i < removeItems.length; i ++){
 			removeItems[i].dispose();
 		}
-		Iterator it = TGBrowserManager.instance().getCollections();
+		Iterator<TGBrowserCollection> it = TGBrowserManager.instance().getCollections();
 		while(it.hasNext()){
-			final TGBrowserCollection collection = (TGBrowserCollection)it.next();
+			final TGBrowserCollection collection = it.next();
 			if(collection.getData() != null){
 				MenuItem openItem = new MenuItem(this.openCollection,SWT.PUSH);
 				openItem.setText(collection.getData().getTitle());
 				openItem.addSelectionListener(new SelectionAdapter() {
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						openCollection(collection);
 					}
@@ -177,6 +188,7 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 				MenuItem removeItem = new MenuItem(this.removeCollection,SWT.PUSH);
 				removeItem.setText(collection.getData().getTitle());
 				removeItem.addSelectionListener(new SelectionAdapter() {
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						removeCollection(collection);
 					}
@@ -193,12 +205,13 @@ public class TGBrowserMenuBar extends TGBrowserBar{
 		for(int i = 0;i < items.length; i ++){
 			items[i].dispose();
 		}
-		Iterator bookTypes = TGBrowserManager.instance().getFactories();
+		Iterator<TGBrowserFactory> bookTypes = TGBrowserManager.instance().getFactories();
 		while(bookTypes.hasNext()){
-			final TGBrowserFactory bookType = (TGBrowserFactory)bookTypes.next();
+			final TGBrowserFactory bookType = bookTypes.next();
 			MenuItem item = new MenuItem(this.newCollection,SWT.PUSH);
 			item.setText(bookType.getName());
 			item.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					newCollection( bookType.getType());
 				}

@@ -26,10 +26,10 @@ public class LanguageManager {
 	
 	private TGResourceBundle resources;
 	private String[] languages;
-	private List loaders;
+	private List<LanguageLoader> loaders;
 	
 	public LanguageManager() {
-		this.loaders = new ArrayList();
+		this.loaders = new ArrayList<LanguageLoader>();
 		this.loadLanguages();
 	}
 	
@@ -46,9 +46,9 @@ public class LanguageManager {
 	}
 	
 	private void fireChanges(){
-		Iterator it = this.loaders.iterator();
+		Iterator<LanguageLoader> it = this.loaders.iterator();
 		while(it.hasNext()){
-			LanguageLoader loader = (LanguageLoader)it.next();
+			LanguageLoader loader = it.next();
 			loader.loadProperties();
 		}
 	}
@@ -139,7 +139,7 @@ public class LanguageManager {
 	 *
 	 */
 	private void loadLanguages(){
-		List availableList = new ArrayList();
+		List<String> availableList = new ArrayList<String>();
 		String[] fileNames = TGFileUtils.getFileNames("lang");
 		if( fileNames != null ){
 			// now iterate over them
@@ -155,7 +155,7 @@ public class LanguageManager {
 		}
 		this.languages = new String[availableList.size()];
 		for(int i = 0; i < this.languages.length; i++){
-			this.languages[i] = (String) availableList.get( i );
+			this.languages[i] = availableList.get( i );
 		}
 	}
 }

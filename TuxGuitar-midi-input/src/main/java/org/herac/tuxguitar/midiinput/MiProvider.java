@@ -1,10 +1,10 @@
 package org.herac.tuxguitar.midiinput;
 
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.TreeSet;
+
 import javax.sound.midi.ShortMessage;
 import javax.swing.Timer;
 
@@ -18,15 +18,13 @@ import org.herac.tuxguitar.app.undo.undoables.measure.UndoableMeasureGeneric;
 import org.herac.tuxguitar.app.util.MessageDialog;
 import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
 import org.herac.tuxguitar.graphics.control.TGTrackImpl;
-
 import org.herac.tuxguitar.song.managers.TGSongManager;
+import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGChord;
 import org.herac.tuxguitar.song.models.TGDuration;
 import org.herac.tuxguitar.song.models.TGNote;
 import org.herac.tuxguitar.song.models.TGString;
 import org.herac.tuxguitar.song.models.TGVoice;
-import org.herac.tuxguitar.song.models.TGBeat;
-
 import org.herac.tuxguitar.util.TGSynchronizer;
 
 public class MiProvider
@@ -39,7 +37,7 @@ private int			f_BaseChannel	= 0;								// 0-based MIDI channel corresponding to
 private byte		f_MinVelocity	= MiConfig.DEF_VELOCITY_THRESHOLD;	// notes with velocity lower than this threshold are considered unwanted noise
 private long		f_MinDuration	= MiConfig.DEF_DURATION_THRESHOLD;	// notes with duration lower than this threshold are considered unwanted noise
 
-private int[]		f_EchoNotes		= new int[6];					// list of notes for echo
+private final int[]		f_EchoNotes		= new int[6];					// list of notes for echo
 private	Timer		f_EchoTimer		= null;							// timer for echo rendering
 private int			f_EchoTimeOut	= MiConfig.DEF_ECHO_TIMEOUT;	// time out for echo rendering [msec]
 private boolean		f_EchoLastWasOn	= false;						// indicates if last note message was NOTE_ON
@@ -48,7 +46,7 @@ private TGBeat		f_EchoBeat		= null;							// beat for echo rendering
 private	Timer		f_InputTimer	= null;							// timer for chord/scale input
 private int			f_InputTimeOut	= MiConfig.DEF_INPUT_TIMEOUT;	// time out for chord/scale input [msec]
 
-private	MiBuffer	f_Buffer		= new MiBuffer();				// input notes buffer
+private final	MiBuffer	f_Buffer		= new MiBuffer();				// input notes buffer
 
 static private	MiProvider	s_Instance;
 
@@ -231,6 +229,7 @@ static private	MiProvider	s_Instance;
 	if(inIsEmpty)
 		{
 		task = new TGSynchronizer.TGRunnable() {
+			@Override
 			public void run() throws Throwable {
 				TuxGuitar.instance().hideExternalBeat();
 				}
@@ -239,6 +238,7 @@ static private	MiProvider	s_Instance;
 	else
 		{
 		task = new TGSynchronizer.TGRunnable() {
+			@Override
 			public void run() throws Throwable {
 				TuxGuitar.instance().showExternalBeat(f_EchoBeat);
 				}
@@ -288,6 +288,7 @@ static private	MiProvider	s_Instance;
 	if(f_EchoTimer == null)
 		{
 		ActionListener taskPerformer = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt)
 				{
 				if(f_EchoLastWasOn)
@@ -323,6 +324,7 @@ static private	MiProvider	s_Instance;
 	if(f_InputTimer == null)
 		{
 		ActionListener taskPerformer = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				f_InputTimer.stop();
 				f_InputTimer = null;
@@ -354,11 +356,11 @@ static private	MiProvider	s_Instance;
 							songMgr.getMeasureManager().cleanBeat(beat);
 
 							TGVoice		voice	= beat.getVoice(caret.getVoice());
-							Iterator	it		= track.getStrings().iterator();
+							Iterator<TGString>	it		= track.getStrings().iterator();
 
 							while(it.hasNext())
 								{
-								TGString	string	= (TGString)it.next();
+								TGString	string	= it.next();
 								int			value	= chord.getFretValue(string.getNumber() - 1);
 
 								if(value >= 0)
@@ -415,6 +417,7 @@ static private	MiProvider	s_Instance;
 	if(f_InputTimer == null)
 		{
 		ActionListener taskPerformer = new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent evt) {
 				f_InputTimer.stop();
 				f_InputTimer = null;
@@ -425,7 +428,7 @@ static private	MiProvider	s_Instance;
 				if(f_Buffer.finalize(f_MinVelocity, f_MinDuration * 1000) > 0)
 					{
 					TGBeat		beat		= f_Buffer.toBeat();
-					TreeSet		pitches		= f_Buffer.toPitchesSet();
+					TreeSet<Byte>	pitches	= f_Buffer.toPitchesSet();
 
 					MiScaleFinder.findMatchingScale(pitches);
 					TuxGuitar.instance().showExternalBeat(beat);

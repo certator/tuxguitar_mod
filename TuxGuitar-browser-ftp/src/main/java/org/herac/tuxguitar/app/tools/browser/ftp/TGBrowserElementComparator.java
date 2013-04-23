@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import org.herac.tuxguitar.app.tools.browser.base.TGBrowserElement;
 
-public class TGBrowserElementComparator implements Comparator {
+public class TGBrowserElementComparator implements Comparator<Object> {
 	
 	private static final int RESULT_LESS = -1;
 	
@@ -16,6 +16,7 @@ public class TGBrowserElementComparator implements Comparator {
 	
 	private static final int DIRECTION_FOLDER = 1;
 	
+	@Override
 	public int compare(Object o1, Object o2) {
 		if(o1 instanceof TGBrowserElement && o2 instanceof TGBrowserElement){
 			TGBrowserElement element1 = (TGBrowserElement)o1;

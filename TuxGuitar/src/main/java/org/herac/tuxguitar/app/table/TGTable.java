@@ -21,12 +21,12 @@ public class TGTable {
 	private TGTableColumn columnName;
 	private TGTableColumn columnInstrument;
 	private TGTableColumn columnCanvas;
-	private List rows;
+	private List<TGTableRow> rows;
 	private int rowHeight;
 	private int scrollIncrement;
 	
 	public TGTable(Composite parent){
-		this.rows = new ArrayList();
+		this.rows = new ArrayList<TGTableRow>();
 		this.newTable(parent);
 	}
 	
@@ -125,14 +125,14 @@ public class TGTable {
 	
 	public TGTableRow getRow(int index){
 		if(index >= 0 && index < this.rows.size()){
-			return (TGTableRow)this.rows.get(index);
+			return this.rows.get(index);
 		}
 		return null;
 	}
 	
 	public void removeRowsAfter(int index){
 		while(index < this.rows.size()){
-			TGTableRow row = (TGTableRow)this.rows.get(index);
+			TGTableRow row = this.rows.get(index);
 			row.dispose();
 			this.rows.remove(index);
 		}

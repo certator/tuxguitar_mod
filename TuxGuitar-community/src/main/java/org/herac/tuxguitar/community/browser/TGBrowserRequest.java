@@ -6,6 +6,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.herac.tuxguitar.community.auth.TGCommunityAuth;
 import org.herac.tuxguitar.community.utils.TGCommunityWeb;
@@ -31,13 +32,13 @@ public class TGBrowserRequest {
 		this.request += URLEncoder.encode( auth.getAuthCode() , "UTF-8" );
 		
 		if( element != null ){
-			Iterator it = element.getProperties();
+			Iterator<Entry<String, String>> it = element.getProperties();
 			while( it.hasNext() ){
-				Map.Entry property = (Map.Entry) it.next();
+				Map.Entry<String, String> property = it.next();
 				this.request += ("&");
-				this.request += URLEncoder.encode( (String)property.getKey() , "UTF-8" );
+				this.request += URLEncoder.encode( property.getKey() , "UTF-8" );
 				this.request += ("=");
-				this.request += URLEncoder.encode( (String)property.getValue() , "UTF-8" );
+				this.request += URLEncoder.encode( property.getValue() , "UTF-8" );
 			}
 		}
 	}

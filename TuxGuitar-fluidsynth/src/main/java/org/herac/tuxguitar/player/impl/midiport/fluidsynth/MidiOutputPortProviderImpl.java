@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.herac.tuxguitar.player.base.MidiPlayerException;
+import org.herac.tuxguitar.player.base.MidiOutputPort;
 import org.herac.tuxguitar.player.base.MidiOutputPortProvider;
+import org.herac.tuxguitar.player.base.MidiPlayerException;
 
 public class MidiOutputPortProviderImpl implements MidiOutputPortProvider{
 	
@@ -17,12 +18,13 @@ public class MidiOutputPortProviderImpl implements MidiOutputPortProvider{
 		super();
 	}
 	
-	public List listPorts() throws MidiPlayerException {
+	@Override
+	public List<MidiOutputPort> listPorts() throws MidiPlayerException {
 		try{
-			List ports = new ArrayList();
-			Iterator it = getSettings().getSoundfonts().iterator();
+			List<MidiOutputPort> ports = new ArrayList<MidiOutputPort>();
+			Iterator<String> it = getSettings().getSoundfonts().iterator();
 			while(it.hasNext()){
-				String path = (String)it.next();
+				String path = it.next();
 				File soundfont = new File( path );
 				if( soundfont.exists() && !soundfont.isDirectory() ){
 					ports.add( new MidiOutputPortImpl( getSynth(), soundfont ) );
@@ -34,6 +36,7 @@ public class MidiOutputPortProviderImpl implements MidiOutputPortProvider{
 		}
 	}
 	
+	@Override
 	public void closeAll() throws MidiPlayerException {
 		try{
 			if(this.synth != null && this.synth.isInitialized()){

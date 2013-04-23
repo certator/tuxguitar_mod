@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.editors.TGPainterImpl;
 import org.herac.tuxguitar.app.editors.TGResourceFactoryImpl;
@@ -134,14 +135,14 @@ public class ImageExporter implements TGRawExporter{
 		private TGRectangle bounds;
 		private String path;
 		private Image buffer;
-		private List pages;
+		private List<ImageData> pages;
 		private ImageFormat format;
 		
 		public PrintDocumentImpl(TGRectangle bounds, ImageFormat format, String path){
 			this.bounds = bounds;
 			this.path = path;
 			this.painter = new TGPainterImpl();
-			this.pages = new ArrayList();
+			this.pages = new ArrayList<ImageData>();
 			this.format = format;
 		}
 		

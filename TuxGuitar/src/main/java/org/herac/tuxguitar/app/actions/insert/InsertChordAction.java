@@ -39,6 +39,7 @@ public class InsertChordAction extends Action {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		Object propertyChord = actionData.get(PROPERTY_CHORD);
 		
@@ -81,9 +82,9 @@ public class InsertChordAction extends Action {
 			TGVoice voice = beat.getVoice(voiceIndex);
 			if( restBeat ){
 				
-				Iterator it = track.getStrings().iterator();
+				Iterator<TGString> it = track.getStrings().iterator();
 				while (it.hasNext()) {
-					TGString string = (TGString) it.next();
+					TGString string = it.next();
 					
 					int value = chord.getFretValue(string.getNumber() - 1);
 					if (value >= 0) {

@@ -8,42 +8,45 @@ import org.herac.tuxguitar.app.system.plugins.TGPluginException;
 
 public abstract class TGPluginList extends TGPluginAdapter{
 	
-	private List plugins;
+	private List<TGPlugin> plugins;
 	
 	public TGPluginList(){
 		super();
 	}
 	
+	@Override
 	public void init() throws TGPluginException {
-		Iterator it = getIterator();
+		Iterator<TGPlugin> it = getIterator();
 		while(it.hasNext()){
-			TGPlugin plugin = (TGPlugin)it.next();
+			TGPlugin plugin = it.next();
 			plugin.init();
 		}
 	}
 	
+	@Override
 	public void close() throws TGPluginException {
-		Iterator it = getIterator();
+		Iterator<TGPlugin> it = getIterator();
 		while(it.hasNext()){
-			TGPlugin plugin = (TGPlugin)it.next();
+			TGPlugin plugin = it.next();
 			plugin.close();
 		}
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
-		Iterator it = getIterator();
+		Iterator<TGPlugin> it = getIterator();
 		while(it.hasNext()){
-			TGPlugin plugin = (TGPlugin)it.next();
+			TGPlugin plugin = it.next();
 			plugin.setEnabled( enabled);
 		}
 	}
 	
-	private Iterator getIterator() throws TGPluginException {
+	private Iterator<TGPlugin> getIterator() throws TGPluginException {
 		if(this.plugins == null){
 			this.plugins = getPlugins();
 		}
 		return this.plugins.iterator();
 	}
 	
-	protected abstract List getPlugins() throws TGPluginException ;
+	protected abstract List<TGPlugin> getPlugins() throws TGPluginException ;
 }

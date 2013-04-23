@@ -17,10 +17,10 @@ public class TGTemplateManager {
 	private static final String TEMPLATES_PREFIX = "templates/";
 	private static final String TEMPLATES_CONFIG_PATH = (TEMPLATES_PREFIX + "templates.xml");
 	
-	private List templates;
+	private final List<TGTemplate> templates;
 	
 	public TGTemplateManager(){
-		this.templates = new ArrayList();
+		this.templates = new ArrayList<TGTemplate>();
 		this.loadTemplates();
 	}
 	
@@ -28,7 +28,7 @@ public class TGTemplateManager {
 		return this.templates.size();
 	}
 	
-	public Iterator getTemplates(){
+	public Iterator<TGTemplate> getTemplates(){
 		return this.templates.iterator();
 	}
 	

@@ -32,6 +32,7 @@ public class SetVoiceAutoAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		Caret caret = getEditor().getTablature().getCaret();
 		TGBeatImpl beat = caret.getSelectedBeat();
@@ -42,9 +43,9 @@ public class SetVoiceAutoAction extends Action{
 				//comienza el undoable
 				UndoableMeasureGeneric undoable = UndoableMeasureGeneric.startUndo();
 				
-				Iterator it = group.getVoices().iterator();
+				Iterator<TGVoiceImpl> it = group.getVoices().iterator();
 				while( it.hasNext() ){
-					TGVoice current = (TGVoice)it.next();
+					TGVoice current = it.next();
 					getSongManager().getMeasureManager().changeVoiceDirection(current, TGVoice.DIRECTION_NONE);
 				}
 				
@@ -58,6 +59,7 @@ public class SetVoiceAutoAction extends Action{
 		return 0;
 	}
 	
+	@Override
 	public void updateTablature() {
 		fireUpdate(getEditor().getTablature().getCaret().getMeasure().getNumber());
 	}

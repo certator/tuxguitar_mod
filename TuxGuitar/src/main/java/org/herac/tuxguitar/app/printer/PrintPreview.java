@@ -44,10 +44,10 @@ public class PrintPreview{
 	protected Button previous;
 	protected Button next;
 	protected TGRectangle bounds;
-	protected List pages;
+	protected List<Image> pages;
 	protected int currentPage;
 	
-	public PrintPreview(List pages,TGRectangle bounds){
+	public PrintPreview(List<Image> pages,TGRectangle bounds){
 		this.pages = pages;
 		this.bounds = bounds;
 	}
@@ -79,6 +79,7 @@ public class PrintPreview{
 		close.setLayoutData(getButtonData());
 		
 		this.currentText.addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if(e.keyCode == KeyBindingUtil.ENTER){
 					try{
@@ -91,6 +92,7 @@ public class PrintPreview{
 			}
 		});
 		this.previous.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(PrintPreview.this.currentPage >= 0){
 					changePage(PrintPreview.this.currentPage - 1);
@@ -98,6 +100,7 @@ public class PrintPreview{
 			}
 		});
 		this.next.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(PrintPreview.this.currentPage >= 0){
 					changePage(PrintPreview.this.currentPage + 1);
@@ -105,6 +108,7 @@ public class PrintPreview{
 			}
 		});
 		close.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				PrintPreview.this.dialog.dispose();
 			}
@@ -130,13 +134,14 @@ public class PrintPreview{
 		this.pageComposite.setLayout(new GridLayout());
 		this.pageComposite.setBackground(this.previewComposite.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		this.pageComposite.addPaintListener(new PaintListener() {
+			@Override
 			public void paintControl(PaintEvent e) {
 				if(PrintPreview.this.currentPage >= 0){
 					updateScroll();
 					
 					int vScroll = PrintPreview.this.previewComposite.getVerticalBar().getSelection();
 					
-					TGImage page = new TGImageImpl((Image)PrintPreview.this.pages.get(PrintPreview.this.currentPage));
+					TGImage page = new TGImageImpl(PrintPreview.this.pages.get(PrintPreview.this.currentPage));
 					TGPainter painter = new TGPainterImpl(e.gc);
 					painter.drawImage(page, MARGIN_LEFT, MARGIN_TOP - vScroll);
 				}
@@ -152,6 +157,7 @@ public class PrintPreview{
 		this.pageComposite.setLayoutData(pageData);
 		this.previewComposite.getVerticalBar().setIncrement(SCROLL_INCREMENT);
 		this.previewComposite.getVerticalBar().addListener(SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent(Event e) {
 				PrintPreview.this.pageComposite.redraw();
 			}

@@ -92,11 +92,11 @@ public class TGShareSong {
 			}
 			else if( status != null && status.equals(TGShareSongConnection.HTTP_STATUS_INVALID) ){
 				String message = new String();
-				List messages = new ArrayList();
+				List<String> messages = new ArrayList<String>();
 				response.loadMessages( messages );
-				Iterator it = messages.iterator();
+				Iterator<String> it = messages.iterator();
 				while( it.hasNext() ){
-					message += ( (String) it.next() + "\r\n" );
+					message += ( it.next() + "\r\n" );
 				}
 				processDialog( file , message );
 			}

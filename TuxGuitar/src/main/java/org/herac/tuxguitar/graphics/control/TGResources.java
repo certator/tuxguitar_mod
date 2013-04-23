@@ -24,7 +24,7 @@ public class TGResources {
 	private static final int SCORE_NOTE_FULL_NORMAL_MODE = 2;
 	private static final int SCORE_NOTE_FULL_PLAY_MODE = 3;
 	
-	private List resources;
+	private List<TGResource> resources;
 	private TGLayout layout;
 	
 	private TGFont defaultFont;
@@ -58,7 +58,7 @@ public class TGResources {
 	
 	public TGResources(TGLayout layout){
 		this.layout = layout;
-		this.resources = new ArrayList();
+		this.resources = new ArrayList<TGResource>();
 	}
 	
 	public void load(TGLayoutStyles styles){
@@ -419,9 +419,9 @@ public class TGResources {
 	}
 	
 	public void dispose(){
-		Iterator it = this.resources.iterator();
+		Iterator<TGResource> it = this.resources.iterator();
 		while( it.hasNext() ){
-			TGResource resource = (TGResource)it.next();
+			TGResource resource = it.next();
 			resource.dispose();
 		}
 		this.resources.clear();

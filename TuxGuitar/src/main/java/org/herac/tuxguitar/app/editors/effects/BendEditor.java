@@ -28,6 +28,7 @@ import org.herac.tuxguitar.app.editors.TGPainterImpl;
 import org.herac.tuxguitar.app.util.DialogUtils;
 import org.herac.tuxguitar.song.models.TGNote;
 import org.herac.tuxguitar.song.models.effects.TGEffectBend;
+import org.herac.tuxguitar.song.models.effects.TGEffectBend.BendPoint;
 /**
  * @author julian
  *
@@ -44,7 +45,7 @@ public class BendEditor{
 	private int[] y;
 	private int width;
 	private int height;
-	private List points;
+	private List<Point> points;
 	protected Composite editor;
 	protected DefaultBend[] defaultBends;
 	protected TGEffectBend result;
@@ -59,7 +60,7 @@ public class BendEditor{
 		this.y = new int[Y_LENGTH];
 		this.width = ((X_SPACING * X_LENGTH) - X_SPACING);
 		this.height = ((Y_SPACING * Y_LENGTH) - Y_SPACING);
-		this.points = new ArrayList();
+		this.points = new ArrayList<Point>();
 		
 		for(int i = 0;i < this.x.length;i++){
 			this.x[i] = ((i + 1) * X_SPACING);
@@ -103,12 +104,14 @@ public class BendEditor{
 		this.editor.setBackground(this.editor.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		this.editor.setLayoutData(resizeData(new GridData(SWT.FILL,SWT.FILL,true,true) , getWidth() + (X_SPACING * 2),getHeight() + (Y_SPACING * 2))  );
 		this.editor.addPaintListener(new PaintListener() {
+			@Override
 			public void paintControl(PaintEvent e) {
 				TGPainterImpl painter = new TGPainterImpl(e.gc);
 				paintEditor(painter);
 			}
 		});
 		this.editor.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseUp(org.eclipse.swt.events.MouseEvent e) {
 				checkPoint(e.x,e.y);
 				BendEditor.this.editor.redraw();
@@ -125,6 +128,7 @@ public class BendEditor{
 		defaultBendList.select(0);
 		defaultBendList.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		defaultBendList.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int index = defaultBendList.getSelectionIndex();
 				if(index >= 0 && index < BendEditor.this.defaultBends.length){
@@ -139,6 +143,7 @@ public class BendEditor{
 		buttonClean.setLayoutData(resizeData(new GridData(SWT.FILL,SWT.BOTTOM,true,true), 80,25));
 		buttonClean.setText(TuxGuitar.getProperty("clean"));
 		buttonClean.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				BendEditor.this.result = null;
 				BendEditor.this.cancelled = false;
@@ -149,6 +154,7 @@ public class BendEditor{
 		buttonOK.setLayoutData(resizeData(new GridData(SWT.FILL,SWT.BOTTOM,true,false), 80,25));
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				BendEditor.this.result = getBend();
 				BendEditor.this.cancelled = false;
@@ -159,6 +165,7 @@ public class BendEditor{
 		buttonCancel.setLayoutData(resizeData(new GridData(SWT.FILL,SWT.BOTTOM,true,false), 80,25));
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				BendEditor.this.result = note.getEffect().getBend();
 				BendEditor.this.cancelled = true;
@@ -201,7 +208,7 @@ public class BendEditor{
 			painter.closePath();
 		}
 		
-		Iterator it = null;
+		Iterator<Point> it = null;
 		Point prevPoint = null;
 		painter.setLineStyleSolid();
 		painter.setLineWidth(2);
@@ -209,7 +216,7 @@ public class BendEditor{
 		
 		it = this.points.iterator();
 		while(it.hasNext()){
-			Point point = (Point)it.next();
+			Point point = it.next();
 			if(prevPoint != null){
 				painter.initPath();
 				painter.moveTo(prevPoint.x,prevPoint.y);
@@ -224,7 +231,7 @@ public class BendEditor{
 		
 		it = this.points.iterator();
 		while(it.hasNext()){
-			Point point = (Point)it.next();
+			Point point = it.next();
 			painter.initPath();
 			painter.setAntialias(false);
 			painter.addRectangle(point.x - 2,point.y - 2,5,5);
@@ -271,9 +278,9 @@ public class BendEditor{
 	}
 	
 	protected boolean removePoint(Point point){
-		Iterator it = this.points.iterator();
+		Iterator<Point> it = this.points.iterator();
 		while(it.hasNext()){
-			Point currPoint = (Point)it.next();
+			Point currPoint = it.next();
 			if(currPoint.x == point.x && currPoint.y == point.y){
 				this.points.remove(point);
 				return true;
@@ -286,7 +293,7 @@ public class BendEditor{
 		for(int i = 0;i < this.points.size();i++){
 			Point minPoint = null;
 			for(int noteIdx = i;noteIdx < this.points.size();noteIdx++){
-				Point point = (Point)this.points.get(noteIdx);
+				Point point = this.points.get(noteIdx);
 				if(minPoint == null || point.x < minPoint.x){
 					minPoint = point;
 				}
@@ -297,9 +304,9 @@ public class BendEditor{
 	}
 	
 	protected void removePointsAtXLine(int x){
-		Iterator it = this.points.iterator();
+		Iterator<Point> it = this.points.iterator();
 		while(it.hasNext()){
-			Point point = (Point)it.next();
+			Point point = it.next();
 			if(point.x == x){
 				this.points.remove(point);
 				break;
@@ -350,9 +357,9 @@ public class BendEditor{
 	public TGEffectBend getBend(){
 		if(this.points != null && !this.points.isEmpty()){
 			TGEffectBend bend = TuxGuitar.instance().getSongManager().getFactory().newEffectBend();//new BendEffect();
-			Iterator it = this.points.iterator();
+			Iterator<Point> it = this.points.iterator();
 			while(it.hasNext()){
-				Point point = (Point)it.next();
+				Point point = it.next();
 				addBendPoint(bend,point);
 			}
 			return bend;
@@ -378,9 +385,9 @@ public class BendEditor{
 	
 	public void setBend(TGEffectBend effect){
 		this.points.clear();
-		Iterator it = effect.getPoints().iterator();
+		Iterator<BendPoint> it = effect.getPoints().iterator();
 		while(it.hasNext()){
-			TGEffectBend.BendPoint bendPoint = (TGEffectBend.BendPoint)it.next();
+			TGEffectBend.BendPoint bendPoint = it.next();
 			this.makePoint(bendPoint);
 		}
 	}
@@ -440,8 +447,8 @@ public class BendEditor{
 	}
 	
 	private class DefaultBend{
-		private String name;
-		private TGEffectBend bend;
+		private final String name;
+		private final TGEffectBend bend;
 		
 		public DefaultBend(String name,TGEffectBend bend){
 			this.name = name;

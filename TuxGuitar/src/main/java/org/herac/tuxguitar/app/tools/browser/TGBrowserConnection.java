@@ -10,7 +10,7 @@ public class TGBrowserConnection {
 	
 	private boolean locked;
 	private TGBrowser browser;
-	private TGBrowserConnectionHandler handler;
+	private final TGBrowserConnectionHandler handler;
 	
 	public TGBrowserConnection(TGBrowserConnectionHandler handler){
 		this.handler = handler;
@@ -44,6 +44,7 @@ public class TGBrowserConnection {
 			this.lock();
 			this.browser = browser;
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						if(getBrowser() != null){
@@ -67,6 +68,7 @@ public class TGBrowserConnection {
 			final TGBrowser browser = getBrowser();
 			this.browser = null;
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						if(browser != null){
@@ -88,6 +90,7 @@ public class TGBrowserConnection {
 		if(!isLocked()){
 			this.lock();
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						if(isOpen()){
@@ -109,6 +112,7 @@ public class TGBrowserConnection {
 		if(!isLocked()){
 			this.lock();
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						if(isOpen()){
@@ -130,6 +134,7 @@ public class TGBrowserConnection {
 		if(!isLocked()){
 			this.lock();
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						if(isOpen()){
@@ -151,10 +156,11 @@ public class TGBrowserConnection {
 		if(!isLocked()){
 			this.lock();
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						if(isOpen()){
-							List elements = getBrowser().listElements();
+							List<TGBrowserElement> elements = getBrowser().listElements();
 							notifyElements(callId,elements);
 						}else{
 							notifyClosed(callId);
@@ -172,6 +178,7 @@ public class TGBrowserConnection {
 		if(!isLocked()){
 			this.lock();
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try {
 						if(element == null){
@@ -207,7 +214,7 @@ public class TGBrowserConnection {
 		this.handler.notifyClosed(callId);
 	}
 	
-	public void notifyElements(final int callId,List elements) {
+	public void notifyElements(final int callId,List<TGBrowserElement> elements) {
 		this.handler.notifyElements(callId,elements);
 	}
 	

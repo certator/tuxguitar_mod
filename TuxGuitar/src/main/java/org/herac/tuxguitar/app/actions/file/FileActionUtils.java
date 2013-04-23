@@ -19,9 +19,9 @@ import org.herac.tuxguitar.app.util.MessageDialog;
 import org.herac.tuxguitar.io.base.TGFileFormat;
 import org.herac.tuxguitar.io.base.TGFileFormatException;
 import org.herac.tuxguitar.io.base.TGFileFormatManager;
-import org.herac.tuxguitar.io.base.TGOutputStreamBase;
 import org.herac.tuxguitar.io.base.TGLocalFileExporter;
 import org.herac.tuxguitar.io.base.TGLocalFileImporter;
+import org.herac.tuxguitar.io.base.TGOutputStreamBase;
 import org.herac.tuxguitar.io.base.TGRawExporter;
 import org.herac.tuxguitar.io.base.TGRawImporter;
 import org.herac.tuxguitar.song.managers.TGSongManager;
@@ -64,9 +64,9 @@ public class FileActionUtils {
 		if(path != null){
 			int index = path.lastIndexOf(".");
 			if(index > 0){
-				Iterator it = TGFileFormatManager.instance().getOutputStreams();
+				Iterator<TGOutputStreamBase> it = TGFileFormatManager.instance().getOutputStreams();
 				while(it.hasNext()){
-					TGOutputStreamBase writer = (TGOutputStreamBase)it.next();
+					TGOutputStreamBase writer = it.next();
 					if(writer.isSupportedExtension(path.substring(index))){
 						return true;
 					}

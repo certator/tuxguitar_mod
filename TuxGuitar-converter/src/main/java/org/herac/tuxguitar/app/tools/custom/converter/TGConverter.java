@@ -31,8 +31,8 @@ public class TGConverter {
 	public static final int EXPORTER_NOT_FOUND = 590;
 	public static final int UNKNOWN_ERROR = 666;
 	
-	private String sourceFolder;
-	private String destinationFolder;
+	private final String sourceFolder;
+	private final String destinationFolder;
 	private TGConverterFormat format;
 	private TGConverterListener listener;
 	private boolean cancelled;
@@ -143,10 +143,10 @@ public class TGConverter {
 	}
 	
 	private TGSong importSong(TGFactory factory, String filename) {
-		Iterator importers = TGFileFormatManager.instance().getImporters();
+		Iterator<TGRawImporter> importers = TGFileFormatManager.instance().getImporters();
 		while (importers.hasNext() ) {
 			try {
-				TGRawImporter rawImporter = (TGRawImporter)importers.next();
+				TGRawImporter rawImporter = importers.next();
 				if( rawImporter instanceof TGLocalFileImporter ){
 					TGLocalFileImporter currentImporter = (TGLocalFileImporter)rawImporter;
 					currentImporter.configure(true);

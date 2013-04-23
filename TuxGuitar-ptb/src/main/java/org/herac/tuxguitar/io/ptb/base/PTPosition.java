@@ -7,19 +7,19 @@ import java.util.List;
 
 public class PTPosition {
 	
-	private int position;
-	private List components;
+	private final int position;
+	private final List<PTComponent> components;
 	
 	public PTPosition(int position){
 		this.position = position;
-		this.components = new ArrayList();
+		this.components = new ArrayList<PTComponent>();
 	}
 	
 	public int getPosition() {
 		return this.position;
 	}
 	
-	public List getComponents() {
+	public List<PTComponent> getComponents() {
 		return this.components;
 	}
 	
@@ -28,7 +28,8 @@ public class PTPosition {
 	}
 	
 	public void sort(){
-		Collections.sort( getComponents(), new Comparator() {
+		Collections.sort( getComponents(), new Comparator<Object>() {
+			@Override
 			public int compare(Object o1, Object o2) {
 				if( o1 instanceof PTDirection ){
 					return 1;

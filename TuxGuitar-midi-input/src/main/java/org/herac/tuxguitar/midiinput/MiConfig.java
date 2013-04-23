@@ -22,7 +22,7 @@ import org.herac.tuxguitar.app.util.MessageDialog;
 
 class MiConfig
 {
-	private			TGConfigManager	f_Config;
+	private final			TGConfigManager	f_Config;
 	static final	String			KEY_MIDI_INPUT_PORT		= "midi.input.port";
 	static final	String			KEY_MIDI_BASE_CHANNEL	= "midi.input.base.channel";
 	static final	String			KEY_MIN_VELOCITY		= "midi.input.min.velocity";
@@ -98,7 +98,7 @@ class MiConfig
 	void	showDialog(Shell parent)
 	{
 	try {
-		final List		portsNames			= MiPortProvider.listPortsNames();
+		final List<String>	portsNames		= MiPortProvider.listPortsNames();
 		final String	currPortName		= getMidiInputPortName();
 		final int		currBaseChannel		= getMidiBaseChannel();
 		final int		currMinVelocity		= getMinVelocity();
@@ -126,7 +126,7 @@ class MiConfig
 
 		for(int i = 0 ; i < portsNames.size(); i++)
 			{
-			String	portName = (String)portsNames.get(i);
+			String	portName = portsNames.get(i);
 
 			cmbPort.add(portName);
 
@@ -256,13 +256,14 @@ class MiConfig
 		buttonOK.setLayoutData(data);
 		buttonOK.addSelectionListener(new SelectionAdapter()
 			{
+			@Override
 			public void widgetSelected(SelectionEvent arg0)
 				{
 				int		portSelection = cmbPort.getSelectionIndex();
 
 				if(portSelection >= 0 && portSelection < portsNames.size())
 					{
-					String	portName = (String)portsNames.get(portSelection);
+					String	portName = portsNames.get(portSelection);
 
 					s_Instance.f_Config.setProperty(KEY_MIDI_INPUT_PORT, portName);
 					s_Instance.f_Config.save();
@@ -346,6 +347,7 @@ class MiConfig
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(data);
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

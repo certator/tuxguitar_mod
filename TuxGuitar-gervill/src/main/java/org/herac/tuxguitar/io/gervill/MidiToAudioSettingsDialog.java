@@ -37,8 +37,8 @@ public class MidiToAudioSettingsDialog {
 	public boolean open(final MidiToAudioSettings settings) {
 		this.success = false;
 		
-		final List formats = getAvailableFormats();
-		final List soundbankFormats = getSupportedSoundbankFormats();
+		final List<MidiToAudioFormat> formats = getAvailableFormats();
+		final List<TGFileFormat> soundbankFormats = getSupportedSoundbankFormats();
 		
 		final Shell dialog = DialogUtils.newDialog(TuxGuitar.instance().getShell(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		dialog.setLayout(new GridLayout());
@@ -66,7 +66,7 @@ public class MidiToAudioSettingsDialog {
 		
 		int eSelectionIndex = 0;
 		for( int i = 0 ; i < formats.size() ; i ++ ) {
-			MidiToAudioFormat format = (MidiToAudioFormat)formats.get(i);
+			MidiToAudioFormat format = formats.get(i);
 			eCombo.add( format.getFormat().getEncoding().toString() );
 			if( isSameEncoding(settings.getFormat(), format.getFormat() )){
 				eSelectionIndex = i;
@@ -145,7 +145,7 @@ public class MidiToAudioSettingsDialog {
 				int tIndex = tCombo.getSelectionIndex();
 				int eIndex = eCombo.getSelectionIndex();
 				if( eIndex >= 0 && eIndex < formats.size() ){
-					MidiToAudioFormat format = (MidiToAudioFormat)formats.get( eIndex );
+					MidiToAudioFormat format = formats.get( eIndex );
 					if( tIndex >= 0 && tIndex < format.getTypes().length ){
 						settings.setType( format.getTypes()[tIndex] );
 						settings.setFormat( format.getFormat() );
@@ -179,12 +179,12 @@ public class MidiToAudioSettingsDialog {
 		return data;
 	}
 	
-	private void updateTypesCombo( MidiToAudioSettings settings, List encodings, Combo eCombo , Combo tCombo ){
+	private void updateTypesCombo( MidiToAudioSettings settings, List<MidiToAudioFormat> encodings, Combo eCombo , Combo tCombo ){
 		tCombo.removeAll();
 		
 		int eIndex = eCombo.getSelectionIndex();		
 		if( eIndex >= 0 && eIndex < encodings.size() ){
-			MidiToAudioFormat encoding = (MidiToAudioFormat)encodings.get( eIndex );
+			MidiToAudioFormat encoding = encodings.get( eIndex );
 			AudioFileFormat.Type[] types = encoding.getTypes();
 			int tSelectionIndex = 0;
 			for( int tIndex = 0 ; tIndex < types.length ; tIndex ++ ) {
@@ -197,8 +197,8 @@ public class MidiToAudioSettingsDialog {
 		}
 	}
 	
-	public List getAvailableFormats(){
-		List list = new ArrayList();
+	public List<MidiToAudioFormat> getAvailableFormats(){
+		List<MidiToAudioFormat> list = new ArrayList<MidiToAudioFormat>();
 		AudioFormat srcFormat = MidiToAudioSettings.DEFAULT_FORMAT;
 		AudioFormat.Encoding[] encodings = AudioSystem.getTargetEncodings(srcFormat);
 		for( int i = 0 ; i < encodings.length ; i ++ ){
@@ -212,8 +212,8 @@ public class MidiToAudioSettingsDialog {
 		return list;
 	}
 	
-	private List getSupportedSoundbankFormats(){
-		List list = new ArrayList();
+	private List<TGFileFormat> getSupportedSoundbankFormats(){
+		List<TGFileFormat> list = new ArrayList<TGFileFormat>();
 		list.add(new TGFileFormat("SF2 files","*.sf2"));
 		list.add(new TGFileFormat("DLS files","*.dls"));
 		return list;

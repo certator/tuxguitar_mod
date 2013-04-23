@@ -35,7 +35,7 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 	
 	protected Shell dialog;
 	private Table table;
-	private List markers;
+	private List<TGMarker> markers;
 	
 	private Composite compositeTable;
 	private TableColumn measureColumn;
@@ -72,6 +72,7 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 		this.table.setLayoutData(new GridData(250,200));
 		this.table.setHeaderVisible(true);
 		this.table.addListener (SWT.MouseDoubleClick, new Listener() {
+			@Override
 			public void handleEvent (Event event) {
 				new MarkerNavigator().goToSelectedMarker(getSelectedMarker());
 				TuxGuitar.instance().updateCache(true);
@@ -93,6 +94,7 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 		this.buttonAdd = new Button(this.compositeButtons, SWT.PUSH);
 		this.buttonAdd.setLayoutData(makeGridData(SWT.FILL, SWT.TOP,false));
 		this.buttonAdd.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(!ActionLock.isLocked() && !TuxGuitar.instance().isLocked()){
 					ActionLock.lock();
@@ -111,6 +113,7 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 		this.buttonEdit = new Button(this.compositeButtons, SWT.PUSH);
 		this.buttonEdit.setLayoutData(makeGridData(SWT.FILL, SWT.TOP,false));
 		this.buttonEdit.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!ActionLock.isLocked() && !TuxGuitar.instance().isLocked()){
 					ActionLock.lock();
@@ -129,6 +132,7 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 		this.buttonDelete = new Button(this.compositeButtons, SWT.PUSH);
 		this.buttonDelete.setLayoutData(makeGridData(SWT.FILL, SWT.TOP,false));
 		this.buttonDelete.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!ActionLock.isLocked() && !TuxGuitar.instance().isLocked()){
 					ActionLock.lock();
@@ -151,6 +155,7 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 		this.buttonGo = new Button(this.compositeButtons, SWT.PUSH);
 		this.buttonGo.setLayoutData(makeGridData(SWT.FILL, SWT.BOTTOM,true));
 		this.buttonGo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!ActionLock.isLocked() && !TuxGuitar.instance().isLocked()){
 					ActionLock.lock();
@@ -164,6 +169,7 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 		this.buttonClose = new Button(this.compositeButtons, SWT.PUSH);
 		this.buttonClose.setLayoutData(makeGridData(SWT.FILL, SWT.BOTTOM,false));
 		this.buttonClose.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				MarkerList.this.dialog.dispose();
 			}
@@ -174,6 +180,7 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 		
 		this.addListeners();
 		this.dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				removeListeners();
 			}
@@ -208,6 +215,7 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 	public void update(final boolean keepSelection){
 		if(!isDisposed()){
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					if(!isDisposed()){
 						loadTableItems(keepSelection);
@@ -235,9 +243,9 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 		this.table.removeAll();
 		this.markers = TuxGuitar.instance().getSongManager().getMarkers();
 		
-		Iterator it = this.markers.iterator();
+		Iterator<TGMarker> it = this.markers.iterator();
 		while (it.hasNext()) {
-			TGMarker marker = (TGMarker) it.next();
+			TGMarker marker = it.next();
 			
 			TableItem item = new TableItem(this.table, SWT.NONE);
 			item.setText(new String[] { Integer.toString(marker.getMeasure()),marker.getTitle() });
@@ -251,7 +259,7 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 	protected TGMarker getSelectedMarker(){
 		int itemSelected = this.table.getSelectionIndex();
 		if(itemSelected >= 0 && itemSelected < this.markers.size()){
-			return (TGMarker)this.markers.get(itemSelected);
+			return this.markers.get(itemSelected);
 		}
 		return null;
 	}
@@ -260,12 +268,14 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 		return (this.dialog == null || this.dialog.isDisposed());
 	}
 	
+	@Override
 	public void loadIcons() {
 		if(!isDisposed()){
 			this.dialog.setImage(TuxGuitar.instance().getIconManager().getAppIcon());
 		}
 	}
 	
+	@Override
 	public void loadProperties() {
 		this.loadProperties(true);
 	}
@@ -290,6 +300,7 @@ public class MarkerList implements TGUpdateListener, IconLoader,LanguageLoader{
 		}
 	}
 	
+	@Override
 	public void doUpdate(int type) {
 		if( type ==  TGUpdateListener.SONG_LOADED ){
 			this.update();

@@ -11,7 +11,7 @@ import org.herac.tuxguitar.app.util.TGFileUtils;
 public class TGResourceBundle {
 	
 	private Locale locale;
-	private Properties properties;
+	private final Properties properties;
 	
 	public TGResourceBundle(Locale locale, Properties properties){
 		this.locale = locale;
@@ -65,9 +65,9 @@ public class TGResourceBundle {
 	
 	private static void loadResources(String name, Properties p){
 		try {
-			Enumeration enumeration = TGFileUtils.getResourceUrls(name);
+			Enumeration<URL> enumeration = TGFileUtils.getResourceUrls(name);
 			while (enumeration.hasMoreElements()) {
-				URL url = (URL) enumeration.nextElement();
+				URL url = enumeration.nextElement();
 				Properties properties = new Properties();
 				properties.load( url.openStream() );
 				p.putAll(properties);

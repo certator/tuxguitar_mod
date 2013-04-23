@@ -2,6 +2,7 @@ package org.herac.tuxguitar.player.impl.midiport.alsa;
 
 import java.util.List;
 
+import org.herac.tuxguitar.player.base.MidiOutputPort;
 import org.herac.tuxguitar.player.base.MidiOutputPortProvider;
 
 public class MidiOutputPortProviderImpl implements MidiOutputPortProvider{
@@ -12,7 +13,8 @@ public class MidiOutputPortProviderImpl implements MidiOutputPortProvider{
 		super();
 	}
 	
-	public List listPorts() {
+	@Override
+	public List<MidiOutputPort> listPorts() {
 		if(this.midiSystem == null){
 			this.midiSystem = new MidiSystem();
 		}
@@ -22,6 +24,7 @@ public class MidiOutputPortProviderImpl implements MidiOutputPortProvider{
 		return this.midiSystem.findPorts();
 	}
 	
+	@Override
 	public void closeAll(){
 		if(this.midiSystem != null){
 			this.midiSystem.close();

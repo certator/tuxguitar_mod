@@ -35,7 +35,7 @@ import org.herac.tuxguitar.song.models.TGVoice;
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class Caret {
-	private Tablature tablature;
+	private final Tablature tablature;
 	private TGTrackImpl selectedTrack;
 	private TGMeasureImpl selectedMeasure;
 	private TGBeat selectedBeat;
@@ -284,10 +284,10 @@ public class Caret {
 	}
 	
 	public TGString getSelectedString() {
-		List strings = this.selectedTrack.getStrings();
-		Iterator it = strings.iterator();
+		List<TGString> strings = this.selectedTrack.getStrings();
+		Iterator<TGString> it = strings.iterator();
 		while (it.hasNext()) {
-			TGString instrumentString = (TGString) it.next();
+			TGString instrumentString = it.next();
 			if (instrumentString.getNumber() == this.string) {
 				return instrumentString;
 			}

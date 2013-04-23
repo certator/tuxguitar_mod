@@ -15,7 +15,7 @@ import org.herac.tuxguitar.app.tools.browser.base.TGBrowserElement;
 
 public class TGBrowserImpl extends TGBrowser{
 	
-	private TGBrowserDataImpl data;
+	private final TGBrowserDataImpl data;
 	private String root; 
 	private String path; 
 	private TGBrowserFTPClient client;
@@ -37,6 +37,7 @@ public class TGBrowserImpl extends TGBrowser{
 		return this.root;
 	}
 	
+	@Override
 	public void open() throws TGBrowserException{
 		try {
 			checkForProxy();
@@ -50,6 +51,7 @@ public class TGBrowserImpl extends TGBrowser{
 	}
 
 	
+	@Override
 	public void close() throws TGBrowserException{
 		try {
 			closeProxy();
@@ -59,6 +61,7 @@ public class TGBrowserImpl extends TGBrowser{
 		}
 	}
 	
+	@Override
 	public void cdElement(TGBrowserElement element) throws TGBrowserException {
 		try {
 			boolean isCDSuccess = this.client.cd(element.getName());
@@ -70,6 +73,7 @@ public class TGBrowserImpl extends TGBrowser{
 		}
 	}
 	
+	@Override
 	public void cdRoot() throws TGBrowserException {
 		try {
 			this.client.cd(getRoot());
@@ -79,6 +83,7 @@ public class TGBrowserImpl extends TGBrowser{
 		}
 	}
 	
+	@Override
 	public void cdUp() throws TGBrowserException {
 		try {
 			this.client.cdUp();
@@ -88,8 +93,9 @@ public class TGBrowserImpl extends TGBrowser{
 		}
 	}
 	
-	public List listElements() throws TGBrowserException {
-		List elements = new ArrayList();
+	@Override
+	public List<TGBrowserElement> listElements() throws TGBrowserException {
+		List<TGBrowserElement> elements = new ArrayList<TGBrowserElement>();
 		try {
 			this.client.binary();
 			String[] names = this.client.listNames();
@@ -161,12 +167,13 @@ public class TGBrowserImpl extends TGBrowser{
 	}
 
 	private final class ProxyAuthenticator extends Authenticator {
-		private PasswordAuthentication auth;
+		private final PasswordAuthentication auth;
 
 		protected ProxyAuthenticator(String user, String pass) {
 			this.auth = new PasswordAuthentication(user, pass.toCharArray());
 		}
 
+		@Override
 		protected PasswordAuthentication getPasswordAuthentication() {
 			return this.auth;
 		}

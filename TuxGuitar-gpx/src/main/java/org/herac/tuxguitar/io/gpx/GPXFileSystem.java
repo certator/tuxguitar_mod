@@ -12,18 +12,18 @@ public class GPXFileSystem {
 	private static final int HEADER_BCFS = 1397113666;
 	private static final int HEADER_BCFZ = 1514554178;
 	
-	private List fileSystem;
+	private List<GPXFile> fileSystem;
 	
 	public GPXFileSystem(){
-		this.fileSystem = new ArrayList();
+		this.fileSystem = new ArrayList<GPXFile>();
 	}
 	
-	public List getFileNames(){
-		List gpxFileNames = new ArrayList();
+	public List<String> getFileNames(){
+		List<String> gpxFileNames = new ArrayList<String>();
 		
-		Iterator it = this.fileSystem.iterator();
+		Iterator<GPXFile> it = this.fileSystem.iterator();
 		while( it.hasNext() ){
-			GPXFile file = (GPXFile)it.next();
+			GPXFile file = it.next();
 			gpxFileNames.add( file.getFileName() );
 		}
 		
@@ -31,9 +31,9 @@ public class GPXFileSystem {
 	}
 	
 	public byte[] getFileContents( String fileName ){
-		Iterator it = this.fileSystem.iterator();
+		Iterator<GPXFile> it = this.fileSystem.iterator();
 		while( it.hasNext() ){
-			GPXFile file = (GPXFile)it.next();
+			GPXFile file = it.next();
 			if( file.getFileName().equals( fileName ) ){
 				return file.getFileContents();
 			}

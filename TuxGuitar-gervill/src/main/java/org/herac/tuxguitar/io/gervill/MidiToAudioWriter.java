@@ -21,7 +21,7 @@ import org.herac.tuxguitar.song.models.TGDuration;
 
 public class MidiToAudioWriter {
 	
-	public static void write(OutputStream out, List events, MidiToAudioSettings settings) throws Throwable {
+	public static void write(OutputStream out, List<MidiEvent> events, MidiToAudioSettings settings) throws Throwable {
 		MidiToAudioSynth.instance().openSynth();
 		MidiToAudioSynth.instance().loadSoundbank(getPatchs(events), settings.getSoundbankPath());
 		
@@ -32,9 +32,9 @@ public class MidiToAudioWriter {
 		Receiver receiver = MidiToAudioSynth.instance().getReceiver();
 		AudioInputStream stream = MidiToAudioSynth.instance().getStream();
 		
-		Iterator it = events.iterator();
+		Iterator<MidiEvent> it = events.iterator();
 		while(it.hasNext()){
-			MidiEvent event = (MidiEvent)it.next();
+			MidiEvent event = it.next();
 			MidiMessage msg = event.getMessage();
 			
 			timePosition += ( (event.getTick() - previousTick) * usqTempo) / TGDuration.QUARTER_TIME;
@@ -62,8 +62,9 @@ public class MidiToAudioWriter {
 		MidiToAudioSynth.instance().closeSynth();
 	}
 	
-	private static void sort(List events){
-		Collections.sort(events, new Comparator() {
+	private static void sort(List<MidiEvent> events){
+		Collections.sort(events, new Comparator<Object>() {
+			@Override
 			public int compare(Object o1, Object o2) {
 				if( o1 instanceof MidiEvent && o2 instanceof MidiEvent ){
 					MidiEvent e1 = (MidiEvent)o1;
@@ -80,12 +81,12 @@ public class MidiToAudioWriter {
 		});
 	}
 	
-	private static List getPatchs(List events){
+	private static List<Patch> getPatchs(List<MidiEvent> events){
 		Patch[] channels = new Patch[16];
 		
-		Iterator it = events.iterator();
+		Iterator<MidiEvent> it = events.iterator();
 		while(it.hasNext()){
-			MidiEvent event = (MidiEvent)it.next();
+			MidiEvent event = it.next();
 			MidiMessage msg = event.getMessage();
 			if( msg instanceof ShortMessage ){
 				ShortMessage shortMessage = (ShortMessage)msg;
@@ -109,13 +110,13 @@ public class MidiToAudioWriter {
 				}
 			}
 		}
-		List patchs = new ArrayList();
+		List<Patch> patchs = new ArrayList<Patch>();
 		for( int i = 0 ; i < channels.length ; i ++ ){
 			if( channels[i] != null ){
 				boolean patchExists = false;
-				Iterator patchIt = patchs.iterator();
+				Iterator<Patch> patchIt = patchs.iterator();
 				while( patchIt.hasNext() ){
-					Patch patch = (Patch) patchIt.next();
+					Patch patch = patchIt.next();
 					if( patch.getBank() == channels[i].getBank() && patch.getProgram() == channels[i].getProgram() ){
 						patchExists = true;
 					}

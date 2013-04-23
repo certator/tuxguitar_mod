@@ -169,7 +169,7 @@ public class PrintLayout extends TGLayout{
 			}
 			
 			for(int i = 0;i < line.measures.size();i ++){
-				int index = ((Integer)line.measures.get(i)).intValue();
+				int index = line.measures.get(i).intValue();
 				TGMeasureImpl currMeasure = (TGMeasureImpl)track.getMeasure(index);
 				
 				//asigno la posicion dentro del compas
@@ -448,10 +448,10 @@ public class PrintLayout extends TGLayout{
 		protected boolean fullLine;
 		protected int maxY = 0;
 		protected int minY = 50;
-		protected List measures;
+		protected List<Integer> measures;
 		
 		public TempLine(){
-			this.measures = new ArrayList();
+			this.measures = new ArrayList<Integer>();
 		}
 		
 		protected void addMeasure(int index){

@@ -26,7 +26,7 @@ import org.herac.tuxguitar.app.util.TGFileUtils;
 public class SkinOption extends Option{
 	
 	protected boolean initialized;
-	protected List skins;
+	protected List<SkinInfo> skins;
 	protected Combo combo;
 	protected Label nameLabel;
 	protected Label authorLabel;
@@ -86,7 +86,7 @@ public class SkinOption extends Option{
 	protected void loadConfig(){
 		new Thread(new Runnable() {
 			public void run() {
-				SkinOption.this.skins = new ArrayList();
+				SkinOption.this.skins = new ArrayList<SkinInfo>();
 				String[] skinNames = TGFileUtils.getFileNames("skins");
 				if( skinNames != null ){
 					for(int i = 0;i < skinNames.length;i++){
@@ -113,7 +113,7 @@ public class SkinOption extends Option{
 					public void run() {
 						if(!isDisposed()){
 							for(int i = 0;i < SkinOption.this.skins.size();i++){
-								SkinInfo info = (SkinInfo)SkinOption.this.skins.get(i);
+								SkinInfo info = SkinOption.this.skins.get(i);
 								SkinOption.this.combo.add(info.getName());
 								if(info.getSkin().equals(getConfig().getStringConfigValue(TGConfigKeys.SKIN))){
 									SkinOption.this.combo.select(i);
@@ -123,14 +123,14 @@ public class SkinOption extends Option{
 								public void widgetSelected(SelectionEvent e) {
 									int selection = SkinOption.this.combo.getSelectionIndex();
 									if(selection >= 0 && selection < SkinOption.this.skins.size()){
-										showSkinInfo((SkinInfo)SkinOption.this.skins.get(selection));
+										showSkinInfo(SkinOption.this.skins.get(selection));
 									}
 								}
 							});
 							
 							int selection = SkinOption.this.combo.getSelectionIndex();
 							if(selection >= 0 && selection < SkinOption.this.skins.size()){
-								showSkinInfo((SkinInfo)SkinOption.this.skins.get(selection));
+								showSkinInfo(SkinOption.this.skins.get(selection));
 							}
 							SkinOption.this.initialized = true;
 							SkinOption.this.pack();
@@ -165,7 +165,7 @@ public class SkinOption extends Option{
 		if(this.initialized){
 			int selection = this.combo.getSelectionIndex();
 			if(selection >= 0 && selection < this.skins.size()){
-				SkinInfo info = (SkinInfo)this.skins.get(selection);
+				SkinInfo info = this.skins.get(selection);
 				getConfig().setProperty(TGConfigKeys.SKIN,info.getSkin());
 			}
 		}

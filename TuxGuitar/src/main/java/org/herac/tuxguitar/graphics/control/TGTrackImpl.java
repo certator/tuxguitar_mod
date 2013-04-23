@@ -9,6 +9,7 @@ package org.herac.tuxguitar.graphics.control;
 import java.util.Iterator;
 
 import org.herac.tuxguitar.song.factory.TGFactory;
+import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGTrack;
 
 /**
@@ -55,8 +56,9 @@ public class TGTrackImpl extends TGTrack{
 		this.tabHeight = tabHeight;
 	}
 	
+	@Override
 	public void clear(){
-		Iterator measures = getMeasures();
+		Iterator<TGMeasure> measures = getMeasures();
 		while(measures.hasNext()){
 			TGMeasureImpl measure = (TGMeasureImpl)measures.next();
 			if(!measure.isDisposed()){
@@ -66,6 +68,7 @@ public class TGTrackImpl extends TGTrack{
 		super.clear();
 	}
 	
+	@Override
 	public void removeMeasure(int index){
 		TGMeasureImpl measure = (TGMeasureImpl)getMeasure(index);
 		if(!measure.isDisposed()){

@@ -37,11 +37,11 @@ public class FileHistory {
 	private boolean newFile;
 	private boolean localFile;
 	private boolean unsavedFile;
-	private List urls;
+	private List<URL> urls;
 	private String chooserPath;
 	
 	public FileHistory(){
-		this.urls = new ArrayList();
+		this.urls = new ArrayList<URL>();
 		this.loadHistory();
 		this.reset(null);
 	}
@@ -141,7 +141,7 @@ public class FileHistory {
 	
 	protected URL getCurrentURL(){
 		if(!this.urls.isEmpty()){
-			return (URL)this.urls.get(0);
+			return this.urls.get(0);
 		}
 		return null;
 	}
@@ -156,7 +156,7 @@ public class FileHistory {
 		saveHistory();
 	}
 	
-	public List getURLs(){
+	public List<URL> getURLs(){
 		return this.urls;
 	}
 	
@@ -168,7 +168,7 @@ public class FileHistory {
 	
 	private void removeURL(URL url){
 		for(int i = 0; i < this.urls.size(); i++){
-			URL old = (URL)this.urls.get(i);
+			URL old = this.urls.get(i);
 			if(old.toString().equals(url.toString())){
 				this.urls.remove(i);
 				break;

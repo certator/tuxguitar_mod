@@ -58,7 +58,7 @@ public class MusicXMLWriter {
 	
 	private TGSongManager manager;
 	
-	private OutputStream stream;
+	private final OutputStream stream;
 	
 	private Document document;
 	
@@ -107,9 +107,9 @@ public class MusicXMLWriter {
 	private void writePartList(Node parent){
 		Node partList = this.addNode(parent,"part-list");
 		
-		Iterator tracks = this.manager.getSong().getTracks();
+		Iterator<TGTrack> tracks = this.manager.getSong().getTracks();
 		while(tracks.hasNext()){
-			TGTrack track = (TGTrack)tracks.next();
+			TGTrack track = tracks.next();
 			TGChannel channel = this.manager.getChannel(track.getChannelId());
 			
 			Node scoreParts = this.addNode(partList,"score-part");
@@ -129,17 +129,17 @@ public class MusicXMLWriter {
 	}
 	
 	private void writeParts(Node parent){
-		Iterator tracks = this.manager.getSong().getTracks();
+		Iterator<TGTrack> tracks = this.manager.getSong().getTracks();
 		while(tracks.hasNext()){
-			TGTrack track = (TGTrack)tracks.next();
+			TGTrack track = tracks.next();
 			Node part = this.addAttribute(this.addNode(parent,"part"), "id", "P" + track.getNumber());
 			
 			TGMeasure previous = null;
 			
-			Iterator measures = track.getMeasures();
+			Iterator<TGMeasure> measures = track.getMeasures();
 			while(measures.hasNext()){
 				// TODO: Add multivoice support.
-				TGMeasure srcMeasure = (TGMeasure)measures.next();
+				TGMeasure srcMeasure = measures.next();
 				TGMeasure measure = new TGVoiceJoiner(this.manager.getFactory(),srcMeasure).process();
 				Node measureNode = this.addAttribute(this.addNode(part,"measure"), "number",Integer.toString(measure.getNumber()));
 				
@@ -359,8 +359,8 @@ public class MusicXMLWriter {
 	}
 	
 	private static class TGVoiceJoiner {
-		private TGFactory factory;
-		private TGMeasure measure;
+		private final TGFactory factory;
+		private final TGMeasure measure;
 		
 		public TGVoiceJoiner(TGFactory factory,TGMeasure measure){
 			this.factory = factory;

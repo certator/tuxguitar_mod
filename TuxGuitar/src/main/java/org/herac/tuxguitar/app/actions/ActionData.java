@@ -5,10 +5,10 @@ import java.util.Map;
 
 public class ActionData {
 	
-	private Map data;
+	private Map<String, Object> data;
 	
 	public ActionData(){
-		this.data = new HashMap();
+		this.data = new HashMap<String, Object>();
 	}
 	
 	public void put(String key, Object value){

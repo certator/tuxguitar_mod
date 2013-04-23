@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.tools.browser.TGBrowserException;
+import org.herac.tuxguitar.app.tools.browser.base.TGBrowserElement;
 import org.herac.tuxguitar.community.TGCommunitySingleton;
 import org.herac.tuxguitar.community.auth.TGCommunityAuth;
 import org.herac.tuxguitar.community.auth.TGCommunityAuthDialog;
@@ -13,14 +14,14 @@ public class TGBrowserConnection {
 	private static final String HTTP_STATUS_OK = "200";
 	private static final String HTTP_STATUS_UNAUTHORIZED = "401";
 	
-	private TGCommunityAuth auth;
+	private final TGCommunityAuth auth;
 	
 	public TGBrowserConnection(){
 		this.auth = TGCommunitySingleton.getInstance().getAuth();
 		this.auth.update();
 	}
 	
-	public void getElements( List elements, TGBrowserElementImpl element ) throws TGBrowserException{
+	public void getElements( List<TGBrowserElement> elements, TGBrowserElementImpl element ) throws TGBrowserException{
 		try {
 			TGBrowserRequest request = new TGBrowserRequest(this.auth, element);
 			TGBrowserResponse response = request.getResponse();

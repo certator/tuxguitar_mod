@@ -33,10 +33,10 @@ public class KeyBindingEditor {
 	
 	protected Shell dialog;
 	protected Table table;
-	protected List items;
+	protected List<TableItem> items;
 	
 	public KeyBindingEditor(){
-		this.items = new ArrayList();
+		this.items = new ArrayList<TableItem>();
 	}
 	
 	public void show(Shell parent){
@@ -52,6 +52,7 @@ public class KeyBindingEditor {
 		this.table.setLayoutData(new GridData((ACTION_WIDTH + SHORTCUT_WIDTH) ,250));
 		this.table.setHeaderVisible(true);
 		this.table.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				TableItem item = getSelectedItem();
 				if(item != null){
@@ -83,6 +84,7 @@ public class KeyBindingEditor {
 		defaults.setText(TuxGuitar.getProperty("defaults"));
 		defaults.setLayoutData(getButtonData());
 		defaults.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				loadEnableActionKeyBindings(KeyBindingActionDefaults.getDefaultKeyBindings());
 			}
@@ -92,12 +94,14 @@ public class KeyBindingEditor {
 		close.setText(TuxGuitar.getProperty("close"));
 		close.setLayoutData(getButtonData());
 		close.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				KeyBindingEditor.this.dialog.dispose();
 			}
 		});
 		
 		this.dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				save();
 			}
@@ -137,27 +141,27 @@ public class KeyBindingEditor {
 	}
 	
 	protected void loadAvailableActionKeyBindings(){
-		List list = TuxGuitar.instance().getActionManager().getAvailableKeyBindingActions();
+		List<String> list = TuxGuitar.instance().getActionManager().getAvailableKeyBindingActions();
 		Collections.sort(list);
-		Iterator it = list.iterator();
+		Iterator<String> it = list.iterator();
 		while (it.hasNext()) {
-			String action = (String) it.next();
+			String action = it.next();
 			TableItem item = new TableItem(this.table, SWT.NONE);
 			item.setData(new KeyBindingAction(action,null));
 			this.items.add(item);
 		}
 	}
 	
-	protected void loadEnableActionKeyBindings(List list){
-		Iterator items = this.items.iterator();
+	protected void loadEnableActionKeyBindings(List<KeyBindingAction> list){
+		Iterator<TableItem> items = this.items.iterator();
 		while (items.hasNext()) {
-			TableItem item = (TableItem) items.next();
+			TableItem item = items.next();
 			if(item.getData() instanceof KeyBindingAction){
 				KeyBindingAction itemData = (KeyBindingAction)item.getData();
 				KeyBinding keyBinding = null;
-				Iterator it = list.iterator();
+				Iterator<KeyBindingAction> it = list.iterator();
 				while (it.hasNext()) {
-					KeyBindingAction keyBindingAction = (KeyBindingAction) it.next();
+					KeyBindingAction keyBindingAction = it.next();
 					if(keyBindingAction.getAction().equals(itemData.getAction())){
 						keyBinding =  (KeyBinding) keyBindingAction.getKeyBinding().clone();
 						break;
@@ -171,9 +175,9 @@ public class KeyBindingEditor {
 	
 	protected void removeKeyBindingAction(KeyBinding kb){
 		if(kb != null){
-			Iterator it = this.items.iterator();
+			Iterator<TableItem> it = this.items.iterator();
 			while(it.hasNext()){
-				TableItem item = (TableItem) it.next();
+				TableItem item = it.next();
 				if(item.getData() instanceof KeyBindingAction){
 					KeyBindingAction itemData = (KeyBindingAction)item.getData();
 					if(kb.isSameAs(itemData.getKeyBinding())){
@@ -195,9 +199,9 @@ public class KeyBindingEditor {
 	}
 	
 	public boolean exists(KeyBinding kb){
-		Iterator it = this.items.iterator();
+		Iterator<TableItem> it = this.items.iterator();
 		while(it.hasNext()){
-			TableItem item = (TableItem) it.next();
+			TableItem item = it.next();
 			if(item.getData() instanceof KeyBindingAction){
 				KeyBindingAction itemData = (KeyBindingAction)item.getData();
 				if(itemData.getKeyBinding() != null && kb.isSameAs(itemData.getKeyBinding())){
@@ -209,10 +213,10 @@ public class KeyBindingEditor {
 	}
 	
 	protected void save(){
-		List list = new ArrayList();
-		Iterator it = this.items.iterator();
+		List<KeyBindingAction> list = new ArrayList<KeyBindingAction>();
+		Iterator<TableItem> it = this.items.iterator();
 		while (it.hasNext()) {
-			TableItem item = (TableItem) it.next();
+			TableItem item = it.next();
 			if(item.getData() instanceof KeyBindingAction){
 				KeyBindingAction keyBindingAction = (KeyBindingAction)item.getData();
 				if(keyBindingAction.getAction() != null && keyBindingAction.getKeyBinding() != null){

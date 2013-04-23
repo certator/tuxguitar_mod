@@ -30,10 +30,12 @@ public class TGLayoutVertical extends TGLayout{
 		super(controller,style);
 	}
 	
+	@Override
 	public int getMode(){
 		return MODE_VERTICAL;
 	}
 	
+	@Override
 	public void paintSong(TGPainter painter,TGRectangle clientArea,int fromX,int fromY) {
 		this.marginLeft = getFirstMeasureSpacing();
 		this.marginRight = 10;
@@ -52,7 +54,7 @@ public class TGLayoutVertical extends TGLayout{
 		int nextMeasureIndex = 0;
 		while(measureCount > nextMeasureIndex){
 			TempLine line = null;
-			Iterator tracks = getSongManager().getSong().getTracks();
+			Iterator<TGTrack> tracks = getSongManager().getSong().getTracks();
 			while(tracks.hasNext()){
 				TGTrackImpl track = (TGTrackImpl) tracks.next();
 				if(number < 0 || track.getNumber() == number){
@@ -123,7 +125,7 @@ public class TGLayoutVertical extends TGLayout{
 		}
 		
 		for(int i = 0;i < line.measures.size();i ++){
-			int index = ((Integer)line.measures.get(i)).intValue();
+			int index = line.measures.get(i).intValue();
 			TGMeasureImpl currMeasure = (TGMeasureImpl)track.getMeasure(index);
 			
 			//asigno la posicion dentro del compas
@@ -189,14 +191,14 @@ public class TGLayoutVertical extends TGLayout{
 		protected boolean fullLine;
 		protected int maxY = 0;
 		protected int minY = 0;
-		protected List measures;
+		protected List<Integer> measures;
 		
 		public TempLine(){
-			this.measures = new ArrayList();
+			this.measures = new ArrayList<Integer>();
 		}
 		
 		protected void addMeasure(int index){
-			this.measures.add(new Integer(index));
+			this.measures.add(index);
 			this.lastIndex = index;
 		}
 	}

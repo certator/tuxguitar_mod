@@ -70,7 +70,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 	protected Shell dialog;
 	protected Text nameText;
 	protected TGColor trackColor;
-	protected List tempStrings;
+	protected List<TGString> tempStrings;
 	protected Button stringTransposition;
 	protected Button stringTranspositionTryKeepString;
 	protected Button stringTranspositionApplyToChords;
@@ -85,6 +85,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		showDialog(getEditor().getTablature().getShell());
 		return 0;
@@ -104,6 +105,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 			
 			this.addListeners();
 			this.dialog.addDisposeListener(new DisposeListener() {
+				@Override
 				public void widgetDisposed(DisposeEvent e) {
 					removeListeners();
 				}
@@ -188,6 +190,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		colorButton.setAlignment(SWT.RIGHT);
 		colorButton.setText(TuxGuitar.getProperty("choose"));
 		colorButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				ColorDialog dlg = new ColorDialog(TrackPropertiesAction.this.dialog);
 				dlg.setRGB(new RGB(trackColor.getR(), trackColor.getG(), trackColor.getB()));
@@ -202,6 +205,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 			}
 		});
 		colorButton.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				TrackPropertiesAction.this.disposeButtonColor(colorButton);
 			}
@@ -254,6 +258,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		this.stringCountSpinner.setMaximum(MAX_STRINGS);
 		this.stringCountSpinner.setSelection(this.stringCount);
 		this.stringCountSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TrackPropertiesAction.this.stringCount = TrackPropertiesAction.this.stringCountSpinner.getSelection();
 				setDefaultTuning(TrackPropertiesAction.this.percussionChannel);
@@ -292,6 +297,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		this.stringTranspositionTryKeepString.setSelection( true );
 		
 		this.stringTransposition.addSelectionListener( new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Button stringTransposition = TrackPropertiesAction.this.stringTransposition;
 				Button stringTranspositionApplyToChords = TrackPropertiesAction.this.stringTranspositionApplyToChords;
@@ -317,6 +323,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonsData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				updateTrackProperties();
 				TrackPropertiesAction.this.dialog.dispose();
@@ -327,6 +334,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonsData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TrackPropertiesAction.this.dialog.dispose();
 			}
@@ -350,6 +358,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		this.instrumentCombo = new Combo(top, SWT.DROP_DOWN | SWT.READ_ONLY);
 		this.instrumentCombo.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,false));
 		this.instrumentCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkPercussionChannel();
 			}
@@ -361,6 +370,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		settings.setToolTipText(TuxGuitar.getProperty("settings"));
 		settings.setLayoutData(new GridData(SWT.RIGHT,SWT.CENTER,false,false));
 		settings.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(!TuxGuitar.instance().getChannelManager().isDisposed()){
 					TuxGuitar.instance().getChannelManager().dispose();
@@ -371,8 +381,8 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 	}
 	
 	protected void loadChannels(int selectedChannelId){
-		List tgChannelsData = new ArrayList();
-		List tgChannelsAvailable = getSongManager().getChannels();
+		List<Integer> tgChannelsData = new ArrayList<Integer>();
+		List<TGChannel> tgChannelsAvailable = getSongManager().getChannels();
 		
 		Combo tgChannelsCombo = this.instrumentCombo;
 		tgChannelsCombo.removeAll();
@@ -381,7 +391,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		tgChannelsData.add(new Integer(-1));
 		
 		for( int i = 0 ; i < tgChannelsAvailable.size() ; i ++) {
-			TGChannel tgChannel = (TGChannel)tgChannelsAvailable.get(i);
+			TGChannel tgChannel = tgChannelsAvailable.get(i);
 			tgChannelsData.add(new Integer(tgChannel.getChannelId()));
 			tgChannelsCombo.add(tgChannel.getName());
 			
@@ -410,8 +420,11 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		int index = this.instrumentCombo.getSelectionIndex();
 		if( index >= 0 ){
 			Object data = this.instrumentCombo.getData();
-			if( data instanceof List && ((List)data).size() > index ){
-				return ((Integer)((List)data).get(index)).intValue();
+			if (data != null && data instanceof List) {
+				List<?> list = (List<?>) data;
+				if (list.size() > index) {
+					return ((Integer)list.get(index)).intValue();
+				}
 			}
 		}
 		return -1;
@@ -423,7 +436,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		
 		final String trackName = this.nameText.getText();
 		
-		final List strings = new ArrayList();
+		final List<TGString> strings = new ArrayList<TGString>();
 		for (int i = 0; i < this.stringCount; i++) {
 			strings.add(TGSongManager.newString(getSongManager().getFactory(),(i + 1), this.stringCombos[i].getSelectionIndex()));
 		}
@@ -444,9 +457,11 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 			if(infoChanges || tuningChanges || channelChanges){
 				ActionLock.lock();
 				TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+					@Override
 					public void run() throws Throwable {
 						TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 						new Thread( new Runnable() {
+							@Override
 							public void run() {
 								TuxGuitar.instance().getFileHistory().setUnsavedFile();
 								UndoableJoined undoable = new UndoableJoined();
@@ -488,6 +503,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 								addUndoableEdit(undoable.endUndo());
 								
 								new SyncThread(new Runnable() {
+									@Override
 									public void run() {
 										if(!TuxGuitar.isDisposed()){
 											updateTablature();
@@ -536,18 +552,18 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		return ( track.getChannelId() != channelId );
 	}
 	
-	protected boolean hasTuningChanges(TGTrackImpl track,List newStrings){
-		List oldStrings = track.getStrings();
+	protected boolean hasTuningChanges(TGTrackImpl track,List<TGString> newStrings){
+		List<TGString> oldStrings = track.getStrings();
 		//check the number of strings
 		if(oldStrings.size() != newStrings.size()){
 			return true;
 		}
 		//check the tuning of strings
 		for(int i = 0;i < oldStrings.size();i++){
-			TGString oldString = (TGString)oldStrings.get(i);
+			TGString oldString = oldStrings.get(i);
 			boolean stringExists = false;
 			for(int j = 0;j < newStrings.size();j++){
-				TGString newString = (TGString)newStrings.get(j);
+				TGString newString = newStrings.get(j);
 				if(newString.isEqual(oldString)){
 					stringExists = true;
 				}
@@ -559,7 +575,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		return false;
 	}
 	
-	protected void updateTrackTunings(TGTrackImpl track, List strings, boolean transposeStrings , boolean transposeTryKeepString , boolean transposeApplyToChords ){
+	protected void updateTrackTunings(TGTrackImpl track, List<TGString> strings, boolean transposeStrings , boolean transposeTryKeepString , boolean transposeApplyToChords ){
 		int[] transpositions = getStringTranspositions(track, strings);
 		getSongManager().getTrackManager().changeInstrumentStrings(track,strings);
 		if( transposeStrings ){
@@ -567,7 +583,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		}
 	}
 	
-	protected int[] getStringTranspositions(TGTrackImpl track, List newStrings ){
+	protected int[] getStringTranspositions(TGTrackImpl track, List<TGString> newStrings ){
 		int[] transpositions = new int[ newStrings.size() ];
 		
 		TGString newString = null;
@@ -581,7 +597,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 				}
 			}
 			for( int i = 0; i < newStrings.size() ; i ++ ){
-				TGString string = (TGString)newStrings.get( i );
+				TGString string = newStrings.get( i );
 				if( string.getNumber() == (index + 1) ){
 					newString = string;
 					break;
@@ -625,7 +641,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 	
 	protected void updateTuningGroup(boolean enabled) {
 		for (int i = 0; i < this.tempStrings.size(); i++) {
-			TGString string = (TGString)this.tempStrings.get(i);
+			TGString string = this.tempStrings.get(i);
 			this.stringCombos[i].select(string.getValue());
 			this.stringCombos[i].setVisible(true);
 			this.stringCombos[i].setEnabled(enabled);
@@ -641,10 +657,10 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		this.stringTranspositionTryKeepString.setEnabled(enabled && this.stringTransposition.getSelection());
 	}
 	
-	protected void initTempStrings(List realStrings) {
-		this.tempStrings = new ArrayList();
+	protected void initTempStrings(List<TGString> realStrings) {
+		this.tempStrings = new ArrayList<TGString>();
 		for (int i = 0; i < realStrings.size(); i++) {
-			TGString realString = (TGString) realStrings.get(i);
+			TGString realString = realStrings.get(i);
 			this.tempStrings.add(realString.clone(getSongManager().getFactory()));
 		}
 	}
@@ -719,6 +735,7 @@ public class TrackPropertiesAction extends Action implements TGUpdateListener {
 		}
 	}
 	
+	@Override
 	public void doUpdate(int type) {
 		if( type == TGUpdateListener.SELECTION ){
 			this.updateItems();

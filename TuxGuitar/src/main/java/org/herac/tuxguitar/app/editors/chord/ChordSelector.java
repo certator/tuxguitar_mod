@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.List;
 import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.helper.SyncThread;
 import org.herac.tuxguitar.app.util.TGMusicKeyUtils;
+import org.herac.tuxguitar.song.models.TGChord;
 import org.herac.tuxguitar.util.TGSynchronizer;
 
 /**
@@ -366,7 +367,7 @@ public class ChordSelector extends Composite{
 	protected void showChord(){
 		TuxGuitar.instance().loadCursor(getShell(),SWT.CURSOR_WAIT);
 		ChordCreatorListener listener = new ChordCreatorListener() {
-			public void notifyChords(final ChordCreatorUtil instance,final java.util.List chords) {
+			public void notifyChords(final ChordCreatorUtil instance,final java.util.List<TGChord> chords) {
 				try {
 					TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
 						public void run() {

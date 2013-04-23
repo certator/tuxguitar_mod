@@ -24,7 +24,7 @@ import org.herac.tuxguitar.song.models.TGChannel;
 public class TGChannelItem {
 	
 	private TGChannel channel;
-	private TGChannelManagerDialog dialog;
+	private final TGChannelManagerDialog dialog;
 	
 	private Composite composite;
 	
@@ -61,11 +61,13 @@ public class TGChannelItem {
 		this.nameText = new Text(col1Composite, SWT.BORDER | SWT.LEFT);
 		this.nameText.setLayoutData(new GridData(150, SWT.DEFAULT));
 		this.nameText.addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusLost(FocusEvent e) {
 				checkForNameModified();
 			}
 		});
 		this.nameText.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				checkForNameModified();
 			}
@@ -74,6 +76,7 @@ public class TGChannelItem {
 		this.programCombo = new Combo(col1Composite, SWT.DROP_DOWN | SWT.READ_ONLY);
 		this.programCombo.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,false));
 		this.programCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateChannel(false);
 			}
@@ -82,6 +85,7 @@ public class TGChannelItem {
 		this.bankCombo = new Combo(col1Composite, SWT.DROP_DOWN | SWT.READ_ONLY);
 		this.bankCombo.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,false));
 		this.bankCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateChannel(false);
 			}
@@ -95,6 +99,7 @@ public class TGChannelItem {
 		this.percussionButton = new Button(col2Composite, SWT.CHECK);
 		this.percussionButton.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		this.percussionButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateChannel(true);
 			}
@@ -103,6 +108,7 @@ public class TGChannelItem {
 		this.channel1Combo = new Combo(col2Composite, SWT.DROP_DOWN | SWT.READ_ONLY);
 		this.channel1Combo.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,false));
 		this.channel1Combo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateChannel(false);
 			}
@@ -111,6 +117,7 @@ public class TGChannelItem {
 		this.channel2Combo = new Combo(col2Composite, SWT.DROP_DOWN | SWT.READ_ONLY);
 		this.channel2Combo.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,false));
 		this.channel2Combo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateChannel(false);
 			}
@@ -124,6 +131,7 @@ public class TGChannelItem {
 		this.removeChannelButton = new Button(col3Composite, SWT.PUSH);
 		this.removeChannelButton.setLayoutData(new GridData(SWT.RIGHT, SWT.FILL, true, false));
 		this.removeChannelButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeChannel();
 			}
@@ -202,7 +210,7 @@ public class TGChannelItem {
 	
 	private void updateChannelCombos(boolean playerRunning){
 		if(!isDisposed() && getChannel() != null){
-			List channels = getHandle().getFreeChannels(getChannel());
+			List<Integer> channels = getHandle().getFreeChannels(getChannel());
 			
 			String channel1Prefix = TuxGuitar.getProperty("instrument.channel");
 			String channel2Prefix = TuxGuitar.getProperty("instrument.effect-channel");
@@ -215,18 +223,18 @@ public class TGChannelItem {
 		}
 	}
 	
-	private void reloadChannelCombo(Combo combo, List channels, int selected, String prefix){
-		if(!(combo.getData() instanceof List) || isDifferentList(channels, (List)combo.getData())){
+	private void reloadChannelCombo(Combo combo, List<Integer> channels, int selected, String prefix){
+		if(!(combo.getData() instanceof List) || channels.equals(combo.getData())){
 			combo.removeAll();
 			combo.setData(channels);
 			for( int i = 0 ; i < channels.size() ; i ++ ){
-				Integer channel = (Integer)channels.get(i);
+				Integer channel = channels.get(i);
 				
 				combo.add(prefix + " #" + channel.toString() );
 			}
 		}
 		for( int i = 0 ; i < channels.size() ; i ++ ){
-			Integer channel = (Integer)channels.get(i);
+			Integer channel = channels.get(i);
 			if( channel.intValue() == selected ){
 				combo.select( i );
 			}
@@ -250,12 +258,12 @@ public class TGChannelItem {
 	
 	private void updateProgramCombo(boolean playerRunning){
 		if(!isDisposed() && getChannel() != null){
-			List programNames = getProgramNames();
-			if(!(this.programCombo.getData() instanceof List) || isDifferentList(programNames, (List)this.programCombo.getData())){
+			List<String> programNames = getProgramNames();
+			if(!(this.programCombo.getData() instanceof List) || !programNames.equals(this.programCombo.getData())){
 				this.programCombo.removeAll();
 				this.programCombo.setData(programNames);
 				for( int i = 0 ; i < programNames.size() ; i ++ ){
-					this.programCombo.add((String)programNames.get(i));
+					this.programCombo.add(programNames.get(i));
 				}
 			}
 			if( getChannel().getProgram() >= 0 && getChannel().getProgram() < this.programCombo.getItemCount() ){
@@ -264,8 +272,8 @@ public class TGChannelItem {
 		}
 	}
 	
-	private List getProgramNames(){
-		List programNames = new ArrayList();
+	private List<String> getProgramNames(){
+		List<String> programNames = new ArrayList<String>();
 		if(!getChannel().isPercussionChannel() ){
 			MidiInstrument[] instruments = TuxGuitar.instance().getPlayer().getInstruments();
 			if (instruments != null) {
@@ -281,25 +289,12 @@ public class TGChannelItem {
 		if( programNames.isEmpty() ){
 			String programPrefix = TuxGuitar.getProperty("instrument.program");
 			for (int i = 0; i < 128; i++) {
-				programNames.add((programPrefix + " #" + i));
+				programNames.add(programPrefix + " #" + i);
 			}
 		}
 		return programNames;
 	}
-	
-	private boolean isDifferentList(List list1, List list2){
-		if( list1.size() != list2.size() ){
-			return true;
-		}
-		for( int i = 0 ; i < list1.size() ; i ++ ){
-			if(!list1.get(i).equals(list2.get(i)) ){
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
+
 	public void checkForNameModified(){
 		if( getChannel() != null && !isDisposed() && !this.nameText.getText().equals(getChannel().getName()) ){
 			updateChannel(false);
@@ -361,14 +356,20 @@ public class TGChannelItem {
 			}else{
 				int channel1Selection = this.channel1Combo.getSelectionIndex();
 				Object channel1Data = this.channel1Combo.getData();
-				if( channel1Selection >= 0 && channel1Data instanceof List && ((List)channel1Data).size() > channel1Selection ){
-					channel1 = ((Integer)((List)channel1Data).get(channel1Selection)).intValue();
+				if( channel1Selection >= 0 && channel1Data instanceof List ){
+					List<?> list = (List<?>) channel1Data;
+					if ( list.size() > channel1Selection ){
+						channel1 = ((Integer)list.get(channel1Selection)).intValue();
+					}
 				}
 				
 				int channel2Selection = this.channel2Combo.getSelectionIndex();
 				Object channel2Data = this.channel2Combo.getData();
-				if( channel2Selection >= 0 && channel2Data instanceof List && ((List)channel2Data).size() > channel2Selection ){
-					channel2 = ((Integer)((List)channel2Data).get(channel2Selection)).intValue();
+				if( channel2Selection >= 0 && channel2Data instanceof List ){
+					List<?> list = (List<?>) channel2Data;
+					if ( list.size() > channel2Selection ){
+						channel2 = ((Integer)list.get(channel2Selection)).intValue();
+					}
 				}
 			}
 			

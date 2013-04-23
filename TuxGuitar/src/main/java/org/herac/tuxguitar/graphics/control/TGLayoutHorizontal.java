@@ -10,6 +10,8 @@ import java.util.Iterator;
 
 import org.herac.tuxguitar.graphics.TGPainter;
 import org.herac.tuxguitar.graphics.TGRectangle;
+import org.herac.tuxguitar.song.models.TGMeasure;
+import org.herac.tuxguitar.song.models.TGTrack;
 
 /**
  * @author julian
@@ -23,10 +25,12 @@ public class TGLayoutHorizontal extends TGLayout{
 		super(controller,style);
 	}
 	
+	@Override
 	public int getMode(){
 		return MODE_HORIZONTAL;
 	}
 	
+	@Override
 	public void paintSong(TGPainter painter,TGRectangle clientArea,int fromX,int fromY) {
 		this.setWidth(0);
 		this.setHeight(0);
@@ -37,7 +41,7 @@ public class TGLayoutHorizontal extends TGLayout{
 		int posY = fromY + getFirstTrackSpacing();
 		int height = getFirstTrackSpacing();
 		int trackHeight;
-		Iterator tracks = getSongManager().getSong().getTracks();
+		Iterator<TGTrack> tracks = getSongManager().getSong().getTracks();
 		while(tracks.hasNext()){
 			TGTrackImpl track = (TGTrackImpl) tracks.next();
 			if(number < 0 || track.getNumber() == number){
@@ -55,7 +59,7 @@ public class TGLayoutHorizontal extends TGLayout{
 					minY = -(getScoreLineSpacing() * 3);
 				}
 				
-				Iterator measures = track.getMeasures();
+				Iterator<TGMeasure> measures = track.getMeasures();
 				while(measures.hasNext()){
 					TGMeasureImpl measure = (TGMeasureImpl)measures.next();
 					maxY = (measure.getMaxY() > maxY)?measure.getMaxY():maxY;
@@ -96,7 +100,7 @@ public class TGLayoutHorizontal extends TGLayout{
 		int posY = fromY;
 		int width = getFirstMeasureSpacing();
 		
-		Iterator measures = track.getMeasures();
+		Iterator<TGMeasure> measures = track.getMeasures();
 		while(measures.hasNext()){
 			TGMeasureImpl measure = (TGMeasureImpl)measures.next();
 			

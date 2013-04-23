@@ -51,6 +51,7 @@ public class EditPluginsAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		showDialog();
 		return 0;
@@ -74,9 +75,9 @@ public class EditPluginsAction extends Action{
 		columnEnabled.setWidth( (TABLE_WIDTH / 4) );
 		columnPlugin.setWidth( (TABLE_WIDTH - (TABLE_WIDTH / 4)) );
 		
-		Iterator it = TuxGuitar.instance().getPluginManager().getPlugins().iterator();
+		Iterator<TGPlugin> it = TuxGuitar.instance().getPluginManager().getPlugins().iterator();
 		while(it.hasNext()){
-			TGPlugin plugin = (TGPlugin)it.next();
+			TGPlugin plugin = it.next();
 			TableItem item = new TableItem(table, SWT.NONE);
 			item.setData(plugin);
 			item.setText(1,((plugin.getName() != null)?plugin.getName():"Undefined Plugin"));
@@ -93,6 +94,7 @@ public class EditPluginsAction extends Action{
 		buttonSetup.setLayoutData(getButtonData());
 		buttonSetup.setEnabled(false);
 		buttonSetup.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TableItem item = table.getItem(table.getSelectionIndex());
 				if(item != null && item.getData() instanceof TGPluginSetup){
@@ -110,6 +112,7 @@ public class EditPluginsAction extends Action{
 		buttonInfo.setLayoutData(getButtonData());
 		buttonInfo.setEnabled(false);
 		buttonInfo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TableItem item = table.getItem(table.getSelectionIndex());
 				if(item != null && item.getData() instanceof TGPlugin){
@@ -126,12 +129,14 @@ public class EditPluginsAction extends Action{
 		buttonClose.setText(TuxGuitar.getProperty("close"));
 		buttonClose.setLayoutData(getButtonData());
 		buttonClose.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}
 		});
 		
 		table.addListener (SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent (Event event) {
 				buttonInfo.setEnabled(false);
 				buttonSetup.setEnabled(false);
@@ -177,6 +182,7 @@ public class EditPluginsAction extends Action{
 		buttonExit.setText(TuxGuitar.getProperty("exit"));
 		buttonExit.setLayoutData(getButtonData());
 		buttonExit.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}
@@ -203,6 +209,7 @@ public class EditPluginsAction extends Action{
 			final Font font = new Font(label.getDisplay(),fontDatas[0].getName(),(fontDatas[0].getHeight()),SWT.BOLD);
 			label.setFont(font);
 			label.addDisposeListener(new DisposeListener() {
+				@Override
 				public void widgetDisposed(DisposeEvent e) {
 					font.dispose();
 				}
