@@ -52,17 +52,29 @@
 					</executions>
 				</plugin>
 
+				<!-- to test things-->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.8.1</version>
+				</plugin>
+
 			</plugins>
 		</pluginManagement>
 	</build>
 
 	<dependencyManagement>
 		<dependencies>
-			    <dependency>
-						<groupId>org.herac.tuxguitar</groupId>
-						<artifactId>tuxguitar-app</artifactId>
-						<version>1.3-SNAPSHOT</version>
-			    </dependency>
+		    <dependency>
+					<groupId>org.herac.tuxguitar</groupId>
+					<artifactId>tuxguitar-app</artifactId>
+					<version>1.3-SNAPSHOT</version>
+		    </dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.8.1</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

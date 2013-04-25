@@ -54,6 +54,7 @@ import org.herac.tuxguitar.app.system.icons.IconManager;
 import org.herac.tuxguitar.app.system.keybindings.KeyBindingActionManager;
 import org.herac.tuxguitar.app.system.language.LanguageManager;
 import org.herac.tuxguitar.app.system.plugins.TGPluginManager;
+import org.herac.tuxguitar.app.system.tuning.TuningTemplateManager;
 import org.herac.tuxguitar.app.table.TGTableViewer;
 import org.herac.tuxguitar.app.tools.browser.dialog.TGBrowserDialog;
 import org.herac.tuxguitar.app.tools.scale.ScaleManager;
@@ -91,7 +92,7 @@ public class TuxGuitar {
 	
 	private boolean initialized;
 	
-	private TGLock lock;
+	private final TGLock lock;
 	
 	private Display display;
 	
@@ -107,6 +108,8 @@ public class TuxGuitar {
 	
 	private KeyBindingActionManager keyBindingManager;
 	
+	private TuningTemplateManager tuningTemplateManager;
+
 	private IconManager iconManager;
 	
 	private EditorCache editorCache;
@@ -167,10 +170,12 @@ public class TuxGuitar {
 	
 	private void initSynchronizer(){
 		TGSynchronizer.instance().setController(new TGSynchronizer.TGSynchronizerController() {
+			@Override
 			public void execute(final TGSynchronizer.TGSynchronizerTask task) {
 				final Display display = getDisplay();
 				if(display != null && !display.isDisposed()){
 					display.syncExec(new Runnable() {
+						@Override
 						public void run() {
 							task.run();
 						}
@@ -178,10 +183,12 @@ public class TuxGuitar {
 				}
 			}
 			
+			@Override
 			public void executeLater(final TGSynchronizer.TGSynchronizerTask task) {
 				final Display display = getDisplay();
 				if(display != null && !display.isDisposed()){
 					display.asyncExec(new Runnable() {
+						@Override
 						public void run() {
 							task.run();
 						}
@@ -250,9 +257,11 @@ public class TuxGuitar {
 		if(url != null){
 			ActionLock.lock();
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 					new Thread(new Runnable() {
+						@Override
 						public void run() {
 							if(!TuxGuitar.isDisposed()){
 								FileActionUtils.open(url);
@@ -314,11 +323,13 @@ public class TuxGuitar {
 		getFretBoardEditor().showFretBoard(footer);
 		
 		this.sash.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseUp(MouseEvent e) {
 				TuxGuitar.this.sashComposite.layout(true,true);
 			}
 		});
 		this.sash.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				int maximumHeight = (TuxGuitar.this.sashComposite.getBounds().height - TuxGuitar.this.sash.getBounds().height);
 				int height = (maximumHeight - event.y);
@@ -328,11 +339,13 @@ public class TuxGuitar {
 			}
 		});
 		this.sash.addMouseTrackListener(new MouseTrackAdapter() {
+			@Override
 			public void mouseEnter(MouseEvent e) {
 				TuxGuitar.this.sash.setCursor( getDisplay().getSystemCursor( SWT.CURSOR_SIZENS ) );
 			}
 		});
 		this.sashComposite.addListener(SWT.Resize, new Listener() {
+			@Override
 			public void handleEvent(Event arg0) {
 				FormData data = ((FormData) TuxGuitar.this.sash.getLayoutData());
 				int height = -data.bottom.offset;
@@ -367,6 +380,7 @@ public class TuxGuitar {
 		//---Instruments---
 		if(config.getBooleanConfigValue(TGConfigKeys.SHOW_INSTRUMENTS)){
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					getChannelManager().show();
 				}
@@ -375,6 +389,7 @@ public class TuxGuitar {
 		//---Transport---
 		if(config.getBooleanConfigValue(TGConfigKeys.SHOW_TRANSPORT)){
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					getTransport().show();
 				}
@@ -383,6 +398,7 @@ public class TuxGuitar {
 		//---Matrix---
 		if(config.getBooleanConfigValue(TGConfigKeys.SHOW_MATRIX)){
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					getMatrixEditor().show();
 				}
@@ -391,6 +407,7 @@ public class TuxGuitar {
 		//---Piano---
 		if(config.getBooleanConfigValue(TGConfigKeys.SHOW_PIANO)){
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					getPianoEditor().show();
 				}
@@ -399,6 +416,7 @@ public class TuxGuitar {
 		//---Markers---
 		if(config.getBooleanConfigValue(TGConfigKeys.SHOW_MARKERS)){
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					MarkerList.instance().show();
 				}
@@ -535,6 +553,7 @@ public class TuxGuitar {
 		if(this.iconManager == null){
 			this.iconManager = new IconManager();
 			this.iconManager.addLoader( new IconLoader() {
+				@Override
 				public void loadIcons() {
 					getShell().setImage(getIconManager().getAppIcon());
 					getShell().layout(true);
@@ -587,6 +606,13 @@ public class TuxGuitar {
 		}
 		return this.keyBindingManager;
 	}
+
+	public TuningTemplateManager getTuningTemplateManager(){
+		if(this.tuningTemplateManager == null){
+			this.tuningTemplateManager = new TuningTemplateManager();
+		}
+		return this.tuningTemplateManager;
+	}
 	
 	public FileHistory getFileHistory(){
 		if(this.fileHistory == null){
@@ -626,6 +652,7 @@ public class TuxGuitar {
 	
 	public void showTitle(){
 		new SyncThread(new Runnable() {
+			@Override
 			public void run() {
 				if(!isDisposed()){
 					getShell().setText(WindowTitleUtil.parseTitle());
@@ -640,6 +667,7 @@ public class TuxGuitar {
 			this.getEditorCache().updateEditMode();
 			this.unlock();
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					if(!isDisposed() && !isLocked()){
 						if(updateItems){
@@ -805,6 +833,7 @@ public class TuxGuitar {
 	public void loadCursor(final Control control,final int style){
 		try {
 			TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					if(!control.isDisposed()){
 						control.setCursor(getDisplay().getSystemCursor(style));
@@ -818,6 +847,7 @@ public class TuxGuitar {
 	
 	public void playBeat( final TGBeat beat ){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				if(!isDisposed() && !getPlayer().isRunning() ){
 					getPlayer().playBeat(beat);

@@ -1,6 +1,7 @@
 package org.herac.tuxguitar.app.widgets;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
@@ -25,6 +26,7 @@ import org.herac.tuxguitar.app.undo.undoables.UndoableJoined;
 import org.herac.tuxguitar.app.undo.undoables.track.UndoableTrackGeneric;
 import org.herac.tuxguitar.app.undo.undoables.track.UndoableTrackInfo;
 import org.herac.tuxguitar.app.undo.undoables.track.UndoableTrackInstrument;
+import org.herac.tuxguitar.app.util.DialogUtils;
 import org.herac.tuxguitar.app.util.TGMusicKeyUtils;
 import org.herac.tuxguitar.graphics.control.TGTrackImpl;
 import org.herac.tuxguitar.song.managers.TGSongManager;
@@ -41,14 +43,12 @@ import org.herac.tuxguitar.util.TGSynchronizer;
  */
 public class TrackPropertiesDialog extends Shell implements TGUpdateListener {
 
-	private static final String[] NOTE_NAMES = TGMusicKeyUtils.getSharpKeyNames(TGMusicKeyUtils.PREFIX_TUNING);
 	private static final int MINIMUM_LEFT_CONTROLS_WIDTH = 180;
 	private static final int MINIMUM_BUTTON_WIDTH = 80;
 	private static final int MINIMUM_BUTTON_HEIGHT = 25;
 	private static final int MAX_STRINGS = 7;
 	private static final int MIN_STRINGS = 4;
 	private static final int MAX_OCTAVES = 10;
-	private static final int MAX_NOTES = 12;
 
 	private Text nameText;
 	private final TGColor trackColor;
@@ -58,6 +58,7 @@ public class TrackPropertiesDialog extends Shell implements TGUpdateListener {
 	private Button stringTranspositionApplyToChords;
 	private Spinner stringCountSpinner;
 	private final Combo[] stringCombos = new Combo[MAX_STRINGS];
+	private Button loadTunningButton;
 	private Combo offsetCombo;
 	private int stringCount;
 	private Combo instrumentCombo;
@@ -65,8 +66,8 @@ public class TrackPropertiesDialog extends Shell implements TGUpdateListener {
 
 	TGTrackImpl selectedTrack;
 
-	public TrackPropertiesDialog(Shell shell, TGTrackImpl track) {
-		super(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+	public TrackPropertiesDialog(Shell parent, TGTrackImpl track) {
+		super(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 
 		if (track == null) {
 			throw new IllegalArgumentException("Initialized track expected");
@@ -187,8 +188,28 @@ public class TrackPropertiesDialog extends Shell implements TGUpdateListener {
 
 	private void initTuningCombos(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayout(new GridLayout(/*MAX_STRINGS, false*/));
+		composite.setLayout(new GridLayout(/*MAX_STRINGS+1, false*/));
 		composite.setLayoutData(new GridData(SWT.RIGHT,SWT.FILL,false,true));
+
+		loadTunningButton = new Button(composite, SWT.PUSH);
+		loadTunningButton.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,true));
+		loadTunningButton.setText(TuxGuitar.getProperty("tuning.load"));
+		loadTunningButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				final TuningTemplateDialog dialog = new TuningTemplateDialog(TrackPropertiesDialog.this);
+				DialogUtils.openDialog(dialog, DialogUtils.OPEN_STYLE_CENTER | DialogUtils.OPEN_STYLE_PACK | DialogUtils.OPEN_STYLE_WAIT);
+				TGString[] strings = dialog.getSelectedStrings();
+				if (strings != null) {
+					TrackPropertiesDialog.this.stringCountSpinner.setSelection(strings.length);
+					TrackPropertiesDialog.this.stringCount = strings.length;
+					tempStrings.clear();
+					tempStrings.addAll(Arrays.asList(strings));
+					updateTuningGroup(!TrackPropertiesDialog.this.percussionChannel);
+				}
+			}
+		});
+
 		String[] tuningTexts = getAllValueNames();
 		for (int i = 0; i < MAX_STRINGS; i++) {
 			this.stringCombos[i] = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
@@ -590,6 +611,7 @@ public class TrackPropertiesDialog extends Shell implements TGUpdateListener {
 			this.stringCombos[i].setVisible(true);
 			this.stringCombos[i].setEnabled(enabled);
 		}
+		this.loadTunningButton.setEnabled(enabled);
 
 		for (int i = this.tempStrings.size(); i < MAX_STRINGS; i++) {
 			this.stringCombos[i].select(0);
@@ -662,9 +684,9 @@ public class TrackPropertiesDialog extends Shell implements TGUpdateListener {
 	}
 
 	private String[] getAllValueNames() {
-		String[] valueNames = new String[MAX_NOTES * MAX_OCTAVES];
+		String[] valueNames = new String[TGMusicKeyUtils.MAX_NOTES * MAX_OCTAVES];
 		for (int i = 0; i < valueNames.length; i++) {
-			valueNames[i] =  NOTE_NAMES[ (i -  ((i / MAX_NOTES) * MAX_NOTES) ) ] + (i / MAX_NOTES);
+			valueNames[i] =  TGMusicKeyUtils.getNoteName(i);
 		}
 		return valueNames;
 	}

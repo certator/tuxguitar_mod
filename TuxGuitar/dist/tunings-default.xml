@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tunings>
+	<tuning instrument="guitar" name="standard" strings="E3 A3 D4 G4 B4 E5" />
+	<tuning instrument="guitar" name="drop D" strings="D3 A3 D4 G4 B4 E5" />
+	<tuning instrument="guitar" name="double drop D" strings="D3 A3 D4 G4 B4 D5" />
+
+	<tuning instrument="bass" name="standard" strings="E2 A2 D3 G3" />
+	<tuning instrument="bass" name="drop D" strings="D2 A2 D3 G3" />
+	<tuning instrument="bass" name="standard" strings="B1 E2 A2 D3 G3" />
+	<tuning instrument="bass" name="standard" strings="B1 E2 A2 D3 G3 C4" />
+
+	<tuning instrument="ukulele" name="standard" strings="G5 C5 E5 A5" />
+	<tuning instrument="ukulele" name="low G" strings="G4 C5 E5 A5" />
+	<tuning instrument="ukulele" name="baritone" strings="D4 G4 B4 E5" />
+	<tuning instrument="ukulele" name="D tunning" strings="A5 D5 F#5 B5" />
+	<tuning instrument="ukulele" name="canadian tunning" strings="A4 D5 F#5 B5" />
+
+	<tuning instrument="banjo" name="standard" strings="C4 G4 D5 A5" />
+	<tuning instrument="banjo" name="standard" strings="G5 D4 G4 B4 D5" />
+	<tuning instrument="banjo" name="standard" strings="E3 A3 D4 G4 B4 E5" />
+</tunings>

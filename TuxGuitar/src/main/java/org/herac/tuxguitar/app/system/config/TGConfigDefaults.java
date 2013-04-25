@@ -29,7 +29,7 @@ public class TGConfigDefaults{
 	
 	private static final String DEFAULT_FONT_NAME = getDefaultFontName();
 	
-	private Properties properties;
+	private final Properties properties;
 	
 	public TGConfigDefaults(){
 		this.properties = new Properties();
@@ -140,6 +140,9 @@ public class TGConfigDefaults{
 	}
 	
 	private static String getDefaultFontName(){
+		if (!TuxGuitar.instance().isInitialized()) {
+			return "";
+		}
 		Font font = TuxGuitar.instance().getDisplay().getSystemFont();
 		if( font != null ){
 			FontData[] fd = font.getFontData();
@@ -147,7 +150,7 @@ public class TGConfigDefaults{
 				return fd[0].getName();
 			}
 		}
-		return new String();
+		return "";
 	}
 	
 }
