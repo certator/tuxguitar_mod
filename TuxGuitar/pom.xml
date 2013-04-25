@@ -44,7 +44,7 @@
 					<arguments>
 						<argument>-Xms128m</argument>
 						<argument>-Xmx128m</argument>
-						<argument>-Dtuxguitar.share.path=${project.basedir}/share</argument>
+						<argument>-Dtuxguitar.share.path=${project.basedir}/share:${project.basedir}/dist</argument>
 						<argument>-classpath</argument>
 						<!-- automatically creates the classpath using all project dependencies,
 						also adding the project build directory -->
