@@ -96,79 +96,21 @@
 		</profile>
 
 		<profile>
-			<id>pure-java</id>
+			<id>only-plugins</id>
+			<modules>
+				<module>plugins</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<id>default</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
-				<!-- core -->
 				<module>TuxGuitar</module>
 				<module>TuxGuitar-swt</module>
-
-				<!-- Java plugins -->
-				<module>TuxGuitar-abc</module>
-				<module>TuxGuitar-ascii</module>
-				<module>TuxGuitar-browser-ftp</module>
-				<module>TuxGuitar-community</module>
-				<module>TuxGuitar-compat</module>
-				<module>TuxGuitar-converter</module>
-				<module>TuxGuitar-gervill</module>
-				<module>TuxGuitar-gpx</module>
-				<module>TuxGuitar-gtp</module>
-				<module>TuxGuitar-image</module>
-				<module>TuxGuitar-jsa</module>
-				<module>TuxGuitar-lilypond</module>
-				<module>TuxGuitar-midi</module>
-				<module>TuxGuitar-midi-input</module>
-				<module>TuxGuitar-musicxml</module>
-				<module>TuxGuitar-pdf</module>
-				<module>TuxGuitar-ptb</module>
-				<module>TuxGuitar-svg</module>
-				<module>TuxGuitar-tef</module>
-				<module>TuxGuitar-tray</module>
-				<module>TuxGuitar-tuner</module>
-				<module>TuxGuitar-viewer</module>
-			</modules>
-		</profile>
-
-		<profile>
-			<id>linux-jni</id>
-			<modules>
-				<!-- JNI plugins -->
-				<module>TuxGuitar-alsa</module>
-				<module>TuxGuitar-fluidsynth</module>
-				<module>TuxGuitar-jack</module>
-				<module>TuxGuitar-oss</module>
-			</modules>
-		</profile>
-
-		<profile>
-			<id>windows-jni</id>
-			<modules>
-				<!-- JNI plugins -->
-				<!-- TODO the project need some fix to build with Windows -->
-				<!-- TODO maybe it need to split the project linux/windows -->
-				<module>TuxGuitar-fluidsynth</module>
-				<!-- TODO the project need some fix to build with Windows -->
-				<module>TuxGuitar-winmm</module>
-			</modules>
-		</profile>
-
-		<profile>
-			<id>mac-jni</id>
-			<modules>
-				<!-- OS integration -->
-				<!-- TODO the project need some fix to build with Mac OS.-->
-				<!-- it is maybe needed to use another SWT version, for example http://swt-repo.googlecode.com/svn/repo/org/eclipse/swt/ -->
-				<module>TuxGuitar-cocoa-integration</module>
-				<!-- TODO the project need some fix to build with Mac OS -->
-				<module>TuxGuitar-carbon-integration</module>
-
-				<!-- JNI plugins -->
-				<!-- TODO the project need some fix to build with Mac OS -->
-				<module>TuxGuitar-AudioUnit</module>
-				<!-- TODO the project need some fix to build with Mac OS -->
-				<module>TuxGuitar-CoreAudio</module>
+				<module>plugins</module>
 			</modules>
 		</profile>
 
