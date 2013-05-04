@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="TuxGuitar/src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="_3rd_party/gervill.jar"/>
-	<classpathentry kind="lib" path="_3rd_party/itext.jar"/>
-	<classpathentry kind="lib" path="_3rd_party/swt.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>
