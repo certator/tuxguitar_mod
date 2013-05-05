@@ -12,10 +12,16 @@ import org.herac.tuxguitar.graphics.TGColor;
 import org.herac.tuxguitar.graphics.TGPainter;
 import org.herac.tuxguitar.graphics.TGResourceFactory;
 import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
+import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGTrack;
 
 class TrackCanvas extends Composite implements PaintListener{
 
+	/**
+	 * Coefficient to compute the width of one measure according to the height of the component.
+	 */
+	private float widthMeasureCoef = 1.0f;
+	
 	/**
 	 * Displayed track
 	 */
@@ -49,6 +55,7 @@ class TrackCanvas extends Composite implements PaintListener{
 			int y = 0;
 			int height = this.getSize().y;
 			int width = painter.getGC().getDevice().getBounds().width;
+			int measureWidth = (int)(height * widthMeasureCoef);
 			boolean playing = TuxGuitar.instance().getPlayer().isRunning();
 
 			painter.setBackground(new TGColorImpl(painter.getGC().getDevice().getSystemColor(SWT.COLOR_GRAY)));
@@ -73,12 +80,12 @@ class TrackCanvas extends Composite implements PaintListener{
 				if(isRestMeasure(measure)){
 					painter.initPath();
 					painter.setAntialias(false);
-					painter.addRectangle(x,y,height - 2,height - 1);
+					painter.addRectangle(x,y,measureWidth - 2,height - 1);
 					painter.closePath();
 				}else{
 					painter.initPath(TGPainter.PATH_FILL);
 					painter.setAntialias(false);
-					painter.addRectangle(x,y,height - 1,height );
+					painter.addRectangle(x,y,measureWidth - 1,height );
 					painter.closePath();
 				}
 
@@ -87,10 +94,10 @@ class TrackCanvas extends Composite implements PaintListener{
 					painter.setBackground(selectedColor);
 					painter.initPath(TGPainter.PATH_FILL);
 					painter.setAntialias(false);
-					painter.addRectangle(x + 4,y + 4,height - 9,height - 8);
+					painter.addRectangle(x + 4,y + 4,measureWidth - 9,height - 8);
 					painter.closePath();
 				}
-				x += height;
+				x += measureWidth;
 
 				// swap the color to show a structural change
 				if (measure.hasDoubleBar() || measure.getRepeatClose() != 0) {
@@ -165,6 +172,43 @@ class TrackCanvas extends Composite implements PaintListener{
 		if (track == null)
 			return 0;
 		return track.countMeasures() * this.getSize().y;
+	}
+
+	public float getWidthMeasureCoef() {
+		return widthMeasureCoef;
+	}
+
+	public void setWidthMeasureCoef(float widthMeasureCoef) {
+		// clamp
+		if (widthMeasureCoef > 1) {
+			widthMeasureCoef = 1;
+		} else {
+			int measureWidth = (int)(this.getSize().y * widthMeasureCoef);
+			if (measureWidth < 12){
+				widthMeasureCoef = 12.0f / this.getSize().y;
+			}
+		}
+		if (this.widthMeasureCoef != widthMeasureCoef) {
+			this.widthMeasureCoef = widthMeasureCoef;
+			redraw();
+		}
+	}
+
+	/**
+	 * Return the measure of the displayed track at the requested position.
+	 * @param x Position of the visible component
+	 * @return
+	 */
+	public TGMeasure getMeasureAtPosition(int x) {
+		if (track == null) {
+			return null;
+		}
+		int measureWidth = (int)(this.getSize().y * widthMeasureCoef);
+		int index = (x + hScroll) / measureWidth;
+		if (index < 0 || index >= track.countMeasures()) {
+			return null;
+		}
+		return track.getMeasure(index);
 	}
 
 }

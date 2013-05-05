@@ -64,6 +64,9 @@ class TrackTable {
 	
 	public TrackTableRow newRow(){
 		TrackTableRow row = new TrackTableRow(this);
+		if (!this.rows.isEmpty()) {
+			row.getCanvas().setWidthMeasureCoef(rows.get(0).getCanvas().getWidthMeasureCoef());
+		}
 		this.rows.add(row);
 		return row;
 	}

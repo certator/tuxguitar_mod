@@ -6,6 +6,7 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridLayout;
@@ -48,11 +49,35 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 	private boolean update;
 	private boolean followScroll;
 	private boolean resetTexts;
+	private final MouseWheelListener trackCanvasZoomMouseWheel;
 	
 	public TrackTableViewer() {
 		TuxGuitar.instance().getLanguageManager().addLoader(this);
 		TuxGuitar.instance().getEditorManager().addRedrawListener(this);
 		TuxGuitar.instance().getEditorManager().addUpdateListener(this);
+		
+		trackCanvasZoomMouseWheel = new MouseWheelListener() {
+			@Override
+			public void mouseScrolled(MouseEvent e) {
+				TrackCanvas canvas = (TrackCanvas) e.getSource();
+				float coef = canvas.getWidthMeasureCoef();
+				final float constante = 4;
+				if (e.count > 0) {
+					coef *= 1.0 + 1.0 / constante;
+				} else if (e.count < 0) {
+					coef *= (constante - 1) / constante;
+				} else {
+					return;
+				}
+				for (int i = 0; i < getTable().getRowCount(); i++) {
+					TrackTableRow row = getTable().getRow(i);
+					row.getCanvas().setWidthMeasureCoef(coef);
+				}
+				hSroll.setThumb(canvas.getSize().x);
+				hSroll.setMaximum(canvas.getRealWidth());
+				updateCanvasScroll(hSroll.getSelection());
+			}
+		};
 	}
 	
 	public void init(Composite parent){
@@ -169,6 +194,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			this.table.removeRowsAfter(count);
 			for(int i = this.table.getRowCount(); i < count; i ++){
 				final TrackTableRow row = this.table.newRow();
+				row.getCanvas().addMouseWheelListener(trackCanvasZoomMouseWheel);
 				row.addMouseListenerLabel(new MouseAdapter() {
 					
 					@Override
@@ -206,10 +232,9 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 					
 					@Override
 					public void mouseDown(MouseEvent e) {
-						int index = ((e.x + getHScrollSelection())/ getTable().getRowHeight());
 						TGTrack track = row.getTrack();
-						if(index >= 0 && index < track.countMeasures()){
-							TGMeasureImpl measure = (TGMeasureImpl)track.getMeasure(index);
+						TGMeasureImpl measure = (TGMeasureImpl) row.getCanvas().getMeasureAtPosition(e.x);
+						if(measure != null){
 							TGBeat beat = TuxGuitar.instance().getSongManager().getMeasureManager().getFirstBeat(measure.getBeats());
 							if(beat != null){
 								getEditor().getTablature().getCaret().moveTo((TGTrackImpl)track,measure,beat,1);
@@ -315,7 +340,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 	private void followHorizontalScroll(int selectedMeasure){
 		int hScrollSelection = this.hSroll.getSelection();
 		int hScrollThumb = this.hSroll.getThumb();
-		
+
 		int measureSize = this.table.getRowHeight();
 		int measurePosition = ( (selectedMeasure * measureSize) - measureSize );
 		
