@@ -1,4 +1,4 @@
-package org.herac.tuxguitar.app.table;
+package org.herac.tuxguitar.app.tracktable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +12,18 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.herac.tuxguitar.app.TuxGuitar;
 
-public class TGTableColumn {
-	private TGTable table;
-	private CLabel column;
-	private List<Control> controls;
+class TrackTableColumn {
+	private final TrackTable table;
+	private final CLabel column;
+	private final List<Control> controls;
 	
-	public TGTableColumn(TGTable table,int align){
+	public TrackTableColumn(TrackTable table,int align){
 		this.table = table;
 		this.controls = new ArrayList<Control>();
 		this.column = new CLabel(this.table.getColumnControl(),align | SWT.SHADOW_OUT);
 		this.column.setLayout(new GridLayout());
 		this.column.addListener(SWT.Resize,new Listener() {
+			@Override
 			public void handleEvent(Event arg0) {
 				layout();
 			}

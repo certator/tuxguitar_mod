@@ -1,4 +1,4 @@
-package org.herac.tuxguitar.app.table;
+package org.herac.tuxguitar.app.tracktable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,22 +11,22 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
-public class TGTable {
+class TrackTable {
 	private ScrolledComposite sComposite;
 	private Composite table;
 	private SashForm columnControl;
 	private Composite rowControl;
-	private TGTableColumn columnNumber;
-	private TGTableColumn columnSoloMute;
-	private TGTableColumn columnName;
-	private TGTableColumn columnInstrument;
-	private TGTableColumn columnCanvas;
-	private List<TGTableRow> rows;
+	private TrackTableColumn columnNumber;
+	private TrackTableColumn columnSoloMute;
+	private TrackTableColumn columnName;
+	private TrackTableColumn columnInstrument;
+	private TrackTableColumn columnCanvas;
+	private final List<TrackTableRow> rows;
 	private int rowHeight;
 	private int scrollIncrement;
 	
-	public TGTable(Composite parent){
-		this.rows = new ArrayList<TGTableRow>();
+	public TrackTable(Composite parent){
+		this.rows = new ArrayList<TrackTableRow>();
 		this.newTable(parent);
 	}
 	
@@ -44,11 +44,11 @@ public class TGTable {
 		this.columnControl = new SashForm(this.table,SWT.HORIZONTAL);
 		this.columnControl.setLayoutData(new GridData(SWT.FILL,SWT.TOP,true,false));
 		
-		this.columnNumber = new TGTableColumn(this,SWT.LEFT);
-		this.columnSoloMute = new TGTableColumn(this,SWT.LEFT);
-		this.columnName = new TGTableColumn(this,SWT.LEFT);
-		this.columnInstrument = new TGTableColumn(this,SWT.LEFT);
-		this.columnCanvas = new TGTableColumn(this,SWT.CENTER);
+		this.columnNumber = new TrackTableColumn(this,SWT.LEFT);
+		this.columnSoloMute = new TrackTableColumn(this,SWT.LEFT);
+		this.columnName = new TrackTableColumn(this,SWT.LEFT);
+		this.columnInstrument = new TrackTableColumn(this,SWT.LEFT);
+		this.columnCanvas = new TrackTableColumn(this,SWT.CENTER);
 		this.columnControl.setWeights(new int[]{1,2,7,7,20});
 		
 		this.rowControl = new Composite(this.table,SWT.NONE);
@@ -62,8 +62,10 @@ public class TGTable {
 		return this.table;
 	}
 	
-	public void newRow(){
-		this.rows.add(new TGTableRow(this));
+	public TrackTableRow newRow(){
+		TrackTableRow row = new TrackTableRow(this);
+		this.rows.add(row);
+		return row;
 	}
 	
 	private GridLayout newGridLayout(int cols,int marginWidth,int marginHeight,int horizontalSpacing,int verticalSpacing){
@@ -75,7 +77,7 @@ public class TGTable {
 		return layout;
 	}
 	
-	public void addRowItem(TGTableColumn column,Control control,boolean computeSize){
+	public void addRowItem(TrackTableColumn column,Control control,boolean computeSize){
 		if(computeSize){
 			this.rowHeight = Math.max(this.rowHeight,control.computeSize(SWT.DEFAULT,SWT.DEFAULT).y);
 			this.scrollIncrement = this.rowHeight;
@@ -103,27 +105,27 @@ public class TGTable {
 		return this.scrollIncrement;
 	}	
 	
-	public TGTableColumn getColumnInstrument() {
+	public TrackTableColumn getColumnInstrument() {
 		return this.columnInstrument;
 	}
 	
-	public TGTableColumn getColumnName() {
+	public TrackTableColumn getColumnName() {
 		return this.columnName;
 	}
 	
-	public TGTableColumn getColumnNumber() {
+	public TrackTableColumn getColumnNumber() {
 		return this.columnNumber;
 	}
 	
-	public TGTableColumn getColumnSoloMute() {
+	public TrackTableColumn getColumnSoloMute() {
 		return this.columnSoloMute;
 	}
 	
-	public TGTableColumn getColumnCanvas() {
+	public TrackTableColumn getColumnCanvas() {
 		return this.columnCanvas;
 	}
 	
-	public TGTableRow getRow(int index){
+	public TrackTableRow getRow(int index){
 		if(index >= 0 && index < this.rows.size()){
 			return this.rows.get(index);
 		}
@@ -132,7 +134,7 @@ public class TGTable {
 	
 	public void removeRowsAfter(int index){
 		while(index < this.rows.size()){
-			TGTableRow row = this.rows.get(index);
+			TrackTableRow row = this.rows.get(index);
 			row.dispose();
 			this.rows.remove(index);
 		}

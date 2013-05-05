@@ -1,9 +1,10 @@
-package org.herac.tuxguitar.app.table;
+package org.herac.tuxguitar.app.tracktable;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Composite;
 import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.editors.TGColorImpl;
 import org.herac.tuxguitar.app.editors.TGPainterImpl;
@@ -13,14 +14,22 @@ import org.herac.tuxguitar.graphics.TGResourceFactory;
 import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
 import org.herac.tuxguitar.song.models.TGTrack;
 
-public class TGTableCanvasPainter implements PaintListener{
+class TrackCanvas extends Composite implements PaintListener{
 
-	private final TGTableViewer viewer;
-	private final TGTrack track;
+	/**
+	 * Displayed track
+	 */
+	private TGTrack track;
 
-	public TGTableCanvasPainter(TGTableViewer viewer,TGTrack track){
-		this.viewer = viewer;
+	/**
+	 * Horizontal scroll. Skip pixels from the left side of the component. 
+	 */
+	private int hScroll;
+
+	public TrackCanvas(Composite parent, TGTrack track){
+		super(parent, SWT.DOUBLE_BUFFERED);
 		this.track = track;
+		this.addPaintListener(this);
 	}
 
 	@Override
@@ -30,19 +39,22 @@ public class TGTableCanvasPainter implements PaintListener{
 	}
 
 	protected void paintTrack(TGPainterImpl painter){
+		if (track == null)
+			return;
+
 		if(!TuxGuitar.instance().isLocked()){
 			TuxGuitar.instance().lock();
 
-			int x = -this.viewer.getHScrollSelection();
+			int x = -hScroll;
 			int y = 0;
-			int size = this.viewer.getTable().getRowHeight();
+			int height = this.getSize().y;
 			int width = painter.getGC().getDevice().getBounds().width;
 			boolean playing = TuxGuitar.instance().getPlayer().isRunning();
 
 			painter.setBackground(new TGColorImpl(painter.getGC().getDevice().getSystemColor(SWT.COLOR_GRAY)));
 			painter.initPath(TGPainter.PATH_FILL);
 			painter.setAntialias(false);
-			painter.addRectangle(0,y,width,size);
+			painter.addRectangle(0,y,width,height);
 			painter.closePath();
 
 			TGColor trackColor = painter.createColor(this.track.getColor().getR(),this.track.getColor().getG(),this.track.getColor().getB());
@@ -61,24 +73,24 @@ public class TGTableCanvasPainter implements PaintListener{
 				if(isRestMeasure(measure)){
 					painter.initPath();
 					painter.setAntialias(false);
-					painter.addRectangle(x,y,size - 2,size - 1);
+					painter.addRectangle(x,y,height - 2,height - 1);
 					painter.closePath();
 				}else{
 					painter.initPath(TGPainter.PATH_FILL);
 					painter.setAntialias(false);
-					painter.addRectangle(x,y,size - 1,size );
+					painter.addRectangle(x,y,height - 1,height );
 					painter.closePath();
 				}
 
 				boolean hasCaret = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getMeasure().equals(measure);
-				if((playing && measure.isPlaying(this.viewer.getEditor().getTablature().getViewLayout())) || (!playing && hasCaret)){
+				if((playing && measure.isPlaying(TuxGuitar.instance().getTablatureEditor().getTablature().getViewLayout())) || (!playing && hasCaret)){
 					painter.setBackground(selectedColor);
 					painter.initPath(TGPainter.PATH_FILL);
 					painter.setAntialias(false);
-					painter.addRectangle(x + 4,y + 4,size - 9,size - 8);
+					painter.addRectangle(x + 4,y + 4,height - 9,height - 8);
 					painter.closePath();
 				}
-				x += size;
+				x += height;
 
 				// swap the color to show a structural change
 				if (measure.hasDoubleBar() || measure.getRepeatClose() != 0) {
@@ -131,6 +143,28 @@ public class TGTableCanvasPainter implements PaintListener{
 			}
 		}
 		return true;
+	}
+
+	public void setTrack(TGTrack track) {
+		this.track = track;
+		redraw();
+	}
+
+	/**
+	 * Set the location of the client horizontal scroll
+	 */
+	public void setHScroll(int scroll) {
+		this.hScroll = scroll;
+		redraw();
+	}
+
+	/**
+	 * Size taken by the draw of the full track inside the component
+	 */
+	public int getRealWidth() {
+		if (track == null)
+			return 0;
+		return track.countMeasures() * this.getSize().y;
 	}
 
 }

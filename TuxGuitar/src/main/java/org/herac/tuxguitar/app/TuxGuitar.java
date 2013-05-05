@@ -55,11 +55,11 @@ import org.herac.tuxguitar.app.system.keybindings.KeyBindingActionManager;
 import org.herac.tuxguitar.app.system.language.LanguageManager;
 import org.herac.tuxguitar.app.system.plugins.TGPluginManager;
 import org.herac.tuxguitar.app.system.tuning.TuningTemplateManager;
-import org.herac.tuxguitar.app.table.TGTableViewer;
 import org.herac.tuxguitar.app.tools.browser.dialog.TGBrowserDialog;
 import org.herac.tuxguitar.app.tools.scale.ScaleManager;
 import org.herac.tuxguitar.app.tools.template.TGTemplate;
 import org.herac.tuxguitar.app.tools.template.TGTemplateManager;
+import org.herac.tuxguitar.app.tracktable.TrackTableViewer;
 import org.herac.tuxguitar.app.transport.TGTransport;
 import org.herac.tuxguitar.app.transport.TGTransportListener;
 import org.herac.tuxguitar.app.undo.UndoableManager;
@@ -116,7 +116,7 @@ public class TuxGuitar {
 	
 	private TablatureEditor tablatureEditor;
 	
-	private TGTableViewer table;
+	private TrackTableViewer table;
 	
 	private TGChannelManagerDialog channelManager;
 	
@@ -443,9 +443,9 @@ public class TuxGuitar {
 		getShell().redraw();
 	}
 	
-	public TGTableViewer getTable(){
+	public TrackTableViewer getTable(){
 		if(this.table == null){
-			this.table = new TGTableViewer();
+			this.table = new TrackTableViewer();
 		}
 		return this.table;
 	}
