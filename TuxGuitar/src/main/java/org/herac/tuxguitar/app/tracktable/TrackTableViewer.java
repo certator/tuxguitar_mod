@@ -59,6 +59,10 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 		trackCanvasZoomMouseWheel = new MouseWheelListener() {
 			@Override
 			public void mouseScrolled(MouseEvent e) {
+				// skip if CTRL key is not pressed
+				if ((e.stateMask & SWT.CTRL) == 0) {
+					return;
+				}
 				TrackCanvas canvas = (TrackCanvas) e.getSource();
 				float coef = canvas.getWidthMeasureCoef();
 				final float constante = 4;
