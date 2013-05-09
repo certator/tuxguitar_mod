@@ -13,8 +13,8 @@ import org.herac.tuxguitar.song.models.TGDuration;
 
 public class IconManager {
 	private String theme;
-	private List<IconLoader> loaders;
-	private List<Image> disposableIcons;
+	private final List<IconLoader> loaders;
+	private final List<Image> disposableIcons;
 	
 	private Image[] durations;
 	private Image editUndo;
@@ -91,6 +91,7 @@ public class IconManager {
 	private Image fretboardFret;
 	private Image compositionTimeSignature;
 	private Image compositionTempo;
+	private Image compositionDoubleBar;
 	private Image compositionRepeatOpen;
 	private Image compositionRepeatClose;
 	private Image compositionRepeatAlternative;
@@ -225,6 +226,7 @@ public class IconManager {
 		this.optionToolbars = loadIcon("option_toolbars.png");
 		this.compositionTimeSignature = loadIcon("timesignature.png");
 		this.compositionTempo = loadIcon("tempoicon.png");
+		this.compositionDoubleBar = loadIcon("doublebar.png");
 		this.compositionRepeatOpen = loadIcon("openrepeat.png");
 		this.compositionRepeatClose = loadIcon("closerepeat.png");
 		this.compositionRepeatAlternative = loadIcon("repeat_alternative.png");
@@ -415,6 +417,10 @@ public class IconManager {
 	
 	public Image getCompositionRepeatClose() {
 		return this.compositionRepeatClose;
+	}
+	
+	public Image getCompositionDoubleBar() {
+		return this.compositionDoubleBar;
 	}
 	
 	public Image getCompositionRepeatAlternative() {

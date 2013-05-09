@@ -73,6 +73,7 @@ import org.herac.tuxguitar.app.actions.file.SaveAsFileAction;
 import org.herac.tuxguitar.app.actions.file.SaveFileAction;
 import org.herac.tuxguitar.app.actions.help.ShowAboutAction;
 import org.herac.tuxguitar.app.actions.help.ShowDocAction;
+import org.herac.tuxguitar.app.actions.insert.DoubleBarAction;
 import org.herac.tuxguitar.app.actions.insert.InsertChordAction;
 import org.herac.tuxguitar.app.actions.insert.InsertTextAction;
 import org.herac.tuxguitar.app.actions.insert.RepeatAlternativeAction;
@@ -164,7 +165,7 @@ import org.herac.tuxguitar.app.actions.view.ShowTransportAction;
  */
 public class ActionManager {
 	
-	private Map<String, Action> actions;
+	private final Map<String, Action> actions;
 	
 	public ActionManager(){
 		this.actions = new HashMap<String, Action>();
@@ -285,6 +286,7 @@ public class ActionManager {
 		addAction(new RepeatOpenAction());
 		addAction(new RepeatCloseAction());
 		addAction(new RepeatAlternativeAction());
+		addAction(new DoubleBarAction());
 		addAction(new InsertChordAction());
 		addAction(new InsertTextAction());
 		

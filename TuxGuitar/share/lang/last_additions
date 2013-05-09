@@ -1,5 +1,7 @@
 # 1.3
 
+composition.doublebar=Double bar
+
 tuning.load=Load...
 tuning.dialog.properties=Tuning selection
 tuning.string-instrument={0} {1}-strings

@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.actions.composition.ChangeTempoAction;
 import org.herac.tuxguitar.app.actions.composition.ChangeTimeSignatureAction;
+import org.herac.tuxguitar.app.actions.insert.DoubleBarAction;
 import org.herac.tuxguitar.app.actions.insert.RepeatAlternativeAction;
 import org.herac.tuxguitar.app.actions.insert.RepeatCloseAction;
 import org.herac.tuxguitar.app.actions.insert.RepeatOpenAction;
@@ -32,11 +33,13 @@ public class CompositionToolItems extends ToolItems{
 	private ToolItem repeatOpen;
 	private ToolItem repeatClose;
 	private ToolItem repeatAlternative;
+	private ToolItem doubleBar;
 	
 	public CompositionToolItems(){
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		this.tempo = new ToolItem(toolBar, SWT.PUSH);
 		this.tempo.addSelectionListener(TuxGuitar.instance().getAction(ChangeTempoAction.NAME));
@@ -52,19 +55,24 @@ public class CompositionToolItems extends ToolItems{
 		this.repeatClose = new ToolItem(toolBar, SWT.CHECK);
 		this.repeatClose.addSelectionListener(TuxGuitar.instance().getAction(RepeatCloseAction.NAME));
 		
+		this.doubleBar = new ToolItem(toolBar, SWT.CHECK);
+		this.doubleBar.addSelectionListener(TuxGuitar.instance().getAction(DoubleBarAction.NAME));
+		
 		this.repeatAlternative = new ToolItem(toolBar, SWT.CHECK);
 		this.repeatAlternative.addSelectionListener(TuxGuitar.instance().getAction(RepeatAlternativeAction.NAME));
-		
+
 		this.loadIcons();
 		this.loadProperties();
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.tempo.setToolTipText(TuxGuitar.getProperty("composition.tempo"));
 		this.timeSignature.setToolTipText(TuxGuitar.getProperty("composition.timesignature"));
 		this.repeatOpen.setToolTipText(TuxGuitar.getProperty("repeat.open"));
 		this.repeatClose.setToolTipText(TuxGuitar.getProperty("repeat.close"));
 		this.repeatAlternative.setToolTipText(TuxGuitar.getProperty("repeat.alternative"));
+		this.doubleBar.setToolTipText(TuxGuitar.getProperty("composition.doublebar"));
 	}
 	
 	public void loadIcons(){
@@ -73,8 +81,10 @@ public class CompositionToolItems extends ToolItems{
 		this.repeatOpen.setImage(TuxGuitar.instance().getIconManager().getCompositionRepeatOpen());
 		this.repeatClose.setImage(TuxGuitar.instance().getIconManager().getCompositionRepeatClose());
 		this.repeatAlternative.setImage(TuxGuitar.instance().getIconManager().getCompositionRepeatAlternative());
+		this.doubleBar.setImage(TuxGuitar.instance().getIconManager().getCompositionDoubleBar());
 	}
 	
+	@Override
 	public void update(){
 		TGMeasure measure = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getMeasure();
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
@@ -86,5 +96,6 @@ public class CompositionToolItems extends ToolItems{
 		this.repeatClose.setSelection(measure != null && measure.getRepeatClose() > 0);
 		this.repeatAlternative.setEnabled( !running );
 		this.repeatAlternative.setSelection(measure != null && measure.getHeader().getRepeatAlternative() > 0);
+		this.doubleBar.setSelection(measure != null && measure.getHeader().hasDoubleBar());
 	}
 }
