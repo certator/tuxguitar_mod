@@ -1,5 +1,6 @@
 package org.herac.tuxguitar.song.helpers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +8,11 @@ import org.herac.tuxguitar.song.factory.TGFactory;
 import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGMeasureHeader;
 
-public class TGSongSegment {
-	private List<TGMeasureHeader> headers;
-	private List<TGTrackSegment> tracks;
+public class TGSongSegment implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	private final List<TGMeasureHeader> headers;
+	private final List<TGTrackSegment> tracks;
 	
 	public TGSongSegment(){
 		this.headers = new ArrayList<TGMeasureHeader>();

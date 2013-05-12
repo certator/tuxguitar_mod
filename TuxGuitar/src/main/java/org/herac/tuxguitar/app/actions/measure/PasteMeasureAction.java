@@ -21,8 +21,8 @@ import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.actions.Action;
 import org.herac.tuxguitar.app.actions.ActionData;
 import org.herac.tuxguitar.app.clipboard.CannotInsertTransferException;
+import org.herac.tuxguitar.app.clipboard.MeasureTransfer;
 import org.herac.tuxguitar.app.clipboard.MeasureTransferable;
-import org.herac.tuxguitar.app.clipboard.Transferable;
 import org.herac.tuxguitar.app.util.DialogUtils;
 import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
 
@@ -137,14 +137,17 @@ public class PasteMeasureAction extends Action{
 	protected void pasteMeasures(int pasteMode, int pasteCount){
 		try {
 			if( pasteMode > 0 && pasteCount > 0 ){
-				Transferable transferable = getEditor().getClipBoard().getTransferable();
-				if(transferable instanceof MeasureTransferable){
-					((MeasureTransferable)transferable).setTransferType( pasteMode );
-					((MeasureTransferable)transferable).setPasteCount( pasteCount );
+				Object content = TuxGuitar.instance().getClipBoard().getContents(MeasureTransfer.getInstance());
+				MeasureTransferable transferable = (MeasureTransferable) content;
+				if(transferable != null){
+					transferable.setTransferType( pasteMode );
+					transferable.setPasteCount( pasteCount );
 					
-					transferable.insertTransfer();
+					transferable.insertTransfer(getEditor());
 					
 					updateTablature();
+				} else {
+					System.err.println("Unsupported clipboard content");
 				}
 			}
 		} catch (CannotInsertTransferException ex) {

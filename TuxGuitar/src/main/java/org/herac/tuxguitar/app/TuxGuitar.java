@@ -9,6 +9,7 @@ package org.herac.tuxguitar.app;
 import java.net.URL;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
@@ -98,6 +99,8 @@ public class TuxGuitar {
 	
 	private Shell shell;
 	
+	private Clipboard clipBoard;
+
 	private MidiPlayer player;
 	
 	private TGSongManager songManager;
@@ -442,7 +445,14 @@ public class TuxGuitar {
 		getShell().layout(true,true);
 		getShell().redraw();
 	}
-	
+
+	public Clipboard getClipBoard(){
+		if(this.clipBoard == null){
+			this.clipBoard = new Clipboard(display);
+		}
+		return this.clipBoard;
+	}
+
 	public TrackTableViewer getTable(){
 		if(this.table == null){
 			this.table = new TrackTableViewer();

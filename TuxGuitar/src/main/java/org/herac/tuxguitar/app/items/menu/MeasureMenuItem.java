@@ -7,6 +7,7 @@
 package org.herac.tuxguitar.app.items.menu;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
@@ -20,6 +21,7 @@ import org.herac.tuxguitar.app.actions.measure.GoNextMeasureAction;
 import org.herac.tuxguitar.app.actions.measure.GoPreviousMeasureAction;
 import org.herac.tuxguitar.app.actions.measure.PasteMeasureAction;
 import org.herac.tuxguitar.app.actions.measure.RemoveMeasureAction;
+import org.herac.tuxguitar.app.clipboard.MeasureTransfer;
 import org.herac.tuxguitar.app.items.MenuItems;
 import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
 
@@ -31,8 +33,8 @@ import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
  */
 public class MeasureMenuItem extends MenuItems{
 	
-	private MenuItem measureMenuItem;
-	private Menu menu; 
+	private final MenuItem measureMenuItem;
+	private final Menu menu; 
 	private MenuItem first;
 	private MenuItem last;
 	private MenuItem next;
@@ -105,7 +107,15 @@ public class MeasureMenuItem extends MenuItems{
 		this.cleanMeasure.setEnabled(!running);
 		this.removeMeasure.setEnabled(!running);
 		this.copyMeasure.setEnabled(!running);
-		this.pasteMeasure.setEnabled(!running && !TuxGuitar.instance().getTablatureEditor().getClipBoard().isEmpty());
+		
+		TransferData[] availableTypes = TuxGuitar.instance().getClipBoard().getAvailableTypes();
+		boolean hasTransferable = false;
+		for(TransferData type: availableTypes) {
+			if (MeasureTransfer.getInstance().isSupportedType(type)) {
+				hasTransferable = true;
+			}
+		}
+		this.pasteMeasure.setEnabled(!running && hasTransferable);
 	}
 	
 	@Override

@@ -10,7 +10,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.herac.tuxguitar.app.TuxGuitar;
-import org.herac.tuxguitar.app.clipboard.ClipBoard;
 import org.herac.tuxguitar.app.editors.tab.Tablature;
 
 /**
@@ -20,10 +19,8 @@ import org.herac.tuxguitar.app.editors.tab.Tablature;
  */
 public class TablatureEditor implements TGRedrawListener, TGUpdateListener{
 	private Tablature tablature;
-	private ClipBoard clipBoard;
 	
 	public TablatureEditor() {
-		this.clipBoard = new ClipBoard();
 	}
 	
 	public void showTablature(Composite parent) {
@@ -59,10 +56,6 @@ public class TablatureEditor implements TGRedrawListener, TGUpdateListener{
 	
 	public Tablature getTablature() {
 		return this.tablature;
-	}
-	
-	public ClipBoard getClipBoard(){
-		return this.clipBoard;
 	}
 	
 	@Override

@@ -6,12 +6,14 @@
  */
 package org.herac.tuxguitar.app.clipboard;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.editors.TablatureEditor;
 import org.herac.tuxguitar.app.undo.undoables.measure.UndoableInsertMeasure;
 import org.herac.tuxguitar.app.undo.undoables.measure.UndoableReplaceMeasures;
+import org.herac.tuxguitar.song.factory.TGFactory;
 import org.herac.tuxguitar.song.helpers.TGSongSegment;
 import org.herac.tuxguitar.song.helpers.TGSongSegmentHelper;
 import org.herac.tuxguitar.song.models.TGMeasure;
@@ -22,45 +24,46 @@ import org.herac.tuxguitar.song.models.TGTrack;
  * 
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
-public class MeasureTransferable implements Transferable {
+public class MeasureTransferable implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	public static final int TRANSFER_TYPE_REPLACE = 1;
 	public static final int TRANSFER_TYPE_INSERT = 2;
 	
-	private final TablatureEditor tablatureEditor;
 	private TGSongSegment segment;
 	private int transferType;
 	private int pasteCount;
 	
 	public MeasureTransferable(TablatureEditor tablatureEditor, int p1, int p2,boolean allTracks) {
-		this.tablatureEditor = tablatureEditor;
 		this.transferType = TRANSFER_TYPE_REPLACE;
-		this.getTransfer(p1, p2,allTracks);
+		this.getTransfer(tablatureEditor, p1, p2,allTracks);
 	}
 	
-	private void getTransfer(int p1, int p2,boolean allTracks) {
+	private void getTransfer(TablatureEditor tablatureEditor, int p1, int p2,boolean allTracks) {
 		if(allTracks){
 			this.segment = new TGSongSegmentHelper(TuxGuitar.instance().getSongManager()).copyMeasures(p1,p2);
 		}else{
-			TGTrack track = this.tablatureEditor.getTablature().getCaret().getTrack();
+			TGTrack track = tablatureEditor.getTablature().getCaret().getTrack();
 			this.segment = new TGSongSegmentHelper(TuxGuitar.instance().getSongManager()).copyMeasures(p1,p2,track);
 		}
+		this.segment = this.segment.clone(new TGFactory());
 		skipMarkers(this.segment);
 	}
 	
-	@Override
-	public void insertTransfer() throws CannotInsertTransferException {
+	public void insertTransfer(TablatureEditor tablatureEditor) throws CannotInsertTransferException {
 		TGSongSegmentHelper helper = new TGSongSegmentHelper(TuxGuitar.instance().getSongManager());
 		TGSongSegment segment = helper.createSegmentCopies(this.segment, this.pasteCount );
 		if(this.transferType == TRANSFER_TYPE_REPLACE){
-			replaceMeasures(helper, segment);
+			replaceMeasures(tablatureEditor, helper, segment);
 		}else if(this.transferType == TRANSFER_TYPE_INSERT){
-			insertMeasures(helper, segment);
+			insertMeasures(tablatureEditor, helper, segment);
 		}
 	}
 	
-	public void insertMeasures(TGSongSegmentHelper helper, TGSongSegment segment) throws CannotInsertTransferException {
-		TGMeasure measure = this.tablatureEditor.getTablature().getCaret().getMeasure();
-		TGTrack track = this.tablatureEditor.getTablature().getCaret().getTrack();
+	public void insertMeasures(TablatureEditor tablatureEditor, TGSongSegmentHelper helper, TGSongSegment segment) throws CannotInsertTransferException {
+		TGMeasure measure = tablatureEditor.getTablature().getCaret().getMeasure();
+		TGTrack track = tablatureEditor.getTablature().getCaret().getTrack();
 		if (measure == null || segment.isEmpty()) {
 			throw new CannotInsertTransferException();
 		}
@@ -82,9 +85,9 @@ public class MeasureTransferable implements Transferable {
 		TuxGuitar.instance().getUndoableManager().addEdit(undoable.endUndo(segment.clone(TuxGuitar.instance().getSongManager().getFactory()),segment.getHeaders().size(),fromNumber,theMove));
 	}
 	
-	public void replaceMeasures(TGSongSegmentHelper helper, TGSongSegment segment) throws CannotInsertTransferException {
-		TGMeasure measure = this.tablatureEditor.getTablature().getCaret().getMeasure();
-		TGTrack track = this.tablatureEditor.getTablature().getCaret().getTrack();
+	public void replaceMeasures(TablatureEditor tablatureEditor, TGSongSegmentHelper helper, TGSongSegment segment) throws CannotInsertTransferException {
+		TGMeasure measure = tablatureEditor.getTablature().getCaret().getMeasure();
+		TGTrack track = tablatureEditor.getTablature().getCaret().getTrack();
 		if (measure == null || segment.isEmpty()) {
 			throw new CannotInsertTransferException();
 		}

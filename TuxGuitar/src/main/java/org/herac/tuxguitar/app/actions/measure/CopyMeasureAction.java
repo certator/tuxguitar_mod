@@ -7,6 +7,7 @@
 package org.herac.tuxguitar.app.actions.measure;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -20,6 +21,7 @@ import org.eclipse.swt.widgets.Spinner;
 import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.actions.Action;
 import org.herac.tuxguitar.app.actions.ActionData;
+import org.herac.tuxguitar.app.clipboard.MeasureTransfer;
 import org.herac.tuxguitar.app.clipboard.MeasureTransferable;
 import org.herac.tuxguitar.app.util.DialogUtils;
 import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
@@ -174,7 +176,9 @@ public class CopyMeasureAction extends Action{
 	protected void copyMeasures(int m1,int m2,boolean allTracks){
 		if(m1 > 0 && m1 <= m2){
 			MeasureTransferable transferable = new MeasureTransferable(getEditor(),m1,m2,allTracks);
-			getEditor().getClipBoard().addTransferable(transferable);
+			Object[] objects = {transferable};
+			Transfer[] transfers = {MeasureTransfer.getInstance()};
+			TuxGuitar.instance().getClipBoard().setContents(objects, transfers);
 		}
 	}
 }
