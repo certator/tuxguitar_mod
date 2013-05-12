@@ -4,6 +4,7 @@ import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGChannel;
 import org.herac.tuxguitar.song.models.TGChord;
 import org.herac.tuxguitar.song.models.TGColor;
+import org.herac.tuxguitar.song.models.TGDivisionType;
 import org.herac.tuxguitar.song.models.TGDuration;
 import org.herac.tuxguitar.song.models.TGLyric;
 import org.herac.tuxguitar.song.models.TGMarker;
@@ -19,7 +20,6 @@ import org.herac.tuxguitar.song.models.TGTempo;
 import org.herac.tuxguitar.song.models.TGText;
 import org.herac.tuxguitar.song.models.TGTimeSignature;
 import org.herac.tuxguitar.song.models.TGTrack;
-import org.herac.tuxguitar.song.models.TGDivisionType;
 import org.herac.tuxguitar.song.models.TGVoice;
 import org.herac.tuxguitar.song.models.effects.TGEffectBend;
 import org.herac.tuxguitar.song.models.effects.TGEffectGrace;
@@ -31,164 +31,110 @@ import org.herac.tuxguitar.song.models.effects.TGEffectTrill;
 public class TGFactory {
 	
 	public TGSong newSong(){
-		return new TGSong() {
-			//TGSong Implementation
-		};
+		return new TGSong();
 	}
 	
 	public TGLyric newLyric(){
-		return new TGLyric(){
-			//TGLyric Implementation
-		};
+		return new TGLyric();
 	}
 	
 	public TGMarker newMarker(){
-		return new TGMarker(this){
-			//TGMarker Implementation
-		};
+		return new TGMarker(this);
 	}
 	
 	public TGChord newChord(int length){
-		return new TGChord(length){
-			//TGChord Implementation
-		};
+		return new TGChord(length);
 	}
 	
 	public TGScale newScale(){
-		return new TGScale(){
-			//TGScale Implementation
-		};
+		return new TGScale();
 	}
 	
 	public TGColor newColor(){
-		return new TGColor(){
-			//TGColor Implementation
-		};
+		return new TGColor();
 	}
 	
 	public TGDuration newDuration(){
-		return new TGDuration(this){
-			//TGDuration Implementation
-		};
+		return new TGDuration(this);
 	}
 	
 	public TGDivisionType newDivisionType(){
-		return new TGDivisionType(){
-			//TGDivisionType Implementation
-		};
+		return new TGDivisionType();
 	}
 	
 	public TGTimeSignature newTimeSignature(){
-		return new TGTimeSignature(this){
-			//TGTimeSignature Implementation
-		};
+		return new TGTimeSignature(this);
 	}
 	
 	public TGTempo newTempo(){
-		return new TGTempo(){
-			//TGTempo Implementation
-		};
+		return new TGTempo();
 	}
 	
 	public TGChannel newChannel(){
-		return new TGChannel(){
-			//TGChannel Implementation
-		};
+		return new TGChannel();
 	}
 	
 	public TGTrack newTrack(){
-		return new TGTrack(this){
-			//TGTrack Implementation
-		};
+		return new TGTrack(this);
 	}
 	
 	public TGMeasureHeader newHeader(){
-		return new TGMeasureHeader(this){
-			//TGMeasureHeader Implementation
-		};
+		return new TGMeasureHeader(this);
 	}
 	
 	public TGMeasure newMeasure(TGMeasureHeader header){
-		return new TGMeasure(header){
-			//TGMeasure Implementation
-		};
+		return new TGMeasure(header);
 	}
 	
 	public TGBeat newBeat(){
-		return new TGBeat(this){
-			//TGBeat Implementation
-		};
+		return new TGBeat(this);
 	}
 	
 	public TGVoice newVoice(int index){
-		return new TGVoice(this, index){
-			//TGVoice Implementation
-		};
+		return new TGVoice(this, index);
 	}
 	
 	public TGNote newNote(){
-		return new TGNote(this){
-			//TGNote Implementation
-		};
+		return new TGNote(this);
 	}
 	
 	public TGString newString(){
-		return new TGString(){
-			//TGString Implementation
-		};
+		return new TGString();
 	}
 	
 	public TGStroke newStroke(){
-		return new TGStroke(){
-			//TGString Implementation
-		};
+		return new TGStroke();
 	}
 	
 	public TGText newText(){
-		return new TGText(){
-			//TGString Implementation
-		};
+		return new TGText();
 	}
 	
 	public TGNoteEffect newEffect(){
-		return new TGNoteEffect(){
-			//TGNoteEffect Implementation
-		};
+		return new TGNoteEffect();
 	}
 	
 	public TGEffectBend newEffectBend(){
-		return new TGEffectBend(){
-			//TGEffectBend Implementation
-		};
+		return new TGEffectBend();
 	}
 	
 	public TGEffectTremoloBar newEffectTremoloBar(){
-		return new TGEffectTremoloBar(){
-			//TGEffectTremoloBar Implementation
-		};
+		return new TGEffectTremoloBar();
 	}
 	
 	public TGEffectGrace newEffectGrace(){
-		return new TGEffectGrace(){
-			//TGEffectGrace Implementation
-		};
+		return new TGEffectGrace();
 	}
 	
 	public TGEffectHarmonic newEffectHarmonic(){
-		return new TGEffectHarmonic(){
-			//TGEffectHarmonic Implementation
-		};
+		return new TGEffectHarmonic();
 	}
 	
 	public TGEffectTrill newEffectTrill(){
-		return new TGEffectTrill(this){
-			//TGEffectTrill Implementation
-		};
+		return new TGEffectTrill(this);
 	}
 	
 	public TGEffectTremoloPicking newEffectTremoloPicking(){
-		return new TGEffectTremoloPicking(this){
-			//TGEffectTremoloPicking Implementation
-		};
+		return new TGEffectTremoloPicking(this);
 	}
 }

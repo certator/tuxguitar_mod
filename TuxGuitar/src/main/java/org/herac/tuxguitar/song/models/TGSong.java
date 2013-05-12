@@ -6,6 +6,7 @@
  */
 package org.herac.tuxguitar.song.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,8 +19,9 @@ import org.herac.tuxguitar.song.factory.TGFactory;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGSong {
-	
+public class TGSong implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private String name;
 	private String artist;
 	private String album;
@@ -29,9 +31,9 @@ public abstract class TGSong {
 	private String writer;
 	private String transcriber;
 	private String comments;
-	private List<TGTrack> tracks;
-	private List<TGMeasureHeader> measureHeaders;
-	private List<TGChannel> channels;
+	private final List<TGTrack> tracks;
+	private final List<TGMeasureHeader> measureHeaders;
+	private final List<TGChannel> channels;
 	
 	public TGSong() {
 		this.name = new String();

@@ -1,9 +1,12 @@
 package org.herac.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
 
-public abstract class TGStroke {
-	
+public class TGStroke implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	public static final int STROKE_NONE = 0;
 	public static final int STROKE_UP = 1;
 	public static final int STROKE_DOWN = -1;

@@ -1,8 +1,12 @@
 package org.herac.tuxguitar.song.models.effects;
 
+import java.io.Serializable;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
 
-public abstract class TGEffectHarmonic {
+public class TGEffectHarmonic implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	public static final String KEY_NATURAL = "N.H";
 	
 	public static final String KEY_ARTIFICIAL = "A.H";

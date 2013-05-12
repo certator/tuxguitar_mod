@@ -1,6 +1,10 @@
 package org.herac.tuxguitar.song.models;
 
-public abstract class TGScale {
+import java.io.Serializable;
+
+public class TGScale implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private final boolean[] notes = new boolean[12];
 	
 	private int key;

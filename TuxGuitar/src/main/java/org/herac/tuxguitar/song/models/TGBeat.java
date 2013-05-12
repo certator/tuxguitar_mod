@@ -6,6 +6,8 @@
  */
 package org.herac.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
 
 /**
@@ -13,7 +15,8 @@ import org.herac.tuxguitar.song.factory.TGFactory;
  * 
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGBeat {
+public class TGBeat implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	public static final int MAX_VOICES = 2;
 	
@@ -21,8 +24,8 @@ public abstract class TGBeat {
 	private TGMeasure measure;
 	private TGChord chord;
 	private TGText text;
-	private TGVoice[] voices;
-	private TGStroke stroke;
+	private final TGVoice[] voices;
+	private final TGStroke stroke;
 	
 	public TGBeat(TGFactory factory) {
 		this.start = TGDuration.QUARTER_TIME;

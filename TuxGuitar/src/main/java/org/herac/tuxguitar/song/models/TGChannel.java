@@ -1,8 +1,11 @@
 package org.herac.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
 
-public abstract class TGChannel {
+public class TGChannel implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	public static final short DEFAULT_PERCUSSION_CHANNEL = 9;
 	public static final short DEFAULT_PERCUSSION_PROGRAM = 0;

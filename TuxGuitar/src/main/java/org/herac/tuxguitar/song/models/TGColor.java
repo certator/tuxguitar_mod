@@ -1,9 +1,13 @@
 package org.herac.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import org.eclipse.swt.graphics.RGB;
 import org.herac.tuxguitar.song.factory.TGFactory;
 
-public abstract class TGColor {
+public class TGColor implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	public static final TGColor RED = newColor(255,0,0);
 	public static final TGColor GREEN = newColor(0,255,0);
 	public static final TGColor BLUE = newColor(0,0,255);

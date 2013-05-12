@@ -1,9 +1,12 @@
 package org.herac.tuxguitar.song.models.effects;
 
+import java.io.Serializable;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
 import org.herac.tuxguitar.song.models.TGDuration;
 
-public abstract class TGEffectTrill {
+public class TGEffectTrill implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private int fret;
 	private TGDuration duration;

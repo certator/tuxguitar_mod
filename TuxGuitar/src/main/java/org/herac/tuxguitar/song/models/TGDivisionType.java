@@ -6,6 +6,8 @@
  */
 package org.herac.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
 
 /**
@@ -14,7 +16,8 @@ import org.herac.tuxguitar.song.factory.TGFactory;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGDivisionType {
+public class TGDivisionType implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	public static final TGDivisionType NORMAL = newDivisionType(1,1);
 	

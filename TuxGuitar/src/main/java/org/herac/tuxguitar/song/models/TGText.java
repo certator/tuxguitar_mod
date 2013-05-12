@@ -1,8 +1,11 @@
 package org.herac.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
 
-public class TGText{
+public class TGText implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private String value;
 	private TGBeat beat;

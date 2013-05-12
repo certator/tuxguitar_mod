@@ -6,6 +6,7 @@
  */
 package org.herac.tuxguitar.song.models.effects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +19,9 @@ import org.herac.tuxguitar.song.factory.TGFactory;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGEffectBend {
+public class TGEffectBend implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	public static final int SEMITONE_LENGTH = 1;
 	public static final int MAX_POSITION_LENGTH = 12;
 	public static final int MAX_VALUE_LENGTH = (SEMITONE_LENGTH * 12);

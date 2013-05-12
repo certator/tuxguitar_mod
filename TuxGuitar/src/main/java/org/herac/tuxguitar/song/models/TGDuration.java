@@ -6,6 +6,8 @@
  */
 package org.herac.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
 /**
  * @author julian
@@ -13,7 +15,9 @@ import org.herac.tuxguitar.song.factory.TGFactory;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGDuration {
+public class TGDuration implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * tiempo por defecto de la Negra.
 	 */
@@ -67,7 +71,7 @@ public abstract class TGDuration {
 	/**
 	 * DivisionType.
 	 */
-	private TGDivisionType divisionType;
+	private final TGDivisionType divisionType;
 	
 	public TGDuration(TGFactory factory){
 		this.value = QUARTER;

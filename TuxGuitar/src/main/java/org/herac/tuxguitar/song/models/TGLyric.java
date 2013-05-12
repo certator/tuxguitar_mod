@@ -1,6 +1,10 @@
 package org.herac.tuxguitar.song.models;
 
-public abstract class TGLyric {
+import java.io.Serializable;
+
+public class TGLyric implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private static final String REGEX = " ";
 	
 	private int from;

@@ -6,6 +6,8 @@
  */
 package org.herac.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
 import org.herac.tuxguitar.song.models.effects.TGEffectBend;
 import org.herac.tuxguitar.song.models.effects.TGEffectGrace;
@@ -20,7 +22,9 @@ import org.herac.tuxguitar.song.models.effects.TGEffectTrill;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGNoteEffect {
+public class TGNoteEffect implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private TGEffectBend bend;
 	private TGEffectTremoloBar tremoloBar;
 	private TGEffectHarmonic harmonic;

@@ -1,10 +1,13 @@
 package org.herac.tuxguitar.song.models.effects;
 
+import java.io.Serializable;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
 import org.herac.tuxguitar.song.models.TGDuration;
 import org.herac.tuxguitar.song.models.TGVelocities;
 
-public abstract class TGEffectGrace {
+public class TGEffectGrace implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	public static final int TRANSITION_NONE = 0;
 	

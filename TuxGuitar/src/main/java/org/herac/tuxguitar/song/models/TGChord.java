@@ -6,6 +6,8 @@
  */
 package org.herac.tuxguitar.song.models;
 
+import java.io.Serializable;
+
 import org.herac.tuxguitar.song.factory.TGFactory;
 
 /**
@@ -14,9 +16,11 @@ import org.herac.tuxguitar.song.factory.TGFactory;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class TGChord {
+public class TGChord implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private int firstFret;
-	private int[] strings;
+	private final int[] strings;
 	private String name;
 	private TGBeat beat;
 	
