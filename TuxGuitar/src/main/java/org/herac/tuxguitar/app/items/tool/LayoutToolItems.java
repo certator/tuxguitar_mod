@@ -16,9 +16,9 @@ import org.herac.tuxguitar.app.actions.layout.SetMultitrackViewAction;
 import org.herac.tuxguitar.app.actions.layout.SetPageLayoutAction;
 import org.herac.tuxguitar.app.actions.layout.SetScoreEnabledAction;
 import org.herac.tuxguitar.app.items.ToolItems;
+import org.herac.tuxguitar.graphics.control.TGLayout;
 import org.herac.tuxguitar.graphics.control.TGLayoutHorizontal;
 import org.herac.tuxguitar.graphics.control.TGLayoutVertical;
-import org.herac.tuxguitar.graphics.control.TGLayout;
 
 /**
  * @author julian
