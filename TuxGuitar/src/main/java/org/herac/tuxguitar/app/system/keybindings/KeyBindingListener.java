@@ -11,6 +11,7 @@ public class KeyBindingListener implements KeyListener {
 		this.keyBindingActionManager = keyBindingActionManager;
 	}
 	
+	@Override
 	public void keyPressed(KeyEvent event) {
 		KeyBinding keyBinding = new KeyBinding();
 		keyBinding.setKey(event.keyCode);
@@ -18,6 +19,7 @@ public class KeyBindingListener implements KeyListener {
 		this.keyBindingActionManager.processKeyBinding(keyBinding);
 	}
 	
+	@Override
 	public void keyReleased(KeyEvent evt) {
 		//not implemented
 	}

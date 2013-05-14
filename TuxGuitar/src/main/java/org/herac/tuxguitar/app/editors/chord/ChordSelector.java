@@ -95,9 +95,11 @@ public class ChordSelector extends Composite{
 		customizeButton.setText(TuxGuitar.getProperty("settings"));
 		
 		customizeButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(new ChordSettingsDialog().open(ChordSelector.this.getShell())){
 					new SyncThread(new Runnable() {
+						@Override
 						public void run() {
 							ChordSelector.this.showChord();
 							getChordList().redraw();
@@ -156,6 +158,7 @@ public class ChordSelector extends Composite{
 		// LISTENERS
 		
 		this.tonicList.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (ChordSelector.this.getRefresh()) {
 					if(getDialog().getEditor() != null && getDialog().getList() != null){
@@ -167,6 +170,7 @@ public class ChordSelector extends Composite{
 		});
 		
 		this.bassCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (ChordSelector.this.getRefresh()) {
 					if(getDialog().getEditor() != null && getDialog().getList() != null){
@@ -177,6 +181,7 @@ public class ChordSelector extends Composite{
 		});
 		
 		this.chordList.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(getDialog().getEditor() != null && getDialog().getList() != null){
 					adjustWidgetAvailability();
@@ -188,6 +193,7 @@ public class ChordSelector extends Composite{
 		});
 		
 		this.alterationList.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(getDialog().getEditor() != null && getDialog().getList() != null){
 					ChordSelector.this.adjustWidgetAvailability();
@@ -199,6 +205,7 @@ public class ChordSelector extends Composite{
 		});
 		
 		this.addCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(getDialog().getEditor() != null && getDialog().getList() != null){
 					
@@ -219,6 +226,7 @@ public class ChordSelector extends Composite{
 		});
 		
 		this._5List.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(getDialog().getEditor() != null && getDialog().getList() != null){
 					if (ChordSelector.this.getRefresh()) {
@@ -229,6 +237,7 @@ public class ChordSelector extends Composite{
 		});
 		
 		this._9List.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(getDialog().getEditor() != null && getDialog().getList() != null){
 					if (ChordSelector.this.getRefresh()) {
@@ -239,6 +248,7 @@ public class ChordSelector extends Composite{
 		});
 		
 		this._11List.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(getDialog().getEditor() != null && getDialog().getList() != null){
 					if (ChordSelector.this.getRefresh()) {
@@ -249,6 +259,7 @@ public class ChordSelector extends Composite{
 		});
 		
 		this.plusMinusList.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(getDialog().getEditor() != null && getDialog().getList() != null){
 					if (ChordSelector.this.getRefresh()) {
@@ -260,12 +271,14 @@ public class ChordSelector extends Composite{
 		});
 		
 		this.sharpButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				insertTonicNames(true);
 			}
 		});
 		
 		this.flatButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				insertTonicNames(false);
 			}
@@ -367,9 +380,11 @@ public class ChordSelector extends Composite{
 	protected void showChord(){
 		TuxGuitar.instance().loadCursor(getShell(),SWT.CURSOR_WAIT);
 		ChordCreatorListener listener = new ChordCreatorListener() {
+			@Override
 			public void notifyChords(final ChordCreatorUtil instance,final java.util.List<TGChord> chords) {
 				try {
 					TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+						@Override
 						public void run() {
 							if(instance.isValidProcess() && !getDialog().isDisposed()){
 								getDialog().getList().setChords(chords);

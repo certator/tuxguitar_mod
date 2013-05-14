@@ -12,14 +12,17 @@ public abstract class TGImporterPlugin extends TGPluginAdapter{
 	
 	protected abstract TGRawImporter getImporter() throws TGPluginException;
 	
+	@Override
 	public void init() throws TGPluginException {
 		this.importer = getImporter();
 	}
 	
+	@Override
 	public void close() throws TGPluginException {
 		this.removePlugin();
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		if(enabled){
 			addPlugin();

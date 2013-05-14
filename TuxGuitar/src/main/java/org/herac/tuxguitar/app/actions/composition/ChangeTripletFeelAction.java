@@ -41,6 +41,7 @@ public class ChangeTripletFeelAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		showDialog(getEditor().getTablature().getShell());
 		return 0;
@@ -92,6 +93,7 @@ public class ChangeTripletFeelAction extends Action{
 			buttonOk.setText(TuxGuitar.getProperty("ok"));
 			buttonOk.setLayoutData(getButtonData());
 			buttonOk.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					final boolean toEndValue = toEnd.getSelection();
 					final int tripletFeel = getSelectedTripletFeel(tripletFeelNone, tripletFeelEighth, tripletFeelSixteenth);
@@ -99,6 +101,7 @@ public class ChangeTripletFeelAction extends Action{
 					dialog.dispose();
 					try {
 						TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+							@Override
 							public void run() throws Throwable {
 								ActionLock.lock();
 								TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
@@ -118,6 +121,7 @@ public class ChangeTripletFeelAction extends Action{
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					dialog.dispose();
 				}

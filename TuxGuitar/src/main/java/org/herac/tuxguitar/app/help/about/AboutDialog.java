@@ -61,6 +61,7 @@ public class AboutDialog {
 		this.imageComposite = new Composite(header,SWT.NONE);
 		this.imageComposite.setLayoutData(new GridData(IMAGE_WIDTH,IMAGE_HEIGHT));
 		this.imageComposite.addPaintListener(new PaintListener() {
+			@Override
 			public void paintControl(PaintEvent e) {
 				Rectangle bounds = AboutDialog.this.image.getBounds();
 				TGPainterImpl painter = new TGPainterImpl(e.gc);
@@ -75,6 +76,7 @@ public class AboutDialog {
 		title.setForeground(dialog.getDisplay().getSystemColor(SWT.COLOR_GRAY));
 		title.setText(RELEASE_NAME);
 		title.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				titleFont.dispose();
 			}
@@ -96,6 +98,7 @@ public class AboutDialog {
 		makeTabItem(tabFolder,AboutContentReader.LICENSE,docReader.read(AboutContentReader.LICENSE).toString());
 		
 		tabFolder.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(tabFolder.getSelectionIndex() == 0){
 					AboutDialog.this.image = TuxGuitar.instance().getIconManager().getAboutDescription();
@@ -117,6 +120,7 @@ public class AboutDialog {
 		buttonClose.setLayoutData(getButtonData());
 		buttonClose.setText(TuxGuitar.getProperty("close"));
 		buttonClose.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

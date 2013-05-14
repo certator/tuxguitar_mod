@@ -69,6 +69,7 @@ public class StylesOption extends Option{
 		this.printerLyricFontData = new FontData();
 	}
 	
+	@Override
 	public void createOption(){
 		getToolItem().setText(TuxGuitar.getProperty("settings.config.styles"));
 		getToolItem().setImage(TuxGuitar.instance().getIconManager().getOptionStyle());
@@ -155,6 +156,7 @@ public class StylesOption extends Option{
 	
 	private void addFontButtonListeners(final Button button, final FontData fontData){
 		button.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(StylesOption.this.initialized){
 					Font font = new Font(getDisplay(),fontData);
@@ -206,6 +208,7 @@ public class StylesOption extends Option{
 	
 	protected void loadConfig(){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				final FontData defaultFontData = getConfig().getFontDataConfigValue(TGConfigKeys.FONT_DEFAULT);
 				final FontData noteFontData = getConfig().getFontDataConfigValue(TGConfigKeys.FONT_NOTE);
@@ -222,6 +225,7 @@ public class StylesOption extends Option{
 				final RGB playNoteRGB  = getConfig().getRGBConfigValue(TGConfigKeys.COLOR_PLAY_NOTE);
 				final RGB linesRGB  = getConfig().getRGBConfigValue(TGConfigKeys.COLOR_LINE);
 				new SyncThread(new Runnable() {
+					@Override
 					public void run() {
 						if(!isDisposed()){
 							loadFontData(defaultFontData,StylesOption.this.defaultFontData,StylesOption.this.defaultFontButton);
@@ -254,6 +258,7 @@ public class StylesOption extends Option{
 		return data;
 	}
 	
+	@Override
 	public void updateConfig(){
 		if(this.initialized){
 			getConfig().setProperty(TGConfigKeys.FONT_DEFAULT,this.defaultFontData);
@@ -273,6 +278,7 @@ public class StylesOption extends Option{
 		}
 	}
 	
+	@Override
 	public void updateDefaults(){
 		if(this.initialized){
 			getConfig().setProperty(TGConfigKeys.FONT_DEFAULT,getDefaults().getProperty(TGConfigKeys.FONT_DEFAULT));
@@ -292,9 +298,11 @@ public class StylesOption extends Option{
 		}
 	}
 	
+	@Override
 	public void applyConfig(boolean force){
 		if(force || this.initialized){
 			addSyncThread(new Runnable() {
+				@Override
 				public void run() {
 					TuxGuitar.instance().loadStyles();
 				}
@@ -335,6 +343,7 @@ public class StylesOption extends Option{
 		
 		private void addListeners(){
 			this.button.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					if(StylesOption.this.initialized){
 						ColorDialog dlg = new ColorDialog(getShell());
@@ -348,6 +357,7 @@ public class StylesOption extends Option{
 				}
 			});
 			this.button.addDisposeListener(new DisposeListener() {
+				@Override
 				public void widgetDisposed(DisposeEvent e) {
 					ButtonColor.this.disposeColor();
 				}

@@ -12,14 +12,17 @@ public class TGBrowserFactoryImpl implements TGBrowserFactory{
 		super();
 	}
 	
+	@Override
 	public String getType(){
 		return "file.system";
 	}
 	
+	@Override
 	public String getName(){
 		return TuxGuitar.getProperty("browser.factory.fs.name");
 	}
 	
+	@Override
 	public TGBrowser newTGBrowser(TGBrowserData data) {
 		if(data instanceof TGBrowserDataImpl){
 			return new TGBrowserImpl((TGBrowserDataImpl)data);
@@ -27,10 +30,12 @@ public class TGBrowserFactoryImpl implements TGBrowserFactory{
 		return null;
 	}
 	
+	@Override
 	public TGBrowserData parseData(String string) {
 		return TGBrowserDataImpl.fromString(string);
 	}
 	
+	@Override
 	public TGBrowserData dataDialog(Shell parent) {
 		TGBrowserDataDialog dialog = new TGBrowserDataDialog();
 		return dialog.open(parent);

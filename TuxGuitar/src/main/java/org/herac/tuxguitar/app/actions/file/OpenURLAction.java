@@ -43,6 +43,7 @@ public class OpenURLAction extends Action {
 		super(NAME, AUTO_LOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		final Object propertyUrl = actionData.get(PROPERTY_URL);
 		
@@ -62,10 +63,12 @@ public class OpenURLAction extends Action {
 				}
 				TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 				new Thread(new Runnable() {
+					@Override
 					public void run() {
 						if(!TuxGuitar.isDisposed()){
 							FileActionUtils.save(fileName);
 							new SyncThread(new Runnable() {
+								@Override
 								public void run() {
 									if(!TuxGuitar.isDisposed()){
 										TuxGuitar.instance().loadCursor(SWT.CURSOR_ARROW);
@@ -92,6 +95,7 @@ public class OpenURLAction extends Action {
 		}
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				if(!TuxGuitar.isDisposed()){
 					FileActionUtils.open(url);
@@ -145,6 +149,7 @@ public class OpenURLAction extends Action {
 			buttonOK.setText(TuxGuitar.getProperty("ok"));
 			buttonOK.setLayoutData(getButtonData());
 			buttonOK.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					try {
 						URLDialog.this.url = new URL(url.getText());
@@ -159,6 +164,7 @@ public class OpenURLAction extends Action {
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					dialog.dispose();
 				}

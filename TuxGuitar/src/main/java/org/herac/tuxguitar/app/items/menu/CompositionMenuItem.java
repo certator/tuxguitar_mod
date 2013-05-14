@@ -47,6 +47,7 @@ public class CompositionMenuItem extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		//--TIME SIGNATURE--
 		this.timeSignature = new MenuItem(this.menu, SWT.PUSH);
@@ -87,6 +88,7 @@ public class CompositionMenuItem extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
 		this.timeSignature.setEnabled(!running);
@@ -99,6 +101,7 @@ public class CompositionMenuItem extends MenuItems{
 		this.repeatAlternative.setEnabled(!running);
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.compositionMenuItem, "composition", null);		
 		setMenuItemTextAndAccelerator(this.timeSignature, "composition.timesignature", ChangeTimeSignatureAction.NAME);

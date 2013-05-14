@@ -27,6 +27,7 @@ public class ChordMenuItem extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems() {
 		//--INSERT CHORD--
 		this.insertChord = new MenuItem(this.menu, SWT.PUSH);
@@ -77,6 +78,7 @@ public class ChordMenuItem extends MenuItems{
 		}
 	}
 	
+	@Override
 	public void update(){
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
 		if(this.lastEdit != TuxGuitar.instance().getCustomChordManager().getLastEdit()){
@@ -89,6 +91,7 @@ public class ChordMenuItem extends MenuItems{
 		}
 	}
 	
+	@Override
 	public void loadProperties() {
 		setMenuItemTextAndAccelerator(this.chordMenuItem, "chord", null);
 		setMenuItemTextAndAccelerator(this.insertChord, "insert.chord", InsertChordAction.NAME);

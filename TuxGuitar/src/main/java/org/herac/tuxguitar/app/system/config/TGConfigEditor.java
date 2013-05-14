@@ -78,6 +78,7 @@ public class TGConfigEditor{
 		buttonDefaults.setLayoutData(getButtonData()); 
 		buttonDefaults.setText(TuxGuitar.getProperty("defaults"));
 		buttonDefaults.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TGConfigEditor.this.accepted = true;
 				TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
@@ -98,6 +99,7 @@ public class TGConfigEditor{
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TGConfigEditor.this.accepted = true;
 				TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
@@ -118,6 +120,7 @@ public class TGConfigEditor{
 		buttonCancel.setLayoutData(getButtonData()); 
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 				dispose();
@@ -252,6 +255,7 @@ public class TGConfigEditor{
 	protected void applyConfig(final boolean force){
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				TGConfigEditor.this.runnables = new ArrayList<Runnable>();
 				
@@ -262,6 +266,7 @@ public class TGConfigEditor{
 				}
 				try {
 					TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+						@Override
 						public void run() throws Throwable {
 							Iterator<Runnable> it = TGConfigEditor.this.runnables.iterator();
 							while(it.hasNext()){
@@ -269,6 +274,7 @@ public class TGConfigEditor{
 								current.run();
 							}
 							new Thread(new Runnable() {
+								@Override
 								public void run() {
 									TuxGuitar.instance().fireUpdate();
 									TuxGuitar.instance().updateCache(true);

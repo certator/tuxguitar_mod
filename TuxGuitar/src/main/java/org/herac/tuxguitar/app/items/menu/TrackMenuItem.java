@@ -27,6 +27,7 @@ public class TrackMenuItem extends MenuItems{
 		this.menu = new TrackMenu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		this.menu.showItems();
 		this.trackMenuItem.setMenu(this.menu.getMenu());
@@ -34,11 +35,13 @@ public class TrackMenuItem extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.setMenuItemTextAndAccelerator(this.trackMenuItem, "track", null);
 		this.menu.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		this.menu.update();
 	}

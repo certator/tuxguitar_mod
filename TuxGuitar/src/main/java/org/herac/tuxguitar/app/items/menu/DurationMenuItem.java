@@ -48,6 +48,7 @@ public class DurationMenuItem  extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		//--whole--
 		this.whole = new MenuItem(this.menu, SWT.PUSH);
@@ -91,6 +92,7 @@ public class DurationMenuItem  extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
 		this.whole.setEnabled(!running);
@@ -105,6 +107,7 @@ public class DurationMenuItem  extends MenuItems{
 		this.division.setEnabled(!running);
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.durationMenuItem, "duration", null);
 		setMenuItemTextAndAccelerator(this.whole, "duration.whole", SetWholeDurationAction.NAME);

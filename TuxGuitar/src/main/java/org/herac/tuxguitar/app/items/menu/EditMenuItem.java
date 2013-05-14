@@ -44,6 +44,7 @@ public class EditMenuItem extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		//---------------------------------------------------
 		//--UNDO--
@@ -78,6 +79,7 @@ public class EditMenuItem extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		EditorKit kit = TuxGuitar.instance().getTablatureEditor().getTablature().getEditorKit();
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
@@ -93,6 +95,7 @@ public class EditMenuItem extends MenuItems{
 		this.voice2.setSelection(kit.getTablature().getCaret().getVoice() == 1);
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.editMenuItem, "edit.menu", null);
 		setMenuItemTextAndAccelerator(this.undo, "edit.undo", UndoAction.NAME);

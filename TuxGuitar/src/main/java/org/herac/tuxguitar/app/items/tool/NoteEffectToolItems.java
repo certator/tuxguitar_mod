@@ -68,6 +68,7 @@ public class NoteEffectToolItems  extends ToolItems{
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		//--DEAD NOTE--
 		this.deadNote = new ToolItem(toolBar, SWT.CHECK);
@@ -161,6 +162,7 @@ public class NoteEffectToolItems  extends ToolItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		TGNote note = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getSelectedNote();
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
@@ -204,6 +206,7 @@ public class NoteEffectToolItems  extends ToolItems{
 		this.fadeIn.setEnabled(!running && note != null);
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.vibrato.setToolTipText(TuxGuitar.getProperty("effects.vibrato"));
 		this.bend.setToolTipText(TuxGuitar.getProperty("effects.bend"));

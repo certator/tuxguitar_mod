@@ -115,11 +115,13 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 			this.coolBar.setLayoutData(coolData);
 			this.coolBar.setVisible( this.coolbarVisible );
 			this.coolBar.addListener(SWT.Resize, new Listener() {
+				@Override
 				public void handleEvent(Event event) {
 					layoutCoolBar();
 				}
 			});
 			this.coolBar.addListener(SWT.DragDetect, new Listener() {
+				@Override
 				public void handleEvent(Event event) {
 					disableUpdateCoolBarWrapIndices();
 				}
@@ -220,6 +222,7 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 	protected void layoutShellLater(){
 		try {
 			TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					layoutShell();
 				}
@@ -325,6 +328,7 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 		}
 	}
 	
+	@Override
 	public void loadProperties(){
 		if(!isDisposed()){
 			loadProperties(this.loadedToolItems);
@@ -341,6 +345,7 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 		}
 	}
 	
+	@Override
 	public void loadIcons(){
 		this.loadItems();
 	}
@@ -443,6 +448,7 @@ public class ItemManager implements TGUpdateListener,IconLoader,LanguageLoader{
 		return TGFileUtils.PATH_USER_CONFIG + File.separator + "toolbars.xml";
 	}
 
+	@Override
 	public void doUpdate(int type) {
 		if( type == TGUpdateListener.SELECTION ){
 			this.updateItems();

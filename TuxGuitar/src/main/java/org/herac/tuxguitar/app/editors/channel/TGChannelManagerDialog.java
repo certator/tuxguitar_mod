@@ -52,6 +52,7 @@ public class TGChannelManagerDialog implements TGUpdateListener,IconLoader,Langu
 		
 		this.addListeners();
 		this.dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				removeListeners();
 				TuxGuitar.instance().updateCache(true);
@@ -107,6 +108,7 @@ public class TGChannelManagerDialog implements TGUpdateListener,IconLoader,Langu
 		this.addChannelButton = new Button(toolbarComposite, SWT.PUSH);
 		this.addChannelButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
 		this.addChannelButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				getHandle().addChannel();
 			}
@@ -136,6 +138,7 @@ public class TGChannelManagerDialog implements TGUpdateListener,IconLoader,Langu
 		this.volumeValueLabel.setLayoutData(createGridData(SWT.CENTER,SWT.NONE,true,false,1,1,40,0));
 		
 		this.volumeScale.addListener(SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				changeVolume();
 			}
@@ -202,6 +205,7 @@ public class TGChannelManagerDialog implements TGUpdateListener,IconLoader,Langu
 		}
 	}
 
+	@Override
 	public void loadProperties() {
 		if(!isDisposed()){
 			this.addChannelButton.setText(TuxGuitar.getProperty("add"));
@@ -215,10 +219,12 @@ public class TGChannelManagerDialog implements TGUpdateListener,IconLoader,Langu
 		}
 	}
 
+	@Override
 	public void loadIcons() {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public void doUpdate(int type) {
 		if( type == TGUpdateListener.SELECTION ){
 			this.updateItems();

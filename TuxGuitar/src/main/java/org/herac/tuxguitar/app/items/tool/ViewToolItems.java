@@ -32,6 +32,7 @@ public class ViewToolItems extends ToolItems{
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		//--FRETBOARD--
 		this.showFretBoard = new ToolItem(toolBar, SWT.CHECK);
@@ -49,12 +50,14 @@ public class ViewToolItems extends ToolItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		this.showFretBoard.setSelection(TuxGuitar.instance().getFretBoardEditor().isVisible());
 		this.showInstruments.setSelection(!TuxGuitar.instance().getChannelManager().isDisposed());
 		this.showTransport.setSelection(!TuxGuitar.instance().getTransport().isDisposed());
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.showFretBoard.setToolTipText(TuxGuitar.getProperty("view.show-fretboard"));
 		this.showInstruments.setToolTipText(TuxGuitar.getProperty("view.show-instruments"));

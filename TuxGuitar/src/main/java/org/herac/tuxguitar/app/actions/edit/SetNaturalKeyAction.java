@@ -23,6 +23,7 @@ public class SetNaturalKeyAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | DISABLE_ON_PLAYING | AUTO_UPDATE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		getEditor().getTablature().getEditorKit().setNatural(!getEditor().getTablature().getEditorKit().isNatural());
 		return 0;

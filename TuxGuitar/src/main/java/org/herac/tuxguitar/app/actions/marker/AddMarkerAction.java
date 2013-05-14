@@ -27,6 +27,7 @@ public class AddMarkerAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		if(new MarkerEditor(getMarker()).open(getEditor().getTablature().getShell())){
 			MarkerList.instance().update(true);

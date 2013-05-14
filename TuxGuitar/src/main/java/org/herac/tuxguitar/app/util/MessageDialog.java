@@ -44,6 +44,7 @@ public class MessageDialog {
 	
 	public static void infoMessage(final Shell shell,final String title,final String message){
 		new SyncThread(new Runnable() {
+			@Override
 			public void run() {
 				if(!shell.isDisposed()){
 					new MessageDialog(title,message,SWT.ICON_INFORMATION).show(shell);
@@ -59,6 +60,7 @@ public class MessageDialog {
 	public static void errorMessage(final Shell shell,final Throwable throwable){
 		MessageDialog.errorMessage(shell, (throwable.getMessage() != null ? throwable.getMessage() : throwable.getClass().getName() ));
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				throwable.printStackTrace();
 			}
@@ -68,6 +70,7 @@ public class MessageDialog {
 	public static void errorMessage(final Shell shell,final String message){
 		if(!shell.isDisposed()){
 			new SyncThread(new Runnable() {
+				@Override
 				public void run() {
 					if(!shell.isDisposed()){
 						ActionLock.unlock();

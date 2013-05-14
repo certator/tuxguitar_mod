@@ -111,6 +111,7 @@ public class ChordEditor extends Composite {
 		
 		this.composite.setBackground(this.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		this.composite.addPaintListener(new PaintListener() {
+			@Override
 			public void paintControl(PaintEvent e) {
 				TGPainterImpl painter = new TGPainterImpl(e.gc);
 				paintEditor(painter);
@@ -118,6 +119,7 @@ public class ChordEditor extends Composite {
 		});
 		
 		this.composite.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseUp(org.eclipse.swt.events.MouseEvent e) {
 				getComposite().setFocus();
 				checkPoint(e.x, e.y);
@@ -130,6 +132,7 @@ public class ChordEditor extends Composite {
 		this.composite.getVerticalBar().setMinimum(MIN_FRET);
 		this.composite.getVerticalBar().setThumb(1);
 		this.composite.getVerticalBar().addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				setFret((short) getComposite().getVerticalBar().getSelection(), false, true);
 				redraw();
@@ -450,6 +453,7 @@ public class ChordEditor extends Composite {
 		this.chordName.setText(chordName);
 	}
 	
+	@Override
 	public void redraw() {
 		super.redraw();
 		this.composite.redraw();
@@ -466,6 +470,7 @@ public class ChordEditor extends Composite {
 	public void previewChord(final TGChord chord) {
 		
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				int playedStrings = 0;
 				int stringCount = Math.min( getMaxStrings(), chord.countStrings() );

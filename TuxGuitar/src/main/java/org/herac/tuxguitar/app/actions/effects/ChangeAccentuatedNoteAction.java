@@ -26,6 +26,7 @@ public class ChangeAccentuatedNoteAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		//comienza el undoable
 		UndoableMeasureGeneric undoable = UndoableMeasureGeneric.startUndo();
@@ -41,6 +42,7 @@ public class ChangeAccentuatedNoteAction extends Action{
 		return 0;
 	}
 	
+	@Override
 	public void updateTablature() {
 		fireUpdate(getEditor().getTablature().getCaret().getMeasure().getNumber());
 	}

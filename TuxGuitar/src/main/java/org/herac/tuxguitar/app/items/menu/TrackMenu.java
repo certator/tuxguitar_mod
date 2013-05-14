@@ -62,6 +62,7 @@ public class TrackMenu extends MenuItems{
 		return this.menu;
 	}
 	
+	@Override
 	public void showItems(){
 		if(!isDisposed()){
 			//--First--
@@ -117,6 +118,7 @@ public class TrackMenu extends MenuItems{
 		}
 	}
 	
+	@Override
 	public void loadProperties(){
 		if(!isDisposed()){
 			setMenuItemTextAndAccelerator(this.first, "track.first", GoFirstTrackAction.NAME);
@@ -135,6 +137,7 @@ public class TrackMenu extends MenuItems{
 		}
 	}
 	
+	@Override
 	public void update(){
 		if(!isDisposed()){
 			TGTrackImpl track = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getTrack();

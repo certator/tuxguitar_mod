@@ -36,6 +36,7 @@ public class FileToolItems extends ToolItems {
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		this.newSong = new ToolItem(toolBar, SWT.PUSH);
 		this.newSong.addSelectionListener(TuxGuitar.instance().getAction(NewFileAction.NAME));
@@ -59,10 +60,12 @@ public class FileToolItems extends ToolItems {
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		//Nothing to do
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.newSong.setToolTipText(TuxGuitar.getProperty("file.new"));
 		this.openSong.setToolTipText(TuxGuitar.getProperty("file.open"));

@@ -41,6 +41,7 @@ public abstract class Action extends ActionAdapter {
 	
 	protected abstract int execute(ActionData actionData);
 	
+	@Override
 	public synchronized void process(final ActionData actionData) {
 		if (!ActionLock.isLocked() && !TuxGuitar.instance().isLocked()) {
 			final int flags = getFlags();
@@ -56,6 +57,7 @@ public abstract class Action extends ActionAdapter {
 			
 			try {
 				TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+					@Override
 					public void run() throws Throwable {
 						if (!TuxGuitar.isDisposed()) {
 							int result = execute(actionData);

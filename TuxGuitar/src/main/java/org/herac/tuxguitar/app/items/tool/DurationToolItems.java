@@ -51,6 +51,7 @@ public class DurationToolItems  extends ToolItems{
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		this.toolBar = toolBar;
 		this.durationItems = new ToolItem[7];
@@ -92,6 +93,7 @@ public class DurationToolItems  extends ToolItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		TGDuration duration = getEditor().getTablature().getCaret().getDuration();
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
@@ -109,6 +111,7 @@ public class DurationToolItems  extends ToolItems{
 		this.divisionTypeItems.update();
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.durationItems[0].setToolTipText(TuxGuitar.getProperty("duration.whole"));
 		this.durationItems[1].setToolTipText(TuxGuitar.getProperty("duration.half"));
@@ -135,6 +138,7 @@ public class DurationToolItems  extends ToolItems{
 		this.divisionTypeItems.setImage(TuxGuitar.instance().getIconManager().getDivisionType());
 	}
 	
+	@Override
 	protected TablatureEditor getEditor(){
 		return super.getEditor();
 	}
@@ -175,6 +179,7 @@ public class DurationToolItems  extends ToolItems{
 			}
 		}
 		
+		@Override
 		public void widgetSelected(SelectionEvent event) {
 			if (event.detail == SWT.ARROW) {
 				ToolItem item = (ToolItem) event.widget;

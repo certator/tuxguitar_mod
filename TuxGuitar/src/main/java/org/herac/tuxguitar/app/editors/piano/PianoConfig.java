@@ -113,6 +113,7 @@ public class PianoConfig {
 		buttonDefaults.setText(TuxGuitar.getProperty("defaults"));
 		buttonDefaults.setLayoutData(getButtonData());
 		buttonDefaults.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 				defaults();
@@ -124,6 +125,7 @@ public class PianoConfig {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 				
@@ -136,6 +138,7 @@ public class PianoConfig {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}
@@ -216,6 +219,7 @@ public class PianoConfig {
 		
 		private void addListeners(){
 			this.button.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					ColorDialog dlg = new ColorDialog(ButtonColor.this.button.getShell());
 					dlg.setRGB(ButtonColor.this.value);
@@ -227,6 +231,7 @@ public class PianoConfig {
 				}
 			});
 			this.button.addDisposeListener(new DisposeListener() {
+				@Override
 				public void widgetDisposed(DisposeEvent e) {
 					ButtonColor.this.disposeColor();
 				}

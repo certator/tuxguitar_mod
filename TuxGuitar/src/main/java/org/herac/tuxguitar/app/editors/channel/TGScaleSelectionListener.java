@@ -18,6 +18,7 @@ public class TGScaleSelectionListener extends SelectionAdapter implements Runnab
 		this.handle = handle;
 	}
 	
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		this.process();
 	}
@@ -39,6 +40,7 @@ public class TGScaleSelectionListener extends SelectionAdapter implements Runnab
 		}
 	}
 	
+	@Override
 	public void run(){
 		try {
 			long timeToWait = MAXIMUM_TIME;
@@ -64,6 +66,7 @@ public class TGScaleSelectionListener extends SelectionAdapter implements Runnab
 	
 	public void doActionSynchronized() throws Throwable {
 		TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+			@Override
 			public void run() throws Throwable {
 				doAction();		
 			}

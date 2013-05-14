@@ -41,6 +41,7 @@ public class BeatToolItems  extends ToolItems{
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		this.toolBar = toolBar;
 		
@@ -54,6 +55,7 @@ public class BeatToolItems  extends ToolItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		TGNote note = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getSelectedNote();
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
@@ -63,6 +65,7 @@ public class BeatToolItems  extends ToolItems{
 		this.chordItems.update();
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.tiedNote.setToolTipText(TuxGuitar.getProperty("note.tiednote"));
 		this.chordItems.setToolTipText(TuxGuitar.getProperty("insert.chord"));
@@ -120,6 +123,7 @@ public class BeatToolItems  extends ToolItems{
 			}
 		}
 		
+		@Override
 		public void widgetSelected(SelectionEvent event) {
 			if (event.detail == SWT.ARROW && this.subMenuItems != null && this.subMenuItems.length > 0) {
 				ToolItem item = (ToolItem) event.widget;

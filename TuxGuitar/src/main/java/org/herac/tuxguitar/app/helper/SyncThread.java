@@ -23,12 +23,14 @@ public class SyncThread extends Thread {
 	
 	public SyncThread(final Runnable runnable) {
 		this(new TGSynchronizer.TGRunnable() {
+			@Override
 			public void run() throws Throwable {
 				runnable.run();
 			}
 		});
 	}
 	
+	@Override
 	public void run() {
 		try {
 			TGSynchronizer.instance().addRunnable(this.runnable);

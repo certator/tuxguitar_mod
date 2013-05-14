@@ -48,6 +48,7 @@ public class MeasureMenuItem extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		//--first--
 		this.first = new MenuItem(this.menu, SWT.PUSH);
@@ -90,6 +91,7 @@ public class MeasureMenuItem extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		TGMeasureImpl measure = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getMeasure();
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
@@ -106,6 +108,7 @@ public class MeasureMenuItem extends MenuItems{
 		this.pasteMeasure.setEnabled(!running && !TuxGuitar.instance().getTablatureEditor().getClipBoard().isEmpty());
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.measureMenuItem, "measure", null);
 		setMenuItemTextAndAccelerator(this.first, "measure.first", GoFirstMeasureAction.NAME);

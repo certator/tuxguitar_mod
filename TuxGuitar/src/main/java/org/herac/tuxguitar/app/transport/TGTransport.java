@@ -86,6 +86,7 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		
 		this.addListeners();
 		this.dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				removeListeners();
 				TuxGuitar.instance().updateCache(true);
@@ -156,6 +157,7 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		this.label.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_BLUE));
 		this.label.setFont(font);
 		this.label.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				font.dispose();
 			}
@@ -171,16 +173,19 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		this.tickProgress.setLayoutData(data);
 		this.tickProgress.setSelection((int)TGDuration.QUARTER_TIME);
 		this.tickProgress.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseDown(MouseEvent e) {
 				setEditingTickScale(true);
 				updateProgressBar(e.x);
 			}
+			@Override
 			public void mouseUp(MouseEvent e) {
 				gotoMeasure(getSongManager().getMeasureHeaderAt(TGTransport.this.tickProgress.getSelection()),true);
 				setEditingTickScale(false);
 			}
 		});
 		this.tickProgress.addMouseMoveListener(new MouseMoveListener() {
+			@Override
 			public void mouseMove(MouseEvent e) {
 				updateProgressBar(e.x);
 			}
@@ -203,6 +208,7 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		
 		this.first = new ToolItem(this.toolBar,SWT.PUSH);
 		this.first.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				gotoFirst();
 			}
@@ -210,6 +216,7 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		
 		this.previous = new ToolItem(this.toolBar,SWT.PUSH);
 		this.previous.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				gotoPrevious();
 			}
@@ -217,6 +224,7 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		
 		this.stop = new ToolItem(this.toolBar,SWT.PUSH);
 		this.stop.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				stop();
 			}
@@ -224,6 +232,7 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		
 		this.play = new ToolItem(this.toolBar,SWT.PUSH);
 		this.play.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				play();
 			}
@@ -231,6 +240,7 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		
 		this.next = new ToolItem(this.toolBar,SWT.PUSH);
 		this.next.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				gotoNext();
 			}
@@ -238,6 +248,7 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		
 		this.last = new ToolItem(this.toolBar,SWT.PUSH);
 		this.last.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				gotoLast();
 			}
@@ -306,6 +317,7 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		}
 	}
 	
+	@Override
 	public void loadProperties(){
 		if(!isDisposed()){
 			this.dialog.setText(TuxGuitar.getProperty("transport"));
@@ -325,6 +337,7 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		this.play.setToolTipText(property);
 	}
 	
+	@Override
 	public void loadIcons(){
 		if(!isDisposed()){
 			this.initToolBar();
@@ -450,6 +463,7 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		if(!TuxGuitar.instance().isLocked()){
 			if(!isDisposed()){
 				new SyncThread(new Runnable() {
+					@Override
 					public void run() {
 						if(!isDisposed() && !TuxGuitar.instance().isLocked()){
 							if(isEditingTickScale()){
@@ -486,12 +500,14 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		}
 	}
 	
+	@Override
 	public void doRedraw(int type) {
 		if( type == TGRedrawListener.PLAYING_THREAD || type == TGRedrawListener.PLAYING_NEW_BEAT ){
 			this.redrawPlayingMode();
 		}
 	}
 	
+	@Override
 	public void doUpdate(int type) {
 		if( type == TGUpdateListener.SELECTION ){
 			this.updateItems();

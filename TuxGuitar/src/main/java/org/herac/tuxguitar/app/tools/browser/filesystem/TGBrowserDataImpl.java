@@ -14,6 +14,7 @@ public class TGBrowserDataImpl implements TGBrowserData{
 		this.path = path;
 	}
 	
+	@Override
 	public String getTitle(){
 		return this.title;
 	}
@@ -22,6 +23,7 @@ public class TGBrowserDataImpl implements TGBrowserData{
 		return this.path;
 	}
 	
+	@Override
 	public String toString(){
 		return (getTitle() + STRING_SEPARATOR + getPath());
 	}

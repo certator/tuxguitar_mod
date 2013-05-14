@@ -30,6 +30,7 @@ public class PianoEditor implements TGRedrawListener, TGExternalBeatViewerListen
 		
 		this.addListeners();
 		dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				removeListeners();
 				TuxGuitar.instance().updateCache(true);
@@ -81,6 +82,7 @@ public class PianoEditor implements TGRedrawListener, TGExternalBeatViewerListen
 		return (this.getPiano() == null || getPiano().isDisposed());
 	}
 	
+	@Override
 	public void loadProperties(){
 		if(!isDisposed()){
 			getPiano().loadProperties();
@@ -88,18 +90,21 @@ public class PianoEditor implements TGRedrawListener, TGExternalBeatViewerListen
 		}
 	}
 	
+	@Override
 	public void loadIcons(){
 		if(!isDisposed()){
 			getPiano().loadIcons();
 		}
 	}
 	
+	@Override
 	public void loadScale(){
 		if(!isDisposed()){
 			getPiano().loadScale();
 		}
 	}
 	
+	@Override
 	public void doRedraw(int type) {
 		if( type == TGRedrawListener.NORMAL ){
 			this.redraw();
@@ -108,12 +113,14 @@ public class PianoEditor implements TGRedrawListener, TGExternalBeatViewerListen
 		}
 	}
 	
+	@Override
 	public void showExternalBeat(TGBeat beat) {
 		if(!isDisposed()){
 			getPiano().setExternalBeat(beat);
 		}
 	}
 	
+	@Override
 	public void hideExternalBeat() {
 		if(!isDisposed()){
 			getPiano().setExternalBeat(null);

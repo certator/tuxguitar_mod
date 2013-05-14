@@ -28,6 +28,7 @@ public abstract class ActionAdapter implements SelectionListener,MouseListener,M
 		this.process(actionData);
 	}
 	
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		if(e.widget != null && (e.widget.getStyle() & SWT.RADIO) != 0){
 			if(e.widget instanceof Button && !((Button)e.widget).getSelection() ){
@@ -43,47 +44,58 @@ public abstract class ActionAdapter implements SelectionListener,MouseListener,M
 		processEvent(e);
 	}
 	
+	@Override
 	public void mouseUp(MouseEvent e) {
 		processEvent(e);
 	}
 	
+	@Override
 	public void menuShown(MenuEvent e) {
 		processEvent(e);
 	}
 	
+	@Override
 	public void shellClosed(ShellEvent e) {
 		e.doit = false;
 		processEvent(e);
 	}
 	
+	@Override
 	public void widgetDefaultSelected(SelectionEvent e) {
 		//Override me
 	}
 	
+	@Override
 	public void mouseDoubleClick(MouseEvent e) {
 		//Override me
 	}
 	
+	@Override
 	public void mouseDown(MouseEvent e) {
 		//Override me
 	}
 	
+	@Override
 	public void menuHidden(MenuEvent e) {
 		//Override me
 	}
 	
+	@Override
 	public void shellActivated(ShellEvent e) {
 		//Override me
 	}
 	
+	@Override
 	public void shellDeactivated(ShellEvent e) {
 		//Override me
 	}
 	
+	@Override
 	public void shellDeiconified(ShellEvent e) {
 		//Override me
 	}
 	
+	@Override
 	public void shellIconified(ShellEvent e) {
 		//Override me
 	}

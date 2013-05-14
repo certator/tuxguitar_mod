@@ -56,6 +56,7 @@ public class HarmonicEditor extends SelectionAdapter{
 		
 		this.typeButtons = new Button[5];
 		SelectionListener listener = new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				update(note,getSelectedType());
 			}
@@ -95,6 +96,7 @@ public class HarmonicEditor extends SelectionAdapter{
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				HarmonicEditor.this.result = getHarmonic();
 				HarmonicEditor.this.cancelled = false;
@@ -107,6 +109,7 @@ public class HarmonicEditor extends SelectionAdapter{
 		buttonClean.setLayoutData(getButtonData());
 		buttonClean.setEnabled( note.getEffect().isHarmonic());
 		buttonClean.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				HarmonicEditor.this.result = null;
 				HarmonicEditor.this.cancelled = false;
@@ -118,6 +121,7 @@ public class HarmonicEditor extends SelectionAdapter{
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				HarmonicEditor.this.result = note.getEffect().getHarmonic();
 				HarmonicEditor.this.cancelled = true;

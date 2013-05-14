@@ -12,6 +12,7 @@ public class TransportMetronomeAction extends Action {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		TuxGuitar.instance().getPlayer().setMetronomeEnabled(!TuxGuitar.instance().getPlayer().isMetronomeEnabled());
 		return 0;

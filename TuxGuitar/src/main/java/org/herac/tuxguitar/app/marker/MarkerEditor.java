@@ -76,6 +76,7 @@ public class MarkerEditor {
 		this.measureSpinner.setMaximum(measureCount);
 		this.measureSpinner.setSelection(this.marker.getMeasure());
 		this.measureSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selection = MarkerEditor.this.measureSpinner.getSelection();
 				if (selection < 1) {
@@ -102,6 +103,7 @@ public class MarkerEditor {
 		this.colorButton.setLayoutData(getAlignmentData(MINIMUM_CONTROL_WIDTH,SWT.FILL));
 		this.colorButton.setText(TuxGuitar.getProperty("choose"));
 		this.colorButton.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				ColorDialog dlg = new ColorDialog(MarkerEditor.this.dialog);
 				dlg.setRGB(MarkerEditor.this.dialog.getDisplay().getSystemColor(SWT.COLOR_BLACK).getRGB());
@@ -116,6 +118,7 @@ public class MarkerEditor {
 			}
 		});
 		this.colorButton.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				MarkerEditor.this.disposeButtonColor();
 			}
@@ -135,6 +138,7 @@ public class MarkerEditor {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(data);
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				updateMarker();
 				MarkerEditor.this.accepted = true;
@@ -146,6 +150,7 @@ public class MarkerEditor {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(data);
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				MarkerEditor.this.dialog.dispose();
 			}

@@ -11,14 +11,17 @@ public class TGConfigManagerImpl extends TGConfigManager{
 		super();
 	}
 	
+	@Override
 	public String getName() {
 		return "System Configuration";
 	}
 	
+	@Override
 	public String getFileName(){
 		return TGFileUtils.PATH_USER_CONFIG + File.separator + "config.properties";
 	}
 	
+	@Override
 	public Properties getDefaults() {
 		return new TGConfigDefaults().getProperties();
 	}

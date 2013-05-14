@@ -45,6 +45,7 @@ public class PrintAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		try{
 			final PrintStyles data = PrintStylesDialog.open(TuxGuitar.instance().getShell());
@@ -67,6 +68,7 @@ public class PrintAction extends Action{
 	public void print(final PrinterData printerData ,final PrintStyles data){
 		try{
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					try{
 						final TGSongManager manager = new TGSongManager();
@@ -74,6 +76,7 @@ public class PrintAction extends Action{
 						manager.setSong(getSongManager().getSong().clone(manager.getFactory()));
 						
 						new SyncThread(new Runnable() {
+							@Override
 							public void run() {
 								try{
 									Printer printer = new Printer(printerData);
@@ -98,6 +101,7 @@ public class PrintAction extends Action{
 	
 	protected void print(final Printer printer,final PrinterData printerData ,final PrintLayout layout, final TGRectangle bounds, final float scale){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try{
 					layout.loadStyles(scale);
@@ -148,14 +152,17 @@ public class PrintAction extends Action{
 			this.painter = new TGPainterImpl();
 		}
 		
+		@Override
 		public TGPainter getPainter() {
 			return this.painter;
 		}
 		
+		@Override
 		public TGRectangle getBounds(){
 			return this.bounds;
 		}
 		
+		@Override
 		public void pageStart() {
 			if(this.started){
 				this.printer.startPage();
@@ -163,6 +170,7 @@ public class PrintAction extends Action{
 			}
 		}
 		
+		@Override
 		public void pageFinish() {
 			if(this.started){
 				this.painter.dispose();
@@ -170,16 +178,19 @@ public class PrintAction extends Action{
 			}
 		}
 		
+		@Override
 		public void start() {
 			this.started = this.printer.startJob(getJobName());
 		}
 		
+		@Override
 		public void finish() {
 			if(this.started){
 				this.printer.endJob();
 				this.started = false;
 				try {
 					TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable(){
+						@Override
 						public void run() {
 							dispose();
 						}
@@ -191,6 +202,7 @@ public class PrintAction extends Action{
 			}
 		}
 		
+		@Override
 		public boolean isPaintable(int page){
 			if(this.printerData.scope == PrinterData.PAGE_RANGE){
 				if(this.printerData.startPage > 0 && this.printerData.startPage > page){

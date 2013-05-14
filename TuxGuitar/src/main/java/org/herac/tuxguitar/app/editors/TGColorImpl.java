@@ -20,22 +20,27 @@ public class TGColorImpl implements TGColor{
 		return this.handle;
 	}
 	
+	@Override
 	public int getRed() {
 		return this.handle.getRed();
 	}
 	
+	@Override
 	public int getGreen() {
 		return this.handle.getGreen();
 	}
 	
+	@Override
 	public int getBlue() {
 		return this.handle.getBlue();
 	}
 	
+	@Override
 	public boolean isDisposed(){
 		return this.handle.isDisposed();
 	}
 	
+	@Override
 	public void dispose(){
 		this.handle.dispose();
 	}

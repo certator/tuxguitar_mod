@@ -40,6 +40,7 @@ public class ChangeNoteAction extends Action {
 		super(name, flags);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		long start = getPropertyStart(actionData);
 		int fret = getPropertyFret(actionData);

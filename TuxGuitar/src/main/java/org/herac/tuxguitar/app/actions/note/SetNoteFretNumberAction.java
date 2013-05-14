@@ -21,6 +21,7 @@ public class SetNoteFretNumberAction extends ChangeNoteAction {
 		this.number = number;
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		Caret caret = getEditor().getTablature().getCaret();
 		

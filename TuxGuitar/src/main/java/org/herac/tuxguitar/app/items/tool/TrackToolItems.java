@@ -30,6 +30,7 @@ public class TrackToolItems extends ToolItems{
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		this.add = new ToolItem(toolBar, SWT.PUSH);
 		this.add.addSelectionListener(TuxGuitar.instance().getAction(AddTrackAction.NAME));
@@ -41,6 +42,7 @@ public class TrackToolItems extends ToolItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.add.setToolTipText(TuxGuitar.getProperty("track.add"));
 		this.remove.setToolTipText(TuxGuitar.getProperty("track.remove"));
@@ -51,6 +53,7 @@ public class TrackToolItems extends ToolItems{
 		this.remove.setImage(TuxGuitar.instance().getIconManager().getTrackRemove());
 	}
 	
+	@Override
 	public void update(){
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
 		this.add.setEnabled(!running);

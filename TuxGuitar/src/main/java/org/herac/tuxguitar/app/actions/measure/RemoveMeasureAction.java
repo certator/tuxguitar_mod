@@ -42,6 +42,7 @@ public class RemoveMeasureAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		showDialog(getEditor().getTablature().getShell()/*,e*/);
 		return 0;
@@ -83,6 +84,7 @@ public class RemoveMeasureAction extends Action{
 			final int maxSelection = track.countMeasures();
 			
 			fromSpinner.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					int fromSelection = fromSpinner.getSelection();
 					int toSelection = toSpinner.getSelection();
@@ -95,6 +97,7 @@ public class RemoveMeasureAction extends Action{
 				}
 			});
 			toSpinner.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					int toSelection = toSpinner.getSelection();
 					int fromSelection = fromSpinner.getSelection();
@@ -114,6 +117,7 @@ public class RemoveMeasureAction extends Action{
 			buttonOK.setText(TuxGuitar.getProperty("ok"));
 			buttonOK.setLayoutData(getButtonData());
 			buttonOK.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					removeMeasures(fromSpinner.getSelection(),toSpinner.getSelection()/*,event*/);
 					dialog.dispose();
@@ -124,6 +128,7 @@ public class RemoveMeasureAction extends Action{
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					dialog.dispose();
 				}

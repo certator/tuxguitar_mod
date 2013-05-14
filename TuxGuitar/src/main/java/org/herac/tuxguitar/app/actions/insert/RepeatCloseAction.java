@@ -38,12 +38,14 @@ public class RepeatCloseAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		TGMeasureImpl measure = getEditor().getTablature().getCaret().getMeasure();
 		showCloseRepeatDialog(getEditor().getTablature().getShell(), measure);
 		return 0;
 	}
 	
+	@Override
 	public void updateTablature() {
 		fireUpdate(getEditor().getTablature().getCaret().getMeasure().getNumber());
 	}
@@ -83,6 +85,7 @@ public class RepeatCloseAction extends Action{
 			buttonOK.setText(TuxGuitar.getProperty("ok"));
 			buttonOK.setLayoutData(getButtonData());
 			buttonOK.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					closeRepeat(measure,repeatClose.getSelection());
 					dialog.dispose();
@@ -92,6 +95,7 @@ public class RepeatCloseAction extends Action{
 			buttonClean.setText(TuxGuitar.getProperty("clean"));
 			buttonClean.setLayoutData(getButtonData());
 			buttonClean.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					closeRepeat(measure,0);
 					dialog.dispose();
@@ -101,6 +105,7 @@ public class RepeatCloseAction extends Action{
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					dialog.dispose();
 				}

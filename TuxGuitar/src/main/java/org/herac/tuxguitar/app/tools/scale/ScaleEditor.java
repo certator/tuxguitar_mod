@@ -50,6 +50,7 @@ public class ScaleEditor {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TuxGuitar.instance().getScaleManager().selectScale((scales.getSelectionIndex() - 1), keys.getSelectionIndex());
 				dialog.dispose();
@@ -60,6 +61,7 @@ public class ScaleEditor {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

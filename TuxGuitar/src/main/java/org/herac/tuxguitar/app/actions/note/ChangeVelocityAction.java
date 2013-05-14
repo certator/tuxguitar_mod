@@ -28,6 +28,7 @@ public class ChangeVelocityAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | DISABLE_ON_PLAYING);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		Object propertyVelocity = actionData.get(PROPERTY_VELOCITY);
 		if( propertyVelocity instanceof Integer){
@@ -50,6 +51,7 @@ public class ChangeVelocityAction extends Action{
 		return 0;
 	}
 	
+	@Override
 	public void updateTablature() {
 		fireUpdate(getEditor().getTablature().getCaret().getMeasure().getNumber());
 	}

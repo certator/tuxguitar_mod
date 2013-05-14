@@ -223,6 +223,7 @@ public class GraceEditor extends SelectionAdapter{
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				GraceEditor.this.result = getGrace();
 				GraceEditor.this.cancelled = false;
@@ -234,6 +235,7 @@ public class GraceEditor extends SelectionAdapter{
 		buttonClean.setText(TuxGuitar.getProperty("clean"));
 		buttonClean.setLayoutData(getButtonData());
 		buttonClean.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				GraceEditor.this.result = null;
 				GraceEditor.this.cancelled = false;
@@ -245,6 +247,7 @@ public class GraceEditor extends SelectionAdapter{
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				GraceEditor.this.result = note.getEffect().getGrace();
 				GraceEditor.this.cancelled = true;

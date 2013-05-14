@@ -24,6 +24,7 @@ public class ScaleAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		new ScaleEditor().show();
 		return 0;

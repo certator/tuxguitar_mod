@@ -35,6 +35,7 @@ public class OpenFileAction extends Action {
 		super(NAME, AUTO_LOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		final Object propertyUrl = actionData.get(PROPERTY_URL);
 		
@@ -54,10 +55,12 @@ public class OpenFileAction extends Action {
 				}
 				TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 				new Thread(new Runnable() {
+					@Override
 					public void run() {
 						if(!TuxGuitar.isDisposed()){
 							FileActionUtils.save(fileName);
 							new SyncThread(new Runnable() {
+								@Override
 								public void run() {
 									if(!TuxGuitar.isDisposed()){
 										TuxGuitar.instance().loadCursor(SWT.CURSOR_ARROW);
@@ -85,8 +88,10 @@ public class OpenFileAction extends Action {
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		try {
 			TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					new Thread(new Runnable() {
+						@Override
 						public void run() {
 							if(!TuxGuitar.isDisposed()){
 								FileActionUtils.open(url);

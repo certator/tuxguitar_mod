@@ -39,6 +39,7 @@ public class AddMeasureAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		showDialog();
 		return 0;
@@ -89,6 +90,7 @@ public class AddMeasureAction extends Action{
 			buttonOK.setText(TuxGuitar.getProperty("ok"));
 			buttonOK.setLayoutData(getButtonData());
 			buttonOK.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					int number = 0;
 					int count = countSpinner.getSelection();
@@ -108,6 +110,7 @@ public class AddMeasureAction extends Action{
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					dialog.dispose();
 				}
@@ -135,8 +138,10 @@ public class AddMeasureAction extends Action{
 	private void addMeasure( final int number , final int count ){
 		if(count > 0 && number > 0 && number <=  (getSongManager().getSong().countMeasureHeaders() + 1)){
 			new Thread(new Runnable() {
+				@Override
 				public void run() {
 					new SyncThread(new Runnable() {
+						@Override
 						public void run() {
 							UndoableJoined undoable = new UndoableJoined();
 							for( int i = 0 ; i < count ; i ++ ){

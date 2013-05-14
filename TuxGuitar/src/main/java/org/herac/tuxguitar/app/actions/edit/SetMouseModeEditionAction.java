@@ -24,6 +24,7 @@ public class SetMouseModeEditionAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | DISABLE_ON_PLAYING | AUTO_UPDATE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		getEditor().getTablature().getEditorKit().setMouseMode(EditorKit.MOUSE_MODE_EDITION);
 		return 0;

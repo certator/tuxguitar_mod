@@ -26,6 +26,7 @@ public class ChangeTrackMuteAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		TGTrack track = getEditor().getTablature().getCaret().getTrack();
 		if( track != null ){

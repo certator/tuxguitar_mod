@@ -40,6 +40,7 @@ public class SkinOption extends Option{
 		this.initialized = false;
 	}
 	
+	@Override
 	public void createOption() {
 		getToolItem().setText(TuxGuitar.getProperty("settings.config.skin"));
 		getToolItem().setImage(TuxGuitar.instance().getIconManager().getOptionSkin());
@@ -73,6 +74,7 @@ public class SkinOption extends Option{
 		this.previewArea = new Composite(skinPreviewComposite,SWT.DOUBLE_BUFFERED);
 		this.previewArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.previewArea.addPaintListener(new PaintListener() {
+			@Override
 			public void paintControl(PaintEvent e) {
 				if(SkinOption.this.preview != null && !SkinOption.this.preview.isDisposed()){
 					e.gc.drawImage(SkinOption.this.preview, 0, 0);
@@ -85,6 +87,7 @@ public class SkinOption extends Option{
 	
 	protected void loadConfig(){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				SkinOption.this.skins = new ArrayList<SkinInfo>();
 				String[] skinNames = TGFileUtils.getFileNames("skins");
@@ -110,6 +113,7 @@ public class SkinOption extends Option{
 					}
 				}
 				new SyncThread(new Runnable() {
+					@Override
 					public void run() {
 						if(!isDisposed()){
 							for(int i = 0;i < SkinOption.this.skins.size();i++){
@@ -120,6 +124,7 @@ public class SkinOption extends Option{
 								}
 							}
 							SkinOption.this.combo.addSelectionListener(new SelectionAdapter() {
+								@Override
 								public void widgetSelected(SelectionEvent e) {
 									int selection = SkinOption.this.combo.getSelectionIndex();
 									if(selection >= 0 && selection < SkinOption.this.skins.size()){
@@ -144,6 +149,7 @@ public class SkinOption extends Option{
 	protected void showSkinInfo(final SkinInfo info){
 		loadCursor(SWT.CURSOR_WAIT);
 		new SyncThread(new Runnable() {
+			@Override
 			public void run() {
 				if(!isDisposed()){
 					disposePreview();
@@ -161,6 +167,7 @@ public class SkinOption extends Option{
 		}).start();
 	}
 	
+	@Override
 	public void updateConfig() {
 		if(this.initialized){
 			int selection = this.combo.getSelectionIndex();
@@ -171,15 +178,18 @@ public class SkinOption extends Option{
 		}
 	}
 	
+	@Override
 	public void updateDefaults(){
 		if(this.initialized){
 			getConfig().setProperty(TGConfigKeys.SKIN,getDefaults().getProperty(TGConfigKeys.SKIN));
 		}
 	}
 	
+	@Override
 	public void applyConfig(boolean force){
 		if(force || (this.initialized && TuxGuitar.instance().getIconManager().shouldReload())){
 			addSyncThread(new Runnable() {
+				@Override
 				public void run() {
 					TuxGuitar.instance().loadSkin();
 				}
@@ -187,6 +197,7 @@ public class SkinOption extends Option{
 		}
 	}
 	
+	@Override
 	public void dispose(){
 		this.disposePreview();
 	}

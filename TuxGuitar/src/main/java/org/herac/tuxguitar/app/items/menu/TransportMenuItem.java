@@ -50,6 +50,7 @@ public class TransportMenuItem extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		this.play = new MenuItem(this.menu,SWT.PUSH);
 		this.play.addSelectionListener(TuxGuitar.instance().getAction(TransportPlayAction.NAME));
@@ -85,6 +86,7 @@ public class TransportMenuItem extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		TGMeasure measure = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getMeasure();
 		MidiPlayerMode pm = TuxGuitar.instance().getPlayer().getMode();
@@ -97,6 +99,7 @@ public class TransportMenuItem extends MenuItems{
 		this.loadIcons(false);
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.transportMenuItem, "transport", null);
 		setMenuItemTextAndAccelerator(this.play, "transport.start", TransportPlayAction.NAME);

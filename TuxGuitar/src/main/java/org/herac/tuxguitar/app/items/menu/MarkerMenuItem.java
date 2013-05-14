@@ -40,6 +40,7 @@ public class MarkerMenuItem extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		//--ADD--
 		this.add = new MenuItem(this.menu, SWT.PUSH);
@@ -74,10 +75,12 @@ public class MarkerMenuItem extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		//Nothing to do
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.markerMenuItem, "marker", null);
 		setMenuItemTextAndAccelerator(this.add, "marker.add", AddMarkerAction.NAME);

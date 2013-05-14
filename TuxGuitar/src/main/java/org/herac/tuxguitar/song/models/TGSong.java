@@ -142,7 +142,7 @@ public abstract class TGSong {
 	}
 	
 	public TGMeasureHeader getMeasureHeader(int index){
-		return (TGMeasureHeader)this.measureHeaders.get(index);
+		return this.measureHeaders.get(index);
 	}
 	
 	public Iterator<TGMeasureHeader> getMeasureHeaders() {
@@ -173,7 +173,7 @@ public abstract class TGSong {
 	}
 	
 	public TGTrack getTrack(int index){
-		return (TGTrack)this.tracks.get(index);
+		return this.tracks.get(index);
 	}
 	
 	public Iterator<TGTrack> getTracks() {
@@ -202,7 +202,7 @@ public abstract class TGSong {
 	}
 	
 	public TGChannel getChannel(int index){
-		return (TGChannel)this.channels.get(index);
+		return this.channels.get(index);
 	}
 	
 	public Iterator<TGChannel> getChannels() {
@@ -216,7 +216,7 @@ public abstract class TGSong {
 	public void clear(){
 		Iterator<TGTrack> tracks = getTracks();
 		while(tracks.hasNext()){
-			TGTrack track = (TGTrack)tracks.next();
+			TGTrack track = tracks.next();
 			track.clear();
 		}
 		this.tracks.clear();
@@ -243,17 +243,17 @@ public abstract class TGSong {
 		song.setComments(getComments());
 		Iterator<TGMeasureHeader> headers = getMeasureHeaders();
 		while(headers.hasNext()){
-			TGMeasureHeader header = (TGMeasureHeader)headers.next();
+			TGMeasureHeader header = headers.next();
 			song.addMeasureHeader(header.clone(factory));
 		}
 		Iterator<TGChannel> channels = getChannels();
 		while(channels.hasNext()){
-			TGChannel channel = (TGChannel)channels.next();
+			TGChannel channel = channels.next();
 			song.addChannel(channel.clone(factory));
 		}
 		Iterator<TGTrack> tracks = getTracks();
 		while(tracks.hasNext()){
-			TGTrack track = (TGTrack)tracks.next();
+			TGTrack track = tracks.next();
 			song.addTrack(track.clone(factory, song));
 		}
 	}

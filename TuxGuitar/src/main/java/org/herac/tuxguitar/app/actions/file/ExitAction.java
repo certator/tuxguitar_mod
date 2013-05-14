@@ -24,6 +24,7 @@ public class ExitAction extends Action {
 		super(NAME, AUTO_LOCK | KEY_BINDING_AVAILABLE );
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		ActionLock.unlock();
 		TuxGuitar.instance().getShell().close();

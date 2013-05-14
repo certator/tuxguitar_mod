@@ -62,6 +62,7 @@ public class TGBrowserDataDialog {
 		final Button pathChooser = new Button(composite,SWT.PUSH);
 		pathChooser.setImage(TuxGuitar.instance().getIconManager().getFileOpen());
 		pathChooser.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				DirectoryDialog directoryDialog = new DirectoryDialog(dialog);
 				String selection = directoryDialog.open();
@@ -80,6 +81,7 @@ public class TGBrowserDataDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				String selectedTitle = titleValue.getText();
 				String selectedPath = pathValue.getText();
@@ -99,6 +101,7 @@ public class TGBrowserDataDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

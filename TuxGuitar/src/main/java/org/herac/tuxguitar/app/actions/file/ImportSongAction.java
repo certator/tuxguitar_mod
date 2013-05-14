@@ -34,6 +34,7 @@ public class ImportSongAction extends Action {
 		super(NAME, AUTO_LOCK | AUTO_UPDATE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		final Object propertyImporter = actionData.get(PROPERTY_IMPORTER);
 		
@@ -53,10 +54,12 @@ public class ImportSongAction extends Action {
 				}
 				TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 				new Thread(new Runnable() {
+					@Override
 					public void run() {
 						if(!TuxGuitar.isDisposed()){
 							FileActionUtils.save(fileName);
 							new SyncThread(new Runnable() {
+								@Override
 								public void run() {
 									if(!TuxGuitar.isDisposed()){
 										TuxGuitar.instance().loadCursor(SWT.CURSOR_ARROW);
@@ -92,6 +95,7 @@ public class ImportSongAction extends Action {
 		
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				if(!TuxGuitar.isDisposed()){
 					FileActionUtils.importSong(importer, path);
@@ -105,6 +109,7 @@ public class ImportSongAction extends Action {
 	private void processRawImporter( final TGRawImporter importer ){
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				if(!TuxGuitar.isDisposed()){
 					FileActionUtils.importSong(importer);

@@ -195,6 +195,7 @@ public class FretBoardConfig {
 		buttonDefaults.setText(TuxGuitar.getProperty("defaults"));
 		buttonDefaults.setLayoutData(getButtonData());
 		buttonDefaults.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 				defaults();
@@ -206,6 +207,7 @@ public class FretBoardConfig {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				int style = 0;
 				style |= (displayTextNote.getSelection() ? DISPLAY_TEXT_NOTE : 0 );
@@ -227,6 +229,7 @@ public class FretBoardConfig {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}
@@ -272,6 +275,7 @@ public class FretBoardConfig {
 		button.setLayoutData(getAlignmentData(MINIMUM_CONTROL_WIDTH,SWT.FILL));
 		button.setText(TuxGuitar.getProperty("choose"));
 		button.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				Font font = new Font(parent.getDisplay(),selection);
 				FontDialog fontDialog = new FontDialog(parent.getShell());
@@ -334,6 +338,7 @@ public class FretBoardConfig {
 		
 		private void addListeners(){
 			this.button.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					ColorDialog dlg = new ColorDialog(ButtonColor.this.button.getShell());
 					dlg.setRGB(ButtonColor.this.value);
@@ -345,6 +350,7 @@ public class FretBoardConfig {
 				}
 			});
 			this.button.addDisposeListener(new DisposeListener() {
+				@Override
 				public void widgetDisposed(DisposeEvent e) {
 					ButtonColor.this.disposeColor();
 				}

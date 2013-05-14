@@ -74,24 +74,28 @@ public class FretBoardEditor implements TGRedrawListener, TGExternalBeatViewerLi
 		return (getFretBoard() != null && !getFretBoard().isDisposed() && this.visible);
 	}
 	
+	@Override
 	public void loadProperties(){
 		if(getFretBoard() != null && !getFretBoard().isDisposed()){
 			getFretBoard().loadProperties();
 		}
 	}
 	
+	@Override
 	public void loadIcons(){
 		if(getFretBoard() != null && !getFretBoard().isDisposed()){
 			getFretBoard().loadIcons();
 		}
 	}
 	
+	@Override
 	public void loadScale(){
 		if(getFretBoard() != null){
 			getFretBoard().loadScale();
 		}
 	}
 	
+	@Override
 	public void doRedraw(int type) {
 		if( type == TGRedrawListener.NORMAL ){
 			this.redraw();
@@ -100,12 +104,14 @@ public class FretBoardEditor implements TGRedrawListener, TGExternalBeatViewerLi
 		}
 	}
 	
+	@Override
 	public void showExternalBeat(TGBeat beat) {
 		if(getFretBoard() != null && !getFretBoard().isDisposed()){
 			getFretBoard().setExternalBeat(beat);
 		}
 	}
 	
+	@Override
 	public void hideExternalBeat() {
 		if(getFretBoard() != null && !getFretBoard().isDisposed()){
 			getFretBoard().setExternalBeat(null);

@@ -27,6 +27,7 @@ public class IncrementDurationAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		TGDuration duration = getEditor().getTablature().getCaret().getDuration();
 		if(duration.getValue() < TGDuration.SIXTY_FOURTH){
@@ -53,6 +54,7 @@ public class IncrementDurationAction extends Action{
 		caret.changeDuration(caret.getDuration().clone(getSongManager().getFactory()));
 	}
 	
+	@Override
 	public void updateTablature() {
 		fireUpdate(getEditor().getTablature().getCaret().getMeasure().getNumber());
 	}

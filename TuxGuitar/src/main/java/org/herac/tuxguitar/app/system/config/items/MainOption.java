@@ -24,6 +24,7 @@ public class MainOption  extends Option{
 		this.initialized = false;
 	}
 	
+	@Override
 	public void createOption(){
 		getToolItem().setText(TuxGuitar.getProperty("settings.config.main"));
 		getToolItem().setImage(TuxGuitar.instance().getIconManager().getOptionMain());
@@ -91,11 +92,13 @@ public class MainOption  extends Option{
 	
 	protected void loadConfig(){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				final String windowTitle = getConfig().getStringConfigValue(TGConfigKeys.WINDOW_TITLE);
 				final boolean showSplash = getConfig().getBooleanConfigValue(TGConfigKeys.SHOW_SPLASH);
 				final boolean autoSizeTable = getConfig().getBooleanConfigValue(TGConfigKeys.TABLE_AUTO_SIZE);
 				new SyncThread(new Runnable() {
+					@Override
 					public void run() {
 						if(!isDisposed()){
 							MainOption.this.windowTitle.setText(windowTitle);
@@ -110,6 +113,7 @@ public class MainOption  extends Option{
 		}).start();
 	}
 	
+	@Override
 	public void updateConfig(){
 		if(this.initialized){
 			getConfig().setProperty(TGConfigKeys.WINDOW_TITLE,this.windowTitle.getText());
@@ -118,6 +122,7 @@ public class MainOption  extends Option{
 		}
 	}
 	
+	@Override
 	public void updateDefaults(){
 		if(this.initialized){
 			getConfig().setProperty(TGConfigKeys.WINDOW_TITLE,getDefaults().getProperty(TGConfigKeys.WINDOW_TITLE));
@@ -126,6 +131,7 @@ public class MainOption  extends Option{
 		}
 	}
 	
+	@Override
 	public void applyConfig(boolean force){
 		if(force || this.initialized){
 			TuxGuitar.instance().showTitle();

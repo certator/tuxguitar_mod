@@ -25,6 +25,7 @@ public class ShowFretBoardAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		if(TuxGuitar.instance().getFretBoardEditor().isVisible()){

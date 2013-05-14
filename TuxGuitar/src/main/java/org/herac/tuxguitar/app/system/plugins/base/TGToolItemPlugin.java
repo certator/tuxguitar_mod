@@ -17,16 +17,19 @@ public abstract class TGToolItemPlugin extends TGPluginAdapter{
 	
 	protected abstract String getItemName() throws TGPluginException ;
 	
+	@Override
 	public void init() throws TGPluginException {
 		String name = getItemName();
 		this.tool = new TGCustomTool(name,name);
 		this.toolAction = new TGCustomToolAction(this.tool.getName());
 	}
 	
+	@Override
 	public void close() throws TGPluginException {
 		this.removePlugin();
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		if(enabled){
 			addPlugin();
@@ -59,6 +62,7 @@ public abstract class TGToolItemPlugin extends TGPluginAdapter{
 			super(name, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 		}
 		
+		@Override
 		protected int execute(ActionData actionData) {
 			doAction();
 			return 0;

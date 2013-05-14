@@ -41,6 +41,7 @@ public class EditToolItems extends ToolItems {
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		this.undo = new ToolItem(toolBar, SWT.PUSH);
 		this.undo.addSelectionListener(TuxGuitar.instance().getAction(UndoAction.NAME));
@@ -71,6 +72,7 @@ public class EditToolItems extends ToolItems {
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
 		this.undo.setEnabled(!running && TuxGuitar.instance().getUndoableManager().canUndo());
@@ -87,6 +89,7 @@ public class EditToolItems extends ToolItems {
 		this.notNaturalKey.setEnabled(!running && getEditor().getTablature().getEditorKit().getMouseMode() == EditorKit.MOUSE_MODE_EDITION);
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.undo.setToolTipText(TuxGuitar.getProperty("edit.undo"));
 		this.redo.setToolTipText(TuxGuitar.getProperty("edit.redo"));

@@ -91,6 +91,7 @@ public abstract class Option extends SelectionAdapter{
 			final Font font = new Font(label.getDisplay(),fontDatas[0].getName(),(fontDatas[0].getHeight() + fontScale),fontStyle);
 			label.setFont(font);
 			label.addDisposeListener(new DisposeListener() {
+				@Override
 				public void widgetDisposed(DisposeEvent arg0) {
 					font.dispose();
 				}
@@ -114,6 +115,7 @@ public abstract class Option extends SelectionAdapter{
 		return data;
 	}
 	
+	@Override
 	public void widgetSelected(SelectionEvent e) {
 		this.configEditor.select(this);
 	}

@@ -26,6 +26,7 @@ public class GoToTrackAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		Object data = actionData.get(PROPERTY_TRACK);
 		if(data instanceof TGTrackImpl){

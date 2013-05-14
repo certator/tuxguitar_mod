@@ -87,6 +87,7 @@ public class TremoloPickingEditor extends SelectionAdapter{
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TremoloPickingEditor.this.result = getTremoloPicking();
 				TremoloPickingEditor.this.cancelled = false;
@@ -98,6 +99,7 @@ public class TremoloPickingEditor extends SelectionAdapter{
 		buttonClean.setText(TuxGuitar.getProperty("clean"));
 		buttonClean.setLayoutData(getButtonData());
 		buttonClean.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TremoloPickingEditor.this.result = null;
 				TremoloPickingEditor.this.cancelled = false;
@@ -109,6 +111,7 @@ public class TremoloPickingEditor extends SelectionAdapter{
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TremoloPickingEditor.this.result = note.getEffect().getTremoloPicking();
 				TremoloPickingEditor.this.cancelled = true;

@@ -14,6 +14,7 @@ public class TransportSetLoopEHeaderAction extends Action {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		TGMeasure measure = getEditor().getTablature().getCaret().getMeasure();
 		if( measure != null ){

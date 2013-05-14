@@ -94,6 +94,7 @@ public class StrokeEditor extends SelectionAdapter{
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				setStatus( STATUS_OK );
 				setValue( getSelection() );
@@ -105,6 +106,7 @@ public class StrokeEditor extends SelectionAdapter{
 		buttonClean.setText(TuxGuitar.getProperty("clean"));
 		buttonClean.setLayoutData(getButtonData());
 		buttonClean.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				setStatus( STATUS_CLEAN );
 				dialog.dispose();
@@ -115,6 +117,7 @@ public class StrokeEditor extends SelectionAdapter{
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				setStatus( STATUS_CANCEL );
 				dialog.dispose();

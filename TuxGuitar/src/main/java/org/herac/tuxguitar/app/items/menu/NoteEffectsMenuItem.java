@@ -71,6 +71,7 @@ public class NoteEffectsMenuItem extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		//--VIBRATO--
 		this.vibrato = new MenuItem(this.menu, SWT.CHECK);
@@ -170,6 +171,7 @@ public class NoteEffectsMenuItem extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		TGNote note = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getSelectedNote();
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
@@ -215,6 +217,7 @@ public class NoteEffectsMenuItem extends MenuItems{
 		this.fadeIn.setEnabled(!running && note != null);
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.noteEffectsMenuItem, "effects", null);
 		setMenuItemTextAndAccelerator(this.vibrato, "effects.vibrato", ChangeVibratoNoteAction.NAME);

@@ -63,6 +63,7 @@ public class TransportModeAction extends Action {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		TypedEvent e = (TypedEvent)actionData.get(ActionAdapter.PROPERTY_TYPED_EVENT);
 		
@@ -191,6 +192,7 @@ public class TransportModeAction extends Action {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				updateMode(mode);
 				dialog.dispose();
@@ -201,6 +203,7 @@ public class TransportModeAction extends Action {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}
@@ -272,6 +275,7 @@ public class TransportModeAction extends Action {
 			}
 		}
 		
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			update();
 		}
@@ -289,6 +293,7 @@ public class TransportModeAction extends Action {
 			this.increment = increment;
 		}
 		
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			if(e.widget.equals(this.from)){
 				if(this.from.getSelection() < MIN_SELECTION){
@@ -350,6 +355,7 @@ public class TransportModeAction extends Action {
 			}
 		}
 		
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			this.update();
 		}
@@ -459,6 +465,7 @@ public class TransportModeAction extends Action {
 		
 		public void appendListener(){
 			this.loopSHeader.getControl().addSelectionListener( new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					updateLoopEHeader();
 				}

@@ -49,6 +49,7 @@ public class ChangeTempoAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		showDialog(getEditor().getTablature().getShell());
 		return 0;
@@ -103,6 +104,7 @@ public class ChangeTempoAction extends Action{
 			buttonOK.setText(TuxGuitar.getProperty("ok"));
 			buttonOK.setLayoutData(getButtonData());
 			buttonOK.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					final int tempoValue = tempo.getSelection();
 					final boolean applyToEndValue = applyToEnd.getSelection();
@@ -111,6 +113,7 @@ public class ChangeTempoAction extends Action{
 					dialog.dispose();
 					try {
 						TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+							@Override
 							public void run() throws Throwable {
 								ActionLock.lock();
 								TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
@@ -130,6 +133,7 @@ public class ChangeTempoAction extends Action{
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					dialog.dispose();
 				}
@@ -177,6 +181,7 @@ public class ChangeTempoAction extends Action{
 		}
 	}
 	
+	@Override
 	public TGSongManager getSongManager(){
 		return super.getSongManager();
 	}

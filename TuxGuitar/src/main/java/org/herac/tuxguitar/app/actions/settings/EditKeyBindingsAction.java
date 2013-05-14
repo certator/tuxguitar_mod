@@ -25,6 +25,7 @@ public class EditKeyBindingsAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		new KeyBindingEditor().show(TuxGuitar.instance().getShell());
 		return 0;

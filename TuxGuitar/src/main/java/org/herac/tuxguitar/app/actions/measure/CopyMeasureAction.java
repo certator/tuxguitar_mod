@@ -41,6 +41,7 @@ public class CopyMeasureAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		showDialog(getEditor().getTablature().getShell());
 		
@@ -83,6 +84,7 @@ public class CopyMeasureAction extends Action{
 			final int maxSelection = track.countMeasures();
 			
 			fromSpinner.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					int fromSelection = fromSpinner.getSelection();
 					int toSelection = toSpinner.getSelection();
@@ -95,6 +97,7 @@ public class CopyMeasureAction extends Action{
 				}
 			});
 			toSpinner.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					int toSelection = toSpinner.getSelection();
 					int fromSelection = fromSpinner.getSelection();
@@ -117,6 +120,7 @@ public class CopyMeasureAction extends Action{
 				allTracks.setText(TuxGuitar.getProperty("edit.all-tracks"));
 				allTracks.setSelection(this.copyAllTracks);
 				allTracks.addSelectionListener(new SelectionAdapter() {
+					@Override
 					public void widgetSelected(SelectionEvent e) {
 						CopyMeasureAction.this.copyAllTracks = allTracks.getSelection();
 					}
@@ -131,6 +135,7 @@ public class CopyMeasureAction extends Action{
 			buttonOK.setText(TuxGuitar.getProperty("ok"));
 			buttonOK.setLayoutData(getButtonData());
 			buttonOK.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					copyMeasures(fromSpinner.getSelection(),toSpinner.getSelection(),CopyMeasureAction.this.copyAllTracks);
 					dialog.dispose();
@@ -141,6 +146,7 @@ public class CopyMeasureAction extends Action{
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					dialog.dispose();
 				}

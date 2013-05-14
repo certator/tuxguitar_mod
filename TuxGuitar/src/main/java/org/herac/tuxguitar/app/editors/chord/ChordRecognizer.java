@@ -64,6 +64,7 @@ public class ChordRecognizer extends Composite {
 		this.proposalList = new List(composite,SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		this.proposalList.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		this.proposalList.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(getDialog().getEditor() != null){
 					showChord(getProposalList().getSelectionIndex());
@@ -109,6 +110,7 @@ public class ChordRecognizer extends Composite {
 		this.clearProposals();
 		
 		new Thread( new Runnable() {
+			@Override
 			public void run() {
 				if(!getDialog().isDisposed() && isValidProcess(processId)){
 					
@@ -118,6 +120,7 @@ public class ChordRecognizer extends Composite {
 						if (isValidProcess(processId) && setChordName) {
 							try {
 								TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+									@Override
 									public void run() {
 										if(!getDialog().isDisposed() && isValidProcess(processId)){
 											getDialog().getEditor().setChordName("");
@@ -137,6 +140,7 @@ public class ChordRecognizer extends Composite {
 					if (isValidProcess(processId) && redecorate) {
 						try {
 							TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+								@Override
 								public void run() {
 									if(!getDialog().isDisposed()){
 										redecorate(params);
@@ -151,6 +155,7 @@ public class ChordRecognizer extends Composite {
 					if (isValidProcess(processId) && setChordName) {
 						try {
 							TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+								@Override
 								public void run() {
 									if(!getDialog().isDisposed()){
 										getDialog().getEditor().setChordName( (chordName != null ? chordName : "" ) );
@@ -353,6 +358,7 @@ public class ChordRecognizer extends Composite {
 			if (current.unusualGrade > (firstNegative>=0 ? 0 : firstNegative)-60){
 				try {
 					TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+						@Override
 						public void run() {
 							if(!getDialog().isDisposed() && isValidProcess(processId)){
 								addProposal(current.params, getChordName(current.params,sharp)+" ("+Math.round(100+current.dontHaveGrade*7/10)+"%)" );
@@ -624,6 +630,7 @@ public class ChordRecognizer extends Composite {
 		}
 		
 		/** calls the Object.clone() method, since it is private (?!!??) */
+		@Override
 		public Object clone() {
 			Proposal proposal = new Proposal();
 			for (int i=0; i<9; i++)
@@ -646,6 +653,7 @@ public class ChordRecognizer extends Composite {
 			return proposal;
 		}
 		
+		@Override
 		public boolean equals(Object o) {
 			Proposal another = (Proposal)o;
 			for (int i=0; i<9; i++)

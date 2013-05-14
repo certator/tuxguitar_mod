@@ -22,6 +22,7 @@ public class UndoableMeasureGeneric implements UndoableEdit{
 		super();
 	}
 	
+	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
 			throw new CannotRedoException();
@@ -31,6 +32,7 @@ public class UndoableMeasureGeneric implements UndoableEdit{
 		this.doAction = UNDO_ACTION;
 	}
 	
+	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
 			throw new CannotUndoException();
@@ -40,10 +42,12 @@ public class UndoableMeasureGeneric implements UndoableEdit{
 		this.doAction = REDO_ACTION;
 	}
 	
+	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
 	
+	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}

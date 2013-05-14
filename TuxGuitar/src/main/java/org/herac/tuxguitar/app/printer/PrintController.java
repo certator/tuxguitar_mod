@@ -33,34 +33,42 @@ public class PrintController implements TGController {
 		this.resourceFactory = resourceFactory;
 	}
 	
+	@Override
 	public TGSongManager getSongManager() {
 		return this.songManager;
 	}
 	
+	@Override
 	public TGResourceFactory getResourceFactory(){
 		return this.resourceFactory;
 	}
 	
+	@Override
 	public int getTrackSelection() {
 		return -1;
 	}
 	
+	@Override
 	public boolean isRunning(TGBeat beat) {
 		return false;
 	}
 	
+	@Override
 	public boolean isRunning(TGMeasure measure) {
 		return false;
 	}
 	
+	@Override
 	public boolean isLoopSHeader(TGMeasureHeader measureHeader) {
 		return false;
 	}
 	
+	@Override
 	public boolean isLoopEHeader(TGMeasureHeader measureHeader) {
 		return false;
 	}
 	
+	@Override
 	public void configureStyles(TGLayoutStyles styles){
 		TGConfigManager config = TuxGuitar.instance().getConfig();
 		

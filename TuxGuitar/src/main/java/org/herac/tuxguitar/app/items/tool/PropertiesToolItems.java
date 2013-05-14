@@ -28,6 +28,7 @@ public class PropertiesToolItems extends ToolItems{
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		this.info = new ToolItem(toolBar, SWT.PUSH);
 		this.info.addSelectionListener(TuxGuitar.instance().getAction(ChangeInfoAction.NAME));
@@ -36,6 +37,7 @@ public class PropertiesToolItems extends ToolItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.info.setToolTipText(TuxGuitar.getProperty("composition.properties"));
 	}
@@ -44,6 +46,7 @@ public class PropertiesToolItems extends ToolItems{
 		this.info.setImage(TuxGuitar.instance().getIconManager().getSongProperties());
 	}
 	
+	@Override
 	public void update(){
 		//Nothing to do
 	}

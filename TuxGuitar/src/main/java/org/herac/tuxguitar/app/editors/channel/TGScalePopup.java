@@ -39,6 +39,7 @@ public class TGScalePopup{
 		this.inverted =  true;
 		this.item = new Button(parent, SWT.PUSH);
 		this.item.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				showShell();
 			}
@@ -47,6 +48,7 @@ public class TGScalePopup{
 	
 	public void addDefaultListeners(){
 		this.scale.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				TGScalePopup.this.getValueFromScale();
 				if( TGScalePopup.this.selectionListener != null ){
@@ -136,9 +138,11 @@ public class TGScalePopup{
 			this.shell.setVisible(false);
 			this.shell.setLayout(getGridLayout());
 			this.shell.addShellListener(new ShellAdapter() {
+				@Override
 				public void shellDeactivated(ShellEvent e) {
 					hideShell();
 				}
+				@Override
 				public void shellClosed(ShellEvent e) {
 					hideShell();
 				}

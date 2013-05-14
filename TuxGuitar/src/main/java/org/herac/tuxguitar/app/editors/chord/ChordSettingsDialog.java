@@ -71,6 +71,7 @@ public class ChordSettingsDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dispose(true);
 			}
@@ -80,6 +81,7 @@ public class ChordSettingsDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dispose(false);
 			}
@@ -150,11 +152,13 @@ public class ChordSettingsDialog {
 		this.minFret = makeSpinner(group,TuxGuitar.getProperty("chord.settings.minimum-fret"),ChordSettings.instance().getFindChordsMin(),0,15);
 		this.maxFret = makeSpinner(group,TuxGuitar.getProperty("chord.settings.maximum-fret"),ChordSettings.instance().getFindChordsMax(),2,25);
 		this.minFret.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkMinimumFretValue();
 			}
 		});
 		this.maxFret.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				checkMaximumFretValue();
 			}

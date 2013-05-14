@@ -40,9 +40,11 @@ public class TransportToolItems  extends ToolItems{
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		this.first = new ToolItem(toolBar,SWT.PUSH);
 		this.first.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TuxGuitar.instance().getTransport().gotoFirst();
 			}
@@ -50,6 +52,7 @@ public class TransportToolItems  extends ToolItems{
 		
 		this.previous = new ToolItem(toolBar,SWT.PUSH);
 		this.previous.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TuxGuitar.instance().getTransport().gotoPrevious();
 			}
@@ -63,6 +66,7 @@ public class TransportToolItems  extends ToolItems{
 		
 		this.next = new ToolItem(toolBar,SWT.PUSH);
 		this.next.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TuxGuitar.instance().getTransport().gotoNext();
 			}
@@ -70,6 +74,7 @@ public class TransportToolItems  extends ToolItems{
 		
 		this.last = new ToolItem(toolBar,SWT.PUSH);
 		this.last.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TuxGuitar.instance().getTransport().gotoLast();
 			}
@@ -80,10 +85,12 @@ public class TransportToolItems  extends ToolItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		loadIcons(false);
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.play.setToolTipText(TuxGuitar.getProperty("transport.start"));
 		this.stop.setToolTipText(TuxGuitar.getProperty("transport.stop"));

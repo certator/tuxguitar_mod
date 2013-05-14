@@ -10,15 +10,18 @@ public abstract class TGBrowserPlugin extends TGPluginAdapter{
 	
 	protected abstract TGBrowserFactory getFactory() throws TGPluginException;
 	
+	@Override
 	public void init() throws TGPluginException {
 		this.factory = getFactory();
 		this.loaded = false;
 	}
 	
+	@Override
 	public void close() throws TGPluginException {
 		this.loaded = false;
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		if(enabled){
 			addPlugin();

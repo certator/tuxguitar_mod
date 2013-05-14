@@ -27,10 +27,12 @@ public class TGBrowserElementImpl extends TGBrowserElement{
 		return this.parent;
 	}
 	
+	@Override
 	public boolean isFolder(){
 		return getFile().isDirectory();
 	}
 	
+	@Override
 	public InputStream getInputStream() throws TGBrowserException {
 		if(!isFolder()){
 			try {

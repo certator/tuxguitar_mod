@@ -25,14 +25,17 @@ public class TGImageImpl implements TGImage {
 		this( new Image(device,source,mask) );
 	}
 	
+	@Override
 	public TGPainter createPainter() {
 		return new TGPainterImpl(this.handle);
 	}
 	
+	@Override
 	public int getWidth() {
 		return this.handle.getBounds().width;
 	}
 	
+	@Override
 	public int getHeight() {
 		return this.handle.getBounds().height;
 	}
@@ -41,14 +44,17 @@ public class TGImageImpl implements TGImage {
 		return this.handle;
 	}
 	
+	@Override
 	public boolean isDisposed(){
 		return this.handle.isDisposed();
 	}
 	
+	@Override
 	public void dispose(){
 		this.handle.dispose();
 	}
 	
+	@Override
 	public void applyTransparency( TGColor background ){
 		RGB alpha = new RGB( background.getRed(), background.getGreen(), background.getBlue() );
 		RGB none = new RGB((0xff ^ alpha.red),(0xff ^ alpha.green),(0xff ^ alpha.blue));

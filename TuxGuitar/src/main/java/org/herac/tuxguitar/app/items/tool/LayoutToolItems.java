@@ -39,6 +39,7 @@ public class LayoutToolItems extends ToolItems{
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		this.pageLayout = new ToolItem(toolBar, SWT.RADIO);
 		this.pageLayout.addSelectionListener(TuxGuitar.instance().getAction(SetPageLayoutAction.NAME));
@@ -59,6 +60,7 @@ public class LayoutToolItems extends ToolItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.pageLayout.setToolTipText(TuxGuitar.getProperty("view.layout.page"));
 		this.linearLayout.setToolTipText(TuxGuitar.getProperty("view.layout.linear"));
@@ -75,6 +77,7 @@ public class LayoutToolItems extends ToolItems{
 		this.compact.setImage(TuxGuitar.instance().getIconManager().getLayoutCompact());
 	}
 	
+	@Override
 	public void update(){
 		TGLayout layout = getEditor().getTablature().getViewLayout();
 		int style = layout.getStyle();

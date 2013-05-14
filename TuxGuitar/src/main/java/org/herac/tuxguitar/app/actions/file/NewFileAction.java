@@ -31,6 +31,7 @@ public class NewFileAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		final Object propertyTemplate = actionData.get(PROPERTY_TEMPLATE);
 		
@@ -48,11 +49,13 @@ public class NewFileAction extends Action{
 				}
 				TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 				new Thread(new Runnable() {
+					@Override
 					public void run() {
 						if(!TuxGuitar.isDisposed()){
 							FileActionUtils.save(fileName);
 							TuxGuitar.instance().loadCursor(SWT.CURSOR_ARROW);
 							new SyncThread(new Runnable() {
+								@Override
 								public void run() {
 									if(!TuxGuitar.isDisposed()){
 										newSong(propertyTemplate);
@@ -73,6 +76,7 @@ public class NewFileAction extends Action{
 	protected void newSong(final Object propertyTemplate){
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				if(!TuxGuitar.isDisposed()){
 					TuxGuitar.instance().newSong(getTemplate(propertyTemplate));

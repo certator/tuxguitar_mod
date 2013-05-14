@@ -23,6 +23,7 @@ public class TablaturePaintListener implements PaintListener{
 		this.tablature = tablature;
 	}
 	
+	@Override
 	public void paintControl(PaintEvent e) {
 		this.tablature.paintTablature( new TGPainterImpl(e.gc) );
 	}

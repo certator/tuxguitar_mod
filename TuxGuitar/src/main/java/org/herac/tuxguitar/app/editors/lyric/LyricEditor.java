@@ -65,6 +65,7 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		this.dialog.setLayout(getDialogLayout());
 		this.dialog.setSize(EDITOR_WIDTH,EDITOR_HEIGHT);
 		this.dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				onDispose();
 			}
@@ -138,12 +139,14 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		this.from.addModifyListener(this.listener);
 		
 		this.previous.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TuxGuitar.instance().getAction(GoPreviousTrackAction.NAME).process(new ActionData());
 				composite.layout();
 			}
 		});
 		this.next.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TuxGuitar.instance().getAction(GoNextTrackAction.NAME).process(new ActionData());
 				composite.layout();
@@ -162,6 +165,7 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		this.text.setText(this.track.getLyrics().getLyrics());
 		this.text.addModifyListener(this.listener);
 		this.text.addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyPressed(KeyEvent event) {
 				for( int i = 0 ; i < KB_ACTIONS.length ; i ++ ){
 					if(event.keyCode == KB_ACTIONS[i].getKeyBinding().getKey() && event.stateMask == KB_ACTIONS[i].getKeyBinding().getMask()){
@@ -245,6 +249,7 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		return this.track;
 	}
 	
+	@Override
 	public void loadProperties(){
 		if(!isDisposed()){
 			this.dialog.setText(TuxGuitar.getProperty("lyric.editor"));
@@ -252,6 +257,7 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		}
 	}
 	
+	@Override
 	public void loadIcons(){
 		if(!isDisposed()){
 			this.dialog.setImage(TuxGuitar.instance().getIconManager().getAppIcon());
@@ -268,6 +274,7 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		}
 	}
 
+	@Override
 	public void doUpdate(int type) {
 		if( type == TGUpdateListener.SELECTION ){
 			this.updateItems();

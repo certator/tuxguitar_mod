@@ -25,6 +25,7 @@ public class ShowDocAction extends Action {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | KEY_BINDING_AVAILABLE );
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		try {
 			new TGDocumentation().display();

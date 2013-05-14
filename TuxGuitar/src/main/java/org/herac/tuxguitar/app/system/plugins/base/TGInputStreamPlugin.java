@@ -11,14 +11,17 @@ public abstract class TGInputStreamPlugin extends TGPluginAdapter{
 	
 	protected abstract TGInputStreamBase getInputStream() throws TGPluginException ;
 	
+	@Override
 	public void init() throws TGPluginException {
 		this.stream = getInputStream();
 	}
 	
+	@Override
 	public void close() throws TGPluginException {
 		this.removePlugin();
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		if(enabled){
 			addPlugin();

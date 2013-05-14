@@ -107,6 +107,7 @@ public class TrillEditor extends SelectionAdapter{
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TrillEditor.this.result = getTrill();
 				TrillEditor.this.cancelled = false;
@@ -118,6 +119,7 @@ public class TrillEditor extends SelectionAdapter{
 		buttonClean.setText(TuxGuitar.getProperty("clean"));
 		buttonClean.setLayoutData(getButtonData());
 		buttonClean.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TrillEditor.this.result = null;
 				TrillEditor.this.cancelled = false;
@@ -129,6 +131,7 @@ public class TrillEditor extends SelectionAdapter{
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TrillEditor.this.result = note.getEffect().getTrill();
 				TrillEditor.this.cancelled = true;

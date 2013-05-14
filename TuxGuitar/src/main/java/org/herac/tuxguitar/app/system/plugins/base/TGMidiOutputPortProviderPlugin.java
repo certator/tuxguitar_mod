@@ -10,11 +10,13 @@ public abstract class TGMidiOutputPortProviderPlugin extends TGPluginAdapter{
 	
 	protected abstract MidiOutputPortProvider getProvider() throws TGPluginException;
 	
+	@Override
 	public void init() throws TGPluginException {
 		this.provider = getProvider();
 		this.loaded = false;
 	}
 	
+	@Override
 	public void close() throws TGPluginException {
 		try {
 			this.provider.closeAll();
@@ -23,6 +25,7 @@ public abstract class TGMidiOutputPortProviderPlugin extends TGPluginAdapter{
 		}
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		if(enabled){
 			addPlugin();

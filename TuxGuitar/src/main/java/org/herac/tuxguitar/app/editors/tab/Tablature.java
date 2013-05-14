@@ -79,6 +79,7 @@ public class Tablature extends Composite implements TGController {
 		final ScrollBar hBar = getHorizontalBar();
 		hBar.setIncrement(SCROLL_INCREMENT);
 		hBar.addListener(SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent(Event e) {
 				if(Tablature.this.lastHScrollTime + SCROLL_DELAY < System.currentTimeMillis()){
 					redraw();
@@ -90,6 +91,7 @@ public class Tablature extends Composite implements TGController {
 		final ScrollBar vBar = getVerticalBar();
 		vBar.setIncrement(SCROLL_INCREMENT);
 		vBar.addListener(SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent(Event e) {
 				if(Tablature.this.lastVScrollTime + SCROLL_DELAY < System.currentTimeMillis()){
 					redraw();
@@ -99,6 +101,7 @@ public class Tablature extends Composite implements TGController {
 		});
 		
 		this.addControlListener(new ControlAdapter() {
+			@Override
 			public void controlResized(ControlEvent arg0) {
 				updateScroll();
 			}
@@ -228,6 +231,7 @@ public class Tablature extends Composite implements TGController {
 		return success;
 	}
 	
+	@Override
 	public void redraw(){
 		if(!super.isDisposed() && !TuxGuitar.instance().isLocked()){
 			this.playedBeat = null;
@@ -295,6 +299,7 @@ public class Tablature extends Composite implements TGController {
 		return this.editorKit;
 	}
 	
+	@Override
 	public TGSongManager getSongManager() {
 		return this.songManager;
 	}
@@ -350,12 +355,14 @@ public class Tablature extends Composite implements TGController {
 		}
 	}
 	
+	@Override
 	public void dispose(){
 		super.dispose();
 		this.getCaret().dispose();
 		this.getViewLayout().disposeLayout();
 	}
 	
+	@Override
 	public TGResourceFactory getResourceFactory(){
 		if( this.resourceFactory == null ){
 			this.resourceFactory = new TGResourceFactoryImpl(this.getDisplay());
@@ -363,6 +370,7 @@ public class Tablature extends Composite implements TGController {
 		return this.resourceFactory;
 	}
 	
+	@Override
 	public int getTrackSelection(){
 		if( (getViewLayout().getStyle() & TGLayout.DISPLAY_MULTITRACK) == 0 ){
 			return getCaret().getTrack().getNumber();
@@ -370,24 +378,29 @@ public class Tablature extends Composite implements TGController {
 		return -1;
 	}
 	
+	@Override
 	public boolean isRunning(TGBeat beat) {
 		return ( isRunning( beat.getMeasure() ) && TuxGuitar.instance().getEditorCache().isPlaying(beat.getMeasure(),beat) );
 	}
 	
+	@Override
 	public boolean isRunning(TGMeasure measure) {
 		return ( measure.getTrack().equals(getCaret().getTrack()) && TuxGuitar.instance().getEditorCache().isPlaying( measure ) );
 	}
 	
+	@Override
 	public boolean isLoopSHeader(TGMeasureHeader measureHeader){
 		MidiPlayerMode pm = TuxGuitar.instance().getPlayer().getMode();
 		return ( pm.isLoop() && pm.getLoopSHeader() == measureHeader.getNumber() );
 	}
 	
+	@Override
 	public boolean isLoopEHeader(TGMeasureHeader measureHeader){
 		MidiPlayerMode pm = TuxGuitar.instance().getPlayer().getMode();
 		return ( pm.isLoop() && pm.getLoopEHeader() == measureHeader.getNumber() );
 	}
 	
+	@Override
 	public void configureStyles(TGLayoutStyles styles){
 		TGConfigManager config = TuxGuitar.instance().getConfig();
 		

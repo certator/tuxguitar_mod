@@ -53,6 +53,7 @@ public class KeyBindingSelector {
 		composite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		composite.setFocus();
 		composite.addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyReleased(KeyEvent e) {
 				KeyBinding kb = new KeyBinding(e.keyCode,e.stateMask);
 				if(kb.isSameAs(KeyBindingSelector.this.keyBinding) || isValid(kb)){
@@ -79,6 +80,7 @@ public class KeyBindingSelector {
 			final Font font = new Font(textLabel.getDisplay(),new FontData( fd[0].getName(), 14 , SWT.BOLD) );
 			textLabel.setFont(font);
 			textLabel.addDisposeListener(new DisposeListener() {
+				@Override
 				public void widgetDisposed(DisposeEvent arg0) {
 					font.dispose();
 				}
@@ -94,11 +96,13 @@ public class KeyBindingSelector {
 		buttonClean.setText(TuxGuitar.getProperty("clean"));
 		buttonClean.setLayoutData(getButtonData());
 		buttonClean.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseUp(MouseEvent e) {
 				composite.setFocus();
 			}
 		});
 		buttonClean.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				KeyBindingSelector.this.keyBinding = null;
 				KeyBindingSelector.this.dialog.dispose();
@@ -109,11 +113,13 @@ public class KeyBindingSelector {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseUp(MouseEvent e) {
 				composite.setFocus();
 			}
 		});
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				KeyBindingSelector.this.dialog.dispose();
 			}

@@ -15,14 +15,17 @@ public class TGPluginConfigManager extends TGConfigManager{
 		this.name = name;
 	}
 	
+	@Override
 	public String getName() {
 		return "Plugin Configuration";
 	}
 	
+	@Override
 	public String getFileName(){
 		return TGFileUtils.PATH_USER_PLUGINS_CONFIG + File.separator + this.name + ".cfg";
 	}
 	
+	@Override
 	public Properties getDefaults() {
 		Properties properties = new Properties();
 		try {

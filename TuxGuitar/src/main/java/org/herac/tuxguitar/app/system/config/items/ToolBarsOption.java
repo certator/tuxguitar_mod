@@ -30,6 +30,7 @@ public class ToolBarsOption extends Option{
 		this.initialized = false;
 	}
 	
+	@Override
 	public void createOption() {
 		getToolItem().setText(TuxGuitar.getProperty("settings.config.toolbars"));
 		getToolItem().setImage(TuxGuitar.instance().getIconManager().getOptionToolbars());
@@ -58,6 +59,7 @@ public class ToolBarsOption extends Option{
 		this.moveUp.setLayoutData(getButtonData());
 		this.moveUp.setText(TuxGuitar.getProperty("settings.config.toolbars.move-up"));
 		this.moveUp.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				moveUp();
 			}
@@ -67,6 +69,7 @@ public class ToolBarsOption extends Option{
 		this.moveDown.setLayoutData(getButtonData());
 		this.moveDown.setText(TuxGuitar.getProperty("settings.config.toolbars.move-down"));
 		this.moveDown.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				moveDown();
 			}
@@ -123,9 +126,11 @@ public class ToolBarsOption extends Option{
 	
 	protected void loadConfig(){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				final ToolItems[] items = TuxGuitar.instance().getItemManager().getToolBars();
 				new SyncThread(new Runnable() {
+					@Override
 					public void run() {
 						if(!isDisposed()){
 							for(int i = 0;i < items.length; i ++){
@@ -141,6 +146,7 @@ public class ToolBarsOption extends Option{
 		}).start();
 	}
 	
+	@Override
 	public void updateConfig() {
 		if(this.initialized){
 			for( int i = 0 ; i < this.table.getItemCount() ; i ++){
@@ -152,6 +158,7 @@ public class ToolBarsOption extends Option{
 		}
 	}
 	
+	@Override
 	public void updateDefaults() {
 		if(this.initialized){
 			TuxGuitar.instance().getItemManager().setDefaultToolBars();
@@ -159,9 +166,11 @@ public class ToolBarsOption extends Option{
 		}
 	}
 	
+	@Override
 	public void applyConfig(boolean force){
 		if(force || (this.initialized && TuxGuitar.instance().getItemManager().shouldReloadToolBars())){
 			addSyncThread(new Runnable() {
+				@Override
 				public void run() {
 					TuxGuitar.instance().loadToolBars();
 				}
@@ -169,6 +178,7 @@ public class ToolBarsOption extends Option{
 		}
 	}
 	
+	@Override
 	public Point computeSize(){
 		return this.computeSize(SWT.DEFAULT,SWT.NONE);
 	}

@@ -16,8 +16,10 @@ public class TGTransportListener implements MidiPlayerListener{
 		this.stoppedRunnable = getStoppedRunnable();
 	}
 	
+	@Override
 	public void notifyStarted() {
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					TuxGuitar.instance().updateCache(true);
@@ -35,6 +37,7 @@ public class TGTransportListener implements MidiPlayerListener{
 		}).start();
 	}
 	
+	@Override
 	public void notifyStopped() {
 		try {
 			if(!TuxGuitar.instance().getDisplay().isDisposed()){
@@ -45,12 +48,14 @@ public class TGTransportListener implements MidiPlayerListener{
 		}
 	}
 	
+	@Override
 	public void notifyLoop(){
 		// Not implemented
 	}
 	
 	private TGSynchronizer.TGRunnable getStartedRunnable(){
 		return new TGSynchronizer.TGRunnable() {
+			@Override
 			public void run() {
 				if(TuxGuitar.instance().getPlayer().isRunning()){
 					TuxGuitar.instance().redrawPlayingMode();
@@ -61,16 +66,19 @@ public class TGTransportListener implements MidiPlayerListener{
 	
 	private TGSynchronizer.TGRunnable getStoppedRunnable(){
 		return new TGSynchronizer.TGRunnable() {
+			@Override
 			public void run() {
 				TuxGuitar.instance().getTransport().gotoPlayerPosition();
 			}
 		};
 	}
 
+	@Override
 	public void notifyCountDownStarted() {
 		// Not implemented
 	}
 	
+	@Override
 	public void notifyCountDownStopped() {
 		// Not implemented
 	}

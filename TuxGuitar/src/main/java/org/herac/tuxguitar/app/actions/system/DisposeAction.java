@@ -33,6 +33,7 @@ public class DisposeAction extends Action {
 		super(NAME, AUTO_LOCK);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		TypedEvent e = (TypedEvent)actionData.get(ActionAdapter.PROPERTY_TYPED_EVENT);
 		
@@ -53,6 +54,7 @@ public class DisposeAction extends Action {
 					}
 					TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 					new Thread(new Runnable() {
+						@Override
 						public void run() {
 							if(!TuxGuitar.isDisposed()){
 								FileActionUtils.save(fileName);
@@ -73,6 +75,7 @@ public class DisposeAction extends Action {
 	protected void exit(){
 		try {
 			TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					TuxGuitar.instance().lock();
 					closeModules();

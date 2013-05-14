@@ -12,14 +12,17 @@ public abstract class TGExporterPlugin extends TGPluginAdapter{
 	
 	protected abstract TGRawExporter getExporter() throws TGPluginException;
 	
+	@Override
 	public void init() throws TGPluginException {
 		this.exporter = getExporter();
 	}
 	
+	@Override
 	public void close() throws TGPluginException {
 		this.removePlugin();
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		if(enabled){
 			addPlugin();

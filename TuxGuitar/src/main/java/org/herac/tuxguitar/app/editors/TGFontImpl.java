@@ -18,10 +18,12 @@ public class TGFontImpl implements TGFont {
 		this( new Font( device, name, height, (SWT.NORMAL | (bold ? SWT.BOLD : 0) | (italic ? SWT.ITALIC : 0)) ) );
 	}
 	
+	@Override
 	public void dispose(){
 		this.handle.dispose();
 	}
 	
+	@Override
 	public boolean isDisposed(){
 		return this.handle.isDisposed();
 	}
@@ -30,21 +32,25 @@ public class TGFontImpl implements TGFont {
 		return this.handle;
 	}
 	
+	@Override
 	public String getName() {
 		FontData[] fd = this.handle.getFontData();
 		return ( fd != null && fd.length > 0 ? fd[0].getName() : new String() );
 	}
 	
+	@Override
 	public int getHeight() {
 		FontData[] fd = this.handle.getFontData();
 		return ( fd != null && fd.length > 0 ? fd[0].getHeight() : 0 );
 	}
 	
+	@Override
 	public boolean isBold() {
 		FontData[] fd = this.handle.getFontData();
 		return ( fd != null && fd.length > 0 ? ((fd[0].getStyle() & SWT.BOLD) != 0) : false );
 	}
 	
+	@Override
 	public boolean isItalic() {
 		FontData[] fd = this.handle.getFontData();
 		return ( fd != null && fd.length > 0 ? ((fd[0].getStyle() & SWT.ITALIC) != 0) : false );

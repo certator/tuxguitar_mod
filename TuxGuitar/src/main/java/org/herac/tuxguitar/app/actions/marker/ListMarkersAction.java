@@ -24,6 +24,7 @@ public class ListMarkersAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		if(MarkerList.instance().isDisposed()){
 			MarkerList.instance().show();

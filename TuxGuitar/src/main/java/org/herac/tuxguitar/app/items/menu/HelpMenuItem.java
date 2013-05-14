@@ -32,6 +32,7 @@ public class HelpMenuItem extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		//--Doc
 		this.doc = new MenuItem(this.menu, SWT.PUSH);
@@ -47,6 +48,7 @@ public class HelpMenuItem extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.helpMenuItem, "help", null);
 		setMenuItemTextAndAccelerator(this.doc, "help.doc", ShowDocAction.NAME);
@@ -57,6 +59,7 @@ public class HelpMenuItem extends MenuItems{
 		//Nothing to do
 	}
 	
+	@Override
 	public void update(){
 		//Nothing to do
 	}

@@ -188,6 +188,7 @@ public class MatrixConfig {
 		buttonDefaults.setText(TuxGuitar.getProperty("defaults"));
 		buttonDefaults.setLayoutData(getButtonData());
 		buttonDefaults.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 				defaults();
@@ -199,6 +200,7 @@ public class MatrixConfig {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 				save(fontData, rgbForeground, rgbBorder, rgbPosition, rgbNote, rgbPlay, rgbLines);
@@ -210,6 +212,7 @@ public class MatrixConfig {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}
@@ -255,6 +258,7 @@ public class MatrixConfig {
 		button.setLayoutData(getAlignmentData(MINIMUM_CONTROL_WIDTH,SWT.FILL));
 		button.setText(TuxGuitar.getProperty("choose"));
 		button.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				Font font = new Font(parent.getDisplay(),selection);
 				FontDialog fontDialog = new FontDialog(parent.getShell());
@@ -317,6 +321,7 @@ public class MatrixConfig {
 		
 		private void addListeners(){
 			this.button.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent event) {
 					ColorDialog dlg = new ColorDialog(ButtonColor.this.button.getShell());
 					dlg.setRGB(ButtonColor.this.value);
@@ -328,6 +333,7 @@ public class MatrixConfig {
 				}
 			});
 			this.button.addDisposeListener(new DisposeListener() {
+				@Override
 				public void widgetDisposed(DisposeEvent e) {
 					ButtonColor.this.disposeColor();
 				}

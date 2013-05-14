@@ -42,6 +42,7 @@ public class CleanMeasureAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		showDialog(TuxGuitar.instance().getShell());
 		return 0;
@@ -83,6 +84,7 @@ public class CleanMeasureAction extends Action{
 			final int maxSelection = track.countMeasures();
 			
 			fromSpinner.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					int fromSelection = fromSpinner.getSelection();
 					int toSelection = toSpinner.getSelection();
@@ -95,6 +97,7 @@ public class CleanMeasureAction extends Action{
 				}
 			});
 			toSpinner.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent e) {
 					int toSelection = toSpinner.getSelection();
 					int fromSelection = fromSpinner.getSelection();
@@ -115,6 +118,7 @@ public class CleanMeasureAction extends Action{
 			buttonOK.setText(TuxGuitar.getProperty("ok"));
 			buttonOK.setLayoutData(getButtonData());
 			buttonOK.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					cleanMeasures(fromSpinner.getSelection(),toSpinner.getSelection());
 					dialog.dispose();
@@ -125,6 +129,7 @@ public class CleanMeasureAction extends Action{
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					dialog.dispose();
 				}

@@ -26,6 +26,7 @@ public class SaveFileAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE );
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		final String fileName = FileActionUtils.getFileName();
 		if(fileName == null){
@@ -33,6 +34,7 @@ public class SaveFileAction extends Action{
 		}
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				if(!TuxGuitar.isDisposed()){
 					FileActionUtils.save(fileName);

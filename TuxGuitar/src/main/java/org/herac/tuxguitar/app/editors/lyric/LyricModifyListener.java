@@ -18,6 +18,7 @@ public class LyricModifyListener implements ModifyListener{
 		this.editor = editor;
 	}
 	
+	@Override
 	public void modifyText(ModifyEvent e) {
 		if(isEnabled() && !TuxGuitar.instance().getPlayer().isRunning()){
 			

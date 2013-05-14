@@ -30,6 +30,7 @@ public class ShowAboutAction extends Action {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		new AboutDialog().open(TuxGuitar.instance().getShell());
 		return 0;

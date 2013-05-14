@@ -56,6 +56,7 @@ public class ChordCustomList extends Composite {
 		this.chords = new List(composite,SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		this.chords.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		this.chords.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if(getDialog().getEditor() != null){
 					showChord(getChords().getSelectionIndex());
@@ -70,6 +71,7 @@ public class ChordCustomList extends Composite {
 		Button add = new Button(buttons,SWT.PUSH);
 		add.setText(TuxGuitar.getProperty("add"));
 		add.addSelectionListener(new SelectionAdapter(){
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				addCustomChord();
 			}
@@ -78,6 +80,7 @@ public class ChordCustomList extends Composite {
 		Button rename = new Button(buttons,SWT.PUSH);
 		rename.setText(TuxGuitar.getProperty("rename"));
 		rename.addSelectionListener(new SelectionAdapter(){
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				renameCustomChord(getChords().getSelectionIndex());
 			}
@@ -86,6 +89,7 @@ public class ChordCustomList extends Composite {
 		Button remove = new Button(buttons,SWT.PUSH);
 		remove.setText(TuxGuitar.getProperty("remove"));
 		remove.addSelectionListener(new SelectionAdapter(){
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				removeCustomChord(getChords().getSelectionIndex());
 			}
@@ -217,6 +221,7 @@ public class ChordCustomList extends Composite {
 			buttonOK.setText(TuxGuitar.getProperty("ok"));
 			buttonOK.setLayoutData(getButtonData());
 			buttonOK.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					NameDialog.this.name = text.getText();
 					dialog.dispose();
@@ -227,6 +232,7 @@ public class ChordCustomList extends Composite {
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					NameDialog.this.name = null;
 					dialog.dispose();

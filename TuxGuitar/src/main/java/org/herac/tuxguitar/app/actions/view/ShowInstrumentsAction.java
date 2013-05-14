@@ -24,6 +24,7 @@ public class ShowInstrumentsAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		if(TuxGuitar.instance().getChannelManager().isDisposed()){
 			TuxGuitar.instance().getChannelManager().show();

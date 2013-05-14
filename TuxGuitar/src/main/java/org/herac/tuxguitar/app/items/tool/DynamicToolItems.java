@@ -40,6 +40,7 @@ public class DynamicToolItems  extends ToolItems{
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		this.toolBar = toolBar;
 		//--PPP--
@@ -86,6 +87,7 @@ public class DynamicToolItems  extends ToolItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		Caret caret = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret();
 		int velocity = ((caret.getSelectedNote() != null)?caret.getSelectedNote().getVelocity():caret.getVelocity());
@@ -108,6 +110,7 @@ public class DynamicToolItems  extends ToolItems{
 		this.forteFortissimo.setEnabled( !running );
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.pianoPianissimo.setToolTipText(TuxGuitar.getProperty("dynamic.piano-pianissimo"));
 		this.pianissimo.setToolTipText(TuxGuitar.getProperty("dynamic.pianissimo"));

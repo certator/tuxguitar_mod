@@ -44,6 +44,7 @@ public class KeyBinding {
 		return false;
 	}
 	
+	@Override
 	public String toString(){
 		String mask = KeyBindingUtil.getConversionMask( this.getMask() );
 		String key = KeyBindingUtil.getConversionKey( this.getKey() );
@@ -53,6 +54,7 @@ public class KeyBinding {
 		return (mask + key);
 	}
 	
+	@Override
 	public Object clone(){
 		return new KeyBinding(getKey(),getMask());
 	}

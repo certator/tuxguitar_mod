@@ -66,6 +66,7 @@ public class PrintStylesDialog {
 		toSpinner.setSelection(maxSelection);
 		
 		fromSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int fromSelection = fromSpinner.getSelection();
 				int toSelection = toSpinner.getSelection();
@@ -78,6 +79,7 @@ public class PrintStylesDialog {
 			}
 		});
 		toSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int toSelection = toSpinner.getSelection();
 				int fromSelection = fromSpinner.getSelection();
@@ -115,6 +117,7 @@ public class PrintStylesDialog {
 		blackAndWhite.setSelection(true);
 		
 		tablatureEnabled.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!tablatureEnabled.getSelection()){
 					scoreEnabled.setSelection(true);
@@ -122,6 +125,7 @@ public class PrintStylesDialog {
 			}
 		});
 		scoreEnabled.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!scoreEnabled.getSelection()){
 					tablatureEnabled.setSelection(true);
@@ -138,6 +142,7 @@ public class PrintStylesDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				int style = 0;
 				style |= (scoreEnabled.getSelection() ? TGLayout.DISPLAY_SCORE : 0);
@@ -157,6 +162,7 @@ public class PrintStylesDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

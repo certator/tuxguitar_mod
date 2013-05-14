@@ -63,6 +63,7 @@ public class ViewMenuItem extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		//--TOOLBARS--
 		this.showToolbars = new MenuItem(this.menu, SWT.CHECK);
@@ -133,6 +134,7 @@ public class ViewMenuItem extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		TGLayout layout = TuxGuitar.instance().getTablatureEditor().getTablature().getViewLayout();
 		int style = layout.getStyle();
@@ -153,6 +155,7 @@ public class ViewMenuItem extends MenuItems{
 		this.chordDiagram.setSelection( (style & TGLayout.DISPLAY_CHORD_DIAGRAM) != 0 );
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.layoutMenuItem, "view", null);
 		setMenuItemTextAndAccelerator(this.showToolbars, "view.show-toolbars", ShowToolbarsAction.NAME);

@@ -73,6 +73,7 @@ public class BeatMenuItem extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		//--Tied Note
 		this.tiedNote = new MenuItem(this.menu, SWT.CHECK);
@@ -185,6 +186,7 @@ public class BeatMenuItem extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		Caret caret = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret();
 		TGBeat beat = caret.getSelectedBeat();
@@ -218,6 +220,7 @@ public class BeatMenuItem extends MenuItems{
 		this.dynamicMenuItem.update();
 	}
 	
+	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.noteMenuItem, "beat", null);
 		setMenuItemTextAndAccelerator(this.cleanBeat, "beat.clean", CleanBeatAction.NAME);

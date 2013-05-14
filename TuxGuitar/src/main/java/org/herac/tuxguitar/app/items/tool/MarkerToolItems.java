@@ -37,6 +37,7 @@ public class MarkerToolItems  extends ToolItems{
 		super(NAME);
 	}
 	
+	@Override
 	public void showItems(ToolBar toolBar){
 		//--ADD--
 		this.add = new ToolItem(toolBar, SWT.PUSH);
@@ -69,10 +70,12 @@ public class MarkerToolItems  extends ToolItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		//Nothing to do
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.add.setToolTipText(TuxGuitar.getProperty("marker.add"));
 		this.list.setToolTipText(TuxGuitar.getProperty("marker.list"));

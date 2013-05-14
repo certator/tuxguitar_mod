@@ -28,6 +28,7 @@ public class GoNextMeasureAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		Caret caret = getEditor().getTablature().getCaret();
 		//si es el ultimo compas, agrego uno nuevo

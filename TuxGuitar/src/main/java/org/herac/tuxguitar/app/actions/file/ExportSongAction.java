@@ -29,6 +29,7 @@ public class ExportSongAction extends Action {
 		super(NAME, AUTO_LOCK | AUTO_UPDATE );
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		Object propertyExporter = actionData.get(PROPERTY_EXPORTER);
 		if(!(propertyExporter instanceof TGRawExporter) ){
@@ -54,6 +55,7 @@ public class ExportSongAction extends Action {
 		
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				if(!TuxGuitar.isDisposed()){
 					FileActionUtils.exportSong(exporter, fileName);
@@ -69,6 +71,7 @@ public class ExportSongAction extends Action {
 	private int processRawExporter( final TGRawExporter exporter ){
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				if(!TuxGuitar.isDisposed()){
 					FileActionUtils.exportSong(exporter);

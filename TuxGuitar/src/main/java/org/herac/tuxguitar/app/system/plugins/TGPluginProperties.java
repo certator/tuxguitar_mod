@@ -36,14 +36,17 @@ public class TGPluginProperties  extends TGConfigManager{
 		super();
 	}
 	
+	@Override
 	public String getName() {
 		return "TuxGuitar Plugin Properties";
 	}
 	
+	@Override
 	public String getFileName(){
 		return TGFileUtils.PATH_USER_CONFIG + File.separator + FILE_NAME;
 	}
 	
+	@Override
 	public Properties getDefaults() {
 		Properties properties = new Properties();
 		try {

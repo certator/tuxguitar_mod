@@ -24,6 +24,7 @@ public class SetMultitrackViewAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		TGLayout layout = getEditor().getTablature().getViewLayout();
 		layout.setStyle( ( layout.getStyle() ^ TGLayout.DISPLAY_MULTITRACK ) );

@@ -40,6 +40,7 @@ public class DynamicMenuItem extends MenuItems{
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
 	
+	@Override
 	public void showItems(){
 		
 		this.pianoPianissimo = new MenuItem(this.menu, SWT.CHECK);
@@ -80,6 +81,7 @@ public class DynamicMenuItem extends MenuItems{
 		this.loadProperties();
 	}
 	
+	@Override
 	public void update(){
 		TGNote note = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getSelectedNote();
 		int velocity = ((note != null)?note.getVelocity():TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getVelocity());
@@ -102,6 +104,7 @@ public class DynamicMenuItem extends MenuItems{
 		this.forteFortissimo.setEnabled(!running);
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.dynamicMenuItem.setText(TuxGuitar.getProperty("dynamic"));
 		this.pianoPianissimo.setText(TuxGuitar.getProperty("dynamic.piano-pianissimo"));

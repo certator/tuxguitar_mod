@@ -25,6 +25,7 @@ public class EditConfigAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE );
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		new TGConfigEditor().showDialog(TuxGuitar.instance().getShell());
 		return 0;

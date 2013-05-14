@@ -44,6 +44,7 @@ public class ChangeTimeSignatureAction extends Action{
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
 	
+	@Override
 	protected int execute(ActionData actionData){
 		showDialog(getEditor().getTablature().getShell());
 		return 0;
@@ -101,6 +102,7 @@ public class ChangeTimeSignatureAction extends Action{
 			buttonOk.setText(TuxGuitar.getProperty("ok"));
 			buttonOk.setLayoutData(getButtonData());
 			buttonOk.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					final boolean toEndValue = toEnd.getSelection();
 					final int numeratorValue = Integer.parseInt(numerator.getText());
@@ -109,6 +111,7 @@ public class ChangeTimeSignatureAction extends Action{
 					dialog.dispose();
 					try {
 						TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+							@Override
 							public void run() throws Throwable {
 								ActionLock.lock();
 								TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
@@ -131,6 +134,7 @@ public class ChangeTimeSignatureAction extends Action{
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					dialog.dispose();
 				}
@@ -173,6 +177,7 @@ public class ChangeTimeSignatureAction extends Action{
 		addUndoableEdit(undoable.endUndo(timeSignature,measure.getStart(),toEnd));
 	}
 	
+	@Override
 	public TGSongManager getSongManager(){
 		return super.getSongManager();
 	}
