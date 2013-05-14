@@ -1,8 +1,5 @@
 /*
  * Created on 01-dic-2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package org.herac.tuxguitar.graphics.control;
 
@@ -15,8 +12,6 @@ import org.herac.tuxguitar.song.models.TGChord;
 import org.herac.tuxguitar.song.models.TGString;
 /**
  * @author julian
- *
- * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class TGChordImpl extends TGChord {
 

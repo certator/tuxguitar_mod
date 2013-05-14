@@ -1,8 +1,5 @@
 /*
  * Created on 20-dic-2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package org.herac.tuxguitar.app.util;
 
@@ -15,9 +12,6 @@ import org.herac.tuxguitar.app.helper.SyncThread;
 
 /**
  * @author julian
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class MessageDialog {
 

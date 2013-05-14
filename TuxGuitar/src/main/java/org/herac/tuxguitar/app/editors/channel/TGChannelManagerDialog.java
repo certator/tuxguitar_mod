@@ -25,7 +25,7 @@ public class TGChannelManagerDialog implements TGUpdateListener,IconLoader,Langu
 
 	protected Shell dialog;
 
-	private TGChannelHandle channelHandle;
+	private final TGChannelHandle channelHandle;
 	private TGChannelList channelList;
 
 	private Button addChannelButton;
@@ -221,7 +221,6 @@ public class TGChannelManagerDialog implements TGUpdateListener,IconLoader,Langu
 
 	@Override
 	public void loadIcons() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

@@ -957,17 +957,14 @@ public class MatrixEditor implements TGRedrawListener,IconLoader,LanguageLoader{
 
 		@Override
 		public void mouseDoubleClick(MouseEvent e) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void mouseDown(MouseEvent e) {
-			// TODO Auto-generated method stub
 		}
 
 		@Override
 		public void mouseHover(MouseEvent e) {
-			// TODO Auto-generated method stub
 		}
 	}
 

@@ -1,8 +1,5 @@
 /*
  * Created on 04-ene-2006
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package org.herac.tuxguitar.app.printer;
 
@@ -27,9 +24,6 @@ import org.herac.tuxguitar.song.models.TGTrack;
 
 /**
  * @author julian
- *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 public class PrintLayout extends TGLayout{
 

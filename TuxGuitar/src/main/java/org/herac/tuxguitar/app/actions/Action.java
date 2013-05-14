@@ -1,8 +1,5 @@
 /*
  * Created on 17-dic-2005
- *
- * TODO To change the template for this generated file go to
- * Window - Preferences - Java - Code Style - Code Templates
  */
 package org.herac.tuxguitar.app.actions;
 
@@ -14,9 +11,6 @@ import org.herac.tuxguitar.util.TGSynchronizer;
 
 /**
  * @author julian
- *
- * TODO To change the template for this generated type comment go to Window
- * Preferences - Java - Code Style - Code Templates
  */
 public abstract class Action extends ActionAdapter {
 
@@ -30,9 +24,9 @@ public abstract class Action extends ActionAdapter {
 
 	protected static final int DISABLE_ON_PLAYING = 0x10;
 
-	private String name;
+	private final String name;
 
-	private int flags;
+	private final int flags;
 
 	public Action(String name, int flags) {
 		this.name = name;
