@@ -176,7 +176,8 @@ class TrackCanvas extends Composite implements PaintListener{
 	public int getRealWidth() {
 		if (track == null)
 			return 0;
-		return track.countMeasures() * this.getSize().y;
+		int width = track.countMeasures() * (int)(this.getSize().y * this.widthMeasureCoef);
+		return width;
 	}
 
 	public float getWidthMeasureCoef() {

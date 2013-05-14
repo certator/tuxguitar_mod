@@ -1,6 +1,8 @@
 package org.herac.tuxguitar.app.tracktable;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.MouseAdapter;
@@ -198,6 +200,18 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			this.table.removeRowsAfter(count);
 			for(int i = this.table.getRowCount(); i < count; i ++){
 				final TrackTableRow row = this.table.newRow();
+				if (i == 0) {
+					row.getCanvas().addControlListener(new ControlListener() {
+						@Override
+						public void controlResized(ControlEvent arg0) {
+							updateHScroll();
+						}
+						@Override
+						public void controlMoved(ControlEvent arg0) {
+						}
+					});
+				}
+
 				row.getCanvas().addMouseWheelListener(trackCanvasZoomMouseWheel);
 				row.addMouseListenerLabel(new MouseAdapter() {
 
