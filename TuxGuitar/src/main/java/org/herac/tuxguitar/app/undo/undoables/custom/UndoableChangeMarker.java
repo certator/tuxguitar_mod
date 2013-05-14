@@ -14,11 +14,11 @@ public class UndoableChangeMarker implements UndoableEdit{
 	private UndoableCaretHelper redoCaret;
 	private TGMarker undoMarker;
 	private TGMarker redoMarker;
-	
+
 	private UndoableChangeMarker(){
 		super();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -34,7 +34,7 @@ public class UndoableChangeMarker implements UndoableEdit{
 		this.redoCaret.update();
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -50,26 +50,26 @@ public class UndoableChangeMarker implements UndoableEdit{
 		this.undoCaret.update();
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public static UndoableChangeMarker startUndo(TGMarker marker){
 		UndoableChangeMarker undoable = new UndoableChangeMarker();
 		undoable.doAction = UNDO_ACTION;
 		undoable.undoCaret = new UndoableCaretHelper();
 		undoable.undoMarker = (marker == null)?null:(TGMarker)marker.clone(TuxGuitar.instance().getSongManager().getFactory());
-		
+
 		return undoable;
 	}
-	
+
 	public UndoableChangeMarker endUndo(TGMarker marker){
 		this.redoCaret = new UndoableCaretHelper();
 		this.redoMarker = (marker == null)?null:(TGMarker)marker.clone(TuxGuitar.instance().getSongManager().getFactory());

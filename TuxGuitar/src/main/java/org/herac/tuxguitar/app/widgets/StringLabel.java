@@ -16,7 +16,7 @@ public class StringLabel extends CLabel {
 	 * Icon used to display the string
 	 */
 	private Image icon;
-	
+
 	private int min = 40;
 	private int max = 70;
 	private int value;

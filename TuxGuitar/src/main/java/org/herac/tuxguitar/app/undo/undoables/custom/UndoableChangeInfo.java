@@ -29,11 +29,11 @@ public class UndoableChangeInfo implements UndoableEdit{
 	private String redoWriter;
 	private String redoTranscriber;
 	private String redoComments;
-	
+
 	private UndoableChangeInfo(){
 		super();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -42,10 +42,10 @@ public class UndoableChangeInfo implements UndoableEdit{
 		TuxGuitar.instance().getSongManager().setProperties(this.redoName,this.redoArtist,this.redoAlbum,this.redoAuthor,this.redoDate,this.redoCopyright,this.redoWriter,this.redoTranscriber,this.redoComments);
 		TuxGuitar.instance().showTitle();
 		this.redoCaret.update();
-		
+
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -54,20 +54,20 @@ public class UndoableChangeInfo implements UndoableEdit{
 		TuxGuitar.instance().getSongManager().setProperties(this.undoName,this.undoArtist,this.undoAlbum,this.undoAuthor,this.undoDate,this.undoCopyright,this.undoWriter,this.undoTranscriber,this.undoComments);
 		TuxGuitar.instance().showTitle();
 		this.undoCaret.update();
-		
+
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public static UndoableChangeInfo startUndo(){
 		TGSong song = TuxGuitar.instance().getSongManager().getSong();
 		UndoableChangeInfo undoable = new UndoableChangeInfo();
@@ -81,10 +81,10 @@ public class UndoableChangeInfo implements UndoableEdit{
 		undoable.undoCopyright = song.getCopyright();
 		undoable.undoWriter = song.getWriter();
 		undoable.undoTranscriber = song.getTranscriber();
-		undoable.undoComments = song.getComments();		
+		undoable.undoComments = song.getComments();
 		return undoable;
 	}
-	
+
 	public UndoableChangeInfo endUndo(){
 		TGSong song = TuxGuitar.instance().getSongManager().getSong();
 		this.redoCaret = new UndoableCaretHelper();

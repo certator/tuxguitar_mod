@@ -19,13 +19,13 @@ import org.herac.tuxguitar.song.models.TGBeat;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CleanBeatAction extends Action{
-	
+
 	public static final String NAME = "action.note.general.clean-beat";
-	
+
 	public CleanBeatAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		TGBeat beat = getEditor().getTablature().getCaret().getSelectedBeat();
@@ -33,17 +33,17 @@ public class CleanBeatAction extends Action{
 			//comienza el undoable
 			UndoableMeasureGeneric undoable = UndoableMeasureGeneric.startUndo();
 			TuxGuitar.instance().getFileHistory().setUnsavedFile();
-			
+
 			//getSongManager().getMeasureManager().removeAllComponentsAt(caret.getMeasure(),caret.getSelectedComponent().getStart());
 			getSongManager().getMeasureManager().cleanBeat(beat);
-			
+
 			//termia el undoable
 			addUndoableEdit(undoable.endUndo());
 			updateTablature();
 		}
 		return 0;
 	}
-	
+
 	@Override
 	public void updateTablature() {
 		fireUpdate(getEditor().getTablature().getCaret().getMeasure().getNumber());

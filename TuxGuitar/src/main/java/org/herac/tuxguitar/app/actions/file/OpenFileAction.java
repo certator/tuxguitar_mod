@@ -22,25 +22,25 @@ import org.herac.tuxguitar.util.TGSynchronizer;
 
 /**
  * @author julian
- * 
+ *
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class OpenFileAction extends Action {
-	
+
 	public static final String NAME = "action.file.open";
-	
+
 	public static final String PROPERTY_URL = "url";
-	
+
 	public OpenFileAction() {
 		super(NAME, AUTO_LOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		final Object propertyUrl = actionData.get(PROPERTY_URL);
-		
+
 		TuxGuitar.instance().getPlayer().reset();
-		
+
 		if(TuxGuitar.instance().getFileHistory().isUnsavedFile()){
 			ConfirmDialog confirm = new ConfirmDialog(TuxGuitar.getProperty("file.save-changes-question"));
 			confirm.setDefaultStatus( ConfirmDialog.STATUS_CANCEL );
@@ -75,10 +75,10 @@ public class OpenFileAction extends Action {
 			}
 		}
 		openFile( propertyUrl );
-		
+
 		return 0;
 	}
-	
+
 	protected void openFile(Object data){
 		final URL url = getOpenFileName(data);
 		if(url == null){
@@ -106,7 +106,7 @@ public class OpenFileAction extends Action {
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected URL getOpenFileName(Object data){
 		try{
 			if(data instanceof URL){

@@ -164,14 +164,14 @@ import org.herac.tuxguitar.app.actions.view.ShowTransportAction;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ActionManager {
-	
+
 	private final Map<String, Action> actions;
-	
+
 	public ActionManager(){
 		this.actions = new HashMap<String, Action>();
 		this.init();
 	}
-	
+
 	public void init(){
 		//file actions
 		addAction(new NewFileAction());
@@ -184,7 +184,7 @@ public class ActionManager {
 		addAction(new PrintPreviewAction());
 		addAction(new OpenURLAction());
 		addAction(new ExitAction());
-		
+
 		//edit actions
 		addAction(new UndoAction());
 		addAction(new RedoAction());
@@ -193,7 +193,7 @@ public class ActionManager {
 		addAction(new SetNaturalKeyAction());
 		addAction(new SetVoice1Action());
 		addAction(new SetVoice2Action());
-		
+
 		//layout actions
 		addAction(new SetPageLayoutAction());
 		addAction(new SetLinearLayoutAction());
@@ -203,7 +203,7 @@ public class ActionManager {
 		addAction(new SetCompactViewAction());
 		addAction(new SetChordNameEnabledAction());
 		addAction(new SetChordDiagramEnabledAction());
-		
+
 		//view actions
 		addAction(new ShowToolbarsAction());
 		addAction(new ShowFretBoardAction());
@@ -211,7 +211,7 @@ public class ActionManager {
 		addAction(new ShowInstrumentsAction());
 		addAction(new ShowTransportAction());
 		addAction(new ShowMatrixAction());
-		
+
 		//composition actions
 		addAction(new ChangeTimeSignatureAction());
 		addAction(new ChangeTempoAction());
@@ -219,7 +219,7 @@ public class ActionManager {
 		addAction(new ChangeKeySignatureAction());
 		addAction(new ChangeTripletFeelAction());
 		addAction(new ChangeInfoAction());
-		
+
 		//track actions
 		addAction(new AddTrackAction());
 		addAction(new RemoveTrackAction());
@@ -235,7 +235,7 @@ public class ActionManager {
 		addAction(new ChangeTrackSoloAction());
 		addAction(new EditLyricsAction());
 		addAction(new TrackPropertiesAction());
-		
+
 		//measure actions
 		addAction(new AddMeasureAction());
 		addAction(new RemoveMeasureAction());
@@ -246,7 +246,7 @@ public class ActionManager {
 		addAction(new GoNextMeasureAction());
 		addAction(new GoPreviousMeasureAction());
 		addAction(new CleanMeasureAction());
-		
+
 		//note actions
 		addAction(new ChangeNoteAction());
 		addAction(new InsertRestBeatAction());
@@ -267,7 +267,7 @@ public class ActionManager {
 		for( int i = 0 ; i < 10 ; i ++ ){
 			addAction(new SetNoteFretNumberAction(i));
 		}
-		
+
 		//duration actions
 		addAction(new SetWholeDurationAction());
 		addAction(new SetHalfDurationAction());
@@ -281,7 +281,7 @@ public class ActionManager {
 		addAction(new ChangeDivisionTypeAction());
 		addAction(new IncrementDurationAction());
 		addAction(new DecrementDurationAction());
-		
+
 		//insert actions
 		addAction(new RepeatOpenAction());
 		addAction(new RepeatCloseAction());
@@ -289,7 +289,7 @@ public class ActionManager {
 		addAction(new DoubleBarAction());
 		addAction(new InsertChordAction());
 		addAction(new InsertTextAction());
-		
+
 		//note effects action
 		addAction(new ChangeVibratoNoteAction());
 		addAction(new ChangeBendNoteAction());
@@ -314,7 +314,7 @@ public class ActionManager {
 		addAction(new SetVoiceAutoAction());
 		addAction(new SetVoiceUpAction());
 		addAction(new SetVoiceDownAction());
-		
+
 		//marker actions
 		addAction(new AddMarkerAction());
 		addAction(new ListMarkersAction());
@@ -322,7 +322,7 @@ public class ActionManager {
 		addAction(new GoNextMarkerAction());
 		addAction(new GoFirstMarkerAction());
 		addAction(new GoLastMarkerAction());
-		
+
 		//player actions
 		addAction(new TransportPlayAction());
 		addAction(new TransportStopAction());
@@ -331,43 +331,43 @@ public class ActionManager {
 		addAction(new TransportModeAction());
 		addAction(new TransportSetLoopSHeaderAction());
 		addAction(new TransportSetLoopEHeaderAction());
-		
+
 		//setting actions
 		addAction(new EditPluginsAction());
-		addAction(new EditConfigAction()); 
-		addAction(new EditKeyBindingsAction()); 
-		
+		addAction(new EditConfigAction());
+		addAction(new EditKeyBindingsAction());
+
 		//caret actions
 		addAction(new GoRightAction());
 		addAction(new GoLeftAction());
 		addAction(new GoUpAction());
 		addAction(new GoDownAction());
-		
+
 		//help actions
 		addAction(new ShowDocAction());
 		addAction(new ShowAboutAction());
-		
+
 		//tools
 		addAction(new TransposeAction() );
 		addAction(new ScaleAction());
 		addAction(new TGBrowserAction());
-		
+
 		//exit
 		addAction(new DisposeAction());
 	}
-	
+
 	public void addAction(Action action){
 		this.actions.put(action.getName(),action);
 	}
-	
+
 	public void removeAction(String name){
 		this.actions.remove(name);
 	}
-	
+
 	public Action getAction(String name){
 		return this.actions.get(name);
 	}
-	
+
 	public List<String> getAvailableKeyBindingActions(){
 		List<String> availableKeyBindingActions = new ArrayList<String>();
 		Iterator<String> it = this.actions.keySet().iterator();

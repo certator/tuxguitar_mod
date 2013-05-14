@@ -13,13 +13,13 @@ import org.herac.tuxguitar.app.undo.undoables.custom.UndoableChangeDoubleBar;
 import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
 
 public class DoubleBarAction extends Action{
-	
+
 	public static final String NAME = "action.insert.doublebar";
-	
+
 	public DoubleBarAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		UndoableChangeDoubleBar undoable = UndoableChangeDoubleBar.startUndo();
@@ -30,10 +30,10 @@ public class DoubleBarAction extends Action{
 		updateTablature();
 
 		addUndoableEdit(undoable.endUndo());
-		
+
 		return 0;
 	}
-	
+
 	@Override
 	public void updateTablature() {
 		fireUpdate(getEditor().getTablature().getCaret().getMeasure().getNumber());

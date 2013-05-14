@@ -42,12 +42,12 @@ public class DurationMenuItem  extends MenuItems{
 	private MenuItem dotted;
 	private MenuItem doubleDotted;
 	private MenuItem division;
-	
+
 	public DurationMenuItem(Shell shell,Menu parent, int style) {
 		this.durationMenuItem = new MenuItem(parent, style);
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
-	
+
 	@Override
 	public void showItems(){
 		//--whole--
@@ -71,27 +71,27 @@ public class DurationMenuItem  extends MenuItems{
 		//--sixtyFourth--
 		this.sixtyFourth = new MenuItem(this.menu, SWT.PUSH);
 		this.sixtyFourth.addSelectionListener(TuxGuitar.instance().getAction(SetSixtyFourthDurationAction.NAME));
-		
+
 		//--SEPARATOR--
 		new MenuItem(this.menu, SWT.SEPARATOR);
-		
+
 		//--dotted---
 		this.dotted = new MenuItem(this.menu, SWT.PUSH);
 		this.dotted.addSelectionListener(TuxGuitar.instance().getAction(ChangeDottedDurationAction.NAME));
-		
+
 		this.doubleDotted = new MenuItem(this.menu, SWT.PUSH);
 		this.doubleDotted.addSelectionListener(TuxGuitar.instance().getAction(ChangeDoubleDottedDurationAction.NAME));
-		
+
 		//--division---
 		this.division = new MenuItem(this.menu, SWT.PUSH);
 		this.division.addSelectionListener(TuxGuitar.instance().getAction(ChangeDivisionTypeAction.NAME));
-		
+
 		this.durationMenuItem.setMenu(this.menu);
-		
+
 		this.loadIcons();
 		this.loadProperties();
 	}
-	
+
 	@Override
 	public void update(){
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
@@ -106,7 +106,7 @@ public class DurationMenuItem  extends MenuItems{
 		this.doubleDotted.setEnabled(!running);
 		this.division.setEnabled(!running);
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.durationMenuItem, "duration", null);
@@ -121,7 +121,7 @@ public class DurationMenuItem  extends MenuItems{
 		setMenuItemTextAndAccelerator(this.doubleDotted, "duration.doubledotted", ChangeDoubleDottedDurationAction.NAME);
 		setMenuItemTextAndAccelerator(this.division, "duration.division-type", ChangeDivisionTypeAction.NAME);
 	}
-	
+
 	public void loadIcons() {
 		this.whole.setImage(TuxGuitar.instance().getIconManager().getDuration(TGDuration.WHOLE));
 		this.half.setImage(TuxGuitar.instance().getIconManager().getDuration(TGDuration.HALF));

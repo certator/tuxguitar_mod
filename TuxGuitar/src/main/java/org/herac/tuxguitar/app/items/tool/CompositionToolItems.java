@@ -27,44 +27,44 @@ import org.herac.tuxguitar.song.models.TGMeasure;
  */
 public class CompositionToolItems extends ToolItems{
 	public static final String NAME = "composition.items";
-	
+
 	private ToolItem tempo;
 	private ToolItem timeSignature;
 	private ToolItem repeatOpen;
 	private ToolItem repeatClose;
 	private ToolItem repeatAlternative;
 	private ToolItem doubleBar;
-	
+
 	public CompositionToolItems(){
 		super(NAME);
 	}
-	
+
 	@Override
 	public void showItems(ToolBar toolBar){
 		this.tempo = new ToolItem(toolBar, SWT.PUSH);
 		this.tempo.addSelectionListener(TuxGuitar.instance().getAction(ChangeTempoAction.NAME));
-		
+
 		this.timeSignature = new ToolItem(toolBar, SWT.PUSH);
 		this.timeSignature.addSelectionListener(TuxGuitar.instance().getAction(ChangeTimeSignatureAction.NAME));
-		
+
 		new ToolItem(toolBar, SWT.SEPARATOR);
-		
+
 		this.repeatOpen = new ToolItem(toolBar, SWT.CHECK);
 		this.repeatOpen.addSelectionListener(TuxGuitar.instance().getAction(RepeatOpenAction.NAME));
-		
+
 		this.repeatClose = new ToolItem(toolBar, SWT.CHECK);
 		this.repeatClose.addSelectionListener(TuxGuitar.instance().getAction(RepeatCloseAction.NAME));
-		
+
 		this.doubleBar = new ToolItem(toolBar, SWT.CHECK);
 		this.doubleBar.addSelectionListener(TuxGuitar.instance().getAction(DoubleBarAction.NAME));
-		
+
 		this.repeatAlternative = new ToolItem(toolBar, SWT.CHECK);
 		this.repeatAlternative.addSelectionListener(TuxGuitar.instance().getAction(RepeatAlternativeAction.NAME));
 
 		this.loadIcons();
 		this.loadProperties();
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		this.tempo.setToolTipText(TuxGuitar.getProperty("composition.tempo"));
@@ -74,7 +74,7 @@ public class CompositionToolItems extends ToolItems{
 		this.repeatAlternative.setToolTipText(TuxGuitar.getProperty("repeat.alternative"));
 		this.doubleBar.setToolTipText(TuxGuitar.getProperty("composition.doublebar"));
 	}
-	
+
 	public void loadIcons(){
 		this.tempo.setImage(TuxGuitar.instance().getIconManager().getCompositionTempo());
 		this.timeSignature.setImage(TuxGuitar.instance().getIconManager().getCompositionTimeSignature());
@@ -83,7 +83,7 @@ public class CompositionToolItems extends ToolItems{
 		this.repeatAlternative.setImage(TuxGuitar.instance().getIconManager().getCompositionRepeatAlternative());
 		this.doubleBar.setImage(TuxGuitar.instance().getIconManager().getCompositionDoubleBar());
 	}
-	
+
 	@Override
 	public void update(){
 		TGMeasure measure = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getMeasure();

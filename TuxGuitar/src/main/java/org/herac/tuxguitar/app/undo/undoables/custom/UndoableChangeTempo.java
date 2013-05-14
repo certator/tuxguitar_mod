@@ -18,13 +18,13 @@ public class UndoableChangeTempo implements UndoableEdit{
 	private UndoableCaretHelper redoCaret;
 	private final List<TGTempo> undoableTempos;
 	private final List<TGTempo> redoableTempos;
-	
+
 	private UndoableChangeTempo(){
 		super();
 		this.undoableTempos = new ArrayList<TGTempo>();
 		this.redoableTempos = new ArrayList<TGTempo>();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -32,10 +32,10 @@ public class UndoableChangeTempo implements UndoableEdit{
 		}
 		this.setTempos(this.redoableTempos);
 		this.redoCaret.update();
-		
+
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -43,20 +43,20 @@ public class UndoableChangeTempo implements UndoableEdit{
 		}
 		this.setTempos(this.undoableTempos);
 		this.undoCaret.update();
-		
+
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public static UndoableChangeTempo startUndo(){
 		UndoableChangeTempo undoable = new UndoableChangeTempo();
 		undoable.doAction = UNDO_ACTION;
@@ -64,13 +64,13 @@ public class UndoableChangeTempo implements UndoableEdit{
 		undoable.getTempos(undoable.undoableTempos);
 		return undoable;
 	}
-	
+
 	public UndoableChangeTempo endUndo(){
 		this.redoCaret = new UndoableCaretHelper();
 		this.getTempos(this.redoableTempos);
 		return this;
 	}
-	
+
 	private void getTempos(List<TGTempo> list){
 		Iterator<TGMeasureHeader> it = TuxGuitar.instance().getSongManager().getSong().getMeasureHeaders();
 		while(it.hasNext()){
@@ -78,7 +78,7 @@ public class UndoableChangeTempo implements UndoableEdit{
 			list.add(header.getTempo().clone(TuxGuitar.instance().getSongManager().getFactory()));
 		}
 	}
-	
+
 	private void setTempos(List<TGTempo> tempos){
 		int length = tempos.size();
 		if(length != TuxGuitar.instance().getSongManager().getSong().countMeasureHeaders()){

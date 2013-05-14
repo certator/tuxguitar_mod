@@ -21,7 +21,7 @@ import org.herac.tuxguitar.util.TGLibraryLoader;
 import org.herac.tuxguitar.util.TGVersion;
 
 public class TGFileUtils {
-	
+
 	private static final String TG_CONFIG_PATH = "tuxguitar.config.path";
 	private static final String TG_SHARE_PATH = "tuxguitar.share.path";
 	private static final String TG_USER_SHARE_PATH = "tuxguitar.user-share.path";
@@ -29,13 +29,13 @@ public class TGFileUtils {
 	private static final String TG_LIBRARY_PATH = "tuxguitar.library.path";
 	private static final String TG_LIBRARY_PREFIX = "tuxguitar.library.prefix";
 	private static final String TG_LIBRARY_EXTENSION = "tuxguitar.library.extension";
-	
+
 	public static final String PATH_USER_CONFIG = getUserConfigDir();
 	public static final String PATH_USER_PLUGINS_CONFIG = getUserPluginsConfigDir();
 	public static final String PATH_USER_SHARE_PATH = getUserSharedPath();
 	//writable
 	public static final String[] TG_STATIC_SHARED_PATHS = getStaticSharedPaths();
-	
+
 	public static InputStream getResourceAsStream(String resource) {
 		try {
 			if(TG_STATIC_SHARED_PATHS != null){
@@ -53,7 +53,7 @@ public class TGFileUtils {
 		}
 		return null;
 	}
-	
+
 	public static URL getResourceUrl(String resource) {
 		try {
 			if(TG_STATIC_SHARED_PATHS != null){
@@ -70,7 +70,7 @@ public class TGFileUtils {
 		}
 		return null;
 	}
-	
+
 	public static Enumeration<URL> getResourceUrls(String resource) {
 		try {
 			Vector<URL> vector = new Vector<URL>();
@@ -95,7 +95,7 @@ public class TGFileUtils {
 		}
 		return null;
 	}
-	
+
 	private static String getResourcePath(String resource) {
 		try {
 			if(TG_STATIC_SHARED_PATHS != null){
@@ -115,7 +115,7 @@ public class TGFileUtils {
 		}
 		return null;
 	}
-	
+
 	public static void loadClasspath(){
 		try {
 			Enumeration<URL> plugins = getResourceUrls("plugins");
@@ -123,7 +123,7 @@ public class TGFileUtils {
 				URL url = plugins.nextElement();
 				TGClassLoader.instance().addPaths(new File(url.getFile()));
 			}
-			
+
 			String custompath = System.getProperty(TG_CLASS_PATH);
 			if(custompath != null){
 				String[] paths = custompath.split(File.pathSeparator);
@@ -135,7 +135,7 @@ public class TGFileUtils {
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	public static void loadLibraries(){
 		String libraryPath = System.getProperty(TG_LIBRARY_PATH);
 		if(libraryPath != null){
@@ -147,7 +147,7 @@ public class TGFileUtils {
 			}
 		}
 	}
-	
+
 	public static String[] getFileNames( String resource ){
 		try {
 			String path = getResourcePath(resource);
@@ -176,15 +176,15 @@ public class TGFileUtils {
 		}
 		return null;
 	}
-	
+
 	public static Image loadImage(String name){
 		return loadImage(TuxGuitar.instance().getConfig().getStringConfigValue(TGConfigKeys.SKIN),name);
 	}
-	
+
 	public static Image loadImage(String skin,String name){
 		try{
 			InputStream stream = getResourceAsStream("skins/" + skin + "/" + name);
-			if(stream != null){			
+			if(stream != null){
 				return new Image(TuxGuitar.instance().getDisplay(),new ImageData(stream));
 			}
 			System.err.println(name + ": not found");
@@ -193,7 +193,7 @@ public class TGFileUtils {
 		}
 		return new Image(TuxGuitar.instance().getDisplay(),16,16);
 	}
-	
+
 	public static boolean isLocalFile(URL url){
 		try {
 			if(url.getProtocol().equals( new File(url.getFile()).toURI().toURL().getProtocol() ) ){
@@ -204,20 +204,20 @@ public class TGFileUtils {
 		}
 		return false;
 	}
-	
+
 	private static String getDefaultUserAppDir(){
 		return ((System.getProperty("user.home") + File.separator + ".tuxguitar-" + TGVersion.CURRENT.getVersion()));
 	}
-	
+
 	private static String getUserConfigDir(){
 		// Look for the system property
 		String configPath = System.getProperty(TG_CONFIG_PATH);
-		
+
 		// Default System User Home
 		if(configPath == null){
 			configPath = (getDefaultUserAppDir() + File.separator + "config");
 		}
-		
+
 		// Check if the path exists
 		File file = new File(configPath);
 		if(!isExistentAndReadable( file )){
@@ -225,28 +225,28 @@ public class TGFileUtils {
 		}
 		return configPath;
 	}
-	
+
 	private static String getUserPluginsConfigDir(){
 		String configPluginsPath = (getUserConfigDir() + File.separator + "plugins");
-		
+
 		//Check if the path exists
 		File file = new File(configPluginsPath);
 		if(!isExistentAndReadable( file )){
 			tryCreateDirectory( file );
 		}
-		
+
 		return configPluginsPath;
 	}
-	
+
 	private static String getUserSharedPath(){
 		// Look for the system property
 		String userSharePath = System.getProperty(TG_USER_SHARE_PATH);
-		
+
 		// Use configuration path as default.
 		if( userSharePath == null){
 			userSharePath = (getDefaultUserAppDir() + File.separator + "cache");
 		}
-		
+
 		// Check if the path exists
 		File file = new File(userSharePath);
 		if(!isExistentAndReadable( file )){
@@ -254,7 +254,7 @@ public class TGFileUtils {
 		}
 		return userSharePath;
 	}
-	
+
 	private static String[] getStaticSharedPaths(){
 		String staticSharedPaths = new String(PATH_USER_SHARE_PATH);
 		String staticSharedPathsProperty = System.getProperty(TG_SHARE_PATH);
@@ -263,7 +263,7 @@ public class TGFileUtils {
 		}
 		return staticSharedPaths.split(File.pathSeparator);
 	}
-	
+
 	private static boolean isExistentAndReadable( File file ){
 		try{
 			return file.exists();
@@ -271,7 +271,7 @@ public class TGFileUtils {
 			return false;
 		}
 	}
-	
+
 	private static boolean isDirectoryAndReadable( File file ){
 		try{
 			return file.isDirectory();
@@ -279,7 +279,7 @@ public class TGFileUtils {
 			return false;
 		}
 	}
-	
+
 	private static boolean tryCreateDirectory( File file ){
 		try{
 			return file.mkdirs();

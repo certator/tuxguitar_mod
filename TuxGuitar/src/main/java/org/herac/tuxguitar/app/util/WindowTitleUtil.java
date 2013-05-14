@@ -7,7 +7,7 @@ import org.herac.tuxguitar.util.TGVersion;
 public class WindowTitleUtil {
 	private static final String VAR_START = "${";
 	private static final String VAR_END = "}";
-	
+
 	public static final String VAR_APP_NAME = "appname";
 	public static final String VAR_APP_VERSION = "appversion";
 	public static final String VAR_FILE_NAME = "filename";
@@ -16,12 +16,12 @@ public class WindowTitleUtil {
 	public static final String VAR_SONG_AUTHOR = "songauthor";
 	public static final String VAR_SONG_ALBUM = "songalbum";
 	public static final String VAR_SONG_ARTIST = "songartist";
-	
+
 	public static String parseTitle(){
 		String title = parseString(TuxGuitar.instance().getConfig().getStringConfigValue(TGConfigKeys.WINDOW_TITLE));
 		return ((title == null)?TuxGuitar.APPLICATION_NAME:title);
 	}
-	
+
 	private static String parseString(String src){
 		try{
 			if(src != null){
@@ -51,7 +51,7 @@ public class WindowTitleUtil {
 		}
 		return null;
 	}
-	
+
 	private static String parseVar(String var){
 		String varName = var.substring((VAR_START.length()),(var.length() - 1));
 		String varValue = var;
@@ -74,7 +74,7 @@ public class WindowTitleUtil {
 		}
 		return varValue;
 	}
-	
+
 	public static String getVar(String varName){
 		return (VAR_START + varName + VAR_END);
 	}

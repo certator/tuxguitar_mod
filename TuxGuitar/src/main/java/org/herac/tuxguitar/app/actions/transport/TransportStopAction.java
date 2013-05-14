@@ -17,13 +17,13 @@ import org.herac.tuxguitar.app.actions.ActionData;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class TransportStopAction extends Action{
-	
+
 	public static final String NAME = "action.transport.stop";
-	
+
 	public TransportStopAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		TuxGuitar.instance().getTransport().stop();

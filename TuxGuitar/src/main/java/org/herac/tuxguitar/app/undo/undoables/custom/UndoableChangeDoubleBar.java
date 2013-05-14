@@ -14,11 +14,11 @@ public class UndoableChangeDoubleBar implements UndoableEdit{
 	private UndoableCaretHelper undoCaret;
 	private UndoableCaretHelper redoCaret;
 	private long position;
-	
+
 	private UndoableChangeDoubleBar(){
 		super();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -29,10 +29,10 @@ public class UndoableChangeDoubleBar implements UndoableEdit{
 		measure.getHeader().setDoubleBar(!measure.getHeader().hasDoubleBar());
 		TuxGuitar.instance().getTablatureEditor().getTablature().updateMeasure(measure.getNumber());
 		this.redoCaret.update();
-		
+
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -43,37 +43,37 @@ public class UndoableChangeDoubleBar implements UndoableEdit{
 		measure.getHeader().setDoubleBar(!measure.getHeader().hasDoubleBar());
 		TuxGuitar.instance().getTablatureEditor().getTablature().updateMeasure(measure.getNumber());
 		this.undoCaret.update();
-		
+
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public static UndoableChangeDoubleBar startUndo(){
 		UndoableChangeDoubleBar undoable = new UndoableChangeDoubleBar();
 		Caret caret = getCaret();
 		undoable.doAction = UNDO_ACTION;
 		undoable.undoCaret = new UndoableCaretHelper();
 		undoable.position = caret.getPosition();
-		
+
 		return undoable;
 	}
-	
+
 	public UndoableChangeDoubleBar endUndo(){
 		this.redoCaret = new UndoableCaretHelper();
 		return this;
 	}
-	
+
 	private static Caret getCaret(){
 		return TuxGuitar.instance().getTablatureEditor().getTablature().getCaret();
 	}
-	
+
 }

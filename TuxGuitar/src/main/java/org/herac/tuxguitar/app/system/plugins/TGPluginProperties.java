@@ -15,15 +15,15 @@ import org.herac.tuxguitar.app.util.TGFileUtils;
 
 /**
  * @author julian
- * 
+ *
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class TGPluginProperties  extends TGConfigManager{
-	
+
 	private static final String FILE_NAME = "plugin.properties";
-	
+
 	private static TGPluginProperties instance;
-	
+
 	public static TGPluginProperties instance(){
 		if(instance == null){
 			instance = new TGPluginProperties();
@@ -31,21 +31,21 @@ public class TGPluginProperties  extends TGConfigManager{
 		}
 		return instance;
 	}
-	
+
 	private TGPluginProperties(){
 		super();
 	}
-	
+
 	@Override
 	public String getName() {
 		return "TuxGuitar Plugin Properties";
 	}
-	
+
 	@Override
 	public String getFileName(){
 		return TGFileUtils.PATH_USER_CONFIG + File.separator + FILE_NAME;
 	}
-	
+
 	@Override
 	public Properties getDefaults() {
 		Properties properties = new Properties();

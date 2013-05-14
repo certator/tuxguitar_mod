@@ -20,13 +20,13 @@ import org.herac.tuxguitar.song.models.TGBeat;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class InsertRestBeatAction extends Action{
-	
+
 	public static final String NAME = "action.beat.general.insert-rest";
-	
+
 	public InsertRestBeatAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		Caret caret = getEditor().getTablature().getCaret();
@@ -35,7 +35,7 @@ public class InsertRestBeatAction extends Action{
 			//comienza el undoable
 			UndoableMeasureGeneric undoable = UndoableMeasureGeneric.startUndo();
 			TuxGuitar.instance().getFileHistory().setUnsavedFile();
-			
+
 			if(beat.getVoice(caret.getVoice()).isEmpty()){
 				getSongManager().getMeasureManager().addSilence(beat, caret.getDuration().clone(getSongManager().getFactory()), caret.getVoice());
 			}
@@ -46,13 +46,13 @@ public class InsertRestBeatAction extends Action{
 			}
 			//termia el undoable
 			addUndoableEdit(undoable.endUndo());
-			
+
 			updateTablature();
-			
+
 		}
 		return 0;
 	}
-	
+
 	@Override
 	public void updateTablature() {
 		fireUpdate(getEditor().getTablature().getCaret().getMeasure().getNumber());

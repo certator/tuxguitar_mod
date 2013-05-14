@@ -16,13 +16,13 @@ import org.herac.tuxguitar.app.actions.ActionData;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class SetVoice2Action extends Action{
-	
+
 	public static final String NAME = "action.edit.voice-2";
-	
+
 	public SetVoice2Action() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		getEditor().getTablature().getCaret().setVoice(1);

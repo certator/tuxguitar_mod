@@ -37,33 +37,33 @@ import org.herac.tuxguitar.util.TGSynchronizer;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ChangeTimeSignatureAction extends Action{
-	
+
 	public static final String NAME = "action.composition.change-time-signature";
-	
+
 	public ChangeTimeSignatureAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		showDialog(getEditor().getTablature().getShell());
 		return 0;
 	}
-	
+
 	public void showDialog(Shell shell) {
 		TGMeasureImpl measure = getEditor().getTablature().getCaret().getMeasure();
 		if (measure != null) {
 			final Shell dialog = DialogUtils.newDialog(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-			
+
 			dialog.setLayout(new GridLayout());
 			dialog.setText(TuxGuitar.getProperty("composition.timesignature"));
-			
+
 			//-------------TIME SIGNATURE-----------------------------------------------
 			Group timeSignature = new Group(dialog,SWT.SHADOW_ETCHED_IN);
 			timeSignature.setLayout(new GridLayout(2,false));
 			timeSignature.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 			timeSignature.setText(TuxGuitar.getProperty("composition.timesignature"));
-			
+
 			TGTimeSignature currentTimeSignature = measure.getTimeSignature();
 			//numerator
 			Label numeratorLabel = new Label(timeSignature, SWT.NULL);
@@ -83,13 +83,13 @@ public class ChangeTimeSignatureAction extends Action{
 			}
 			denominator.setText(Integer.toString(currentTimeSignature.getDenominator().getValue()));
 			denominator.setLayoutData(getComboData());
-			
+
 			//--------------------To End Checkbox-------------------------------
 			Group check = new Group(dialog,SWT.SHADOW_ETCHED_IN);
 			check.setLayout(new GridLayout());
 			check.setText(TuxGuitar.getProperty("options"));
 			check.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-			
+
 			final Button toEnd = new Button(check, SWT.CHECK);
 			toEnd.setText(TuxGuitar.getProperty("composition.timesignature.to-the-end"));
 			toEnd.setSelection(true);
@@ -97,7 +97,7 @@ public class ChangeTimeSignatureAction extends Action{
 			Composite buttons = new Composite(dialog, SWT.NONE);
 			buttons.setLayout(new GridLayout(2,false));
 			buttons.setLayoutData(new GridData(SWT.END,SWT.FILL,true,true));
-			
+
 			final Button buttonOk = new Button(buttons, SWT.PUSH);
 			buttonOk.setText(TuxGuitar.getProperty("ok"));
 			buttonOk.setLayoutData(getButtonData());
@@ -107,7 +107,7 @@ public class ChangeTimeSignatureAction extends Action{
 					final boolean toEndValue = toEnd.getSelection();
 					final int numeratorValue = Integer.parseInt(numerator.getText());
 					final int denominatorValue = Integer.parseInt(denominator.getText());
-					
+
 					dialog.dispose();
 					try {
 						TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
@@ -129,7 +129,7 @@ public class ChangeTimeSignatureAction extends Action{
 					}
 				}
 			});
-			
+
 			Button buttonCancel = new Button(buttons, SWT.PUSH);
 			buttonCancel.setLayoutData(getButtonData());
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
@@ -139,44 +139,44 @@ public class ChangeTimeSignatureAction extends Action{
 					dialog.dispose();
 				}
 			});
-			
+
 			dialog.setDefaultButton( buttonOk );
-			
+
 			DialogUtils.openDialog(dialog,DialogUtils.OPEN_STYLE_CENTER | DialogUtils.OPEN_STYLE_PACK | DialogUtils.OPEN_STYLE_WAIT);
 		}
 	}
-	
+
 	private GridData getButtonData(){
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.minimumWidth = 80;
 		data.minimumHeight = 25;
 		return data;
 	}
-	
+
 	private GridData getComboData(){
 		GridData data = new GridData(SWT.FILL,SWT.FILL,true,true);
 		data.minimumWidth = 150;
 		return data;
 	}
-	
+
 	protected void setTimeSignature(TGTimeSignature timeSignature,boolean toEnd){
 		//comienza el undoable
 		UndoableChangeTimeSignature undoable = UndoableChangeTimeSignature.startUndo();
-		
+
 		Caret caret = getEditor().getTablature().getCaret();
 		TGMeasureImpl measure = caret.getMeasure();
-		
+
 		getSongManager().changeTimeSignature(measure.getStart(),timeSignature,toEnd);
-		
+
 		TuxGuitar.instance().getFileHistory().setUnsavedFile();
-		
+
 		//actualizo la tablatura
 		updateTablature();
-		
+
 		//termia el undoable
 		addUndoableEdit(undoable.endUndo(timeSignature,measure.getStart(),toEnd));
 	}
-	
+
 	@Override
 	public TGSongManager getSongManager(){
 		return super.getSongManager();

@@ -20,42 +20,42 @@ import org.herac.tuxguitar.io.base.TGFileFormatManager;
 
 /**
  * @author julian
- * 
+ *
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class FileChooser {
-	
+
 	public static final String DEFAULT_OPEN_FILENAME = null;
-	
+
 	public static final String DEFAULT_SAVE_FILENAME = ("Untitled" + TGFileFormatManager.DEFAULT_EXTENSION);
-	
+
 	public static TGFileFormat ALL_FORMATS = new TGFileFormat("All Files","*.*");
-	
+
 	private static FileChooser instance;
-	
+
 	public static FileChooser instance() {
 		if(instance == null){
 			instance = new FileChooser();
 		}
 		return instance;
 	}
-	
+
 	private List<TGFileFormat> list(TGFileFormat o){
 		List<TGFileFormat> list = new ArrayList<TGFileFormat>();
 		list.add(o);
 		return list;
 	}
-	
+
 	public String open(Shell parent,TGFileFormat format) {
 		return open(parent, list(format));
 	}
-	
+
 	public String open(Shell parent,List<TGFileFormat> formats) {
 		String currentPath = TuxGuitar.instance().getFileHistory().getCurrentFilePath();
 		String chooserPath = TuxGuitar.instance().getFileHistory().getOpenPath();
 		boolean localFile = TuxGuitar.instance().getFileHistory().isLocalFile();
 		boolean existentFile = (localFile && currentPath != null && chooserPath != null && currentPath.equals(chooserPath));
-		
+
 		FilterList filter = new FilterList(formats);
 		FileDialog dialog = new FileDialog(parent,SWT.OPEN);
 		dialog.setFileName((existentFile ? getFileName(formats, DEFAULT_OPEN_FILENAME, false) : null ));
@@ -64,14 +64,14 @@ public class FileChooser {
 		dialog.setFilterExtensions(filter.getFilterExtensions());
 		return openDialog(dialog);
 	}
-	
+
 	public String save(Shell parent,TGFileFormat format) {
 		return save(parent, list(format));
 	}
-	
+
 	public String save(Shell parent,List<TGFileFormat> formats) {
 		String chooserPath = TuxGuitar.instance().getFileHistory().getSavePath();
-		
+
 		FilterList filter = new FilterList(formats);
 		FileDialog dialog = new FileDialog(parent,SWT.SAVE);
 		dialog.setFileName(getFileName(formats, DEFAULT_SAVE_FILENAME, true));
@@ -80,7 +80,7 @@ public class FileChooser {
 		dialog.setFilterExtensions(filter.getFilterExtensions());
 		return openDialog(dialog);
 	}
-	
+
 	private String openDialog(FileDialog dialog){
 		String path = dialog.open();
 		if(path != null){
@@ -92,7 +92,7 @@ public class FileChooser {
 		}
 		return path;
 	}
-	
+
 	private String getFileName(List<TGFileFormat> formats, String defaultName, boolean replaceExtension){
 		if(formats == null || formats.isEmpty()){
 			return defaultName;
@@ -132,11 +132,11 @@ public class FileChooser {
 		}
 		return defaultName;
 	}
-	
+
 	private class FilterList{
 		private final String[] filterExtensions;
 		private final String[] filterNames;
-		
+
 		public  FilterList(List<TGFileFormat> formats) {
 			int size = (formats.size() + 2);
 			this.filterNames = new String[size];
@@ -153,14 +153,14 @@ public class FileChooser {
 			this.filterNames[(size - 1)] = new String("All Files");
 			this.filterExtensions[(size - 1)] = new String("*.*");
 		}
-		
+
 		public String[] getFilterExtensions() {
 			return this.filterExtensions;
 		}
-		
+
 		public String[] getFilterNames() {
 			return this.filterNames;
 		}
-		
+
 	}
 }

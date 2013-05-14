@@ -10,55 +10,55 @@ import org.herac.tuxguitar.graphics.TGImage;
 import org.herac.tuxguitar.graphics.TGPainter;
 
 public class TGImageImpl implements TGImage {
-	
+
 	private Image handle;
-	
+
 	public TGImageImpl( Image handle ){
 		this.handle = handle;
 	}
-	
+
 	public TGImageImpl( Device device , int width , int height ){
 		this( new Image(device,width,height) );
 	}
-	
+
 	public TGImageImpl(Device device, ImageData source, ImageData mask){
 		this( new Image(device,source,mask) );
 	}
-	
+
 	@Override
 	public TGPainter createPainter() {
 		return new TGPainterImpl(this.handle);
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return this.handle.getBounds().width;
 	}
-	
+
 	@Override
 	public int getHeight() {
 		return this.handle.getBounds().height;
 	}
-	
+
 	public Image getHandle(){
 		return this.handle;
 	}
-	
+
 	@Override
 	public boolean isDisposed(){
 		return this.handle.isDisposed();
 	}
-	
+
 	@Override
 	public void dispose(){
 		this.handle.dispose();
 	}
-	
+
 	@Override
 	public void applyTransparency( TGColor background ){
 		RGB alpha = new RGB( background.getRed(), background.getGreen(), background.getBlue() );
 		RGB none = new RGB((0xff ^ alpha.red),(0xff ^ alpha.green),(0xff ^ alpha.blue));
-		
+
 		Image srcImage = this.handle;
 		ImageData srcData = srcImage.getImageData();
 		ImageData maskData = new ImageData(srcData.width,srcData.height,1,new PaletteData(new RGB[]{ none,alpha }  ));
@@ -73,7 +73,7 @@ public class TGImageImpl implements TGImage {
 			}
 		}
 		this.handle = new Image(srcImage.getDevice(),srcData,maskData);
-		
+
 		srcImage.dispose();
 	}
 }

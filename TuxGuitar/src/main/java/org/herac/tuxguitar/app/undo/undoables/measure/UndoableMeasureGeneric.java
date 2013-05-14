@@ -17,11 +17,11 @@ public class UndoableMeasureGeneric implements UndoableEdit{
 	private UndoableCaretHelper redoCaret;
 	private TGMeasure undoMeasure;
 	private TGMeasure redoMeasure;
-	
+
 	private UndoableMeasureGeneric(){
 		super();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -31,7 +31,7 @@ public class UndoableMeasureGeneric implements UndoableEdit{
 		this.redoCaret.update();
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -41,17 +41,17 @@ public class UndoableMeasureGeneric implements UndoableEdit{
 		this.undoCaret.update();
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	private void replace(TGMeasure replace){
 		TGTrack track = TuxGuitar.instance().getSongManager().getTrack(this.trackNumber);
 		if(track != null && replace != null){
@@ -61,7 +61,7 @@ public class UndoableMeasureGeneric implements UndoableEdit{
 			TuxGuitar.instance().getTablatureEditor().getTablature().updateMeasure(header.getNumber());
 		}
 	}
-	
+
 	public static UndoableMeasureGeneric startUndo( TGMeasure measure ){
 		UndoableMeasureGeneric undoable = new UndoableMeasureGeneric();
 		undoable.doAction = UNDO_ACTION;
@@ -70,13 +70,13 @@ public class UndoableMeasureGeneric implements UndoableEdit{
 		undoable.undoMeasure = measure.clone(TuxGuitar.instance().getSongManager().getFactory(),measure.getHeader().clone(TuxGuitar.instance().getSongManager().getFactory()));
 		return undoable;
 	}
-	
+
 	public UndoableMeasureGeneric endUndo( TGMeasure measure ){
 		this.redoCaret = new UndoableCaretHelper();
 		this.redoMeasure = measure.clone(TuxGuitar.instance().getSongManager().getFactory(),measure.getHeader().clone(TuxGuitar.instance().getSongManager().getFactory()));
 		return this;
 	}
-	
+
 	public static UndoableMeasureGeneric startUndo(){
 		/*
 		UndoableMeasureGeneric undoable = new UndoableMeasureGeneric();
@@ -89,7 +89,7 @@ public class UndoableMeasureGeneric implements UndoableEdit{
 		*/
 		return startUndo( getCaret().getMeasure() );
 	}
-	
+
 	public UndoableMeasureGeneric endUndo(){
 		/*
 		Caret caret = getCaret();
@@ -99,7 +99,7 @@ public class UndoableMeasureGeneric implements UndoableEdit{
 		*/
 		return endUndo( getCaret().getMeasure() );
 	}
-	
+
 	private static Caret getCaret(){
 		return TuxGuitar.instance().getTablatureEditor().getTablature().getCaret();
 	}

@@ -115,15 +115,15 @@ class TrackTableRow {
 		//Solo-Mute
 		soloMute.setText(getSoloMute(track));
 		soloMute.setData(track);
-		
+
 		//Name
 		name.setText(track.getName());
 		name.setData(track);
-		
+
 		//Instrument
 		instrument.setText(getInstrument(track));
 		instrument.setData(track);
-		
+
 		canvas.setTrack(track);
 	}
 
@@ -134,7 +134,7 @@ class TrackTableRow {
 		}
 		return new String();
 	}
-	
+
 	private static String getSoloMute(TGTrack track){
 		if( track.isSolo() ){
 			return TuxGuitar.getProperty("track.short-solo-mute.s");

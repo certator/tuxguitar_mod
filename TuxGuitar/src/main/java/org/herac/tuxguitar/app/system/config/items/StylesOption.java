@@ -24,7 +24,7 @@ import org.herac.tuxguitar.app.system.config.TGConfigKeys;
 public class StylesOption extends Option{
 	private static final int BUTTON_WIDTH = 200;
 	private static final int BUTTON_HEIGHT = 0;
-	
+
 	protected boolean initialized;
 	protected FontData defaultFontData;
 	protected FontData noteFontData;
@@ -36,24 +36,24 @@ public class StylesOption extends Option{
 	protected FontData printerTSFontData;
 	protected FontData printerTextFontData;
 	protected FontData printerLyricFontData;
-	
+
 	protected Button defaultFontButton;
 	protected Button noteFontButton;
 	protected Button timeSignatureFontButton;
 	protected Button textFontButton;
 	protected Button lyricFontButton;
-	
+
 	protected Button printerDefaultFontButton;
 	protected Button printerNoteFontButton;
 	protected Button printerTSFontButton;
 	protected Button printerTextFontButton;
 	protected Button printerLyricFontButton;
-	
+
 	protected ButtonColor scoreNoteColorButton;
 	protected ButtonColor tabNoteColorButton;
 	protected ButtonColor playNoteColorButton;
 	protected ButtonColor linesColorButton;
-	
+
 	public StylesOption(TGConfigEditor configEditor,ToolBar toolBar,final Composite parent){
 		super(configEditor,toolBar,parent,TuxGuitar.getProperty("settings.config.styles"));
 		this.initialized = false;
@@ -68,92 +68,92 @@ public class StylesOption extends Option{
 		this.printerTextFontData = new FontData();
 		this.printerLyricFontData = new FontData();
 	}
-	
+
 	@Override
 	public void createOption(){
 		getToolItem().setText(TuxGuitar.getProperty("settings.config.styles"));
 		getToolItem().setImage(TuxGuitar.instance().getIconManager().getOptionStyle());
 		getToolItem().addSelectionListener(this);
-		
+
 		//=================================================== EDITOR STYLES ===================================================//
 		showLabel(getComposite(),SWT.TOP | SWT.LEFT | SWT.WRAP,SWT.BOLD,0,TuxGuitar.getProperty("settings.config.styles.general"));
-		
+
 		Composite composite = new Composite(getComposite(),SWT.NONE);
 		composite.setLayout(new GridLayout(2,false));
 		composite.setLayoutData(getTabbedData());
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.font.default"));
 		this.defaultFontButton = new Button(composite, SWT.PUSH);
 		this.defaultFontButton.setLayoutData(makeButtonData());
 		this.addFontButtonListeners(this.defaultFontButton,this.defaultFontData);
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.font.note"));
 		this.noteFontButton = new Button(composite, SWT.PUSH);
 		this.noteFontButton.setLayoutData(makeButtonData());
 		this.addFontButtonListeners(this.noteFontButton,this.noteFontData);
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.font.lyric"));
 		this.lyricFontButton = new Button(composite, SWT.PUSH);
 		this.lyricFontButton.setLayoutData(makeButtonData());
 		this.addFontButtonListeners(this.lyricFontButton,this.lyricFontData);
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.font.text"));
 		this.textFontButton = new Button(composite, SWT.PUSH);
 		this.textFontButton.setLayoutData(makeButtonData());
 		this.addFontButtonListeners(this.textFontButton,this.textFontData);
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.font.time-signature"));
 		this.timeSignatureFontButton = new Button(composite, SWT.PUSH);
 		this.timeSignatureFontButton.setLayoutData(makeButtonData());
 		this.addFontButtonListeners(this.timeSignatureFontButton,this.timeSignatureFontData);
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.color.score-note"));
 		this.scoreNoteColorButton = new ButtonColor(composite, SWT.PUSH, makeButtonData(), TuxGuitar.getProperty("choose"));
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.color.tab-note"));
 		this.tabNoteColorButton = new ButtonColor(composite, SWT.PUSH, makeButtonData(), TuxGuitar.getProperty("choose"));
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.color.play-note"));
 		this.playNoteColorButton = new ButtonColor(composite, SWT.PUSH, makeButtonData(), TuxGuitar.getProperty("choose"));
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.color.lines"));
 		this.linesColorButton = new ButtonColor(composite, SWT.PUSH, makeButtonData(), TuxGuitar.getProperty("choose"));
-		
+
 		//=================================================== PRINTER STYLES ===================================================//
 		showLabel(getComposite(),SWT.TOP | SWT.LEFT | SWT.WRAP,SWT.BOLD,0,TuxGuitar.getProperty("settings.config.styles.printer"));
-		
+
 		composite = new Composite(getComposite(),SWT.NONE);
 		composite.setLayout(new GridLayout(2,false));
 		composite.setLayoutData(getTabbedData());
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.font.default"));
 		this.printerDefaultFontButton = new Button(composite, SWT.PUSH);
 		this.printerDefaultFontButton.setLayoutData(makeButtonData());
 		this.addFontButtonListeners(this.printerDefaultFontButton,this.printerDefaultFontData);
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.font.note"));
 		this.printerNoteFontButton = new Button(composite, SWT.PUSH);
 		this.printerNoteFontButton.setLayoutData(makeButtonData());
 		this.addFontButtonListeners(this.printerNoteFontButton,this.printerNoteFontData);
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.font.lyric"));
 		this.printerLyricFontButton = new Button(composite, SWT.PUSH);
 		this.printerLyricFontButton.setLayoutData(makeButtonData());
 		this.addFontButtonListeners(this.printerLyricFontButton,this.printerLyricFontData);
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.font.text"));
 		this.printerTextFontButton = new Button(composite, SWT.PUSH);
 		this.printerTextFontButton.setLayoutData(makeButtonData());
 		this.addFontButtonListeners(this.printerTextFontButton,this.printerTextFontData);
-		
+
 		showLabel(composite,SWT.FILL,SWT.CENTER,SWT.LEFT | SWT.WRAP,SWT.NORMAL,0,TuxGuitar.getProperty("settings.config.styles.font.time-signature"));
 		this.printerTSFontButton = new Button(composite, SWT.PUSH);
 		this.printerTSFontButton.setLayoutData(makeButtonData());
 		this.addFontButtonListeners(this.printerTSFontButton,this.printerTSFontData);
-		
+
 		this.loadConfig();
 	}
-	
+
 	private void addFontButtonListeners(final Button button, final FontData fontData){
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -172,16 +172,16 @@ public class StylesOption extends Option{
 			}
 		});
 	}
-	
+
 	protected void loadFontData(FontData src, FontData dst, Button button){
 		copyFontData(src, dst);
 		setButtonFontData(button, dst);
 	}
-	
+
 	protected void loadColor(ButtonColor button, RGB rgb){
 		button.loadColor(rgb);
 	}
-	
+
 	protected void setButtonFontData(Button button,FontData fontData) {
 		String text = fontData.getName();
 		if( (fontData.getStyle() & SWT.BOLD) != 0 ){
@@ -193,19 +193,19 @@ public class StylesOption extends Option{
 		text += (" " + fontData.getHeight());
 		button.setText(text);
 	}
-	
+
 	protected void copyFontData(FontData src, FontData dst){
 		dst.setName( src.getName() );
 		dst.setStyle( src.getStyle() );
 		dst.setHeight( src.getHeight() );
 	}
-	
+
 	protected void copyRGB(RGB src, RGB dst){
 		dst.red = src.red;
 		dst.green = src.green;
 		dst.blue = src.blue;
 	}
-	
+
 	protected void loadConfig(){
 		new Thread(new Runnable() {
 			@Override
@@ -250,14 +250,14 @@ public class StylesOption extends Option{
 			}
 		}).start();
 	}
-	
+
 	public GridData makeButtonData(){
 		GridData data = new GridData(SWT.FILL, SWT.CENTER, true, true);
 		data.minimumWidth = BUTTON_WIDTH;
 		data.minimumHeight = BUTTON_HEIGHT;
 		return data;
 	}
-	
+
 	@Override
 	public void updateConfig(){
 		if(this.initialized){
@@ -277,7 +277,7 @@ public class StylesOption extends Option{
 			getConfig().setProperty(TGConfigKeys.COLOR_LINE,this.linesColorButton.getValue());
 		}
 	}
-	
+
 	@Override
 	public void updateDefaults(){
 		if(this.initialized){
@@ -297,7 +297,7 @@ public class StylesOption extends Option{
 			getConfig().setProperty(TGConfigKeys.COLOR_LINE,getDefaults().getProperty(TGConfigKeys.COLOR_LINE));
 		}
 	}
-	
+
 	@Override
 	public void applyConfig(boolean force){
 		if(force || this.initialized){
@@ -309,12 +309,12 @@ public class StylesOption extends Option{
 			});
 		}
 	}
-	
+
 	private class ButtonColor {
 		protected Button button;
 		protected Color color;
 		protected RGB value;
-		
+
 		public ButtonColor(Composite parent, int style, Object layoutData, String text){
 			this.value = new RGB(0,0,0);
 			this.button = new Button(parent, style);
@@ -322,25 +322,25 @@ public class StylesOption extends Option{
 			this.button.setText(text);
 			this.addListeners();
 		}
-		
+
 		protected void loadColor(RGB rgb){
 			this.value.red = rgb.red;
 			this.value.green = rgb.green;
 			this.value.blue = rgb.blue;
-			
+
 			Color color = new Color(this.button.getDisplay(), this.value);
 			this.button.setForeground(color);
 			this.disposeColor();
 			this.color = color;
 		}
-		
+
 		protected void disposeColor(){
 			if(this.color != null && !this.color.isDisposed()){
 				this.color.dispose();
 				this.color = null;
 			}
 		}
-		
+
 		private void addListeners(){
 			this.button.addSelectionListener(new SelectionAdapter() {
 				@Override
@@ -363,7 +363,7 @@ public class StylesOption extends Option{
 				}
 			});
 		}
-		
+
 		protected RGB getValue(){
 			return this.value;
 		}

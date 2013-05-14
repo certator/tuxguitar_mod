@@ -3,7 +3,7 @@ package org.herac.tuxguitar.app.system.keybindings;
 import org.eclipse.swt.SWT;
 
 public class KeyBindingUtil {
-	
+
 	public static final int F1 = SWT.F1;
 	public static final int F2 = SWT.F2;
 	public static final int F3 = SWT.F3;
@@ -50,16 +50,16 @@ public class KeyBindingUtil {
 	public static final int MULTIPLY = SWT.KEYPAD_MULTIPLY;
 	public static final int DIVIDE = SWT.KEYPAD_DIVIDE;
 	public static final int DECIMAL = SWT.KEYPAD_DECIMAL;
-	
+
 	public static final String MASK_SEPARATOR = "+";
-	
+
 	public static final KeyCode[] MASK_KEYS = new KeyCode[]{
 		new KeyCode(CONTROL, "Control"),
 		new KeyCode(SHIFT, "Shift"),
 		new KeyCode(ALT,"Alt"),
 		new KeyCode(COMMAND,"\u2318"),
 	};
-	
+
 	public static final KeyCode[] SPECIAL_KEYS = new KeyCode[]{
 		new KeyCode(F1, "F1"),
 		new KeyCode(F2, "F2"),
@@ -90,7 +90,7 @@ public class KeyBindingUtil {
 		new KeyCode(SPACE,"Space"),
 		new KeyCode(ENTER,"Enter"),
 	};
-	
+
 	public static boolean isSpecialKey( int code ){
 		for(int i = 0; i < KeyBindingUtil.SPECIAL_KEYS.length; i++){
 			if (code == KeyBindingUtil.SPECIAL_KEYS[i].getCode()){
@@ -99,7 +99,7 @@ public class KeyBindingUtil {
 		}
 		return false;
 	}
-	
+
 	public static String getConversionKey( int code ){
 		for(int i = 0; i < KeyBindingUtil.SPECIAL_KEYS.length; i++){
 			if (code == KeyBindingUtil.SPECIAL_KEYS[i].getCode()){
@@ -108,7 +108,7 @@ public class KeyBindingUtil {
 		}
 		return null;
 	}
-	
+
 	public static String getConversionMask( int mask ){
 		String fullMask = new String();
 		for(int i = 0; i < KeyBindingUtil.MASK_KEYS.length; i++){

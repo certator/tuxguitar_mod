@@ -22,19 +22,19 @@ import org.herac.tuxguitar.app.util.ConfirmDialog;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class NewFileAction extends Action{
-	
+
 	public static final String NAME = "action.file.new";
-	
+
 	public static final String PROPERTY_TEMPLATE = "template";
-	
+
 	public NewFileAction() {
 		super(NAME, AUTO_LOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		final Object propertyTemplate = actionData.get(PROPERTY_TEMPLATE);
-		
+
 		if(TuxGuitar.instance().getFileHistory().isUnsavedFile()){
 			ConfirmDialog confirm = new ConfirmDialog(TuxGuitar.getProperty("file.save-changes-question"));
 			confirm.setDefaultStatus( ConfirmDialog.STATUS_CANCEL );
@@ -69,10 +69,10 @@ public class NewFileAction extends Action{
 			}
 		}
 		newSong(propertyTemplate);
-		
+
 		return 0;
 	}
-	
+
 	protected void newSong(final Object propertyTemplate){
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		new Thread(new Runnable() {
@@ -86,7 +86,7 @@ public class NewFileAction extends Action{
 			}
 		}).start();
 	}
-	
+
 	protected TGTemplate getTemplate(Object propertyTemplate){
 		TGTemplate tgTemplate = null;
 		if( propertyTemplate instanceof TGTemplate ){

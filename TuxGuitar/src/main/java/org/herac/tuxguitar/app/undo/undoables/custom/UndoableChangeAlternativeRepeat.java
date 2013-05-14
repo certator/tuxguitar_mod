@@ -16,11 +16,11 @@ public class UndoableChangeAlternativeRepeat implements UndoableEdit{
 	private long position;
 	private int undoRepeatAlternative;
 	private int redoRepeatAlternative;
-	
+
 	private UndoableChangeAlternativeRepeat(){
 		super();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -31,10 +31,10 @@ public class UndoableChangeAlternativeRepeat implements UndoableEdit{
 		TGMeasure measure = manager.getTrackManager().getMeasureAt(manager.getFirstTrack(),this.position);
 		TuxGuitar.instance().getTablatureEditor().getTablature().updateMeasure(measure.getNumber());
 		this.redoCaret.update();
-		
+
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -45,20 +45,20 @@ public class UndoableChangeAlternativeRepeat implements UndoableEdit{
 		TGMeasure measure = manager.getTrackManager().getMeasureAt(manager.getFirstTrack(),this.position);
 		TuxGuitar.instance().getTablatureEditor().getTablature().updateMeasure(measure.getNumber());
 		this.undoCaret.update();
-		
+
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public static UndoableChangeAlternativeRepeat startUndo(){
 		UndoableChangeAlternativeRepeat undoable = new UndoableChangeAlternativeRepeat();
 		Caret caret = getCaret();
@@ -66,18 +66,18 @@ public class UndoableChangeAlternativeRepeat implements UndoableEdit{
 		undoable.undoCaret = new UndoableCaretHelper();
 		undoable.position = caret.getPosition();
 		undoable.undoRepeatAlternative = caret.getMeasure().getHeader().getRepeatAlternative();
-		
+
 		return undoable;
 	}
-	
+
 	public UndoableChangeAlternativeRepeat endUndo(int redoRepeatAlternative){
 		this.redoCaret = new UndoableCaretHelper();
 		this.redoRepeatAlternative = redoRepeatAlternative;
 		return this;
 	}
-	
+
 	private static Caret getCaret(){
 		return TuxGuitar.instance().getTablatureEditor().getTablature().getCaret();
 	}
-	
+
 }

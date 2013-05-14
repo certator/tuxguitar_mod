@@ -40,7 +40,7 @@ public class BendEditor{
 	private static final int Y_SPACING = 15;
 	private static final int X_LENGTH = TGEffectBend.MAX_POSITION_LENGTH + 1;
 	private static final int Y_LENGTH = TGEffectBend.MAX_VALUE_LENGTH + 1;
-	
+
 	private int[] x;
 	private int[] y;
 	private int width;
@@ -50,18 +50,18 @@ public class BendEditor{
 	protected DefaultBend[] defaultBends;
 	protected TGEffectBend result;
 	protected boolean cancelled;
-	
+
 	public BendEditor() {
 		this.init();
 	}
-	
+
 	private void init(){
 		this.x = new int[X_LENGTH];
 		this.y = new int[Y_LENGTH];
 		this.width = ((X_SPACING * X_LENGTH) - X_SPACING);
 		this.height = ((Y_SPACING * Y_LENGTH) - Y_SPACING);
 		this.points = new ArrayList<Point>();
-		
+
 		for(int i = 0;i < this.x.length;i++){
 			this.x[i] = ((i + 1) * X_SPACING);
 		}
@@ -69,36 +69,36 @@ public class BendEditor{
 			this.y[i] = ((i + 1) * Y_SPACING);
 		}
 	}
-	
+
 	public boolean isCancelled(){
 		return this.cancelled;
 	}
-	
+
 	public TGEffectBend getResult(){
 		return this.result;
 	}
-	
+
 	public void show(Shell shell,final TGNote note){
 		this.cancelled = true;
-		
+
 		final Shell dialog = DialogUtils.newDialog(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-		
+
 		dialog.setLayout(new GridLayout());
 		dialog.setText(TuxGuitar.getProperty("bend.editor"));
-		
+
 		//----------------------------------------------------------------------
 		Composite composite = new Composite(dialog,SWT.NONE);
 		composite.setLayout(new GridLayout(3,false));
 		composite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		Composite leftComposite = new Composite(composite,SWT.NONE);
 		leftComposite.setLayout(new GridLayout());
 		leftComposite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		Composite rightComposite = new Composite(composite,SWT.NONE);
 		rightComposite.setLayout(new GridLayout());
 		rightComposite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		//-------------EDITOR---------------------------------------------------
 		this.editor = new Composite(leftComposite, SWT.BORDER | SWT.DOUBLE_BUFFERED);
 		this.editor.setBackground(this.editor.getDisplay().getSystemColor(SWT.COLOR_WHITE));
@@ -117,10 +117,10 @@ public class BendEditor{
 				BendEditor.this.editor.redraw();
 			}
 		});
-		
+
 		//-------------DEFAULT BEND LIST---------------------------------------------------
 		this.resetDefaultBends();
-		
+
 		final org.eclipse.swt.widgets.List defaultBendList = new org.eclipse.swt.widgets.List(rightComposite,SWT.BORDER | SWT.SINGLE);
 		for(int i = 0;i < BendEditor.this.defaultBends.length;i++){
 			defaultBendList.add(this.defaultBends[i].getName());
@@ -137,7 +137,7 @@ public class BendEditor{
 				}
 			}
 		});
-		
+
 		//------------------BUTTONS--------------------------
 		Button buttonClean = new Button(rightComposite, SWT.PUSH);
 		buttonClean.setLayoutData(resizeData(new GridData(SWT.FILL,SWT.BOTTOM,true,true), 80,25));
@@ -172,24 +172,24 @@ public class BendEditor{
 				dialog.dispose();
 			}
 		});
-		
+
 		if(note.getEffect().isBend()){
 			setBend(note.getEffect().getBend());
 		}else{
 			setBend(this.defaultBends[0].getBend());
 		}
-		
+
 		dialog.setDefaultButton( buttonOK );
-		
+
 		DialogUtils.openDialog(dialog, DialogUtils.OPEN_STYLE_CENTER | DialogUtils.OPEN_STYLE_PACK | DialogUtils.OPEN_STYLE_WAIT);
 	}
-	
+
 	private GridData resizeData(GridData data,int minimumWidth,int minimumHeight){
 		data.minimumWidth = minimumWidth;
 		data.minimumHeight = minimumHeight;
 		return data;
 	}
-	
+
 	protected void paintEditor(TGPainterImpl painter){
 		for(int i = 0;i < this.x.length;i++){
 			this.setStyleX(painter,i);
@@ -207,13 +207,13 @@ public class BendEditor{
 			painter.lineTo(X_SPACING + this.width,this.y[i]);
 			painter.closePath();
 		}
-		
+
 		Iterator<Point> it = null;
 		Point prevPoint = null;
 		painter.setLineStyleSolid();
 		painter.setLineWidth(2);
 		painter.setForeground(new TGColorImpl(this.editor.getDisplay().getSystemColor(SWT.COLOR_GRAY)));
-		
+
 		it = this.points.iterator();
 		while(it.hasNext()){
 			Point point = it.next();
@@ -225,10 +225,10 @@ public class BendEditor{
 			}
 			prevPoint = point;
 		}
-		
+
 		painter.setLineWidth(5);
 		painter.setForeground(new TGColorImpl(this.editor.getDisplay().getSystemColor(SWT.COLOR_BLACK)));
-		
+
 		it = this.points.iterator();
 		while(it.hasNext()){
 			Point point = it.next();
@@ -239,7 +239,7 @@ public class BendEditor{
 		}
 		painter.setLineWidth(1);
 	}
-	
+
 	private void setStyleX(TGPainterImpl painter,int i){
 		painter.setLineStyleSolid();
 		if(i == 0 || i == (X_LENGTH - 1)){
@@ -251,14 +251,14 @@ public class BendEditor{
 			}
 		}
 	}
-	
+
 	private void setStyleY(TGPainterImpl painter,int i){
 		painter.setLineStyleSolid();
 		if(i == 0 || i == (Y_LENGTH - 1)){
 			painter.setForeground(new TGColorImpl(this.editor.getDisplay().getSystemColor(SWT.COLOR_BLACK)));
 		}else{
 			painter.setForeground(new TGColorImpl(this.editor.getDisplay().getSystemColor(SWT.COLOR_RED)));
-			
+
 			if((i % 2) > 0){
 				painter.setLineStyleDot();
 				painter.setForeground(new TGColorImpl(this.editor.getDisplay().getSystemColor(SWT.COLOR_GRAY)));
@@ -267,7 +267,7 @@ public class BendEditor{
 			}
 		}
 	}
-	
+
 	protected void checkPoint(int x,int y){
 		Point point = new Point(this.getX(x),this.getY(y));
 		if(!this.removePoint(point)){
@@ -276,7 +276,7 @@ public class BendEditor{
 			this.orderPoints();
 		}
 	}
-	
+
 	protected boolean removePoint(Point point){
 		Iterator<Point> it = this.points.iterator();
 		while(it.hasNext()){
@@ -288,7 +288,7 @@ public class BendEditor{
 		}
 		return false;
 	}
-	
+
 	protected void orderPoints(){
 		for(int i = 0;i < this.points.size();i++){
 			Point minPoint = null;
@@ -302,7 +302,7 @@ public class BendEditor{
 			this.points.add(i,minPoint);
 		}
 	}
-	
+
 	protected void removePointsAtXLine(int x){
 		Iterator<Point> it = this.points.iterator();
 		while(it.hasNext()){
@@ -313,11 +313,11 @@ public class BendEditor{
 			}
 		}
 	}
-	
+
 	protected void addPoint(Point point){
 		this.points.add(point);
 	}
-	
+
 	protected int getX(int pointX){
 		int currPointX = -1;
 		for(int i = 0;i < this.x.length;i++){
@@ -333,7 +333,7 @@ public class BendEditor{
 		}
 		return currPointX;
 	}
-	
+
 	protected int getY(int pointY){
 		int currPointY = -1;
 		for(int i = 0;i < this.y.length;i++){
@@ -349,11 +349,11 @@ public class BendEditor{
 		}
 		return currPointY;
 	}
-	
+
 	public boolean isEmpty(){
 		return this.points.isEmpty();
 	}
-	
+
 	public TGEffectBend getBend(){
 		if(this.points != null && !this.points.isEmpty()){
 			TGEffectBend bend = TuxGuitar.instance().getSongManager().getFactory().newEffectBend();//new BendEffect();
@@ -366,7 +366,7 @@ public class BendEditor{
 		}
 		return null;
 	}
-	
+
 	private void addBendPoint(TGEffectBend effect,Point point){
 		int position = 0;
 		int value = 0;
@@ -382,7 +382,7 @@ public class BendEditor{
 		}
 		effect.addPoint(position,value);
 	}
-	
+
 	public void setBend(TGEffectBend effect){
 		this.points.clear();
 		Iterator<BendPoint> it = effect.getPoints().iterator();
@@ -391,7 +391,7 @@ public class BendEditor{
 			this.makePoint(bendPoint);
 		}
 	}
-	
+
 	private void makePoint(TGEffectBend.BendPoint bendPoint){
 		int indexX = bendPoint.getPosition();
 		int indexY = (this.y.length - bendPoint.getValue()) - 1;
@@ -402,30 +402,30 @@ public class BendEditor{
 			this.points.add(point);
 		}
 	}
-	
+
 	public int getWidth(){
 		return this.width;
 	}
-	
+
 	public int getHeight(){
 		return this.height;
 	}
-	
+
 	private void resetDefaultBends(){
 		this.defaultBends = new DefaultBend[5];
-		
+
 		this.defaultBends[0] = new DefaultBend(TuxGuitar.getProperty("bend.bend"),TuxGuitar.instance().getSongManager().getFactory().newEffectBend());
 		this.defaultBends[0].getBend().addPoint(0,0);
 		this.defaultBends[0].getBend().addPoint(6,(TGEffectBend.SEMITONE_LENGTH * 4));
 		this.defaultBends[0].getBend().addPoint(12,(TGEffectBend.SEMITONE_LENGTH * 4));
-		
+
 		this.defaultBends[1] = new DefaultBend(TuxGuitar.getProperty("bend.bend-release"),TuxGuitar.instance().getSongManager().getFactory().newEffectBend());
 		this.defaultBends[1].getBend().addPoint(0,0);
 		this.defaultBends[1].getBend().addPoint(3,(TGEffectBend.SEMITONE_LENGTH * 4));
 		this.defaultBends[1].getBend().addPoint(6,(TGEffectBend.SEMITONE_LENGTH * 4));
 		this.defaultBends[1].getBend().addPoint(9,0);
 		this.defaultBends[1].getBend().addPoint(12,0);
-		
+
 		this.defaultBends[2] = new DefaultBend(TuxGuitar.getProperty("bend.bend-release-bend"),TuxGuitar.instance().getSongManager().getFactory().newEffectBend());
 		this.defaultBends[2].getBend().addPoint(0,0);
 		this.defaultBends[2].getBend().addPoint(2,(TGEffectBend.SEMITONE_LENGTH * 4));
@@ -434,31 +434,31 @@ public class BendEditor{
 		this.defaultBends[2].getBend().addPoint(8,0);
 		this.defaultBends[2].getBend().addPoint(10,(TGEffectBend.SEMITONE_LENGTH * 4));
 		this.defaultBends[2].getBend().addPoint(12,(TGEffectBend.SEMITONE_LENGTH * 4));
-		
+
 		this.defaultBends[3] = new DefaultBend(TuxGuitar.getProperty("bend.prebend"),TuxGuitar.instance().getSongManager().getFactory().newEffectBend());
 		this.defaultBends[3].getBend().addPoint(0,(TGEffectBend.SEMITONE_LENGTH * 4));
 		this.defaultBends[3].getBend().addPoint(12,(TGEffectBend.SEMITONE_LENGTH * 4));
-		
+
 		this.defaultBends[4] = new DefaultBend(TuxGuitar.getProperty("bend.prebend-release"),TuxGuitar.instance().getSongManager().getFactory().newEffectBend());
 		this.defaultBends[4].getBend().addPoint(0,(TGEffectBend.SEMITONE_LENGTH * 4));
 		this.defaultBends[4].getBend().addPoint(4,(TGEffectBend.SEMITONE_LENGTH * 4));
 		this.defaultBends[4].getBend().addPoint(8,0);
 		this.defaultBends[4].getBend().addPoint(12,0);
 	}
-	
+
 	private class DefaultBend{
 		private final String name;
 		private final TGEffectBend bend;
-		
+
 		public DefaultBend(String name,TGEffectBend bend){
 			this.name = name;
 			this.bend = bend;
 		}
-		
+
 		public TGEffectBend getBend() {
 			return this.bend;
 		}
-		
+
 		public String getName() {
 			return this.name;
 		}

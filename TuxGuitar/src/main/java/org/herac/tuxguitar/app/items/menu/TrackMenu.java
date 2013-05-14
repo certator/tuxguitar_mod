@@ -34,7 +34,7 @@ import org.herac.tuxguitar.graphics.control.TGTrackImpl;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class TrackMenu extends MenuItems{
-	
+
 	private Menu menu;
 	private MenuItem first;
 	private MenuItem last;
@@ -49,19 +49,19 @@ public class TrackMenu extends MenuItems{
 	private MenuItem changeSolo;
 	private MenuItem lyrics;
 	private MenuItem properties;
-	
+
 	public TrackMenu(Menu menu) {
 		this.menu = menu;
 	}
-	
+
 	public TrackMenu(Shell shell, int style) {
 		this(new Menu(shell, style));
 	}
-	
+
 	public Menu getMenu() {
 		return this.menu;
 	}
-	
+
 	@Override
 	public void showItems(){
 		if(!isDisposed()){
@@ -112,12 +112,12 @@ public class TrackMenu extends MenuItems{
 			//--PROPERTIES--
 			this.properties = new MenuItem(this.menu, SWT.PUSH);
 			this.properties.addSelectionListener(TuxGuitar.instance().getAction(TrackPropertiesAction.NAME));
-			
+
 			this.loadIcons();
 			this.loadProperties();
 		}
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		if(!isDisposed()){
@@ -136,7 +136,7 @@ public class TrackMenu extends MenuItems{
 			setMenuItemTextAndAccelerator(this.properties, "track.properties", TrackPropertiesAction.NAME);
 		}
 	}
-	
+
 	@Override
 	public void update(){
 		if(!isDisposed()){
@@ -159,15 +159,15 @@ public class TrackMenu extends MenuItems{
 			this.changeMute.setSelection(track.isMute());
 		}
 	}
-	
+
 	public void loadIcons(){
 		//Nothing to do
 	}
-	
+
 	public boolean isDisposed(){
 		return (this.menu == null || this.menu.isDisposed());
 	}
-	
+
 	public void dispose(){
 		if(!isDisposed()){
 			this.menu.dispose();

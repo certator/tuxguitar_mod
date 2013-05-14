@@ -1,21 +1,21 @@
 package org.herac.tuxguitar.app.actions;
 
 public class ActionLock {
-	
+
 	private static boolean working;
-	
+
 	public synchronized static boolean isLocked(){
 		return working;
 	}
-	
+
 	public synchronized static void lock(){
 		working = true;
 	}
-	
+
 	public synchronized static void unlock(){
 		working = false;
 	}
-	
+
 	public synchronized static void waitFor(){
 		try {
 			while(isLocked()){

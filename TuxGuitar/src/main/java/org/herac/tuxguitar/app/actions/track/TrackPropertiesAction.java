@@ -15,7 +15,7 @@ import org.herac.tuxguitar.graphics.control.TGTrackImpl;
 
 /**
  * @author julian
- * 
+ *
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class TrackPropertiesAction extends Action {

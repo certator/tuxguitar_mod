@@ -20,13 +20,13 @@ import org.herac.tuxguitar.song.models.TGMarker;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class AddMarkerAction extends Action{
-	
+
 	public static final String NAME = "action.marker.add";
-	
+
 	public AddMarkerAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		if(new MarkerEditor(getMarker()).open(getEditor().getTablature().getShell())){
@@ -34,7 +34,7 @@ public class AddMarkerAction extends Action{
 		}
 		return 0;
 	}
-	
+
 	private TGMarker getMarker(){
 		TGMeasureImpl measure = getEditor().getTablature().getCaret().getMeasure();
 		if (measure != null) {

@@ -24,7 +24,7 @@ public class UndoableReplaceMeasures implements UndoableEdit{
 	private int count;
 	private int freeSpace;
 	private long theMove;
-	
+
 	public UndoableReplaceMeasures(int p1,int p2,int toTrack){
 		this.doAction = UNDO_ACTION;
 		this.toTrack = toTrack;
@@ -32,7 +32,7 @@ public class UndoableReplaceMeasures implements UndoableEdit{
 		this.undoMarkers = new UndoMarkers();
 		this.undoTrackMeasures = new TGSongSegmentHelper(TuxGuitar.instance().getSongManager()).copyMeasures(p1,p2);
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -42,41 +42,41 @@ public class UndoableReplaceMeasures implements UndoableEdit{
 			TuxGuitar.instance().getSongManager().addNewMeasureBeforeEnd();
 		}
 		new TGSongSegmentHelper(TuxGuitar.instance().getSongManager()).replaceMeasures(this.redoTrackMeasures.clone(TuxGuitar.instance().getSongManager().getFactory()),this.theMove,this.toTrack);
-		
+
 		TuxGuitar.instance().fireUpdate();
 		this.redoCaret.update();
-		
+
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
 			throw new CannotUndoException();
 		}
-		
+
 		for(int i = this.freeSpace;i < this.count;i ++){
 			TuxGuitar.instance().getSongManager().removeLastMeasure();
 		}
 		new TGSongSegmentHelper(TuxGuitar.instance().getSongManager()).replaceMeasures(this.undoTrackMeasures.clone(TuxGuitar.instance().getSongManager().getFactory()),0,0);
-		
+
 		TuxGuitar.instance().fireUpdate();
 		this.undoMarkers.undo();
 		this.undoCaret.update();
-		
+
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public UndoableReplaceMeasures endUndo(TGSongSegment tracksMeasures,int count,int freeSpace,long theMove){
 		this.redoCaret = new UndoableCaretHelper();
 		this.redoTrackMeasures = tracksMeasures;
@@ -85,10 +85,10 @@ public class UndoableReplaceMeasures implements UndoableEdit{
 		this.theMove = theMove;
 		return this;
 	}
-	
+
 	private class UndoMarkers{
 		private final List<TGMarker> markers;
-		
+
 		public UndoMarkers(){
 			this.markers = new ArrayList<TGMarker>();
 			Iterator<TGMarker> it = TuxGuitar.instance().getSongManager().getMarkers().iterator();
@@ -96,7 +96,7 @@ public class UndoableReplaceMeasures implements UndoableEdit{
 				this.markers.add(it.next().clone(TuxGuitar.instance().getSongManager().getFactory()));
 			}
 		}
-		
+
 		public void undo(){
 			TuxGuitar.instance().getSongManager().removeAllMarkers();
 			Iterator<TGMarker> it = this.markers.iterator();

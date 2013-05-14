@@ -17,17 +17,17 @@ import org.herac.tuxguitar.app.marker.MarkerNavigator;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class GoFirstMarkerAction extends Action{
-	
+
 	public static final String NAME = "action.marker.go-first";
-	
+
 	public GoFirstMarkerAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		new MarkerNavigator().goToSelectedMarker(getSongManager().getFirstMarker());
-		
+
 		return 0;
 	}
 }

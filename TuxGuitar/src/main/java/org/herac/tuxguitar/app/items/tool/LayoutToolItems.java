@@ -28,38 +28,38 @@ import org.herac.tuxguitar.graphics.control.TGLayout;
  */
 public class LayoutToolItems extends ToolItems{
 	public static final String NAME = "layout.items";
-	
+
 	private ToolItem pageLayout;
 	private ToolItem linearLayout;
 	private ToolItem multitrack;
 	private ToolItem scoreEnabled;
 	private ToolItem compact;
-	
+
 	public LayoutToolItems(){
 		super(NAME);
 	}
-	
+
 	@Override
 	public void showItems(ToolBar toolBar){
 		this.pageLayout = new ToolItem(toolBar, SWT.RADIO);
 		this.pageLayout.addSelectionListener(TuxGuitar.instance().getAction(SetPageLayoutAction.NAME));
-		
+
 		this.linearLayout = new ToolItem(toolBar, SWT.RADIO);
 		this.linearLayout.addSelectionListener(TuxGuitar.instance().getAction(SetLinearLayoutAction.NAME));
-		
+
 		this.multitrack = new ToolItem(toolBar, SWT.CHECK);
 		this.multitrack.addSelectionListener(TuxGuitar.instance().getAction(SetMultitrackViewAction.NAME));
-		
+
 		this.scoreEnabled = new ToolItem(toolBar, SWT.CHECK);
 		this.scoreEnabled.addSelectionListener(TuxGuitar.instance().getAction(SetScoreEnabledAction.NAME));
-		
+
 		this.compact = new ToolItem(toolBar, SWT.CHECK);
 		this.compact.addSelectionListener(TuxGuitar.instance().getAction(SetCompactViewAction.NAME));
-		
+
 		this.loadIcons();
 		this.loadProperties();
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		this.pageLayout.setToolTipText(TuxGuitar.getProperty("view.layout.page"));
@@ -68,7 +68,7 @@ public class LayoutToolItems extends ToolItems{
 		this.scoreEnabled.setToolTipText(TuxGuitar.getProperty("view.layout.score-enabled"));
 		this.compact.setToolTipText(TuxGuitar.getProperty("view.layout.compact"));
 	}
-	
+
 	public void loadIcons(){
 		this.pageLayout.setImage(TuxGuitar.instance().getIconManager().getLayoutPage());
 		this.linearLayout.setImage(TuxGuitar.instance().getIconManager().getLayoutLinear());
@@ -76,7 +76,7 @@ public class LayoutToolItems extends ToolItems{
 		this.scoreEnabled.setImage(TuxGuitar.instance().getIconManager().getLayoutScore());
 		this.compact.setImage(TuxGuitar.instance().getIconManager().getLayoutCompact());
 	}
-	
+
 	@Override
 	public void update(){
 		TGLayout layout = getEditor().getTablature().getViewLayout();

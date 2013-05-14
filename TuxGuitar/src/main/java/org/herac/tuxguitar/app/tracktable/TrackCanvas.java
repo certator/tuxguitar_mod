@@ -21,14 +21,14 @@ class TrackCanvas extends Composite implements PaintListener{
 	 * Coefficient to compute the width of one measure according to the height of the component.
 	 */
 	private float widthMeasureCoef = 1.0f;
-	
+
 	/**
 	 * Displayed track
 	 */
 	private TGTrack track;
 
 	/**
-	 * Horizontal scroll. Skip pixels from the left side of the component. 
+	 * Horizontal scroll. Skip pixels from the left side of the component.
 	 */
 	private int hScroll;
 

@@ -31,20 +31,20 @@ import org.herac.tuxguitar.song.models.TGVoice;
 
 public class MouseKit {
 	private static final int FIRST_LINE_VALUES[] = new int[] {65,45,52,55};
-	
+
 	private final EditorKit kit;
 	private TGImage back = null;
 	private int lastx;
 	private int lasty;
-	
+
 	public MouseKit(EditorKit kit){
 		this.kit = kit;
 	}
-	
+
 	private TGLayout.TrackPosition getTrackPosition(int y) {
 		return this.kit.getTablature().getViewLayout().getTrackPositionAt(y);
 	}
-	
+
 	public void tryBack(){
 		if(!TuxGuitar.instance().isLocked() && !ActionLock.isLocked() && !this.kit.getTablature().isPainting()){
 			TGPainter painter = new TGPainterImpl(new GC(this.kit.getTablature()));
@@ -57,19 +57,19 @@ public class MouseKit {
 			this.back.dispose();
 		}
 	}
-	
+
 	public void mouseExit() {
 		tryBack();
 	}
-	
+
 	public void mouseMove(MouseEvent e) {
 		this.tryBack();
 		if(!TuxGuitar.instance().isLocked() && !ActionLock.isLocked() && !this.kit.getTablature().isPainting()){
-			
+
 			TGTrackImpl track = this.kit.findSelectedTrack(e.y);
 			if (track != null) {
 				TGMeasureImpl measure = this.kit.findSelectedMeasure(track,e.x,e.y);
-				
+
 				if(measure != null && measure.getTs() != null){
 					float scale = this.kit.getTablature().getViewLayout().getScale();
 					int minValue = track.getString(track.stringCount()).getValue();
@@ -79,12 +79,12 @@ public class MouseKit {
 					int width = (int)(10.0f * scale);
 					int topHeight = measure.getTs().getPosition(TGTrackSpacing.POSITION_SCORE_MIDDLE_LINES);
 					int bottomHeight = (measure.getTs().getPosition(TGTrackSpacing.POSITION_TABLATURE) - measure.getTs().getPosition(TGTrackSpacing.POSITION_SCORE_DOWN_LINES));
-					
+
 					int x1 = (int)(e.x - (width / 2.0f));
 					int x2 = (int)(e.x + (width / 2.0f));
 					int y1 = (measure.getPosY() + measure.getTs().getPosition(TGTrackSpacing.POSITION_SCORE_MIDDLE_LINES));
 					int y2 = (y1 + (lineSpacing * 5));
-					
+
 					if(e.y < (y1 + 3) && e.y >= (y1 - topHeight)){
 						this.back = new TGImageImpl(TuxGuitar.instance().getDisplay(),width + 1,topHeight + 1);
 						TGPainter painter = new TGPainterImpl(new GC(this.kit.getTablature()));
@@ -103,13 +103,13 @@ public class MouseKit {
 							painter.closePath();
 						}
 						painter.dispose();
-						
+
 						this.lastx = x1;
 						this.lasty = (y1 - topHeight);
 					}else if(e.y > (y2 - 3) && e.y  < y2 + bottomHeight){
 						this.back = new TGImageImpl(TuxGuitar.instance().getDisplay(),width + 1,bottomHeight + 1);
 						TGPainter painter = new TGPainterImpl(new GC(this.kit.getTablature()));
-						painter.copyArea(this.back,x1, y2);	
+						painter.copyArea(this.back,x1, y2);
 						painter.setForeground(this.kit.getTablature().getViewLayout().getResources().getLineColor());
 						tempValue -= 14;
 						for(int y = y2; y <= (y2 + bottomHeight); y += lineSpacing){
@@ -127,7 +127,7 @@ public class MouseKit {
 							}
 						}
 						painter.dispose();
-						
+
 						this.lastx = x1;
 						this.lasty = y2;
 					}
@@ -135,11 +135,11 @@ public class MouseKit {
 			}
 		}
 	}
-	
+
 	public void mouseUp(MouseEvent e) {
 		if(!TuxGuitar.instance().isLocked() && !ActionLock.isLocked() && !this.kit.getTablature().isPainting()){
 			ActionLock.lock();
-			
+
 			TGLayout.TrackPosition pos = getTrackPosition(e.y) ;
 			if(pos != null){
 				TGTrackImpl track = this.kit.getTablature().getCaret().getTrack();
@@ -147,24 +147,24 @@ public class MouseKit {
 				if(measure.getTs() != null){
 					int minValue = track.getString(track.stringCount()).getValue();
 					int maxValue = track.getString(1).getValue() + 29; //Max frets = 29
-					
+
 					int lineSpacing = this.kit.getTablature().getViewLayout().getScoreLineSpacing();
-					
+
 					int topHeight = measure.getTs().getPosition(TGTrackSpacing.POSITION_SCORE_MIDDLE_LINES);
 					int bottomHeight = (measure.getTs().getPosition(TGTrackSpacing.POSITION_TABLATURE) - measure.getTs().getPosition(TGTrackSpacing.POSITION_SCORE_DOWN_LINES));
-					
+
 					int y1 = (pos.getPosY() + measure.getTs().getPosition(TGTrackSpacing.POSITION_SCORE_MIDDLE_LINES));
 					int y2 = (y1 + (lineSpacing * 5));
-					
+
 					if(e.y >= (y1 - topHeight) && e.y  < (y2 + bottomHeight)){
-						
+
 						int value = 0;
 						int tempValue = FIRST_LINE_VALUES[measure.getClef() - 1];
 						double limit = (topHeight / (lineSpacing / 2.00));
 						for(int i = 0;i < limit;i ++){
 							tempValue += (TGMeasureImpl.ACCIDENTAL_NOTES[(tempValue + 1) % 12])?2:1;
 						}
-						
+
 						float minorDistance = 0;
 						for(float y = (y1 - topHeight); y <= (y2 + bottomHeight); y += (lineSpacing / 2.00)){
 							if(tempValue > 0){
@@ -192,7 +192,7 @@ public class MouseKit {
 			ActionLock.unlock();
 		}
 	}
-	
+
 	private long getRealStart(TGVoiceImpl voice,int x){
 		if(voice.isEmpty()){
 			return voice.getBeat().getStart();
@@ -207,7 +207,7 @@ public class MouseKit {
 		}
 		return beatStart;
 	}
-	
+
 	private int getRealValue(int value){
 		int realValue = value;
 		int key = this.kit.getTablature().getCaret().getMeasure().getKeySignature();
@@ -232,29 +232,29 @@ public class MouseKit {
 		}
 		return realValue;
 	}
-	
+
 	private boolean removeNote(int value,TGVoice voice) {
 		Iterator<TGNote> it = voice.getNotes().iterator();
 		while (it.hasNext()) {
 			TGNoteImpl note = (TGNoteImpl) it.next();
-			
+
 			if (note.getRealValue() == value) {
 				//comienza el undoable
 				UndoableMeasureGeneric undoable = UndoableMeasureGeneric.startUndo();
-				
+
 				TGSongManager manager = this.kit.getTablature().getSongManager();
 				manager.getMeasureManager().removeNote(note);
-				
+
 				//termia el undoable
 				TuxGuitar.instance().getUndoableManager().addEdit(undoable.endUndo());
 				TuxGuitar.instance().getFileHistory().setUnsavedFile();
-				
+
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	private void makeNote(TGVoice voice, long start,  int value){
 		Caret caret = this.kit.getTablature().getCaret();
 		TGSongManager manager = this.kit.getTablature().getSongManager();
@@ -263,34 +263,34 @@ public class MouseKit {
 		if(string > 0){
 			//comienza el undoable
 			UndoableMeasureGeneric undoable = UndoableMeasureGeneric.startUndo();
-			
+
 			TGNote note = manager.getFactory().newNote();
 			note.setValue((value - track.getString(string).getValue()));
 			note.setVelocity(caret.getVelocity());
 			note.setString(string);
-			
+
 			TGDuration duration = manager.getFactory().newDuration();
 			caret.getDuration().copy(duration);
-			
+
 			manager.getMeasureManager().addNote(voice.getBeat(),note,duration, start, voice.getIndex());
-			
+
 			caret.moveTo(caret.getTrack(),caret.getMeasure(),note.getVoice().getBeat(),note.getString());
-			
+
 			//termia el undoable
 			TuxGuitar.instance().getUndoableManager().addEdit(undoable.endUndo());
 			TuxGuitar.instance().getFileHistory().setUnsavedFile();
-			
+
 			//reprodusco las notas en el pulso
 			TuxGuitar.instance().playBeat(caret.getSelectedBeat());
 		}
 	}
-	
+
 	private void redrawTablature(){
 		Caret caret = this.kit.getTablature().getCaret();
 		this.kit.getTablature().updateMeasure(caret.getMeasure().getNumber());
 		TuxGuitar.instance().updateCache(true);
 	}
-	
+
 	private int findBestString(TGTrack track,TGVoice voice,int value){
 		List<TGString> strings = new ArrayList<TGString>();
 		for(int number = 1;number <= track.stringCount();number++){
@@ -307,7 +307,7 @@ public class MouseKit {
 				strings.add(string);
 			}
 		}
-		
+
 		int minFret = -1;
 		int stringForValue = 0;
 		for(int i = 0;i < strings.size();i++){
@@ -320,7 +320,7 @@ public class MouseKit {
 		}
 		return stringForValue;
 	}
-	
+
 	public TGVoiceImpl findBestVoice(TGMeasureImpl measure, int x){
 		int voiceIndex = this.kit.getTablature().getCaret().getVoice();
 		int posX = measure.getHeaderImpl().getLeftSpacing( this.kit.getTablature().getViewLayout() ) + measure.getPosX();

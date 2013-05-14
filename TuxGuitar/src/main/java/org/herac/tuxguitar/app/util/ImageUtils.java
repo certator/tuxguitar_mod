@@ -20,7 +20,7 @@ public class ImageUtils {
 		loader.data = new ImageData[]{data};
 		loader.save(outputStream,format);
 	}
-	
+
 	/**
 	 * Convierte un ImageData en un array de bytes
 	 * @param data
@@ -32,10 +32,10 @@ public class ImageUtils {
 		writeImage(data,out,format);
 		return out.toByteArray();
 	}
-	
+
 	/**
 	 * Crea una mascara a partir de src.
-	 * 
+	 *
 	 * @param src
 	 * @param alpha
 	 * @param none

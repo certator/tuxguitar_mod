@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
 
 public class TGScalePopup{
-	
+
 	private int type;
 	private int value;
 	private boolean inverted;
@@ -26,14 +26,14 @@ public class TGScalePopup{
 	private Button item;
 	private Scale scale;
 	private String text;
-	
+
 	private SelectionListener selectionListener;
 	private MouseListener mouseListener;
-	
+
 	public TGScalePopup(Composite parent){
 		this.init(parent);
 	}
-	
+
 	public void init(Composite parent){
 		this.value = -1;
 		this.inverted =  true;
@@ -45,7 +45,7 @@ public class TGScalePopup{
 			}
 		});
 	}
-	
+
 	public void addDefaultListeners(){
 		this.scale.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -60,7 +60,7 @@ public class TGScalePopup{
 			this.scale.addMouseListener(this.mouseListener);
 		}
 	}
-	
+
 	private GridLayout getGridLayout(){
 		GridLayout layout = new GridLayout();
 		layout.horizontalSpacing = 0;
@@ -73,24 +73,24 @@ public class TGScalePopup{
 		layout.marginHeight = 0;
 		return layout;
 	}
-	
+
 	private GridData getScaleLayoutData(){
 		GridData data = new GridData(SWT.CENTER,SWT.FILL,false,true);
 		data.heightHint = 65;
 		return data;
 	}
-		
+
 	public int getType(){
 		return this.type;
 	}
-	
+
 	public int getValue(){
 		if( this.value < 0 ){
 			this.getValueFromScale();
 		}
 		return this.value;
 	}
-	
+
 	public void setValue(int value){
 		if( value != this.value ){
 			this.value = value;
@@ -98,19 +98,19 @@ public class TGScalePopup{
 			this.updateToolTipValue();
 		}
 	}
-	
+
 	public void getValueFromScale(){
 		if(!isShellDisposed()){
 			this.setValue( ( this.inverted ? 127 - this.scale.getSelection() : this.scale.getSelection() ) );
 		}
 	}
-	
+
 	public void setValueToScale(){
 		if(!isShellDisposed()){
 			this.scale.setSelection( ( this.inverted ? 127 - this.value : this.value ) );
 		}
 	}
-	
+
 	public void updateToolTipValue(){
 		if( this.getText() != null ){
 			this.item.setToolTipText( this.getText() + ": " + this.getValue() );
@@ -119,7 +119,7 @@ public class TGScalePopup{
 			}
 		}
 	}
-	
+
 	public void setText(String text){
 		this.text = text;
 		if(this.getText() != null && this.getText().length() > 0){
@@ -127,13 +127,13 @@ public class TGScalePopup{
 		}
 		this.updateToolTipValue();
 	}
-	
+
 	public String getText(){
 		return this.text;
 	}
-	
+
 	public void showShell() {
-		if( isShellDisposed() ){			
+		if( isShellDisposed() ){
 			this.shell = new Shell( this.item.getShell(), SWT.NO_TRIM);
 			this.shell.setVisible(false);
 			this.shell.setLayout(getGridLayout());
@@ -147,7 +147,7 @@ public class TGScalePopup{
 					hideShell();
 				}
 			});
-			
+
 			this.composite = new Composite(this.shell, SWT.BORDER);
 			this.composite.setLayout(getGridLayout());
 			this.composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -160,28 +160,28 @@ public class TGScalePopup{
 			this.scale.setLayoutData(getScaleLayoutData());
 			this.setValueToScale();
 			this.addDefaultListeners();
-			
+
 			Rectangle bounds = this.item.getBounds();
 			Point location = this.item.getParent().toDisplay(new Point(bounds.x, bounds.y));
-			
+
 			this.shell.pack();
 			this.shell.setLocation( (location.x + (bounds.width / 2)) - (this.shell.getSize().x / 2), location.y + bounds.height);
 			this.shell.setVisible(true);
 			this.shell.setActive();
 		}
 	}
-	
+
 	public void hideShell() {
 		if(!isShellDisposed()){
 			this.shell.dispose();
 			this.shell = null;
 		}
 	}
-	
+
 	public boolean isShellDisposed(){
 		return ( this.shell == null || this.shell.isDisposed() );
 	}
-	
+
 	public void setSelectionListener(SelectionListener selectionListener){
 		this.selectionListener = selectionListener;
 	}

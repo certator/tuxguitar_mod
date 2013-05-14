@@ -26,32 +26,32 @@ public class TGDuration implements Serializable {
 	 * Redonda.
 	 */
 	public static final int WHOLE = 1;
-	
+
 	/**
 	 * Blanca.
 	 */
 	public static final int HALF = 2;
-	
+
 	/**
 	 * Negra.
 	 */
 	public static final int QUARTER = 4;
-	
+
 	/**
 	 * Corchea.
 	 */
 	public static final int EIGHTH = 8;
-	
+
 	/**
 	 * Semi-Corchea.
 	 */
 	public static final int SIXTEENTH = 16;
-	
+
 	/**
 	 * Fusa.
 	 */
 	public static final int THIRTY_SECOND = 32;
-	
+
 	/**
 	 * Semi-Fusa.
 	 */
@@ -72,42 +72,42 @@ public class TGDuration implements Serializable {
 	 * DivisionType.
 	 */
 	private final TGDivisionType divisionType;
-	
+
 	public TGDuration(TGFactory factory){
 		this.value = QUARTER;
 		this.dotted = false;
 		this.doubleDotted = false;
 		this.divisionType = factory.newDivisionType();
 	}
-	
+
 	public int getValue() {
 		return this.value;
 	}
-	
+
 	public void setValue(int value) {
 		this.value = value;
 	}
-	
+
 	public boolean isDotted() {
 		return this.dotted;
 	}
-	
+
 	public void setDotted(boolean dotted) {
 		this.dotted = dotted;
 	}
-	
+
 	public boolean isDoubleDotted() {
 		return this.doubleDotted;
 	}
-	
+
 	public void setDoubleDotted(boolean doubleDotted) {
 		this.doubleDotted = doubleDotted;
 	}
-	
+
 	public TGDivisionType getDivision(){
 		return this.divisionType;
 	}
-	
+
 	public long getTime(){
 		long time = (long)( QUARTER_TIME * ( 4.0f / this.value ) ) ;
 		if(this.dotted){
@@ -117,7 +117,7 @@ public class TGDuration implements Serializable {
 		}
 		return this.divisionType.convertTime(time);
 	}
-	
+
 	public static TGDuration fromTime(TGFactory factory,long time){
 		TGDuration duration = factory.newDuration();
 		duration.setValue(TGDuration.SIXTY_FOURTH);
@@ -127,11 +127,11 @@ public class TGDuration implements Serializable {
 		duration.getDivision().setTimes(2);
 		return fromTime(factory,time,duration);
 	}
-	
+
 	public static TGDuration fromTime(TGFactory factory,long time,TGDuration minDuration){
 		return fromTime(factory, time, minDuration, 10);
 	}
-	
+
 	public static TGDuration fromTime(TGFactory factory,long time,TGDuration minimum, int diff){
 		TGDuration duration = minimum.clone(factory);
 		TGDuration tmpDuration = factory.newDuration();
@@ -176,22 +176,22 @@ public class TGDuration implements Serializable {
 		}
 		return index;
 	}
-	
+
 	public boolean isEqual(TGDuration d){
 		return (getValue() == d.getValue() && isDotted() == d.isDotted() && isDoubleDotted() == d.isDoubleDotted() && getDivision().isEqual(d.getDivision()));
 	}
-	
+
 	public TGDuration clone(TGFactory factory){
 		TGDuration duration = factory.newDuration();
 		copy(duration);
 		return duration;
 	}
-	
+
 	public void copy(TGDuration duration){
 		duration.setValue(getValue());
 		duration.setDotted(isDotted());
 		duration.setDoubleDotted(isDoubleDotted());
 		getDivision().copy(duration.getDivision());
 	}
-	
+
 }

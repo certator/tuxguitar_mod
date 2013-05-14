@@ -22,17 +22,17 @@ import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGString;
 
 public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackListener,MenuListener{
-	
+
 	public static final int MOUSE_MODE_SELECTION = 1;
 	public static final int MOUSE_MODE_EDITION = 2;
-	
+
 	private int mouseMode;
 	private boolean natural;
 	private final Tablature tablature;
 	private final MouseKit mouseKit;
 	private final Point position;
 	private boolean menuOpen;
-	
+
 	public EditorKit(Tablature tablature){
 		this.tablature = tablature;
 		this.mouseKit = new MouseKit(this);
@@ -43,36 +43,36 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		this.tablature.addMouseTrackListener(this);
 		this.setDefaults();
 	}
-	
+
 	private void setDefaults(){
 		this.setMouseMode(TuxGuitar.instance().getConfig().getIntConfigValue(TGConfigKeys.EDITOR_MOUSE_MODE,MOUSE_MODE_EDITION));
 		this.setNatural(TuxGuitar.instance().getConfig().getBooleanConfigValue(TGConfigKeys.EDITOR_NATURAL_KEY_MODE,true));
 	}
-	
+
 	public int getMouseMode() {
 		return this.mouseMode;
 	}
-	
+
 	public void setMouseMode(int mouseMode) {
 		this.mouseMode = mouseMode;
 	}
-	
+
 	public boolean isNatural() {
 		return this.natural;
 	}
-	
+
 	public void setNatural(boolean natural) {
 		this.natural = natural;
 	}
-	
+
 	public Tablature getTablature() {
 		return this.tablature;
-	}	
-	
+	}
+
 	public void tryBack(){
 		this.mouseKit.tryBack();
 	}
-	
+
 	public boolean select() {
 		int x = this.position.x;
 		int y = this.position.y;
@@ -93,11 +93,11 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		}
 		return false;
 	}
-	
+
 	private boolean isScoreEnabled(){
 		return ( (getTablature().getViewLayout().getStyle() & TGLayout.DISPLAY_SCORE) != 0 );
 	}
-	
+
 	public TGTrackImpl findSelectedTrack(int y){
 		TGLayout layout = getTablature().getViewLayout();
 		int number = layout.getTrackNumberAt(y);
@@ -106,11 +106,11 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		}
 		return null;
 	}
-	
+
 	public TGMeasureImpl findSelectedMeasure(TGTrackImpl track,int x,int y){
 		TGMeasureImpl measure = null;
 		int minorDistance = 0;
-		
+
 		Iterator<TGMeasure> it = track.getMeasures();
 		while(it.hasNext()){
 			TGMeasureImpl m = (TGMeasureImpl)it.next();
@@ -128,7 +128,7 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		}
 		return measure;
 	}
-	
+
 	public TGBeatImpl findSelectedBeat(TGMeasureImpl measure, int x){
 		int voice = getTablature().getCaret().getVoice();
 		int posX = measure.getHeaderImpl().getLeftSpacing(getTablature().getViewLayout()) + measure.getPosX();
@@ -150,13 +150,13 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 		}
 		return bestBeat;
 	}
-	
+
 	public TGString findSelectedString(TGMeasureImpl measure,int y) {
 		TGString string = null;
 		int stringSpacing = getTablature().getViewLayout().getStringSpacing();
 		int minorDistance = 0;
 		int firstStringY = measure.getPosY() + measure.getTs().getPosition(TGTrackSpacing.POSITION_TABLATURE);
-		
+
 		Iterator<TGString> it = measure.getTrack().getStrings().iterator();
 		while(it.hasNext()){
 			TGString currString = it.next();
@@ -166,16 +166,16 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 				minorDistance = distanceX;
 			}
 		}
-		
+
 		return string;
 	}
-	
+
 	@Override
 	public void mouseDown(MouseEvent e) {
 		this.position.x = e.x;
 		this.position.y = e.y;
 	}
-	
+
 	@Override
 	public void mouseUp(MouseEvent e) {
 		this.position.x = e.x;
@@ -188,7 +188,7 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 			}
 		}
 	}
-	
+
 	@Override
 	public void mouseMove(MouseEvent e) {
 		if(!this.menuOpen && !TuxGuitar.instance().getPlayer().isRunning()){
@@ -197,7 +197,7 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 			}
 		}
 	}
-	
+
 	@Override
 	public void mouseExit(MouseEvent e) {
 		if(!this.menuOpen && !TuxGuitar.instance().getPlayer().isRunning()){
@@ -206,30 +206,30 @@ public class EditorKit implements MouseListener,MouseMoveListener,MouseTrackList
 			}
 		}
 	}
-	
+
 	@Override
 	public void menuShown(MenuEvent e) {
 		this.menuOpen = true;
 		this.select();
 		TuxGuitar.instance().updateCache(true);
 	}
-	
+
 	@Override
 	public void menuHidden(MenuEvent e){
 		this.menuOpen = false;
 		TuxGuitar.instance().updateCache(true);
 	}
-	
+
 	@Override
 	public void mouseDoubleClick(MouseEvent e) {
 		//not implemented
 	}
-	
+
 	@Override
 	public void mouseEnter(MouseEvent e) {
 		//not implemented
 	}
-	
+
 	@Override
 	public void mouseHover(MouseEvent e) {
 		//not implemented

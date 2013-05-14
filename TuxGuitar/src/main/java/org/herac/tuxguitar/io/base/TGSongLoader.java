@@ -20,11 +20,11 @@ import org.herac.tuxguitar.song.models.TGSong;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class TGSongLoader {
-	
+
 	public TGSongLoader(){
 		super();
 	}
-	
+
 	/**
 	 * @return TGSong
 	 * @throws TGFileFormatException

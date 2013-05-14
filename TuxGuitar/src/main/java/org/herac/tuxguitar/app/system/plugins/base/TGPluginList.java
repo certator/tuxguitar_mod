@@ -7,13 +7,13 @@ import org.herac.tuxguitar.app.system.plugins.TGPlugin;
 import org.herac.tuxguitar.app.system.plugins.TGPluginException;
 
 public abstract class TGPluginList extends TGPluginAdapter{
-	
+
 	private List<TGPlugin> plugins;
-	
+
 	public TGPluginList(){
 		super();
 	}
-	
+
 	@Override
 	public void init() throws TGPluginException {
 		Iterator<TGPlugin> it = getIterator();
@@ -22,7 +22,7 @@ public abstract class TGPluginList extends TGPluginAdapter{
 			plugin.init();
 		}
 	}
-	
+
 	@Override
 	public void close() throws TGPluginException {
 		Iterator<TGPlugin> it = getIterator();
@@ -31,7 +31,7 @@ public abstract class TGPluginList extends TGPluginAdapter{
 			plugin.close();
 		}
 	}
-	
+
 	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		Iterator<TGPlugin> it = getIterator();
@@ -40,13 +40,13 @@ public abstract class TGPluginList extends TGPluginAdapter{
 			plugin.setEnabled( enabled);
 		}
 	}
-	
+
 	private Iterator<TGPlugin> getIterator() throws TGPluginException {
 		if(this.plugins == null){
 			this.plugins = getPlugins();
 		}
 		return this.plugins.iterator();
 	}
-	
+
 	protected abstract List<TGPlugin> getPlugins() throws TGPluginException ;
 }

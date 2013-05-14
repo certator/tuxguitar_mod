@@ -13,7 +13,7 @@ public class TuningTemplate {
 	 * Name of the tuning
 	 */
 	private final String name;
-	
+
 	/**
 	 * Strings of the tuning
 	 */

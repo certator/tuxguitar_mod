@@ -39,14 +39,14 @@ public class CompositionMenuItem extends MenuItems{
 	private MenuItem repeatClose;
 	private MenuItem repeatAlternative;
 	private MenuItem tripletFeel;
-	
+
 	private MenuItem properties;
-	
+
 	public CompositionMenuItem(Shell shell,Menu parent, int style) {
 		this.compositionMenuItem = new MenuItem(parent, style);
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
-	
+
 	@Override
 	public void showItems(){
 		//--TIME SIGNATURE--
@@ -75,19 +75,19 @@ public class CompositionMenuItem extends MenuItems{
 		//--REPEAT ALTERNATIVE--
 		this.repeatAlternative = new MenuItem(this.menu, SWT.PUSH);
 		this.repeatAlternative.addSelectionListener(TuxGuitar.instance().getAction(RepeatAlternativeAction.NAME));
-		
+
 		//--SEPARATOR--
 		new MenuItem(this.menu, SWT.SEPARATOR);
 		//--INFO--
 		this.properties = new MenuItem(this.menu, SWT.PUSH);
 		this.properties.addSelectionListener(TuxGuitar.instance().getAction(ChangeInfoAction.NAME));
-		
+
 		this.compositionMenuItem.setMenu(this.menu);
-		
+
 		this.loadIcons();
 		this.loadProperties();
 	}
-	
+
 	@Override
 	public void update(){
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();
@@ -100,10 +100,10 @@ public class CompositionMenuItem extends MenuItems{
 		this.repeatClose.setEnabled(!running);
 		this.repeatAlternative.setEnabled(!running);
 	}
-	
+
 	@Override
 	public void loadProperties(){
-		setMenuItemTextAndAccelerator(this.compositionMenuItem, "composition", null);		
+		setMenuItemTextAndAccelerator(this.compositionMenuItem, "composition", null);
 		setMenuItemTextAndAccelerator(this.timeSignature, "composition.timesignature", ChangeTimeSignatureAction.NAME);
 		setMenuItemTextAndAccelerator(this.tempo, "composition.tempo", ChangeTempoAction.NAME);
 		setMenuItemTextAndAccelerator(this.clef, "composition.clef", ChangeClefAction.NAME);
@@ -114,7 +114,7 @@ public class CompositionMenuItem extends MenuItems{
 		setMenuItemTextAndAccelerator(this.repeatAlternative, "repeat.alternative", RepeatAlternativeAction.NAME);
 		setMenuItemTextAndAccelerator(this.properties, "composition.properties", ChangeInfoAction.NAME);
 	}
-	
+
 	public void loadIcons() {
 		this.timeSignature.setImage(TuxGuitar.instance().getIconManager().getCompositionTimeSignature());
 		this.tempo.setImage(TuxGuitar.instance().getIconManager().getCompositionTempo());

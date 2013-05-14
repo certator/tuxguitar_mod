@@ -17,13 +17,13 @@ import org.herac.tuxguitar.app.actions.ActionData;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ShowTransportAction extends Action{
-	
+
 	public static final String NAME = "action.view.show-transport";
-	
+
 	public ShowTransportAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK |  AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		if(TuxGuitar.instance().getTransport().isDisposed()){

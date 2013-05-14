@@ -18,13 +18,13 @@ import org.herac.tuxguitar.app.actions.ActionData;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ShowFretBoardAction extends Action{
-	
+
 	public static final String NAME = "action.view.show-fretboard";
-	
+
 	public ShowFretBoardAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);

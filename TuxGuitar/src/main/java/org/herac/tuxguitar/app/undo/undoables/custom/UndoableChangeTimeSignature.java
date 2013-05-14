@@ -17,11 +17,11 @@ public class UndoableChangeTimeSignature implements UndoableEdit{
 	private long tsStart;
 	private boolean tsToEnd;
 	private TGTimeSignature ts;
-	
+
 	private UndoableChangeTimeSignature(){
 		super();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -32,7 +32,7 @@ public class UndoableChangeTimeSignature implements UndoableEdit{
 		this.redoCaret.update();
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -45,17 +45,17 @@ public class UndoableChangeTimeSignature implements UndoableEdit{
 		this.undoCaret.update();
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public static UndoableChangeTimeSignature startUndo(){
 		TGFactory factory = new TGFactory();
 		TGSong song = TuxGuitar.instance().getTablatureEditor().getTablature().getSongManager().getSong();
@@ -65,7 +65,7 @@ public class UndoableChangeTimeSignature implements UndoableEdit{
 		undoable.song = song.clone(factory);
 		return undoable;
 	}
-	
+
 	public UndoableChangeTimeSignature endUndo(TGTimeSignature timeSignature,long start, boolean toEnd){
 		this.ts = timeSignature;
 		this.tsStart = start;

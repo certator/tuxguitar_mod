@@ -17,10 +17,10 @@ import org.herac.tuxguitar.util.TGSynchronizer;
 
 /**
  * @author Nikola Kolarovic
- * 
+ *
  */
 public class ChordRecognizer extends Composite {
-	
+
 	// index for parameter array
 	protected static final int TONIC_INDEX = 0;
 	protected static final int CHORD_INDEX = 1;
@@ -31,14 +31,14 @@ public class ChordRecognizer extends Composite {
 	protected static final int I5_INDEX = 6;
 	protected static final int I9_INDEX = 7;
 	protected static final int I11_INDEX = 8;
-	
+
 	private ChordDialog dialog;
 	private List proposalList;
 	private java.util.List<int[]> proposalParameters;
-	
+
 	// this var keep a control to running threads.
 	private long runningProcess;
-	
+
 	public ChordRecognizer(ChordDialog dialog, Composite parent,int style) {
 		super(parent,style);
 		this.setLayout(dialog.gridLayout(1,false,0,0));
@@ -47,20 +47,20 @@ public class ChordRecognizer extends Composite {
 		this.dialog = dialog;
 		this.init();
 	}
-	
+
 	public GridData makeGridData(){
 		GridData data = new GridData(SWT.FILL,SWT.FILL,true,true);
 		data.minimumWidth = 180;
 		return data;
 	}
-	
+
 	public void init(){
 		Composite composite = new Composite(this,SWT.NONE);
 		composite.setLayout(new GridLayout());
 		composite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		this.proposalParameters = new ArrayList<int[]>();
-		
+
 		this.proposalList = new List(composite,SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		this.proposalList.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		this.proposalList.addSelectionListener(new SelectionAdapter() {
@@ -71,9 +71,9 @@ public class ChordRecognizer extends Composite {
 				}
 			}
 		});
-		
+
 	}
-	
+
 	/** sets the current chord to be selected proposal */
 	protected void showChord(int index) {
 		int[] params = this.proposalParameters.get(index);
@@ -91,7 +91,7 @@ public class ChordRecognizer extends Composite {
 		this.dialog.getEditor().getChordName().setText(chordName);
 		this.dialog.getEditor().redraw();
 	}
-	
+
 	/**
 	 * - Recognizes the chord string
 	 * - Fills the component's list with alternative names
@@ -101,21 +101,21 @@ public class ChordRecognizer extends Composite {
 	 *  @param chord chord structure (frets, strings)
 	 *  @param redecorate is the Chord Editor in editing mode, or it is just changed by ChordSelector
 	 */
-	
+
 	public void recognize(final TGChord chord,final boolean redecorate,final boolean setChordName) {
-		
+
 		final long processId = (++ this.runningProcess);
 		final boolean sharp = this.dialog.getSelector().getSharpButton().getSelection();
-		
+
 		this.clearProposals();
-		
+
 		new Thread( new Runnable() {
 			@Override
 			public void run() {
 				if(!getDialog().isDisposed() && isValidProcess(processId)){
-					
+
 					final int params[] = makeProposals(processId, chord,sharp);
-					
+
 					if (params == null) { // could not recognize anything!?
 						if (isValidProcess(processId) && setChordName) {
 							try {
@@ -133,9 +133,9 @@ public class ChordRecognizer extends Composite {
 						}
 						return;
 					}
-					
+
 					final String chordName = getChordName(params,sharp);
-					
+
 					// Sets all the ChordSelector fields into recognized chord (tonic, bass, chord, alterations)
 					if (isValidProcess(processId) && redecorate) {
 						try {
@@ -151,7 +151,7 @@ public class ChordRecognizer extends Composite {
 							e.printStackTrace();
 						}
 					}
-					
+
 					if (isValidProcess(processId) && setChordName) {
 						try {
 							TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
@@ -170,16 +170,16 @@ public class ChordRecognizer extends Composite {
 			}
 		} ).start();
 	}
-	
+
 	/** Fills the component's list with alternative names
 	 * @param chord TGChord to be recognized
-	 * @return parameters for adjustWidgets and getChordName methods 
+	 * @return parameters for adjustWidgets and getChordName methods
 	 */
 	protected int[] makeProposals(final long processId, TGChord chord,final boolean sharp) {
-		
+
 		int[] tuning = this.dialog.getSelector().getTuning();
 		java.util.List<Integer> notesInside = new ArrayList<Integer>();
-		
+
 		// find and put in all the distinct notes
 		for (int i=0; i<tuning.length; i++) {
 			int fret = chord.getStrings()[i];
@@ -194,25 +194,25 @@ public class ChordRecognizer extends Composite {
 					notesInside.add(note);
 			}
 		}
-		
+
 		// Now search:
 		// go through all the possible tonics
 		// it is required because tonic isn't mandatory in a chord
 		java.util.List<Proposal> allProposals = new ArrayList<Proposal>(10);
-		
+
 		for (int tonic=0; tonic<12; tonic++) {
-			
+
 			Proposal currentProp = null;
-			
+
 			// first check for the basic chord tones
 			for (int chordIndex = 0; chordIndex < ChordDatabase.length(); chordIndex ++) {
 				ChordDatabase.ChordInfo info = ChordDatabase.get(chordIndex);
-				
+
 				currentProp = new Proposal(notesInside);
 				// it is more unusual the more we go down the index
 				// except chords "5" and "m", they are quite usual :)
 				currentProp.unusualGrade-=(chordIndex!=ChordDatabase.length() && chordIndex!=4 ? 2*chordIndex : 0);
-				
+
 				//ChordDatabase.ChordInfo info = (ChordDatabase.ChordInfo)chordItr.next();
 				boolean foundNote = false;
 				for (int i=0; i<info.getRequiredNotes().length; i++) { // go through all the requred notes
@@ -224,18 +224,18 @@ public class ChordRecognizer extends Composite {
 								currentProp.dontHaveGrade+=15; // this means penalty for not having tonic is -65
 							currentProp.foundNote(tonic+info.getRequiredNotes()[i]-1); // found a note in a chord
 						}
-					
+
 				}
 				// if something found, add it into a proposal if it's worth
 				if (foundNote) {
 					currentProp.params[TONIC_INDEX] = tonic;
 					currentProp.params[CHORD_INDEX] = chordIndex;//possibleChords.indexOf(info);
 					int foundNotesCount = currentProp.missingNotes.length-currentProp.missingCount;
-					
+
 					// it is worth if it is missing 1 essential note and/or fifth
 					if (!info.getName().startsWith("dim") && !info.getName().startsWith("aug"))
 						if (!currentProp.isFound(tonic+8-1)) {
-							
+
 							// hmmm. maybe it's altered fifth? Create a branch for it.
 							if (currentProp.isNeeded(tonic+7-1) || currentProp.isNeeded(tonic+9-1)) {
 								Proposal branchProp = (Proposal)currentProp.clone();
@@ -252,14 +252,14 @@ public class ChordRecognizer extends Composite {
 									branchProp.dontHaveGrade-=(info.getRequiredNotes().length-(foundNotesCount+1))*50;
 									allProposals.add(branchProp);
 								}
-								
+
 							}
 							else {
 								currentProp.params[I5_INDEX] = 0;
 								currentProp.dontHaveGrade+=30;
 							}
 						}
-					
+
 					currentProp.params[I5_INDEX] = 0;
 					if (foundNotesCount>=info.getRequiredNotes().length-1 ) {
 							currentProp.dontHaveGrade-=(info.getRequiredNotes().length-foundNotesCount)*50;
@@ -269,15 +269,15 @@ public class ChordRecognizer extends Composite {
 				currentProp=null;
 			}
 		}
-		
+
 		Iterator<Proposal> props = allProposals.iterator();
 		java.util.List<Proposal> unsortedProposals = new ArrayList<Proposal>(5);
 		while (props.hasNext()) {
 			// place the still missing alterations notes accordingly... bass also
 			///////////////////////////////////////////////////////////////
-			
+
 			final Proposal current = props.next();
-			
+
 			boolean bassIsOnlyInBass = true;
 			// ---------------- bass tone ----------------
 			for (int i=chord.getStrings().length-1; i>=0; i--) {
@@ -291,7 +291,7 @@ public class ChordRecognizer extends Composite {
 						bassIsOnlyInBass=false; // if we stumbled upon bass tone again
 				}
 			}
-			
+
 			if (current.isNeeded(current.params[BASS_INDEX]) && bassIsOnlyInBass) {
 				   // do not mark as FOUND if bass is somewhere other than in bass only
 					current.foundNote(current.params[BASS_INDEX]);
@@ -315,14 +315,14 @@ public class ChordRecognizer extends Composite {
 							if (current.isNeeded(current.params[TONIC_INDEX]+getAddNote(i, plusminus)) && !current.filled[i]) {
 								current.filled[i]=true;
 								current.plusminusValue[i]=plusminus;
-								if (plusminus!=0) 
+								if (plusminus!=0)
 									current.unusualGrade-=15;
 								current.foundNote(current.params[TONIC_INDEX]+getAddNote(i, plusminus));
 							}
-					
+
 				}
 			}
-			
+
 			// fill in the list
 			///////////////////////////////////////////////////////////////
 			if (!(current.filled[3] && !(current.filled[0] || current.filled[1] || current.filled[2])) &&  // if just found seventh, cancel it
@@ -331,30 +331,30 @@ public class ChordRecognizer extends Composite {
 						findChordLogic(current);
 						unsortedProposals.add(current);
 				}
-			
+
 		}
 		// first, sort by DontHaveGrade
 		shellsort(unsortedProposals,1);
-		
+
 		int cut=-1;
 		int howManyIncomplete = ChordSettings.instance().getIncompleteChords();
-		
+
 		for (int i=0; i<unsortedProposals.size() && cut==-1; i++) {
 			int prior = unsortedProposals.get(i).dontHaveGrade;
-			if (prior<0) 
+			if (prior<0)
 				cut=i+howManyIncomplete;
 		}
 		// cut the search
 		unsortedProposals=unsortedProposals.subList(0, (cut>0 && cut<unsortedProposals.size() ? cut : unsortedProposals.size()));
 		// sort by unusualGrade
 		shellsort(unsortedProposals,2);
-		
+
 		int firstNegative = 0;
 		for (int i=0; i<unsortedProposals.size(); i++) {
 			final Proposal current = unsortedProposals.get(i);
-			if (firstNegative==0 && current.unusualGrade<0) 
+			if (firstNegative==0 && current.unusualGrade<0)
 				firstNegative=current.unusualGrade;
-			
+
 			if (current.unusualGrade > (firstNegative>=0 ? 0 : firstNegative)-60){
 				try {
 					TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
@@ -374,7 +374,7 @@ public class ChordRecognizer extends Composite {
 			return null;
 		return this.proposalParameters.get(0);
 	}
-	
+
 	/** adjusts widgets on the Recognizer combo */
 	protected void redecorate(int params[]){
 		this.dialog.getSelector().adjustWidgets(params[TONIC_INDEX],
@@ -387,7 +387,7 @@ public class ChordRecognizer extends Composite {
 		                                        params[I9_INDEX],
 		                                        params[I11_INDEX]);
 	}
-	
+
 	/** Assembles chord name according to ChordNamingConvention */
 	protected String getChordName(int[] param, boolean sharp) {
 		return new ChordNamingConvention().createChordName(param[TONIC_INDEX],
@@ -401,15 +401,15 @@ public class ChordRecognizer extends Composite {
 		                                                   param[BASS_INDEX],
 		                                                   sharp);
 	}
-	
+
 	/** Return required interval in semitones for add type and +- modificator
 	 * @param type 0=add9, 1=add11, 2=add13
 	 * @param selectionIndex 0=usual, 1="+", 2="-"
 	 */
 	protected int getAddNote(int type, int selectionIndex) {
-		
+
 		int wantedNote = 0;
-		
+
 		switch (type) {
 			case 0:
 				wantedNote = 3; // add9
@@ -421,7 +421,7 @@ public class ChordRecognizer extends Composite {
 				wantedNote = 10; // add13
 				break;
 		}
-		
+
 		switch (selectionIndex) {
 			case 1:
 				wantedNote++;
@@ -432,11 +432,11 @@ public class ChordRecognizer extends Composite {
 			default:
 				break;
 		}
-		
+
 		return --wantedNote;
-		
+
 	}
-	
+
 	void findChordLogic(Proposal current) {
 		boolean[] found = current.filled;
 		int[] plusMinus = current.plusminusValue;
@@ -447,7 +447,7 @@ public class ChordRecognizer extends Composite {
 		current.params[I11_INDEX]=plusMinus[1];
 		current.params[ADDCHK_INDEX]=0;
 		current.params[PLUSMINUS_INDEX]=0;
-		
+
 		if (found[2]) { // -------------- 13
 			current.params[ALTERATION_INDEX]=3;
 			current.params[PLUSMINUS_INDEX]=plusMinus[2];
@@ -475,7 +475,7 @@ public class ChordRecognizer extends Composite {
 				current.params[PLUSMINUS_INDEX]=plusMinus[1];
 				current.params[I11_INDEX]=0;
 				current.unusualGrade-=10;
-				
+
 				if (!found[0] || !found[3]) { // b7 or 9 not inside
 					if (!found[0] && !found[3])
 						current.params[ADDCHK_INDEX]=1;
@@ -489,7 +489,7 @@ public class ChordRecognizer extends Composite {
 					}
 				}
 			}
-			else 
+			else
 				if (found[0]) { // 9
 					current.params[ALTERATION_INDEX]=1;
 					current.params[I9_INDEX]=0;
@@ -498,10 +498,10 @@ public class ChordRecognizer extends Composite {
 					current.unusualGrade-=10;
 					if (!found[3])
 						current.params[ADDCHK_INDEX]=1;
-					
+
 				}
 	}
-	
+
 	/**
 	 * Shellsort, using a sequence suggested by Gonnet.
 	 * -- a little adopted
@@ -516,68 +516,68 @@ public class ChordRecognizer extends Composite {
 			for( int i = gap; i < length; i++ ){
 				Proposal tmp = a.get(i);
 				int j = i;
-				
-				for( ; j >= gap && 
+
+				for( ; j >= gap &&
 				(  sortIndex == 1 ?
 				tmp.dontHaveGrade > a.get(j - gap).dontHaveGrade :
 				tmp.unusualGrade > a.get(j - gap).unusualGrade  )
-				; 
+				;
 				j -= gap )
 					a.set(j, a.get(j - gap));
 				a.set( j , tmp);
 			}
 	}
-	
+
 	protected void addProposal(int[] params, String name){
 		this.proposalParameters.add(params);
 		this.proposalList.add(name);
 	}
-	
+
 	protected void clearProposals(){
 		this.proposalList.removeAll();
 		this.proposalParameters.clear();
 	}
-	
+
 	protected ChordDialog getDialog(){
 		return this.dialog;
 	}
-	
+
 	protected List getProposalList(){
 		return this.proposalList;
 	}
-	
+
 	protected boolean isValidProcess(long processId){
 		return (this.runningProcess == processId);
 	}
-	
+
 	protected class Proposal implements Cloneable{
 		int[] params;
-		
+
 		/** grade for chord "unusualness" - Cm is less unusual than E7/9+/C */
 		int unusualGrade = 0;
 		/** penalty for notes that chord doesn't have */
 		int dontHaveGrade = -15;
-		
+
 		/** counts the notes that are in chord but still not recognized */
 		int missingCount;
 		int[] missingNotes;
-		
+
 		boolean filled[]={false,false,false,false};
 		int plusminusValue[]={0,0,0};
-		
+
 		private Proposal() {
 			super();
 			this.params = new int[9];
 			for (int i=0; i<9; i++)
 				this.params[i]=-1;
 		}
-		
+
 		/** initialize with needed notes */
 		public Proposal(java.util.List<Integer> notes) {
 			this.params = new int[9];
 			for (int i=0; i<9; i++)
 				this.params[i]=-1;
-			
+
 			int length = notes.size();
 			this.missingNotes = new int[length];
 			for (int i = 0; i< length; i++){ // deep copy, because of clone() method
@@ -585,7 +585,7 @@ public class ChordRecognizer extends Composite {
 			}
 			this.missingCount = length;
 		}
-		
+
 		/** if note is found, mark it as found in the Missing array*/
 		void foundNote(int value) {
 			int note = (value % 12);
@@ -594,13 +594,13 @@ public class ChordRecognizer extends Composite {
 					if (this.missingNotes[i] == note) {
 						// put the found one on the end, switch positions
 						this.missingCount--;
-						int temp = this.missingNotes[i]; 
+						int temp = this.missingNotes[i];
 						this.missingNotes[i]=this.missingNotes[this.missingCount];
 						this.missingNotes[this.missingCount]=temp;
 						return;
 					}
 		}
-		
+
 		/** is note already found? */
 		boolean isFound(int value) {
 			int note = (value % 12);
@@ -609,7 +609,7 @@ public class ChordRecognizer extends Composite {
 					return true;
 			return false;
 		}
-		
+
 		/** is note required to be found? */
 		boolean isNeeded(int value) {
 			int note = (value % 12);
@@ -619,7 +619,7 @@ public class ChordRecognizer extends Composite {
 						return true;
 			return false;
 		}
-		
+
 		/** does note exist in a chord? (found or not found) */
 		boolean isExisting(int value) {
 			int note = (value % 12);
@@ -628,7 +628,7 @@ public class ChordRecognizer extends Composite {
 					return true;
 			return false;
 		}
-		
+
 		/** calls the Object.clone() method, since it is private (?!!??) */
 		@Override
 		public Object clone() {
@@ -645,14 +645,14 @@ public class ChordRecognizer extends Composite {
 			proposal.filled = new boolean[this.filled.length];
 			for (int i=0; i<proposal.filled.length; i++)
 				proposal.filled[i] = this.filled[i];
-			
+
 			proposal.plusminusValue = new int[this.plusminusValue.length];
 			for (int i=0; i<proposal.plusminusValue.length; i++)
 				proposal.plusminusValue[i] = this.plusminusValue[i];
-			
+
 			return proposal;
 		}
-		
+
 		@Override
 		public boolean equals(Object o) {
 			Proposal another = (Proposal)o;

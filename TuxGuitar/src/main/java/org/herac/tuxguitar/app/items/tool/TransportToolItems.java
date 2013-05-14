@@ -23,11 +23,11 @@ import org.herac.tuxguitar.app.items.ToolItems;
  */
 public class TransportToolItems  extends ToolItems{
 	public static final String NAME = "transport.items";
-	
+
 	private static final int STATUS_STOPPED = 1;
 	private static final int STATUS_PAUSED = 2;
 	private static final int STATUS_RUNNING = 3;
-	
+
 	private ToolItem first;
 	private ToolItem last;
 	private ToolItem previous;
@@ -35,11 +35,11 @@ public class TransportToolItems  extends ToolItems{
 	private ToolItem stop;
 	private ToolItem play;
 	private int status;
-	
+
 	public TransportToolItems(){
 		super(NAME);
 	}
-	
+
 	@Override
 	public void showItems(ToolBar toolBar){
 		this.first = new ToolItem(toolBar,SWT.PUSH);
@@ -49,7 +49,7 @@ public class TransportToolItems  extends ToolItems{
 				TuxGuitar.instance().getTransport().gotoFirst();
 			}
 		});
-		
+
 		this.previous = new ToolItem(toolBar,SWT.PUSH);
 		this.previous.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -57,13 +57,13 @@ public class TransportToolItems  extends ToolItems{
 				TuxGuitar.instance().getTransport().gotoPrevious();
 			}
 		});
-		
+
 		this.stop = new ToolItem(toolBar,SWT.PUSH);
 		this.stop.addSelectionListener(TuxGuitar.instance().getAction(TransportStopAction.NAME));
-		
+
 		this.play = new ToolItem(toolBar,SWT.PUSH);
 		this.play.addSelectionListener(TuxGuitar.instance().getAction(TransportPlayAction.NAME));
-		
+
 		this.next = new ToolItem(toolBar,SWT.PUSH);
 		this.next.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -71,7 +71,7 @@ public class TransportToolItems  extends ToolItems{
 				TuxGuitar.instance().getTransport().gotoNext();
 			}
 		});
-		
+
 		this.last = new ToolItem(toolBar,SWT.PUSH);
 		this.last.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -79,17 +79,17 @@ public class TransportToolItems  extends ToolItems{
 				TuxGuitar.instance().getTransport().gotoLast();
 			}
 		});
-		
+
 		this.status = STATUS_STOPPED;
 		this.loadIcons();
 		this.loadProperties();
 	}
-	
+
 	@Override
 	public void update(){
 		loadIcons(false);
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		this.play.setToolTipText(TuxGuitar.getProperty("transport.start"));
@@ -99,14 +99,14 @@ public class TransportToolItems  extends ToolItems{
 		this.previous.setToolTipText(TuxGuitar.getProperty("transport.previous"));
 		this.next.setToolTipText(TuxGuitar.getProperty("transport.next"));
 	}
-	
+
 	public void loadIcons(){
 		loadIcons(true);
 	}
-	
+
 	public void loadIcons(boolean force){
 		int lastStatus = this.status;
-		
+
 		if(TuxGuitar.instance().getPlayer().isRunning()){
 			this.status = STATUS_RUNNING;
 		}else if(TuxGuitar.instance().getPlayer().isPaused()){
@@ -114,7 +114,7 @@ public class TransportToolItems  extends ToolItems{
 		}else{
 			this.status = STATUS_STOPPED;
 		}
-		
+
 		if(force || lastStatus != this.status){
 			if(this.status == STATUS_RUNNING){
 				this.first.setImage(TuxGuitar.instance().getIconManager().getTransportIconFirst2());
@@ -142,6 +142,6 @@ public class TransportToolItems  extends ToolItems{
 				this.play.setToolTipText(TuxGuitar.getProperty("transport.start"));
 			}
 		}
-		
+
 	}
 }

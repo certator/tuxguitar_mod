@@ -3,7 +3,7 @@ package org.herac.tuxguitar.graphics.control.painters;
 import org.herac.tuxguitar.graphics.TGPainter;
 
 public class TGNotePainter {
-	
+
 	public static void paintFooter(TGPainter painter, float x, float y,int dir,float scale){
 		painter.moveTo(( x + (0.64375f * scale) ),( y + ((0.00625f * scale) * dir) ));
 		painter.cubicTo(( x + (0.659375f * scale) ),( y + ((0.0f * scale) * dir) ),( x + (0.69375f * scale) ),( y + ((0.00625f * scale) * dir) ),( x + (0.70625f * scale) ),( y + ((0.0125f * scale) * dir) ));
@@ -28,7 +28,7 @@ public class TGNotePainter {
 		painter.cubicTo(( x + (0.584375f * scale) ),( y + ((0.10625f * scale) * dir) ),( x + (0.58125f * scale) ),( y + ((0.096875f * scale) * dir) ),( x + (0.58125f * scale) ),( y + ((0.0875f * scale) * dir) ));
 		painter.cubicTo(( x + (0.58125f * scale) ),( y + ((0.05f * scale) * dir) ),( x + (0.60625f * scale) ),( y + ((0.01875f * scale) * dir) ),( x + (0.64375f * scale) ),( y + ((0.00625f * scale) * dir) ));
 	}
-	
+
 	public static void paintNote(TGPainter painter, float x, float y,float scale){
 		painter.moveTo( x ,( y + (0.66f * scale) ));
 		painter.cubicTo( x,( y + (0.83f * scale) ),( x + (0.166f * scale) ),( y + (1.0f * scale) ),( x + (0.33f * scale) ),( y + (1.0f * scale) ));
@@ -36,7 +36,7 @@ public class TGNotePainter {
 		painter.cubicTo(( x + (1.33f * scale) ),( y + (0.166f * scale) ),( x + (1.16f * scale) ), y ,( x + (1.0f * scale) ), y );
 		painter.cubicTo(( x + (0.5f * scale) ), y , x ,( y + (0.33f * scale) ), x ,( y + (0.66f * scale) ));
 	}
-	
+
 	public static void paintHarmonic(TGPainter painter, float x, float y,float scale){
 		painter.moveTo(x ,(y + (0.5f * scale)));
 		painter.lineTo((x + (0.665f * scale )) ,(y + (1.0f * scale)));

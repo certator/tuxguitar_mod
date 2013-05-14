@@ -23,7 +23,7 @@ public class KeyBindingReader {
 	private static final String SHORTCUT_ATTRIBUTE_ACTION = "action";
 	private static final String SHORTCUT_ATTRIBUTE_KEY = "key";
 	private static final String SHORTCUT_ATTRIBUTE_MASK = "mask";
-	
+
 	public static List<KeyBindingAction> getKeyBindings(String fileName) {
 		try{
 			File file = new File(fileName);
@@ -35,7 +35,7 @@ public class KeyBindingReader {
 		}
 		return null;
 	}
-	
+
 	public static List<KeyBindingAction> getKeyBindings(InputStream is) {
 		try{
 			if (is!=null){
@@ -46,7 +46,7 @@ public class KeyBindingReader {
 		}
 		return null;
 	}
-	
+
 	private static Document getDocument(InputStream is) {
 		Document document = null;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -62,8 +62,8 @@ public class KeyBindingReader {
 		}
 		return document;
 	}
-	
-	
+
+
 	private static Document getDocument(File file) {
 		Document document = null;
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -79,24 +79,24 @@ public class KeyBindingReader {
 		}
 		return document;
 	}
-	
+
 	/**
 	 * Read shortcuts from xml file
-	 * 
+	 *
 	 * @param shortcutsNode
 	 * @return
 	 */
 	private static List<KeyBindingAction> getBindings(Node shortcutsNode){
 		List<KeyBindingAction> list = new ArrayList<KeyBindingAction>();
-		
+
 		NodeList nodeList = shortcutsNode.getChildNodes();
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node child = nodeList.item(i);
 			String nodeName = child.getNodeName();
-			
+
 			if (nodeName.equals(SHORTCUT_TAG)) {
 				NamedNodeMap params = child.getAttributes();
-				
+
 				Node nodeKey = params.getNamedItem(SHORTCUT_ATTRIBUTE_KEY);
 				Node nodeMask = params.getNamedItem(SHORTCUT_ATTRIBUTE_MASK);
 				Node nodeAction = params.getNamedItem(SHORTCUT_ATTRIBUTE_ACTION);
@@ -104,7 +104,7 @@ public class KeyBindingReader {
 					String key = nodeKey.getNodeValue();
 					String mask = nodeMask.getNodeValue();
 					String action = nodeAction.getNodeValue();
-					
+
 					if (key != null && mask != null && action != null){
 						list.add(new KeyBindingAction(action, new KeyBinding(Integer.parseInt(key), Integer.parseInt(mask)) ));
 					}

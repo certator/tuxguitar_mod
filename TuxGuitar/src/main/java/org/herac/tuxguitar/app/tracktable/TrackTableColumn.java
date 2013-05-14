@@ -16,7 +16,7 @@ class TrackTableColumn {
 	private final TrackTable table;
 	private final CLabel column;
 	private final List<Control> controls;
-	
+
 	public TrackTableColumn(TrackTable table,int align){
 		this.table = table;
 		this.controls = new ArrayList<Control>();
@@ -31,28 +31,28 @@ class TrackTableColumn {
 		this.column.pack();
 		this.appendListeners(this.column);
 	}
-	
+
 	public CLabel getControl(){
 		return this.column;
 	}
-	
+
 	public void setTitle(String title){
 		this.column.setText(title);
 	}
-	
+
 	public void addControl(Control control){
 		this.controls.add(control);
 		this.appendListeners(control);
 	}
-	
+
 	public void appendListeners(Control control){
 		TuxGuitar.instance().getkeyBindingManager().appendListenersTo(control);
 	}
-	
+
 	public void layout(){
 		Point location = this.column.getLocation();
 		Point size = this.column.getSize();
-		
+
 		for(int i = 0; i < this.controls.size(); i ++){
 			Control control = this.controls.get(i);
 			if(!control.isDisposed()){
@@ -61,7 +61,7 @@ class TrackTableColumn {
 			}
 		}
 	}
-	
+
 	public void notifyRemoved(){
 		for(int i = 0; i < this.controls.size(); i ++){
 			Control control = this.controls.get(i);
@@ -70,5 +70,5 @@ class TrackTableColumn {
 			}
 		}
 	}
-	
+
 }

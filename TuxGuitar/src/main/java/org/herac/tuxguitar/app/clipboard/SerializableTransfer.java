@@ -69,7 +69,7 @@ public abstract class SerializableTransfer extends ByteArrayTransfer {
 			// FIXME it should exists a dedicated exception
 			e.printStackTrace();
 			return null;
-		} catch (ClassNotFoundException e) { 
+		} catch (ClassNotFoundException e) {
 			// FIXME it should exists a dedicated exception
 			e.printStackTrace();
 			return null;

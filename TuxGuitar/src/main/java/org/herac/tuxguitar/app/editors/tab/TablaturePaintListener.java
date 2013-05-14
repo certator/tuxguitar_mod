@@ -18,11 +18,11 @@ import org.herac.tuxguitar.app.editors.TGPainterImpl;
  */
 public class TablaturePaintListener implements PaintListener{
 	private Tablature tablature;
-	
+
 	public TablaturePaintListener(Tablature tablature){
 		this.tablature = tablature;
 	}
-	
+
 	@Override
 	public void paintControl(PaintEvent e) {
 		this.tablature.paintTablature( new TGPainterImpl(e.gc) );

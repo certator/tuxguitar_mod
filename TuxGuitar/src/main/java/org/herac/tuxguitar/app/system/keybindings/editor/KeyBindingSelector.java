@@ -25,29 +25,29 @@ import org.herac.tuxguitar.app.util.ConfirmDialog;
 import org.herac.tuxguitar.app.util.DialogUtils;
 
 public class KeyBindingSelector {
-	
+
 	protected Shell dialog;
 	protected KeyBindingEditor editor;
 	protected KeyBinding keyBinding;
 	protected String action;
-	
+
 	public KeyBindingSelector(KeyBindingEditor editor,KeyBindingAction keyBindingAction){
 		this.editor = editor;
 		this.keyBinding = keyBindingAction.getKeyBinding();
 		this.action = keyBindingAction.getAction();
 	}
-	
+
 	public KeyBinding select(Shell parent){
 		this.dialog = DialogUtils.newDialog(parent,SWT.APPLICATION_MODAL | SWT.DIALOG_TRIM);
 		this.dialog.setLayout(new GridLayout());
 		this.dialog.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		this.dialog.setText(TuxGuitar.getProperty("key-bindings-editor"));
-		
+
 		Group group = new Group(this.dialog,SWT.SHADOW_ETCHED_IN);
 		group.setLayout(new GridLayout());
 		group.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		group.setText(TuxGuitar.getProperty(this.action));
-		
+
 		final Composite composite = new Composite(group,SWT.NONE);
 		composite.setLayout(new GridLayout(2,false));
 		composite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
@@ -66,15 +66,15 @@ public class KeyBindingSelector {
 				KeyBindingSelector.this.dialog.dispose();
 			}
 		});
-		
+
 		Label iconLabel = new Label(composite, SWT.CENTER );
 		iconLabel.setImage(iconLabel.getDisplay().getSystemImage(SWT.ICON_INFORMATION));
 		iconLabel.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,false,true));
-		
+
 		Label textLabel = new Label(composite,SWT.CENTER);
 		textLabel.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,false,true));
 		textLabel.setText(TuxGuitar.getProperty("key-bindings-editor-push-a-key"));
-		
+
 		FontData[] fd = textLabel.getFont().getFontData();
 		if(fd != null && fd.length > 0){
 			final Font font = new Font(textLabel.getDisplay(),new FontData( fd[0].getName(), 14 , SWT.BOLD) );
@@ -86,12 +86,12 @@ public class KeyBindingSelector {
 				}
 			});
 		}
-		
+
 		//------------------BUTTONS--------------------------
 		Composite buttons = new Composite(this.dialog, SWT.NONE);
 		buttons.setLayout(new GridLayout(2,false));
 		buttons.setLayoutData(new GridData(SWT.RIGHT,SWT.FILL,true,true));
-		
+
 		final Button buttonClean = new Button(buttons, SWT.PUSH);
 		buttonClean.setText(TuxGuitar.getProperty("clean"));
 		buttonClean.setLayoutData(getButtonData());
@@ -108,7 +108,7 @@ public class KeyBindingSelector {
 				KeyBindingSelector.this.dialog.dispose();
 			}
 		});
-		
+
 		Button buttonCancel = new Button(buttons, SWT.PUSH);
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
@@ -124,19 +124,19 @@ public class KeyBindingSelector {
 				KeyBindingSelector.this.dialog.dispose();
 			}
 		});
-		
+
 		DialogUtils.openDialog(this.dialog, DialogUtils.OPEN_STYLE_CENTER | DialogUtils.OPEN_STYLE_PACK | DialogUtils.OPEN_STYLE_WAIT);
-		
+
 		return this.keyBinding;
 	}
-	
+
 	private GridData getButtonData(){
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.minimumWidth = 80;
 		data.minimumHeight = 25;
 		return data;
 	}
-	
+
 	protected boolean isValid(KeyBinding kb){
 		if(this.editor.exists(kb)){
 			ConfirmDialog confirm = new ConfirmDialog(TuxGuitar.getProperty("key-bindings-editor-override"));

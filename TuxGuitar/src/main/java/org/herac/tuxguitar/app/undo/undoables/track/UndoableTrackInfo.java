@@ -20,11 +20,11 @@ public class UndoableTrackInfo implements UndoableEdit{
 	private TGColor redoColor;
 	private int undoOffset;
 	private int redoOffset;
-	
+
 	private UndoableTrackInfo(){
 		super();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -36,7 +36,7 @@ public class UndoableTrackInfo implements UndoableEdit{
 		this.redoCaret.update();
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -46,20 +46,20 @@ public class UndoableTrackInfo implements UndoableEdit{
 		manager.getTrackManager().changeInfo(manager.getTrack(this.trackNumber),this.undoName,this.undoColor.clone(manager.getFactory()),this.undoOffset);
 		TuxGuitar.instance().fireUpdate();
 		this.undoCaret.update();
-		
+
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public static UndoableTrackInfo startUndo(TGTrack track){
 		UndoableTrackInfo undoable = new UndoableTrackInfo();
 		undoable.doAction = UNDO_ACTION;
@@ -68,17 +68,17 @@ public class UndoableTrackInfo implements UndoableEdit{
 		undoable.undoName = track.getName();
 		undoable.undoColor = track.getColor().clone(TuxGuitar.instance().getSongManager().getFactory());
 		undoable.undoOffset = track.getOffset();
-		
+
 		return undoable;
 	}
-	
+
 	public UndoableTrackInfo endUndo(TGTrack track){
 		this.redoCaret = new UndoableCaretHelper();
 		this.redoName = track.getName();
 		this.redoColor = track.getColor().clone(TuxGuitar.instance().getSongManager().getFactory());
 		this.redoOffset = track.getOffset();
-		
+
 		return this;
 	}
-	
+
 }

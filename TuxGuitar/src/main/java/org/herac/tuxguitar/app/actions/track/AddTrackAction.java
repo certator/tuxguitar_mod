@@ -20,28 +20,28 @@ import org.herac.tuxguitar.song.models.TGTrack;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class AddTrackAction extends Action{
-	
+
 	public static final String NAME = "action.track.add";
-	
+
 	public AddTrackAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		//comienza el undoable
 		UndoableAddTrack undoable = UndoableAddTrack.startUndo();
 		TuxGuitar.instance().getFileHistory().setUnsavedFile();
-		
+
 		Caret caret = getEditor().getTablature().getCaret();
-		
+
 		TGTrack track = getSongManager().addTrack();
 		updateTablature();
 		caret.update(track.getNumber(),caret.getPosition(),1);
-		
+
 		//termia el undoable
 		addUndoableEdit(undoable.endUndo(track));
-		
+
 		return 0;
 	}
 }

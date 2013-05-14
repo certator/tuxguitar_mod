@@ -30,12 +30,12 @@ import org.herac.tuxguitar.util.TGSynchronizer;
  *    Chord theory according to <a href="http://www.jazzguitar.be/quick_crd_ref.html">http://www.jazzguitar.be/quick_crd_ref.html</a>.
  */
 public class ChordSelector extends Composite{
-	
+
 	public static final String[][] KEY_NAMES = new String[][]{
 		TGMusicKeyUtils.getSharpKeyNames(TGMusicKeyUtils.PREFIX_CHORD),
 		TGMusicKeyUtils.getFlatKeyNames(TGMusicKeyUtils.PREFIX_CHORD),
 	};
-	
+
 	private ChordDialog dialog;
 	private int[] tuning;
 	private List tonicList;
@@ -49,29 +49,29 @@ public class ChordSelector extends Composite{
 	private List _5List;
 	private List _9List;
 	private List _11List;
-	
+
 	private boolean refresh;
-	
+
 	public ChordSelector(ChordDialog dialog,Composite parent,int style,int[] tuning) {
 		super(parent,style);
 		this.setLayout(new GridLayout(3,false));
 		this.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		this.dialog = dialog;
 		this.tuning = tuning;
-		
+
 		this.refresh = true;
 		this.init();
 	}
-	
-	
+
+
 	public void init(){
 		Composite tonicComposite = new Composite(this,SWT.NONE);
 		tonicComposite.setLayout(this.dialog.gridLayout(1,false,0,0));
 		tonicComposite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		this.tonicList = new List(tonicComposite,SWT.BORDER);
 		this.tonicList.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		// sharp & flat buttons
 		Composite buttonsComposite = new Composite(tonicComposite,SWT.NONE);
 		buttonsComposite.setLayout(this.dialog.gridLayout(2,true,0,0));
@@ -87,13 +87,13 @@ public class ChordSelector extends Composite{
 		this.flatButton.setText("b");
 		this.chordList = new List(this,SWT.BORDER);
 		this.chordList.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		Label separator = new Label(tonicComposite,SWT.SEPARATOR | SWT.HORIZONTAL);
 		separator.setLayoutData(new GridData(SWT.FILL,SWT.BOTTOM,true,true));
 		Button customizeButton = new Button(tonicComposite,SWT.PUSH);
 		customizeButton.setLayoutData(new GridData(SWT.FILL,SWT.BOTTOM,true,false));
 		customizeButton.setText(TuxGuitar.getProperty("settings"));
-		
+
 		customizeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -108,13 +108,13 @@ public class ChordSelector extends Composite{
 				}
 			}
 		});
-		
-		
+
+
 		initChordWidgets();
-		
+
 		// fill the List widgets with text
 		insertTonicNames(true);
-		
+
 		for(int i = 0 ; i < ChordDatabase.length(); i ++) {
 			this.chordList.add( ChordDatabase.get(i).getName() );
 		}
@@ -124,21 +124,21 @@ public class ChordSelector extends Composite{
 			this.chordList.add( ((ChordDatabase.ChordInfo)chordInfo.next()).getName() );
 		}
 		*/
-		
+
 		this.chordList.setSelection(0);
-		
+
 		String[] alterationNames = getAlterationNames();
 		for(int i = 0;i < alterationNames.length;i++){
 			this.alterationList.add(alterationNames[i]);
 		}
 		this.alterationList.setSelection(0);
-		
+
 		String[] plusMinus = this.getPlusMinus("");
 		for(int i = 0;i < plusMinus.length;i++){
 			this.plusMinusList.add(plusMinus[i]);
 		}
 		this.plusMinusList.setSelection(0);
-		
+
 		String[] plus5Minus = this.getPlusMinus("/5");
 		for(int i = 0;i < plus5Minus.length;i++){
 			this._5List.add(plus5Minus[i]);
@@ -154,9 +154,9 @@ public class ChordSelector extends Composite{
 			this._11List.add(plus11Minus[i]);
 		}
 		this._11List.setSelection(0);
-		
+
 		// LISTENERS
-		
+
 		this.tonicList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -168,7 +168,7 @@ public class ChordSelector extends Composite{
 				}
 			}
 		});
-		
+
 		this.bassCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -179,7 +179,7 @@ public class ChordSelector extends Composite{
 				}
 			}
 		});
-		
+
 		this.chordList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -191,7 +191,7 @@ public class ChordSelector extends Composite{
 				}
 			}
 		});
-		
+
 		this.alterationList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -203,12 +203,12 @@ public class ChordSelector extends Composite{
 				}
 			}
 		});
-		
+
 		this.addCheck.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(getDialog().getEditor() != null && getDialog().getList() != null){
-					
+
 					ChordSelector.this.adjustWidgetAvailability();
 					/*
 					if (getAddCheck().getSelection()) {
@@ -221,10 +221,10 @@ public class ChordSelector extends Composite{
 						//ChordSelector.this.dialog.getList().redraw();
 					}
 				}
-				
+
 			}
 		});
-		
+
 		this._5List.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -235,7 +235,7 @@ public class ChordSelector extends Composite{
 				}
 			}
 		});
-		
+
 		this._9List.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -246,7 +246,7 @@ public class ChordSelector extends Composite{
 				}
 			}
 		});
-		
+
 		this._11List.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -257,7 +257,7 @@ public class ChordSelector extends Composite{
 				}
 			}
 		});
-		
+
 		this.plusMinusList.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -269,14 +269,14 @@ public class ChordSelector extends Composite{
 				}
 			}
 		});
-		
+
 		this.sharpButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				insertTonicNames(true);
 			}
 		});
-		
+
 		this.flatButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -285,7 +285,7 @@ public class ChordSelector extends Composite{
 		});
 		this.adjustWidgetAvailability();
 	}
-	
+
 	protected void initChordWidgets() {
 		Composite alterationComposite = new Composite(this,SWT.NONE);
 		alterationComposite.setLayout(this.dialog.gridLayout(1,true,0,0));
@@ -300,19 +300,19 @@ public class ChordSelector extends Composite{
 		this.alterationList.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		this.plusMinusList = new List(firstComposite,SWT.BORDER);
 		this.plusMinusList.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		Composite secondComposite = new Composite(aboveComposite,SWT.NONE);
 		secondComposite.setLayout(this.dialog.gridLayout(1,false,0,0));
 		secondComposite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		this._5List = new List(secondComposite,SWT.BORDER);
 		this._5List.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		this._9List = new List(secondComposite,SWT.BORDER);
 		this._9List.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		this._11List = new List(secondComposite,SWT.BORDER);
 		this._11List.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		Composite bassComposite = new Composite(alterationComposite,SWT.NONE);
 		bassComposite.setLayout(this.dialog.gridLayout(1,true,0,0));
 		bassComposite.setLayoutData(new GridData(SWT.FILL,SWT.BOTTOM,true,true));
@@ -321,21 +321,21 @@ public class ChordSelector extends Composite{
 		//this.addCheck.setSelection(false);
 		//this.addCheck.setEnabled(false);
 		this.addCheck.setLayoutData(new GridData(SWT.FILL,SWT.BOTTOM,true,true));
-		
+
 		Label separator = new Label(bassComposite,SWT.SEPARATOR | SWT.HORIZONTAL );
 		separator.setLayoutData(new GridData(SWT.FILL,SWT.BOTTOM,true,true));
-		
+
 		Label bText = new Label(bassComposite,SWT.LEFT);
 		bText.setLayoutData(new GridData(SWT.FILL,SWT.BOTTOM,true,false));
 		bText.setText(TuxGuitar.getProperty("chord.bass"));
 		this.bassCombo = new Combo(bassComposite, SWT.DROP_DOWN | SWT.READ_ONLY);
 		this.bassCombo.setLayoutData(new GridData(SWT.FILL,SWT.BOTTOM,true,false));
 	}
-	
+
 	protected void insertTonicNames(boolean sharp){
-		
+
 		String[] names = KEY_NAMES[ sharp?0:1 ];
-		
+
 		// update the buttons
 		this.flatButton.setSelection(!sharp);
 		this.sharpButton.setSelection(sharp);
@@ -344,7 +344,7 @@ public class ChordSelector extends Composite{
 		if (indexL==-1) indexL=0;
 		int indexC = this.bassCombo.getSelectionIndex();
 		if (indexC==-1) indexC=0;
-		
+
 		// update the list
 		this.tonicList.removeAll();
 		this.bassCombo.removeAll();
@@ -355,28 +355,28 @@ public class ChordSelector extends Composite{
 		this.tonicList.setSelection(indexL);
 		this.bassCombo.select(indexC);
 	}
-	
+
 	private String[] getPlusMinus(String text){
 		String[] names = new String[3];
-		
+
 		names[0] = " ";
 		names[1] = text+"+";
 		names[2] = text+"-";
-		
+
 		return names;
 	}
-	
+
 	private String[] getAlterationNames(){
 		String[] names = new String[4];
-		
+
 		names[0] = " ";
 		names[1] = "9";
 		names[2] = "11";
 		names[3] = "13";
-		
+
 		return names;
 	}
-	
+
 	protected void showChord(){
 		TuxGuitar.instance().loadCursor(getShell(),SWT.CURSOR_WAIT);
 		ChordCreatorListener listener = new ChordCreatorListener() {
@@ -397,7 +397,7 @@ public class ChordSelector extends Composite{
 				}
 			}
 		};
-		
+
 		ChordCreatorUtil.getChords(listener,
 		                           this.tuning,
 		                           this.chordList.getSelectionIndex(),
@@ -411,23 +411,23 @@ public class ChordSelector extends Composite{
 		                           this.tonicList.getSelectionIndex(),
 		                           this.sharpButton.getSelection());
 	}
-	
+
 	protected void updateWidget(List widget, boolean enabled) {
 		widget.setEnabled(enabled);
 		if(!enabled){
 			widget.setSelection(0);
 		}
 	}
-	
+
 	protected void updateWidget(Button widget, boolean enabled) {
 		widget.setEnabled(enabled);
 		if(!enabled){
 			widget.setSelection(false);
 		}
 	}
-	
+
 	/**
-	 * Sets all the widgets' fields into recognized chord 
+	 * Sets all the widgets' fields into recognized chord
 	 * (tonic, bass, chord, alterations)
 	 */
 	public void adjustWidgets(int tonic, int chordBasic, int alteration, int bass, int plusMinus, int addBoolean, int index5, int index9, int index11) {
@@ -446,7 +446,7 @@ public class ChordSelector extends Composite{
 		this.setRefresh(true);
 		this.showChord();
 	}
-	
+
 	/**
 	 * adjusts the widgets availability according to chord theory options
 	 */
@@ -458,7 +458,7 @@ public class ChordSelector extends Composite{
 			updateWidget(get_9List(),false);
 			updateWidget(get_11List(),false);
 			updateWidget(getPlusMinusList(),false);
-			
+
 			if (!chordName.equals("5")){
 				updateWidget(get_5List(),false);//disableWidget(get_5List());
 			}else{
@@ -472,7 +472,7 @@ public class ChordSelector extends Composite{
 			updateWidget(getAlterationList(),true);
 			updateWidget(get_5List(),true);
 		}
-		
+
 		if(this.alterationList.isEnabled()){
 			int currentIndex = this.alterationList.getSelectionIndex();
 			// handle the +- list and ADD checkbox
@@ -483,67 +483,67 @@ public class ChordSelector extends Composite{
 			updateWidget(this._11List, (currentIndex >= 3 && !this.addCheck.getSelection() ) );
 		}
 	}
-	
+
 	public boolean getRefresh() {
 		return this.refresh;
 	}
-	
+
 	public void setRefresh(boolean refresh) {
 		this.refresh = refresh;
 	}
-	
+
 	public void setTuning(int[] tuning){
 		this.tuning = tuning;
 	}
-	
+
 	public int[] getTuning(){
 		return this.tuning;
 	}
-	
+
 	protected ChordDialog getDialog() {
 		return this.dialog;
 	}
-	
+
 	protected List getTonicList() {
 		return this.tonicList;
 	}
-	
+
 	protected List getChordList() {
 		return this.chordList;
 	}
-	
+
 	protected List getAlterationList() {
 		return this.alterationList;
 	}
-	
+
 	protected Button getSharpButton() {
 		return this.sharpButton;
 	}
-	
+
 	protected Button getFlatButton() {
 		return this.flatButton;
 	}
-	
+
 	protected Combo getBassCombo() {
 		return this.bassCombo;
 	}
-	
+
 	protected Button getAddCheck() {
 		return this.addCheck;
 	}
-	
+
 	protected List getPlusMinusList() {
 		return this.plusMinusList;
 	}
-	
+
 	protected List get_5List() {
 		return this._5List;
 	}
-	
+
 	protected List get_9List() {
 		return this._9List;
 	}
-	
+
 	protected List get_11List() {
 		return this._11List;
 	}

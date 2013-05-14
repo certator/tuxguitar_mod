@@ -85,7 +85,7 @@ public class TGMusicKeyUtils {
 	}
 
 	/**
-	 * Convert an English notation note into MIDI value. For example "C4" became 72, or "A0" became 33. 
+	 * Convert an English notation note into MIDI value. For example "C4" became 72, or "A0" became 33.
 	 * @param name An English notation name ("C4", "Bb4"...)
 	 * @return Value of the note
 	 * @throws IllegalArgumentException
@@ -100,11 +100,11 @@ public class TGMusicKeyUtils {
 			// upper char
 			note -= ('a' - 'A');
 		}
-		
+
 		if (note < 'A' || note > 'G') {
 			throw new IllegalArgumentException("Note '" + name + "' is not valid");
 		}
-		
+
 		byte noteValue = (byte) ((note - 'A') * 2);
 		// half-tone between B-C and E-F
 		if (noteValue >= 10) noteValue -= 2;

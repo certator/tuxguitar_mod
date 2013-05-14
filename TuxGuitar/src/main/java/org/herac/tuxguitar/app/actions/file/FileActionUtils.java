@@ -28,7 +28,7 @@ import org.herac.tuxguitar.song.managers.TGSongManager;
 import org.herac.tuxguitar.song.models.TGSong;
 
 public class FileActionUtils {
-	
+
 	public static String getFileName(){
 		if (TuxGuitar.instance().getFileHistory().isNewFile() || !TuxGuitar.instance().getFileHistory().isLocalFile()) {
 			return chooseFileName();
@@ -38,7 +38,7 @@ public class FileActionUtils {
 		String fullPath = path + File.separator + file;
 		return ( isSupportedFormat(fullPath) ? fullPath : chooseFileName() );
 	}
-	
+
 	public static String chooseFileName(){
 		String fileName = FileChooser.instance().save(TuxGuitar.instance().getShell(),TGFileFormatManager.instance().getOutputFormats());
 		if (fileName != null) {
@@ -51,7 +51,7 @@ public class FileActionUtils {
 		}
 		return fileName;
 	}
-	
+
 	public static String chooseFileName(TGFileFormat format){
 		String fileName = FileChooser.instance().save(TuxGuitar.instance().getShell(),format);
 		if (fileName != null && !canWrite(fileName)){
@@ -59,7 +59,7 @@ public class FileActionUtils {
 		}
 		return fileName;
 	}
-	
+
 	public static boolean isSupportedFormat(String path) {
 		if(path != null){
 			int index = path.lastIndexOf(".");
@@ -75,7 +75,7 @@ public class FileActionUtils {
 		}
 		return false;
 	}
-	
+
 	public static boolean canWrite(String fileName){
 		boolean canWrite = true;
 		File file = new File(fileName);
@@ -88,7 +88,7 @@ public class FileActionUtils {
 		}
 		return canWrite;
 	}
-	
+
 	public static void open(final String fileName){
 		try {
 			TGSong song = TGFileFormatManager.instance().getLoader().load(TuxGuitar.instance().getSongManager().getFactory(),new FileInputStream(fileName));
@@ -98,7 +98,7 @@ public class FileActionUtils {
 			MessageDialog.errorMessage(new TGFileFormatException(TuxGuitar.getProperty("file.open.error", new String[]{fileName}),throwable));
 		}
 	}
-	
+
 	public static void save(final String fileName){
 		try {
 			TGSongManager manager = TuxGuitar.instance().getSongManager();
@@ -108,7 +108,7 @@ public class FileActionUtils {
 			MessageDialog.errorMessage(new TGFileFormatException(TuxGuitar.getProperty("file.save.error", new String[]{fileName}),throwable));
 		}
 	}
-	
+
 	public static void open(final URL url){
 		try {
 			InputStream stream = (isLocalFile(url) ? url.openStream() : getInputStream(url.openStream()));
@@ -119,7 +119,7 @@ public class FileActionUtils {
 			MessageDialog.errorMessage(new TGFileFormatException(TuxGuitar.getProperty("file.open.error", new String[]{url.toString()}),throwable));
 		}
 	}
-	
+
 	public static void exportSong(TGRawExporter exporter){
 		try {
 			TGSongManager manager = TuxGuitar.instance().getSongManager();
@@ -128,7 +128,7 @@ public class FileActionUtils {
 			MessageDialog.errorMessage(new TGFileFormatException(TuxGuitar.getProperty("file.export.error"),throwable));
 		}
 	}
-	
+
 	public static void exportSong(TGLocalFileExporter exporter, String path){
 		try {
 			OutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(path)));
@@ -139,7 +139,7 @@ public class FileActionUtils {
 			MessageDialog.errorMessage(new TGFileFormatException(TuxGuitar.getProperty("file.export.error", new String[]{path}),throwable));
 		}
 	}
-	
+
 	public static void importSong(final TGRawImporter importer){
 		try {
 			TGSong song = importer.importSong();
@@ -149,7 +149,7 @@ public class FileActionUtils {
 			MessageDialog.errorMessage(new TGFileFormatException(TuxGuitar.getProperty("file.import.error"),throwable));
 		}
 	}
-	
+
 	public static void importSong(final TGLocalFileImporter importer, String path){
 		try {
 			InputStream stream = new BufferedInputStream(new FileInputStream(new File(path)));
@@ -161,7 +161,7 @@ public class FileActionUtils {
 			MessageDialog.errorMessage(new TGFileFormatException(TuxGuitar.getProperty("file.import.error", new String[]{path}),throwable));
 		}
 	}
-	
+
 	private static boolean isLocalFile(URL url){
 		try {
 			if(url.getProtocol().equals( new File(url.getFile()).toURI().toURL().getProtocol() ) ){
@@ -172,7 +172,7 @@ public class FileActionUtils {
 		}
 		return false;
 	}
-	
+
 	private static InputStream getInputStream(InputStream in)throws Throwable {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		int read = 0;

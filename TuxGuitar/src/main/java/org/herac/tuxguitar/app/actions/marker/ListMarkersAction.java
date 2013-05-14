@@ -17,13 +17,13 @@ import org.herac.tuxguitar.app.marker.MarkerList;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ListMarkersAction extends Action{
-	
+
 	public static final String NAME = "action.marker.list";
-	
+
 	public ListMarkersAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		if(MarkerList.instance().isDisposed()){

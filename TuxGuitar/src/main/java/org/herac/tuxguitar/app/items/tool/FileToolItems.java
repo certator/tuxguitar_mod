@@ -31,40 +31,40 @@ public class FileToolItems extends ToolItems {
 	private ToolItem saveAsSong;
 	private ToolItem printSong;
 	private ToolItem printPreviewSong;
-	
+
 	public FileToolItems(){
 		super(NAME);
 	}
-	
+
 	@Override
 	public void showItems(ToolBar toolBar){
 		this.newSong = new ToolItem(toolBar, SWT.PUSH);
 		this.newSong.addSelectionListener(TuxGuitar.instance().getAction(NewFileAction.NAME));
-		
+
 		this.openSong = new ToolItem(toolBar, SWT.PUSH);
 		this.openSong.addSelectionListener(TuxGuitar.instance().getAction(OpenFileAction.NAME));
-		
+
 		this.saveSong = new ToolItem(toolBar, SWT.PUSH);
 		this.saveSong.addSelectionListener(TuxGuitar.instance().getAction(SaveFileAction.NAME));
-		
+
 		this.saveAsSong = new ToolItem(toolBar, SWT.PUSH);
 		this.saveAsSong.addSelectionListener(TuxGuitar.instance().getAction(SaveAsFileAction.NAME));
-		
+
 		this.printSong = new ToolItem(toolBar, SWT.PUSH);
 		this.printSong.addSelectionListener(TuxGuitar.instance().getAction(PrintAction.NAME));
-		
+
 		this.printPreviewSong = new ToolItem(toolBar, SWT.PUSH);
 		this.printPreviewSong.addSelectionListener(TuxGuitar.instance().getAction(PrintPreviewAction.NAME));
-		
+
 		this.loadIcons();
 		this.loadProperties();
 	}
-	
+
 	@Override
 	public void update(){
 		//Nothing to do
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		this.newSong.setToolTipText(TuxGuitar.getProperty("file.new"));
@@ -74,7 +74,7 @@ public class FileToolItems extends ToolItems {
 		this.printSong.setToolTipText(TuxGuitar.getProperty("file.print"));
 		this.printPreviewSong.setToolTipText(TuxGuitar.getProperty("file.print-preview"));
 	}
-	
+
 	public void loadIcons(){
 		this.newSong.setImage(TuxGuitar.instance().getIconManager().getFileNew());
 		this.openSong.setImage(TuxGuitar.instance().getIconManager().getFileOpen());

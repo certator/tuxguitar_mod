@@ -9,5 +9,5 @@ public interface ItemBase {
 	 * Actualiza los textos
 	 */
 	public void loadProperties();
-	
+
 }

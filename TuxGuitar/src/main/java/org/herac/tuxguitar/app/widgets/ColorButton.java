@@ -17,11 +17,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.herac.tuxguitar.app.TuxGuitar;
 
 /**
- * Button to display and select a color. 
- * 
+ * Button to display and select a color.
+ *
  * The code override the SelectionListeners to allow to catch changes
  * of color from UI. Maybe we should use an own event for that.
- * 
+ *
  * @author bayo
  */
 public class ColorButton extends Button {

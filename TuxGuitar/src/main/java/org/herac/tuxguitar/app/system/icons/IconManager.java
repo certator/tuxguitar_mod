@@ -15,7 +15,7 @@ public class IconManager {
 	private String theme;
 	private final List<IconLoader> loaders;
 	private final List<Image> disposableIcons;
-	
+
 	private Image[] durations;
 	private Image editUndo;
 	private Image editRedo;
@@ -142,25 +142,25 @@ public class IconManager {
 	private Image browserBack;
 	private Image browserRefresh;
 	private Image settings;
-	
+
 	public IconManager(){
 		this.loaders = new ArrayList<IconLoader>();
 		this.disposableIcons = new ArrayList<Image>();
 		this.loadIcons();
 	}
-	
+
 	public void addLoader(IconLoader loader){
 		if( !this.loaders.contains( loader )){
 			this.loaders.add(loader);
 		}
 	}
-	
+
 	public void removeLoader(IconLoader loader){
 		if( this.loaders.contains( loader )){
 			this.loaders.remove(loader);
 		}
 	}
-	
+
 	private void fireChanges(){
 		Iterator<IconLoader> it = this.loaders.iterator();
 		while(it.hasNext()){
@@ -168,14 +168,14 @@ public class IconManager {
 			loader.loadIcons();
 		}
 	}
-	
+
 	public void reloadIcons(){
 		List<Resource> disposableIcons = purgeDisposableIcons();
 		this.loadIcons();
 		this.fireChanges();
 		this.disposeIcons(disposableIcons);
 	}
-	
+
 	public void loadIcons(){
 		this.theme = TuxGuitar.instance().getConfig().getStringConfigValue(TGConfigKeys.SKIN);
 		this.durations = new Image[]{
@@ -313,13 +313,13 @@ public class IconManager {
 		this.browserRefresh = loadIcon("browser_refresh.png");
 		this.settings = loadIcon("settings.png");
 	}
-	
+
 	private Image loadIcon(String name){
 		Image image = TGFileUtils.loadImage(this.theme,name);
 		this.disposableIcons.add(image);
 		return image;
 	}
-	
+
 	private List<Resource> purgeDisposableIcons(){
 		List<Resource> disposableIcons = new ArrayList<Resource>();
 		Iterator<Image> it = this.disposableIcons.iterator();
@@ -330,7 +330,7 @@ public class IconManager {
 		this.disposableIcons.clear();
 		return disposableIcons;
 	}
-	
+
 	public void disposeIcons(List<Resource> resources){
 		Iterator<Resource> it = resources.iterator();
 		while( it.hasNext() ){
@@ -338,15 +338,15 @@ public class IconManager {
 			image.dispose();
 		}
 	}
-	
+
 	public void disposeIcons(){
 		this.disposeIcons(purgeDisposableIcons());
 	}
-	
+
 	public boolean shouldReload(){
 		return (!this.theme.equals(TuxGuitar.instance().getConfig().getStringConfigValue(TGConfigKeys.SKIN)));
 	}
-	
+
 	public Image getDuration(int value){
 		switch(value){
 		case TGDuration.WHOLE:
@@ -366,505 +366,505 @@ public class IconManager {
 		}
 		return null;
 	}
-	
+
 	public Image getAboutAuthors() {
 		return this.aboutAuthors;
 	}
-	
+
 	public Image getAboutDescription() {
 		return this.aboutDescription;
 	}
-	
+
 	public Image getAboutLicense() {
 		return this.aboutLicense;
 	}
-	
+
 	public Image getAppIcon() {
 		return this.appIcon;
 	}
-	
+
 	public Image getAppIcon16() {
 		return this.appIcon16;
 	}
-	
+
 	public Image getAppIcon24() {
 		return this.appIcon24;
 	}
-	
+
 	public Image getAppIcon32() {
 		return this.appIcon32;
 	}
-	
+
 	public Image getAppIcon48() {
 		return this.appIcon48;
 	}
-	
+
 	public Image getAppIcon64() {
 		return this.appIcon64;
 	}
-	
+
 	public Image getAppIcon96() {
 		return this.appIcon96;
 	}
-	
+
 	public Image getAppSplash() {
 		return this.appSplash;
 	}
-	
+
 	public Image getChord() {
 		return this.chord;
 	}
-	
+
 	public Image getCompositionRepeatClose() {
 		return this.compositionRepeatClose;
 	}
-	
+
 	public Image getCompositionDoubleBar() {
 		return this.compositionDoubleBar;
 	}
-	
+
 	public Image getCompositionRepeatAlternative() {
 		return this.compositionRepeatAlternative;
 	}
-	
+
 	public Image getCompositionRepeatOpen() {
 		return this.compositionRepeatOpen;
 	}
-	
+
 	public Image getCompositionTempo() {
 		return this.compositionTempo;
 	}
-	
+
 	public Image getCompositionTimeSignature() {
 		return this.compositionTimeSignature;
 	}
-	
+
 	public Image getDurationDotted() {
 		return this.durationDotted;
 	}
-	
+
 	public Image getDurationDoubleDotted() {
 		return this.durationDoubleDotted;
 	}
-	
+
 	public Image getDivisionType() {
 		return this.divisionType;
 	}
-	
+
 	public Image getDynamicF() {
 		return this.dynamicF;
 	}
-	
+
 	public Image getDynamicFF() {
 		return this.dynamicFF;
 	}
-	
+
 	public Image getDynamicFFF() {
 		return this.dynamicFFF;
 	}
-	
+
 	public Image getDynamicMF() {
 		return this.dynamicMF;
 	}
-	
+
 	public Image getDynamicMP() {
 		return this.dynamicMP;
 	}
-	
+
 	public Image getDynamicP() {
 		return this.dynamicP;
 	}
-	
+
 	public Image getDynamicPP() {
 		return this.dynamicPP;
 	}
-	
+
 	public Image getDynamicPPP() {
 		return this.dynamicPPP;
 	}
-	
+
 	public Image getEditModeEdition() {
 		return this.editModeEdition;
 	}
-	
+
 	public Image getEditModeEditionNotNatural() {
 		return this.editModeEditionNotNatural;
 	}
-	
+
 	public Image getEditModeSelection() {
 		return this.editModeSelection;
 	}
-	
+
 	public Image getEditRedo() {
 		return this.editRedo;
 	}
-	
+
 	public Image getEditUndo() {
 		return this.editUndo;
 	}
-	
+
 	public Image getEditVoice1() {
 		return this.editVoice1;
 	}
-	
+
 	public Image getEditVoice2() {
 		return this.editVoice2;
 	}
-	
+
 	public Image getEffectAccentuated() {
 		return this.effectAccentuated;
 	}
-	
+
 	public Image getEffectBend() {
 		return this.effectBend;
 	}
-	
+
 	public Image getEffectDead() {
 		return this.effectDead;
 	}
-	
+
 	public Image getEffectFadeIn() {
 		return this.effectFadeIn;
 	}
-	
+
 	public Image getEffectGhost() {
 		return this.effectGhost;
 	}
-	
+
 	public Image getEffectGrace() {
 		return this.effectGrace;
 	}
-	
+
 	public Image getEffectHammer() {
 		return this.effectHammer;
 	}
-	
+
 	public Image getEffectHarmonic() {
 		return this.effectHarmonic;
 	}
-	
+
 	public Image getEffectHeavyAccentuated() {
 		return this.effectHeavyAccentuated;
 	}
-	
+
 	public Image getEffectPalmMute() {
 		return this.effectPalmMute;
 	}
-	
+
 	public Image getEffectPopping() {
 		return this.effectPopping;
 	}
-	
+
 	public Image getEffectSlapping() {
 		return this.effectSlapping;
 	}
-	
+
 	public Image getEffectSlide() {
 		return this.effectSlide;
 	}
-	
+
 	public Image getEffectStaccato() {
 		return this.effectStaccato;
 	}
-	
+
 	public Image getEffectTapping() {
 		return this.effectTapping;
 	}
-	
+
 	public Image getEffectTremoloBar() {
 		return this.effectTremoloBar;
 	}
-	
+
 	public Image getEffectTremoloPicking() {
 		return this.effectTremoloPicking;
 	}
-	
+
 	public Image getEffectTrill() {
 		return this.effectTrill;
 	}
-	
+
 	public Image getEffectVibrato() {
 		return this.effectVibrato;
 	}
-	
+
 	public Image getFileNew() {
 		return this.fileNew;
 	}
-	
+
 	public Image getFileOpen() {
 		return this.fileOpen;
 	}
-	
+
 	public Image getFilePrint() {
 		return this.filePrint;
 	}
-	
+
 	public Image getFilePrintPreview() {
 		return this.filePrintPreview;
 	}
-	
+
 	public Image getFileSave() {
 		return this.fileSave;
 	}
-	
+
 	public Image getFileSaveAs() {
 		return this.fileSaveAs;
 	}
-	
+
 	public Image getFretboard() {
 		return this.fretboard;
 	}
-	
+
 	public Image getFretboardFirstFret() {
 		return this.fretboardFirstFret;
 	}
-	
+
 	public Image getFretboardFret() {
 		return this.fretboardFret;
 	}
-	
+
 	public Image getLayoutLinear() {
 		return this.layoutLinear;
 	}
-	
+
 	public Image getLayoutMultitrack() {
 		return this.layoutMultitrack;
 	}
-	
+
 	public Image getLayoutPage() {
 		return this.layoutPage;
 	}
-	
+
 	public Image getLayoutScore() {
 		return this.layoutScore;
 	}
-	
+
 	public Image getLayoutCompact() {
 		return this.layoutCompact;
 	}
-	
+
 	public Image getMarkerAdd() {
 		return this.markerAdd;
 	}
-	
+
 	public Image getMarkerFirst() {
 		return this.markerFirst;
 	}
-	
+
 	public Image getMarkerLast() {
 		return this.markerLast;
 	}
-	
+
 	public Image getMarkerList() {
 		return this.markerList;
 	}
-	
+
 	public Image getMarkerNext() {
 		return this.markerNext;
 	}
-	
+
 	public Image getMarkerPrevious() {
 		return this.markerPrevious;
 	}
-	
+
 	public Image getMarkerRemove() {
 		return this.markerRemove;
 	}
-	
+
 	public Image getInstruments() {
 		return this.instruments;
 	}
-	
+
 	public Image getNoteTied() {
 		return this.noteTied;
 	}
-	
+
 	public Image getOptionLanguage() {
 		return this.optionLanguage;
 	}
-	
+
 	public Image getOptionMain() {
 		return this.optionMain;
 	}
-	
+
 	public Image getOptionSound() {
 		return this.optionSound;
 	}
-	
+
 	public Image getOptionStyle() {
 		return this.optionStyle;
 	}
-	
+
 	public Image getOptionToolbars() {
 		return this.optionToolbars;
 	}
-	
+
 	public Image getOptionSkin() {
 		return this.optionSkin;
 	}
-	
+
 	public Image getPaintableGrace() {
 		return this.paintableGrace;
 	}
-	
+
 	public Image getPaintableTempo() {
 		return this.paintableTempo;
 	}
-	
+
 	public Image getSongProperties() {
 		return this.songProperties;
 	}
-	
+
 	public Image getTrackAdd() {
 		return this.trackAdd;
 	}
-	
+
 	public Image getTrackRemove() {
 		return this.trackRemove;
 	}
-	
+
 	public Image getTransport() {
 		return this.transport;
 	}
-	
+
 	public Image getTransportFirst1() {
 		return this.transportFirst1;
 	}
-	
+
 	public Image getTransportFirst2() {
 		return this.transportFirst2;
 	}
-	
+
 	public Image getTransportIconFirst1() {
 		return this.transportIconFirst1;
 	}
-	
+
 	public Image getTransportIconFirst2() {
 		return this.transportIconFirst2;
 	}
-	
+
 	public Image getTransportIconLast1() {
 		return this.transportIconLast1;
 	}
-	
+
 	public Image getTransportIconLast2() {
 		return this.transportIconLast2;
 	}
-	
+
 	public Image getTransportIconNext1() {
 		return this.transportIconNext1;
 	}
-	
+
 	public Image getTransportIconNext2() {
 		return this.transportIconNext2;
 	}
-	
+
 	public Image getTransportIconPause() {
 		return this.transportIconPause;
 	}
-	
+
 	public Image getTransportIconPlay1() {
 		return this.transportIconPlay1;
 	}
-	
+
 	public Image getTransportIconPlay2() {
 		return this.transportIconPlay2;
 	}
-	
+
 	public Image getTransportIconPrevious1() {
 		return this.transportIconPrevious1;
 	}
-	
+
 	public Image getTransportIconPrevious2() {
 		return this.transportIconPrevious2;
 	}
-	
+
 	public Image getTransportIconStop1() {
 		return this.transportIconStop1;
 	}
-	
+
 	public Image getTransportIconStop2() {
 		return this.transportIconStop2;
 	}
-	
+
 	public Image getTransportLast1() {
 		return this.transportLast1;
 	}
-	
+
 	public Image getTransportLast2() {
 		return this.transportLast2;
 	}
-	
+
 	public Image getTransportNext1() {
 		return this.transportNext1;
 	}
-	
+
 	public Image getTransportNext2() {
 		return this.transportNext2;
 	}
-	
+
 	public Image getTransportPause() {
 		return this.transportPause;
 	}
-	
+
 	public Image getTransportPlay1() {
 		return this.transportPlay1;
 	}
-	
+
 	public Image getTransportPlay2() {
 		return this.transportPlay2;
 	}
-	
+
 	public Image getTransportPrevious1() {
 		return this.transportPrevious1;
 	}
-	
+
 	public Image getTransportPrevious2() {
 		return this.transportPrevious2;
 	}
-	
+
 	public Image getTransportStop1() {
 		return this.transportStop1;
 	}
-	
+
 	public Image getTransportStop2() {
 		return this.transportStop2;
 	}
-	
+
 	public Image getTransportMetronome() {
 		return this.transportMetronome;
 	}
-	
+
 	public Image getTransportMode() {
 		return this.transportMode;
 	}
-	
+
 	public Image getBrowserBack() {
 		return this.browserBack;
 	}
-	
+
 	public Image getBrowserFile() {
 		return this.browserFile;
 	}
-	
+
 	public Image getBrowserFolder() {
 		return this.browserFolder;
 	}
-	
+
 	public Image getBrowserRefresh() {
 		return this.browserRefresh;
 	}
-	
+
 	public Image getBrowserRoot() {
 		return this.browserRoot;
 	}
-	
+
 	public Image getBrowserNew() {
 		return this.browserNew;
 	}
-	
+
 	public Image getSettings() {
 		return this.settings;
 	}
-	
+
 }

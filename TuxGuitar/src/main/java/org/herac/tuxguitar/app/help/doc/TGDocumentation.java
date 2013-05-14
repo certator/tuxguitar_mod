@@ -10,17 +10,17 @@ import org.eclipse.swt.program.Program;
 import org.herac.tuxguitar.app.util.TGFileUtils;
 
 public class TGDocumentation {
-	
+
 	private static final String RESOURCE_PATH = "help";
 	private static final String TEMPORAL_PATH = System.getProperty("java.io.tmpdir") + File.separator + "tuxguitar";
-	
+
 	public void display() throws Throwable{
 		URL url = getIndexUrl();
 		if( url != null ){
 			Program.launch( url.toExternalForm() );
 		}
 	}
-	
+
 	private URL getIndexUrl() throws Throwable{
 		URL url = TGFileUtils.getResourceUrl(RESOURCE_PATH + "/index.html");
 		if( url != null && !TGFileUtils.isLocalFile( url ) ){
@@ -30,7 +30,7 @@ public class TGDocumentation {
 		}
 		return url;
 	}
-	
+
 	private void copyTemporalResources( String dstPath , String resourcePath, String[] resources ) throws Throwable{
 		if( resources != null ){
 			for( int i = 0 ; i < resources.length ; i ++ ){

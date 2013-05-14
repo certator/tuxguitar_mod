@@ -11,11 +11,11 @@ public class UndoableAddMeasure implements UndoableEdit{
 	private UndoableCaretHelper undoCaret;
 	private UndoableCaretHelper redoCaret;
 	private int number;
-	
+
 	private UndoableAddMeasure(){
 		super();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -24,10 +24,10 @@ public class UndoableAddMeasure implements UndoableEdit{
 		TuxGuitar.instance().getSongManager().addNewMeasure(this.number);
 		TuxGuitar.instance().fireUpdate();
 		this.redoCaret.update();
-		
+
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -36,20 +36,20 @@ public class UndoableAddMeasure implements UndoableEdit{
 		TuxGuitar.instance().getSongManager().removeMeasure(this.number);
 		TuxGuitar.instance().fireUpdate();
 		this.undoCaret.update();
-		
+
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public static UndoableAddMeasure startUndo(int number){
 		UndoableAddMeasure undoable = new UndoableAddMeasure();
 		undoable.undoCaret = new UndoableCaretHelper();
@@ -57,10 +57,10 @@ public class UndoableAddMeasure implements UndoableEdit{
 		undoable.number = number;
 		return undoable;
 	}
-	
+
 	public UndoableAddMeasure endUndo(){
 		this.redoCaret = new UndoableCaretHelper();
 		return this;
 	}
-	
+
 }

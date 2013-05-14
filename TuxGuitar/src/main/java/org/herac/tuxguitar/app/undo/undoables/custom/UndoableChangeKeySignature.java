@@ -24,11 +24,11 @@ public class UndoableChangeKeySignature implements UndoableEdit{
 	private List<KeySignaturePosition> nextKeySignaturePositions;
 	private boolean toEnd;
 	private TGTrack track;
-	
+
 	private UndoableChangeKeySignature(){
 		super();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -37,10 +37,10 @@ public class UndoableChangeKeySignature implements UndoableEdit{
 		TuxGuitar.instance().getSongManager().getTrackManager().changeKeySignature(this.track,this.position,this.redoableKeySignature,this.toEnd);
 		TuxGuitar.instance().fireUpdate();
 		this.redoCaret.update();
-		
+
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -56,20 +56,20 @@ public class UndoableChangeKeySignature implements UndoableEdit{
 		}
 		TuxGuitar.instance().fireUpdate();
 		this.undoCaret.update();
-		
+
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public static UndoableChangeKeySignature startUndo(){
 		UndoableChangeKeySignature undoable = new UndoableChangeKeySignature();
 		Caret caret = getCaret();
@@ -79,7 +79,7 @@ public class UndoableChangeKeySignature implements UndoableEdit{
 		undoable.undoableKeySignature = caret.getMeasure().getKeySignature();
 		undoable.track = caret.getTrack();
 		undoable.nextKeySignaturePositions = new ArrayList<KeySignaturePosition>();
-		
+
 		int prevKeySignature = undoable.undoableKeySignature;
 		Iterator<TGMeasure> it = caret.getTrack().getMeasures();
 		while(it.hasNext()){
@@ -93,34 +93,34 @@ public class UndoableChangeKeySignature implements UndoableEdit{
 				prevKeySignature = currKeySignature;
 			}
 		}
-		
+
 		return undoable;
 	}
-	
+
 	public UndoableChangeKeySignature endUndo(int keySignature,boolean toEnd){
 		this.redoCaret = new UndoableCaretHelper();
 		this.redoableKeySignature = keySignature;
 		this.toEnd = toEnd;
 		return this;
 	}
-	
+
 	private static Caret getCaret(){
 		return TuxGuitar.instance().getTablatureEditor().getTablature().getCaret();
 	}
-	
+
 	private class KeySignaturePosition{
 		private final long position;
 		private final int keySignature;
-		
+
 		public KeySignaturePosition(long position,int keySignature) {
 			this.position = position;
 			this.keySignature = keySignature;
 		}
-		
+
 		public long getPosition() {
 			return this.position;
 		}
-		
+
 		public int getKeySignature() {
 			return this.keySignature;
 		}

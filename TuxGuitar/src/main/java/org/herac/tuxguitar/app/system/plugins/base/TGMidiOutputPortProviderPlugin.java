@@ -7,15 +7,15 @@ import org.herac.tuxguitar.player.base.MidiOutputPortProvider;
 public abstract class TGMidiOutputPortProviderPlugin extends TGPluginAdapter{
 	private boolean loaded;
 	private MidiOutputPortProvider provider;
-	
+
 	protected abstract MidiOutputPortProvider getProvider() throws TGPluginException;
-	
+
 	@Override
 	public void init() throws TGPluginException {
 		this.provider = getProvider();
 		this.loaded = false;
 	}
-	
+
 	@Override
 	public void close() throws TGPluginException {
 		try {
@@ -24,7 +24,7 @@ public abstract class TGMidiOutputPortProviderPlugin extends TGPluginAdapter{
 			throw new TGPluginException(throwable.getMessage(),throwable);
 		}
 	}
-	
+
 	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		if(enabled){
@@ -33,7 +33,7 @@ public abstract class TGMidiOutputPortProviderPlugin extends TGPluginAdapter{
 			removePlugin();
 		}
 	}
-	
+
 	protected void addPlugin() throws TGPluginException {
 		if(!this.loaded){
 			try {
@@ -44,7 +44,7 @@ public abstract class TGMidiOutputPortProviderPlugin extends TGPluginAdapter{
 			}
 		}
 	}
-	
+
 	protected void removePlugin() throws TGPluginException {
 		if(this.loaded){
 			try {

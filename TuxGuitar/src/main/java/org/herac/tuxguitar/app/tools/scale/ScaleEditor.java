@@ -13,7 +13,7 @@ import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.util.DialogUtils;
 
 public class ScaleEditor {
-	
+
 	public void show() {
 		final Shell dialog = DialogUtils.newDialog(TuxGuitar.instance().getShell(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		dialog.setLayout(new GridLayout());
@@ -23,7 +23,7 @@ public class ScaleEditor {
 		Composite composite = new Composite(dialog, SWT.NONE);
 		composite.setLayout(new GridLayout(2,false));
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
+
 		final List keys = new List(composite,SWT.BORDER | SWT.V_SCROLL);
 		keys.setLayoutData(new GridData(50,200));
 		String[] keyNames = TuxGuitar.instance().getScaleManager().getKeyNames();
@@ -31,7 +31,7 @@ public class ScaleEditor {
 			keys.add(keyNames[i]);
 		}
 		keys.select(TuxGuitar.instance().getScaleManager().getSelectionKey());
-		
+
 		final List scales = new List(composite,SWT.BORDER | SWT.V_SCROLL);
 		scales.setLayoutData(new GridData(SWT.DEFAULT,200));
 		scales.add("None");
@@ -40,12 +40,12 @@ public class ScaleEditor {
 			scales.add(scaleNames[i]);
 		}
 		scales.select(TuxGuitar.instance().getScaleManager().getSelectionIndex() + 1);
-		
+
 		//------------------BUTTONS--------------------------
 		Composite buttons = new Composite(dialog, SWT.NONE);
 		buttons.setLayout(new GridLayout(2,false));
 		buttons.setLayoutData(new GridData(SWT.END,SWT.FILL,true,true));
-		
+
 		final Button buttonOK = new Button(buttons, SWT.PUSH);
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
@@ -56,7 +56,7 @@ public class ScaleEditor {
 				dialog.dispose();
 			}
 		});
-		
+
 		Button buttonCancel = new Button(buttons, SWT.PUSH);
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
@@ -66,12 +66,12 @@ public class ScaleEditor {
 				dialog.dispose();
 			}
 		});
-		
+
 		dialog.setDefaultButton( buttonOK );
-		
+
 		DialogUtils.openDialog(dialog,DialogUtils.OPEN_STYLE_CENTER | DialogUtils.OPEN_STYLE_PACK | DialogUtils.OPEN_STYLE_WAIT);
 	}
-	
+
 	private GridData getButtonData(){
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.minimumWidth = 80;

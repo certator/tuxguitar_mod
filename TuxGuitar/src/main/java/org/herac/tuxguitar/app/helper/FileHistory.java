@@ -30,56 +30,56 @@ import org.herac.tuxguitar.app.util.TGFileUtils;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class FileHistory {
-	
+
 	private static final int URL_LIMIT = TuxGuitar.instance().getConfig().getIntConfigValue(TGConfigKeys.MAX_HISTORY_FILES);
-	
+
 	private boolean changed;
 	private boolean newFile;
 	private boolean localFile;
 	private boolean unsavedFile;
 	private List<URL> urls;
 	private String chooserPath;
-	
+
 	public FileHistory(){
 		this.urls = new ArrayList<URL>();
 		this.loadHistory();
 		this.reset(null);
 	}
-	
+
 	public void reset(URL url) {
 		this.unsavedFile = false;
 		this.newFile = (url == null);
 		this.localFile = (url != null && isLocalFile(url));
 		this.addURL(url);
 	}
-	
+
 	public boolean isNewFile(){
 		return this.newFile;
 	}
-	
+
 	public boolean isLocalFile(){
 		return this.localFile;
 	}
-	
+
 	public boolean isUnsavedFile() {
 		return this.unsavedFile;
 	}
-	
+
 	public void setUnsavedFile() {
 		this.unsavedFile = true;
 	}
-	
+
 	public void setChooserPath(String chooserPath){
 		this.chooserPath = chooserPath;
 	}
-	
+
 	public void setChooserPath(URL url){
 		String path = getFilePath(url);
 		if( path != null ){
 			this.setChooserPath( path );
 		}
 	}
-	
+
 	public String getCurrentFileName(String defaultName) {
 		if(!this.isNewFile()){
 			URL url = getCurrentURL();
@@ -89,7 +89,7 @@ public class FileHistory {
 		}
 		return defaultName;
 	}
-	
+
 	public String getCurrentFilePath() {
 		if(!this.isNewFile()){
 			URL url = getCurrentURL();
@@ -102,23 +102,23 @@ public class FileHistory {
 		}
 		return this.chooserPath;
 	}
-	
+
 	public String getSavePath() {
 		String current = getCurrentFilePath();
 		return (current != null ? current : this.chooserPath);
 	}
-	
+
 	public String getOpenPath() {
 		return this.chooserPath;
 	}
-	
+
 	protected String getFilePath(URL url){
 		if(isLocalFile(url)){
 			return new File(url.getFile()).getParent();
 		}
 		return null;
 	}
-	
+
 	protected String decode(String url){
 		try {
 			return URLDecoder.decode(url, "UTF-8");
@@ -127,7 +127,7 @@ public class FileHistory {
 		}
 		return url;
 	}
-	
+
 	protected boolean isLocalFile(URL url){
 		try {
 			if(url.getProtocol().equals( new File(url.getFile()).toURI().toURL().getProtocol() ) ){
@@ -138,14 +138,14 @@ public class FileHistory {
 		}
 		return false;
 	}
-	
+
 	protected URL getCurrentURL(){
 		if(!this.urls.isEmpty()){
 			return this.urls.get(0);
 		}
 		return null;
 	}
-	
+
 	public void addURL(URL url){
 		if(url != null){
 			removeURL(url);
@@ -155,17 +155,17 @@ public class FileHistory {
 		}
 		saveHistory();
 	}
-	
+
 	public List<URL> getURLs(){
 		return this.urls;
 	}
-	
+
 	private void checkLimit(){
 		while(this.urls.size() > URL_LIMIT){
 			this.urls.remove(this.urls.size() - 1);
 		}
 	}
-	
+
 	private void removeURL(URL url){
 		for(int i = 0; i < this.urls.size(); i++){
 			URL old = this.urls.get(i);
@@ -175,15 +175,15 @@ public class FileHistory {
 			}
 		}
 	}
-	
+
 	public boolean isChanged() {
 		return this.changed;
 	}
-	
+
 	public void setChanged(boolean changed) {
 		this.changed = changed;
 	}
-	
+
 	public void loadHistory() {
 		try {
 			this.urls.clear();
@@ -191,9 +191,9 @@ public class FileHistory {
 				InputStream inputStream = new FileInputStream(getHistoryFileName());
 				Properties properties = new Properties();
 				properties.load(inputStream);
-				
+
 				this.chooserPath = (String)properties.get("history.path");
-				
+
 				int count = Integer.parseInt((String)properties.get("history.count"));
 				for(int i = 0; i < count;i ++){
 					String url = (String)properties.get("history." + i);
@@ -209,11 +209,11 @@ public class FileHistory {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void saveHistory(){
 		try {
 			Properties properties = new Properties();
-			
+
 			int count = this.urls.size();
 			for(int i = 0;i < count;i ++){
 				properties.put("history." + i,this.urls.get(i).toString());
@@ -229,7 +229,7 @@ public class FileHistory {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	private String getHistoryFileName(){
 		return TGFileUtils.PATH_USER_CONFIG + File.separator + "history.properties";
 	}

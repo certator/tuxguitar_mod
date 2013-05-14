@@ -10,17 +10,17 @@ import org.herac.tuxguitar.util.TGSynchronizer;
 
 /**
  * @author julian
- * 
+ *
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class SyncThread extends Thread {
-	
+
 	private TGSynchronizer.TGRunnable runnable;
-	
+
 	public SyncThread(TGSynchronizer.TGRunnable runnable) {
 		this.runnable = runnable;
 	}
-	
+
 	public SyncThread(final Runnable runnable) {
 		this(new TGSynchronizer.TGRunnable() {
 			@Override
@@ -29,7 +29,7 @@ public class SyncThread extends Thread {
 			}
 		});
 	}
-	
+
 	@Override
 	public void run() {
 		try {

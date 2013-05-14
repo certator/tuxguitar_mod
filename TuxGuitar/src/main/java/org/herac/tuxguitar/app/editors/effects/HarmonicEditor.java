@@ -17,35 +17,35 @@ import org.herac.tuxguitar.song.models.TGNote;
 import org.herac.tuxguitar.song.models.effects.TGEffectHarmonic;
 
 public class HarmonicEditor extends SelectionAdapter{
-	
+
 	public static final int WIDTH = 400;
-	
+
 	protected Combo harmonicType;
 	protected Combo harmonicDataCombo;
 	protected Button[] typeButtons;
 	protected TGEffectHarmonic result;
 	protected boolean cancelled;
-	
+
 	public HarmonicEditor(){
 		super();
 	}
-	
+
 	public boolean isCancelled(){
 		return this.cancelled;
 	}
-	
+
 	public TGEffectHarmonic getResult(){
 		return this.result;
 	}
-	
+
 	public void show(final TGNote note){
 		this.cancelled = true;
-		
+
 		final Shell dialog = DialogUtils.newDialog(TuxGuitar.instance().getShell(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-		
+
 		dialog.setLayout(new GridLayout());
 		dialog.setText(TuxGuitar.getProperty("effects.harmonic-editor"));
-		
+
 		//---------------------------------------------------------------------
 		//------------HARMONIC-------------------------------------------------
 		//---------------------------------------------------------------------
@@ -53,7 +53,7 @@ public class HarmonicEditor extends SelectionAdapter{
 		group.setLayout(new GridLayout());
 		group.setLayoutData(resizeData(new GridData(SWT.FILL,SWT.FILL,true,true),WIDTH));
 		group.setText(TuxGuitar.getProperty("effects.harmonic.type-of-harmonic"));
-		
+
 		this.typeButtons = new Button[5];
 		SelectionListener listener = new SelectionAdapter() {
 			@Override
@@ -61,37 +61,37 @@ public class HarmonicEditor extends SelectionAdapter{
 				update(note,getSelectedType());
 			}
 		};
-		
+
 		// Natural
 		String label = "[" + TGEffectHarmonic.KEY_NATURAL + "] " + TuxGuitar.getProperty("effects.harmonic.natural");
 		initButton(group,listener,0,TGEffectHarmonic.TYPE_NATURAL,label);
-		
+
 		// Artificial
 		label = ("[" + TGEffectHarmonic.KEY_ARTIFICIAL + "] " + TuxGuitar.getProperty("effects.harmonic.artificial"));
 		initButton(group,listener,1,TGEffectHarmonic.TYPE_ARTIFICIAL,label);
-		
+
 		// Tapped
 		label = ("[" + TGEffectHarmonic.KEY_TAPPED + "] " + TuxGuitar.getProperty("effects.harmonic.tapped"));
 		initButton(group,listener,2,TGEffectHarmonic.TYPE_TAPPED,label);
-		
+
 		// Pinch
 		label = ("[" + TGEffectHarmonic.KEY_PINCH + "] " + TuxGuitar.getProperty("effects.harmonic.pinch"));
 		initButton(group,listener,3,TGEffectHarmonic.TYPE_PINCH,label);
-		
+
 		// Semi
 		label = ("[" + TGEffectHarmonic.KEY_SEMI + "] " + TuxGuitar.getProperty("effects.harmonic.semi"));
 		initButton(group,listener,4,TGEffectHarmonic.TYPE_SEMI,label);
-		
+
 		this.harmonicDataCombo = new Combo(group,SWT.DROP_DOWN | SWT.READ_ONLY);
 		this.harmonicDataCombo.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		//---------------------------------------------------
 		//------------------BUTTONS--------------------------
 		//---------------------------------------------------
 		Composite buttons = new Composite(dialog, SWT.NONE);
 		buttons.setLayout(new GridLayout(3,false));
 		buttons.setLayoutData(new GridData(SWT.END,SWT.BOTTOM,true,true));
-		
+
 		Button buttonOK = new Button(buttons, SWT.PUSH);
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
@@ -103,7 +103,7 @@ public class HarmonicEditor extends SelectionAdapter{
 				dialog.dispose();
 			}
 		});
-		
+
 		Button buttonClean = new Button(buttons, SWT.PUSH);
 		buttonClean.setText(TuxGuitar.getProperty("clean"));
 		buttonClean.setLayoutData(getButtonData());
@@ -116,7 +116,7 @@ public class HarmonicEditor extends SelectionAdapter{
 				dialog.dispose();
 			}
 		});
-		
+
 		Button buttonCancel = new Button(buttons, SWT.PUSH);
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
@@ -128,26 +128,26 @@ public class HarmonicEditor extends SelectionAdapter{
 				dialog.dispose();
 			}
 		});
-		
+
 		this.initDefaults(note);
-		
+
 		dialog.setDefaultButton( buttonOK );
-		
+
 		DialogUtils.openDialog(dialog, DialogUtils.OPEN_STYLE_CENTER | DialogUtils.OPEN_STYLE_PACK | DialogUtils.OPEN_STYLE_WAIT);
 	}
-	
+
 	private GridData resizeData(GridData data,int minWidth){
 		data.minimumWidth = minWidth;
 		return data;
 	}
-	
+
 	private GridData getButtonData(){
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.minimumWidth = 80;
 		data.minimumHeight = 25;
 		return data;
 	}
-	
+
 	private void initButton(Composite parent,SelectionListener listener,int index, int type, String label){
 		this.typeButtons[index] = new Button(parent,SWT.RADIO);
 		this.typeButtons[index].setText(label);
@@ -155,7 +155,7 @@ public class HarmonicEditor extends SelectionAdapter{
 		this.typeButtons[index].setData(new Integer(type));
 		this.typeButtons[index].addSelectionListener(listener);
 	}
-	
+
 	protected void initDefaults(TGNote note){
 		int type = TGEffectHarmonic.TYPE_NATURAL;
 		if(note.getEffect().isHarmonic()){
@@ -173,7 +173,7 @@ public class HarmonicEditor extends SelectionAdapter{
 				this.typeButtons[0].setEnabled(false);
 				type = TGEffectHarmonic.TYPE_ARTIFICIAL;
 			}
-			
+
 		}
 		for(int i = 0; i < this.typeButtons.length; i ++){
 			int data = ((Integer)this.typeButtons[i].getData()).intValue();
@@ -181,7 +181,7 @@ public class HarmonicEditor extends SelectionAdapter{
 		}
 		update(note,type);
 	}
-	
+
 	protected int getSelectedType(){
 		for(int i = 0; i < this.typeButtons.length; i ++){
 			if(this.typeButtons[i].getSelection()){
@@ -190,7 +190,7 @@ public class HarmonicEditor extends SelectionAdapter{
 		}
 		return 0;
 	}
-	
+
 	protected void update(TGNote note,int type){
 		TGEffectHarmonic h = note.getEffect().getHarmonic();
 		this.harmonicDataCombo.removeAll();
@@ -203,7 +203,7 @@ public class HarmonicEditor extends SelectionAdapter{
 			this.harmonicDataCombo.select((h != null && h.getType() == type)?h.getData():0);
 		}
 	}
-	
+
 	private String getTypeLabel(int type){
 		if(type == TGEffectHarmonic.TYPE_NATURAL){
 			return TGEffectHarmonic.KEY_NATURAL;
@@ -222,7 +222,7 @@ public class HarmonicEditor extends SelectionAdapter{
 		}
 		return new String();
 	}
-	
+
 	public TGEffectHarmonic getHarmonic(){
 		int type = getSelectedType();
 		if(type > 0){

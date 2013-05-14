@@ -22,24 +22,24 @@ import org.herac.tuxguitar.util.TGSynchronizer;
 
 /**
  * @author julian
- * 
+ *
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class DisposeAction extends Action {
-	
+
 	public static final String NAME = "action.system.dispose";
-	
+
 	public DisposeAction() {
 		super(NAME, AUTO_LOCK);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		TypedEvent e = (TypedEvent)actionData.get(ActionAdapter.PROPERTY_TYPED_EVENT);
-		
+
 		if(e instanceof ShellEvent){
 			TuxGuitar.instance().getPlayer().reset();
-			
+
 			if(TuxGuitar.instance().getFileHistory().isUnsavedFile()){
 				ConfirmDialog confirm = new ConfirmDialog(TuxGuitar.getProperty("file.save-changes-question"));
 				confirm.setDefaultStatus( ConfirmDialog.STATUS_CANCEL );
@@ -59,7 +59,7 @@ public class DisposeAction extends Action {
 							if(!TuxGuitar.isDisposed()){
 								FileActionUtils.save(fileName);
 								TuxGuitar.instance().loadCursor(SWT.CURSOR_ARROW);
-								
+
 								exit();
 							}
 						}
@@ -71,7 +71,7 @@ public class DisposeAction extends Action {
 		}
 		return 0;
 	}
-	
+
 	protected void exit(){
 		try {
 			TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
@@ -88,10 +88,10 @@ public class DisposeAction extends Action {
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	protected void saveConfig(){
 		TGConfigManager config = TuxGuitar.instance().getConfig();
-		
+
 		config.setProperty(TGConfigKeys.LAYOUT_MODE,getEditor().getTablature().getViewLayout().getMode());
 		config.setProperty(TGConfigKeys.LAYOUT_STYLE,getEditor().getTablature().getViewLayout().getStyle());
 		config.setProperty(TGConfigKeys.SHOW_PIANO,!TuxGuitar.instance().getPianoEditor().isDisposed());
@@ -105,15 +105,15 @@ public class DisposeAction extends Action {
 		config.setProperty(TGConfigKeys.HEIGHT,TuxGuitar.instance().getShell().getClientArea().height);
 		config.setProperty(TGConfigKeys.EDITOR_MOUSE_MODE,getEditor().getTablature().getEditorKit().getMouseMode());
 		config.setProperty(TGConfigKeys.MATRIX_GRIDS,TuxGuitar.instance().getMatrixEditor().getGrids());
-		
+
 		TuxGuitar.instance().getConfig().save();
 	}
-	
+
 	protected void closeModules(){
 		TuxGuitar.instance().getPlayer().close();
 		TuxGuitar.instance().getPluginManager().closePlugins();
 	}
-	
+
 	protected void dispose(){
 		TuxGuitar.instance().getTable().dispose();
 		TuxGuitar.instance().getSongManager().clearSong();

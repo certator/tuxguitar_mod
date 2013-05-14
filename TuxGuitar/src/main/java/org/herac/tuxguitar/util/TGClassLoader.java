@@ -6,26 +6,26 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 public class TGClassLoader{
-	
+
 	private static TGClassLoader instance;
-	
+
 	private URLClassLoaderImpl classLoader;
-	
+
 	private TGClassLoader(){
 		this.classLoader = new URLClassLoaderImpl();
 	}
-	
+
 	public static TGClassLoader instance(){
 		if(instance == null){
 			instance = new TGClassLoader();
 		}
 		return instance;
 	}
-	
+
 	public ClassLoader getClassLoader(){
 		return this.classLoader;
 	}
-	
+
 	public Object newInstance(String loadClassName){
 		Object object = null;
 		try {
@@ -39,7 +39,7 @@ public class TGClassLoader{
 		}
 		return object;
 	}
-	
+
 	public void addPath(String path){
 		try {
 			this.classLoader.addURL(new File(path).toURI().toURL());
@@ -47,7 +47,7 @@ public class TGClassLoader{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void addPaths(File folder){
 		if(folder != null && folder.exists() && folder.isDirectory()){
 			String[] files = folder.list();
@@ -60,18 +60,18 @@ public class TGClassLoader{
 			}
 		}
 	}
-	
+
 	private class URLClassLoaderImpl extends URLClassLoader{
-		
+
 		public URLClassLoaderImpl(){
 			super(new URL[]{},TGClassLoader.class.getClassLoader());
 		}
-		
+
 		@Override
 		public void addURL(URL url){
 			super.addURL(url);
 		}
-		
+
 	}
-	
+
 }

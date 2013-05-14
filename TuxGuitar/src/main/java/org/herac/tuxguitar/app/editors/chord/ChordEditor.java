@@ -36,12 +36,12 @@ import org.herac.tuxguitar.song.models.TGVelocities;
  * @author Nikola Kolarovic
  */
 public class ChordEditor extends Composite {
-	
+
 	public static final int STRING_SPACING = 30;
 	public static final int FRET_SPACING = 30;
 	public static final short MIN_FRET = 1;
 	public static final short MAX_FRET = 24;
-	
+
 	private ChordDialog dialog;
 	private Composite composite;
 	private Text chordName;
@@ -54,11 +54,11 @@ public class ChordEditor extends Composite {
 	private int width;
 	private int height;
 	private TGTrack currentTrack = null;
-	
+
 	public ChordEditor(Composite parent, int style) {
 		super(parent, style);
 	}
-	
+
 	public ChordEditor(ChordDialog dialog, Composite parent,int style, short maxStrings) {
 		this(parent, style);
 		this.dialog = dialog;
@@ -66,7 +66,7 @@ public class ChordEditor extends Composite {
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.init(maxStrings);
 	}
-	
+
 	public void init(short maxStrings) {
 		this.fret = MIN_FRET;
 		this.maxStrings = maxStrings;
@@ -76,39 +76,39 @@ public class ChordEditor extends Composite {
 		this.width = ((STRING_SPACING * this.maxStrings) - STRING_SPACING);
 		this.height = ((FRET_SPACING * TGChordImpl.MAX_FRETS) - FRET_SPACING);
 		this.points = new ArrayList<Point>();
-		
+
 		for (int i = 0; i < this.firstFrets.length; i++) {
 			this.firstFrets[i] = false;
 		}
-		
+
 		for (int i = 0; i < this.strings.length; i++) {
 			this.strings[i] = ((i + 1) * STRING_SPACING);
 		}
-		
+
 		for (int i = 0; i < this.frets.length; i++) {
 			this.frets[i] = ((i + 1) * FRET_SPACING);
 		}
-		
+
 		Composite composite = new Composite(this, SWT.NONE);
 		composite.setLayout(new GridLayout());
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
+
 		this.composite = new Composite(composite, SWT.BORDER | SWT.V_SCROLL | SWT.DOUBLE_BUFFERED);
-		
+
 		Composite nameComposite = new Composite(composite, SWT.NONE);
 		nameComposite.setLayout(this.dialog.gridLayout(1, true, 0, 0));
 		nameComposite.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true,true));
-		
+
 		Label formulaLabel = new Label(nameComposite, SWT.SEPARATOR | SWT.HORIZONTAL);
 		formulaLabel.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true,true));
-		
+
 		Label chordNameLabel = new Label(nameComposite, SWT.LEFT);
 		chordNameLabel.setText(TuxGuitar.getProperty("chord.name"));
 		chordNameLabel.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true,false));
-		
+
 		this.chordName = new Text(nameComposite, SWT.SINGLE | SWT.BORDER);
 		this.chordName.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true,false));
-		
+
 		this.composite.setBackground(this.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		this.composite.addPaintListener(new PaintListener() {
 			@Override
@@ -117,7 +117,7 @@ public class ChordEditor extends Composite {
 				paintEditor(painter);
 			}
 		});
-		
+
 		this.composite.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseUp(org.eclipse.swt.events.MouseEvent e) {
@@ -126,7 +126,7 @@ public class ChordEditor extends Composite {
 				redraw();
 			}
 		});
-		
+
 		this.composite.getVerticalBar().setIncrement(1);
 		this.composite.getVerticalBar().setMaximum( ((MAX_FRET + MIN_FRET) - (TGChordImpl.MAX_FRETS - 1) + 1));
 		this.composite.getVerticalBar().setMinimum(MIN_FRET);
@@ -138,31 +138,31 @@ public class ChordEditor extends Composite {
 				redraw();
 			}
 		});
-		
+
 		this.composite.setLayoutData(makeCompositeData());
 	}
-	
+
 	private GridData makeCompositeData() {
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.minimumWidth = (getWidth() + (STRING_SPACING * 2) + this.composite.getVerticalBar().getSize().x);
 		data.minimumHeight = (getHeight() + (FRET_SPACING * 2));
 		return data;
 	}
-	
+
 	protected void paintEditor(TGPainterImpl painter) {
 		int noteSize = (FRET_SPACING / 2);
-		
+
 		painter.setForeground(new TGColorImpl(this.getDisplay().getSystemColor(SWT.COLOR_BLACK)));
-		
+
 		// dibujo el puente
 		painter.initPath();
 		painter.setAntialias(false);
 		painter.moveTo((STRING_SPACING - 10), (FRET_SPACING - 10));
 		painter.lineTo(STRING_SPACING + (this.width + 10), (FRET_SPACING - 10));
 		painter.closePath();
-		
+
 		painter.drawString(Integer.toString(getFret()), FRET_SPACING - 25,STRING_SPACING);
-		
+
 		// dibujo las cuerdas
 		painter.initPath();
 		painter.setAntialias(false);
@@ -171,7 +171,7 @@ public class ChordEditor extends Composite {
 			painter.lineTo(this.strings[i], FRET_SPACING + this.height);
 		}
 		painter.closePath();
-		
+
 		// dibujo las cegillas
 		painter.initPath();
 		painter.setAntialias(false);
@@ -180,7 +180,7 @@ public class ChordEditor extends Composite {
 			painter.lineTo(STRING_SPACING + this.width, this.frets[i]);
 		}
 		painter.closePath();
-		
+
 		// dibujo las notas
 		painter.setBackground(new TGColorImpl(this.getDisplay().getSystemColor(SWT.COLOR_BLACK)));
 		Iterator<Point> it = this.points.iterator();
@@ -190,7 +190,7 @@ public class ChordEditor extends Composite {
 			painter.addOval(point.x - (noteSize / 2), point.y + (noteSize / 2),noteSize, noteSize);
 			painter.closePath();
 		}
-		
+
 		// dibujo las notas al aire
 		for (int i = 0; i < this.firstFrets.length; i++) {
 			if (!hasPoints(i)) {
@@ -211,11 +211,11 @@ public class ChordEditor extends Composite {
 			}
 		}
 	}
-	
+
 	protected void checkPoint(int x, int y) {
 		int stringIndex = getStringIndex(x);
 		int fretIndex = getFretIndex(y);
-		
+
 		if (y < FRET_SPACING) {
 			this.firstFrets[stringIndex] = !this.firstFrets[stringIndex];
 			this.removePointsAtStringLine(this.strings[stringIndex]);
@@ -231,11 +231,11 @@ public class ChordEditor extends Composite {
 		else{
 			return; // don't recognize it otherwise
 		}
-		
+
 		// after changing a chord, recognize it
 		this.dialog.getRecognizer().recognize(getChord(),true,false);
 	}
-	
+
 	private boolean removePoint(Point point) {
 		Iterator<Point> it = this.points.iterator();
 		while (it.hasNext()) {
@@ -247,7 +247,7 @@ public class ChordEditor extends Composite {
 		}
 		return false;
 	}
-	
+
 	private void orderPoints() {
 		for (int i = 0; i < this.points.size(); i++) {
 			Point minPoint = null;
@@ -261,7 +261,7 @@ public class ChordEditor extends Composite {
 			this.points.add(i, minPoint);
 		}
 	}
-	
+
 	private void removePointsAtStringLine(int x) {
 		Iterator<Point> it = this.points.iterator();
 		while (it.hasNext()) {
@@ -272,11 +272,11 @@ public class ChordEditor extends Composite {
 			}
 		}
 	}
-	
+
 	private void addPoint(Point point) {
 		this.points.add(point);
 	}
-	
+
 	private int getStringIndex(int x) {
 		int index = -1;
 		for (int i = 0; i < this.strings.length; i++) {
@@ -292,7 +292,7 @@ public class ChordEditor extends Composite {
 		}
 		return index;
 	}
-	
+
 	private int getFretIndex(int y) {
 		int index = -1;
 		for (int i = 0; i < this.frets.length; i++) {
@@ -307,9 +307,9 @@ public class ChordEditor extends Composite {
 			}
 		}
 		return index;
-		
+
 	}
-	
+
 	private boolean hasPoints(int stringIndex) {
 		Iterator<Point> it = this.points.iterator();
 		while (it.hasNext()) {
@@ -320,17 +320,17 @@ public class ChordEditor extends Composite {
 		}
 		return false;
 	}
-	
+
 	public boolean isEmpty() {
 		return this.points.isEmpty();
 	}
-	
+
 	public int getValue(int string) {
 		int value = -1;
 		if (this.firstFrets[this.maxStrings - string]) {
 			value = 0;
 		}
-		
+
 		if (value < 0) {
 			Iterator<Point> it = this.points.iterator();
 			while (it.hasNext()) {
@@ -343,7 +343,7 @@ public class ChordEditor extends Composite {
 		}
 		return value;
 	}
-	
+
 	public void addValue(int value, int string/*, boolean redecorate*/) {
 		int realValue = value;
 		if (string >= 1 && string <= this.maxStrings) {
@@ -358,37 +358,37 @@ public class ChordEditor extends Composite {
 				}
 			}
 			//INNECESARY CODE
-			//this method is called allways from "setChord(c)" 
+			//this method is called allways from "setChord(c)"
 			//but it is called some times, as Strings has the chord.
 			//So i moved it to "setChord" to call "recognize" only one time.
-			
+
 			// after adding a value, recognize the current chord
 			//this.chordName.setText(this.dialog.getRecognizer().recognize(getChord(), redecorate));
 		}
 	}
-	
+
 	public short getFret() {
 		return this.fret;
 	}
-	
+
 	public void setFret(short fret) {
 		setFret(fret, true, false);
 	}
-	
+
 	protected void setFret(short fret, boolean updateScroll, boolean recognize) {
 		if (fret >= MIN_FRET && fret <= MAX_FRET) {
 			this.fret = fret;
 		}
-		
+
 		if (updateScroll) {
 			this.composite.getVerticalBar().setSelection(this.fret);
 		}
-		
+
 		if(recognize){
 			this.dialog.getRecognizer().recognize(getChord(), true,false);
 		}
 	}
-	
+
 	public TGChord getChord() {
 		TGChord chord = TuxGuitar.instance().getSongManager().getFactory().newChord(this.strings.length);
 		chord.setName(this.chordName.getText());
@@ -399,7 +399,7 @@ public class ChordEditor extends Composite {
 		}
 		return chord;
 	}
-	
+
 	public void setChord(TGChord chord) {
 		if (chord != null) {
 			this.setFret((short)chord.getFirstFret());
@@ -407,68 +407,68 @@ public class ChordEditor extends Composite {
 				int fretValue = chord.getFretValue(i);
 				this.addValue(fretValue, i + 1/*, false*/);
 			}
-			
+
 			//SEE Comment on addValue.
 			//this.getChordName().setText(chord.getName() != null ? chord.getName() : this.dialog.getRecognizer().recognize(getChord(),true) );
-			
+
 			String name = chord.getName();
-			
+
 			this.dialog.getRecognizer().recognize(getChord(), (name == null), (name == null) );
-			
+
 			this.previewChord(chord);
-			
+
 			if(name != null){
 				this.setChordName( name );
 			}
-			
+
 			this.redraw();
 		}
 	}
-	
+
 	public short getMaxStrings() {
 		return this.maxStrings;
 	}
-	
+
 	public void setMaxStrings(short maxStrings) {
 		this.maxStrings = maxStrings;
 	}
-	
+
 	public int getWidth() {
 		return this.width;
 	}
-	
+
 	public int getHeight() {
 		return this.height;
 	}
-	
+
 	protected Composite getComposite(){
 		return this.composite;
 	}
-	
+
 	public Text getChordName() {
 		return this.chordName;
 	}
-	
+
 	public void setChordName(String chordName) {
 		this.chordName.setText(chordName);
 	}
-	
+
 	@Override
 	public void redraw() {
 		super.redraw();
 		this.composite.redraw();
 	}
-	
+
 	public void setCurrentTrack(TGTrack track) {
 		this.currentTrack = track;
 	}
-	
+
 	public TGTrack getCurrentTrack() {
 		return this.currentTrack;
 	}
-	
+
 	public void previewChord(final TGChord chord) {
-		
+
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -490,7 +490,7 @@ public class ChordEditor extends Composite {
 						next ++;
 					}
 				}
-				
+
 				TGChannel channel = TuxGuitar.instance().getSongManager().getChannel(getCurrentTrack().getChannelId());
 				if( channel != null ){
 					TuxGuitar.instance().getPlayer().playBeat(

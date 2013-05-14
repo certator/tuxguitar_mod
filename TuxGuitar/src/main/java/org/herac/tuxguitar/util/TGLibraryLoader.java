@@ -4,20 +4,20 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 public class TGLibraryLoader {
-	
+
 	private static TGLibraryLoader instance;
-	
+
 	private TGLibraryLoader(){
 		super();
 	}
-	
+
 	public static TGLibraryLoader instance(){
 		if(instance == null){
 			instance = new TGLibraryLoader();
 		}
 		return instance;
 	}
-	
+
 	public void loadLibraries(File folder,final String prefix,final  String extension){
 		if(folder != null && folder.exists()){
 			FilenameFilter filter = new FilenameFilter() {
@@ -50,7 +50,7 @@ public class TGLibraryLoader {
 			}
 		}
 	}
-	
+
 	protected void loadLibrary(File file){
 		try{
 			System.out.println("Loading: " + file.getAbsolutePath());

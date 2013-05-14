@@ -21,9 +21,9 @@ public class TuningTemplateManager {
 		if (stream != null) {
 			templates.addAll(TuningTemplateReader.getTuningTemplates(stream));
 		}
-		
+
 	}
-	
+
 	public List<String> getAvailableInstruments() {
 		Set<String> instruments = new HashSet<String>();
 		for (TuningTemplate tuning: templates) {

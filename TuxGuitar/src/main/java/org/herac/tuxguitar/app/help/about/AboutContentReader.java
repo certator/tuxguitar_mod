@@ -7,18 +7,18 @@ import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.util.TGClassLoader;
 
 public class AboutContentReader {
-	
+
 	private static final String PREFIX = "about_";
 	private static final String EXTENSION = ".dist";
-	
+
 	public static final String DESCRIPTION = "description";
 	public static final String AUTHORS = "authors";
 	public static final String LICENSE = "license";
-	
+
 	public AboutContentReader(){
 		super();
 	}
-	
+
 	public StringBuffer read(String doc){
 		String lang = TuxGuitar.instance().getLanguageManager().getLanguage();
 		InputStream is = TGClassLoader.instance().getClassLoader().getResourceAsStream(PREFIX + doc + "_" + lang + EXTENSION);
@@ -29,10 +29,10 @@ public class AboutContentReader {
 			return read(is);
 		}
 		System.out.println(doc + ".txt");
-		
+
 		return new StringBuffer();
 	}
-	
+
 	public StringBuffer read(InputStream is){
 		StringBuffer sb = new StringBuffer();
 		try {

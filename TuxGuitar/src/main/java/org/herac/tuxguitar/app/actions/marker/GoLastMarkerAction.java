@@ -17,17 +17,17 @@ import org.herac.tuxguitar.app.marker.MarkerNavigator;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class GoLastMarkerAction extends Action{
-	
+
 	public static final String NAME = "action.marker.go-last";
-	
+
 	public GoLastMarkerAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		new MarkerNavigator().goToSelectedMarker(getSongManager().getLastMarker());
-		
+
 		return 0;
 	}
 }

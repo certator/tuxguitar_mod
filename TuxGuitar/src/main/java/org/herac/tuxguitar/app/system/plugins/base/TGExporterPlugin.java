@@ -6,22 +6,22 @@ import org.herac.tuxguitar.io.base.TGFileFormatManager;
 import org.herac.tuxguitar.io.base.TGRawExporter;
 
 public abstract class TGExporterPlugin extends TGPluginAdapter{
-	
+
 	private boolean loaded;
 	private TGRawExporter exporter;
-	
+
 	protected abstract TGRawExporter getExporter() throws TGPluginException;
-	
+
 	@Override
 	public void init() throws TGPluginException {
 		this.exporter = getExporter();
 	}
-	
+
 	@Override
 	public void close() throws TGPluginException {
 		this.removePlugin();
 	}
-	
+
 	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		if(enabled){
@@ -30,7 +30,7 @@ public abstract class TGExporterPlugin extends TGPluginAdapter{
 			removePlugin();
 		}
 	}
-	
+
 	protected void addPlugin() throws TGPluginException {
 		if(!this.loaded && this.exporter != null){
 			TGFileFormatManager.instance().addExporter(this.exporter);
@@ -38,12 +38,12 @@ public abstract class TGExporterPlugin extends TGPluginAdapter{
 			this.loaded = true;
 		}
 	}
-	
+
 	protected void removePlugin() throws TGPluginException {
 		if(this.loaded && this.exporter != null){
 			TGFileFormatManager.instance().removeExporter(this.exporter);
 			TuxGuitar.instance().getItemManager().createMenu();
 			this.loaded = false;
 		}
-	}	
+	}
 }

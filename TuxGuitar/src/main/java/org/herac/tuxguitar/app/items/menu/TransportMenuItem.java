@@ -32,7 +32,7 @@ public class TransportMenuItem extends MenuItems{
 	private static final int STATUS_STOPPED = 1;
 	private static final int STATUS_PAUSED = 2;
 	private static final int STATUS_RUNNING = 3;
-	
+
 	private MenuItem transportMenuItem;
 	private Menu menu;
 	private MenuItem play;
@@ -42,50 +42,50 @@ public class TransportMenuItem extends MenuItems{
 	private MenuItem mode;
 	private MenuItem loopSHeader;
 	private MenuItem loopEHeader;
-	
+
 	private int status;
-	
+
 	public TransportMenuItem(Shell shell,Menu parent, int style) {
 		this.transportMenuItem = new MenuItem(parent, style);
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
-	
+
 	@Override
 	public void showItems(){
 		this.play = new MenuItem(this.menu,SWT.PUSH);
 		this.play.addSelectionListener(TuxGuitar.instance().getAction(TransportPlayAction.NAME));
-		
+
 		this.stop = new MenuItem(this.menu, SWT.PUSH);
 		this.stop.addSelectionListener(TuxGuitar.instance().getAction(TransportStopAction.NAME));
-		
+
 		//--SEPARATOR--
 		new MenuItem(this.menu, SWT.SEPARATOR);
-		
+
 		this.metronome = new MenuItem(this.menu, SWT.CHECK);
 		this.metronome.addSelectionListener(TuxGuitar.instance().getAction(TransportMetronomeAction.NAME));
-		
+
 		this.countDown = new MenuItem(this.menu, SWT.CHECK);
 		this.countDown.addSelectionListener(TuxGuitar.instance().getAction(TransportCountDownAction.NAME));
-		
+
 		this.mode = new MenuItem(this.menu, SWT.PUSH);
 		this.mode.addSelectionListener(TuxGuitar.instance().getAction(TransportModeAction.NAME));
-		
+
 		//--SEPARATOR--
 		new MenuItem(this.menu, SWT.SEPARATOR);
-		
+
 		this.loopSHeader = new MenuItem(this.menu, SWT.CHECK);
 		this.loopSHeader.addSelectionListener(TuxGuitar.instance().getAction(TransportSetLoopSHeaderAction.NAME));
-		
+
 		this.loopEHeader = new MenuItem(this.menu, SWT.CHECK);
 		this.loopEHeader.addSelectionListener(TuxGuitar.instance().getAction(TransportSetLoopEHeaderAction.NAME));
-		
+
 		this.transportMenuItem.setMenu(this.menu);
-		
+
 		this.status = STATUS_STOPPED;
 		this.loadIcons();
 		this.loadProperties();
 	}
-	
+
 	@Override
 	public void update(){
 		TGMeasure measure = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getMeasure();
@@ -98,7 +98,7 @@ public class TransportMenuItem extends MenuItems{
 		this.loopEHeader.setSelection( measure != null && measure.getNumber() == pm.getLoopEHeader() );
 		this.loadIcons(false);
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.transportMenuItem, "transport", null);
@@ -110,16 +110,16 @@ public class TransportMenuItem extends MenuItems{
 		setMenuItemTextAndAccelerator(this.loopSHeader, "transport.set-loop-start", TransportSetLoopSHeaderAction.NAME);
 		setMenuItemTextAndAccelerator(this.loopEHeader, "transport.set-loop-end", TransportSetLoopEHeaderAction.NAME);
 	}
-	
+
 	public void loadIcons(){
 		this.loadIcons(true);
 		this.mode.setImage(TuxGuitar.instance().getIconManager().getTransportMode());
 		this.metronome.setImage(TuxGuitar.instance().getIconManager().getTransportMetronome());
 	}
-	
+
 	public void loadIcons(boolean force){
 		int lastStatus = this.status;
-		
+
 		if(TuxGuitar.instance().getPlayer().isRunning()){
 			this.status = STATUS_RUNNING;
 		}else if(TuxGuitar.instance().getPlayer().isPaused()){
@@ -127,7 +127,7 @@ public class TransportMenuItem extends MenuItems{
 		}else{
 			this.status = STATUS_STOPPED;
 		}
-		
+
 		if(force || lastStatus != this.status){
 			if(this.status == STATUS_RUNNING){
 				this.stop.setImage(TuxGuitar.instance().getIconManager().getTransportIconStop2());

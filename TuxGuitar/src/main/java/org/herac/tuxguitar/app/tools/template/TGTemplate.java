@@ -1,10 +1,10 @@
 package org.herac.tuxguitar.app.tools.template;
 
 public class TGTemplate {
-	
+
 	private String name;
 	private String resource;
-	
+
 	public TGTemplate(){
 		super();
 	}

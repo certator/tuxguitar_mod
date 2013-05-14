@@ -10,10 +10,10 @@ public class TGStroke implements Serializable {
 	public static final int STROKE_NONE = 0;
 	public static final int STROKE_UP = 1;
 	public static final int STROKE_DOWN = -1;
-	
+
 	private int direction;
 	private int value;
-	
+
 	public TGStroke(){
 		this.direction = STROKE_NONE;
 	}
@@ -25,15 +25,15 @@ public class TGStroke implements Serializable {
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
-	
+
 	public int getValue() {
 		return this.value;
 	}
-	
+
 	public void setValue(int value) {
 		this.value = value;
 	}
-	
+
 	public int getIncrementTime( TGBeat beat ){
 		long duration = 0;
 		if( this.value > 0 ){
@@ -52,13 +52,13 @@ public class TGStroke implements Serializable {
 		}
 		return 0;
 	}
-	
+
 	public TGStroke clone(TGFactory factory){
 		TGStroke stroke = factory.newStroke();
 		copy(stroke);
 		return stroke;
 	}
-	
+
 	public void copy(TGStroke stroke){
 		stroke.setValue(getValue());
 		stroke.setDirection(getDirection());

@@ -16,13 +16,13 @@ import org.herac.tuxguitar.app.actions.ActionData;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class GoDownAction extends Action{
-	
+
 	public static final String NAME = "action.caret.go-down";
-	
+
 	public GoDownAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | DISABLE_ON_PLAYING | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		getEditor().getTablature().getCaret().moveDown();

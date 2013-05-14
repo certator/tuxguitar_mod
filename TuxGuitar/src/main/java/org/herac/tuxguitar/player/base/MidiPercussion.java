@@ -1,7 +1,7 @@
 package org.herac.tuxguitar.player.base;
 
 public class MidiPercussion {
-	
+
 	public static final MidiPercussion[] PERCUSSION_LIST = new MidiPercussion[]{
 		new MidiPercussion(35,"Acoustic Bass Drum"),
 		new MidiPercussion(36,"Bass Drum 1"),
@@ -51,19 +51,19 @@ public class MidiPercussion {
 		new MidiPercussion(80,"Mute Triangle"),
 		new MidiPercussion(81,"Open Triangle"),
 	};
-	
+
 	private int value;
 	private String name;
-	
+
 	public MidiPercussion(int value,String name){
 		this.value = value;
 		this.name = name;
 	}
-	
+
 	public int getValue(){
 		return this.value;
 	}
-	
+
 	public String getName(){
 		return this.name;
 	}

@@ -33,16 +33,16 @@ import org.herac.tuxguitar.song.models.TGTrack;
 public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 	private static int EDITOR_WIDTH = 450;
 	private static int EDITOR_HEIGHT = 200;
-	
+
 	protected static final KeyBindingAction KB_ACTIONS[] = new KeyBindingAction[]{
 		new KeyBindingAction(UndoAction.NAME,new KeyBinding(122,KeyBindingUtil.CONTROL)),
 		new KeyBindingAction(RedoAction.NAME,new KeyBinding(121,KeyBindingUtil.CONTROL)),
 	};
-	
+
 	private TGTrack track;
 	private Shell dialog;
 	private LyricModifyListener listener;
-	
+
 	private Button previous;
 	private Button next;
 	private Label label;
@@ -50,16 +50,16 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 	private Spinner from;
 	private Text text;
 	private int caretPosition;
-	
+
 	private boolean updated;
 	private int lastTrack;
 	private int lastMeasuseCount;
 	private String lastTrackName;
-	
+
 	public LyricEditor(){
 		this.listener = new LyricModifyListener(this);
 	}
-	
+
 	public void show() {
 		this.dialog = DialogUtils.newDialog(TuxGuitar.instance().getShell(), SWT.DIALOG_TRIM | SWT.RESIZE);
 		this.dialog.setLayout(getDialogLayout());
@@ -70,7 +70,7 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 				onDispose();
 			}
 		});
-		
+
 		this.track = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getTrack();
 		this.loadComposites();
 		this.loadProperties();
@@ -79,19 +79,19 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		this.addListeners();
 		DialogUtils.openDialog(this.dialog,DialogUtils.OPEN_STYLE_CENTER);
 	}
-	
+
 	public void addListeners(){
 		TuxGuitar.instance().getIconManager().addLoader(this);
 		TuxGuitar.instance().getLanguageManager().addLoader(this);
 		TuxGuitar.instance().getEditorManager().addUpdateListener(this);
 	}
-	
+
 	public void removeListeners(){
 		TuxGuitar.instance().getIconManager().removeLoader(this);
 		TuxGuitar.instance().getLanguageManager().removeLoader(this);
 		TuxGuitar.instance().getEditorManager().removeUpdateListener(this);
 	}
-	
+
 	public void onDispose(){
 		this.track = null;
 		this.label = null;
@@ -100,7 +100,7 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		this.removeListeners();
 		TuxGuitar.instance().updateCache(true);
 	}
-	
+
 	private GridLayout getDialogLayout(){
 		GridLayout layout = new GridLayout();
 		layout.marginWidth = 0;
@@ -108,36 +108,36 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		layout.verticalSpacing = 0;
 		return layout;
 	}
-	
+
 	private void loadComposites(){
 		loadToolBar(this.dialog);
 		loadLyricText(this.dialog);
 	}
-	
+
 	private void loadToolBar(Composite parent){
 		final Composite composite = new Composite(parent,SWT.NONE);
 		composite.setLayout(new GridLayout(5,false));
 		composite.setLayoutData(new GridData(SWT.FILL,SWT.TOP,true,false));
-		
+
 		this.previous = new Button(composite, SWT.ARROW | SWT.LEFT);
 		this.next = new Button(composite, SWT.ARROW | SWT.RIGHT);
-		
+
 		this.label = new Label(composite,SWT.NONE);
 		this.label.setText(this.track.getName());
 		this.label.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,true));
-		
+
 		this.fromLabel = new Label(composite,SWT.NONE);
 		this.fromLabel.setLayoutData(new GridData(SWT.RIGHT,SWT.CENTER,false,true));
-		
+
 		this.from = new Spinner(composite,SWT.BORDER);
 		this.from.setLayoutData(new GridData(50,SWT.DEFAULT));
-		
+
 		this.from.setMinimum(1);
 		this.from.setMaximum(this.track.countMeasures());
 		this.from.setSelection(this.track.getLyrics().getFrom());
 		this.from.setEnabled(this.track.countMeasures() > 1);
 		this.from.addModifyListener(this.listener);
-		
+
 		this.previous.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -153,12 +153,12 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 			}
 		});
 	}
-	
+
 	private void loadLyricText(Composite parent){
 		Composite composite = new Composite(parent,SWT.NONE);
 		composite.setLayout(new GridLayout());
 		composite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		this.text = new Text(composite,SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL);
 		this.text.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		this.text.setFocus();
@@ -176,11 +176,11 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 			}
 		});
 	}
-	
+
 	public void updateItems(){
 		if(!isDisposed()){
 			boolean enabled = !TuxGuitar.instance().getPlayer().isRunning();
-			
+
 			this.listener.setEnabled(false);
 			if(this.updated){
 				this.lastTrack = 0;
@@ -199,17 +199,17 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 				this.text.setText(this.track.getLyrics().getLyrics());
 				this.text.setSelection( (this.caretPosition >= 0 ? this.caretPosition : this.text.getCharCount()));
 			}
-			
+
 			this.from.setEnabled( enabled && (this.track.countMeasures() > 1) );
 			this.text.setEnabled( enabled );
-			
+
 			this.setCaretPosition(-1);
-			
+
 			this.listener.setEnabled( enabled );
 			this.updated = false;
 		}
 	}
-	
+
 	private boolean isTrackChanged(){
 		int current = this.track.getNumber();
 		if(current != this.lastTrack){
@@ -218,7 +218,7 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		}
 		return false;
 	}
-	
+
 	private boolean isTrackNameChanged(){
 		String current = this.track.getName();
 		if(this.lastTrackName == null || !current.equals( this.lastTrackName ) ){
@@ -227,7 +227,7 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		}
 		return false;
 	}
-	
+
 	private boolean isMeasureCountChanged(){
 		int current = this.track.countMeasures();
 		if(current != this.lastMeasuseCount){
@@ -236,19 +236,19 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		}
 		return false;
 	}
-	
+
 	public void update(){
 		this.updated = true;
 	}
-	
+
 	public void setCaretPosition(int caretPosition) {
 		this.caretPosition = caretPosition;
 	}
-	
+
 	public TGTrack getTrack(){
 		return this.track;
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		if(!isDisposed()){
@@ -256,18 +256,18 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 			this.fromLabel.setText(TuxGuitar.getProperty("edit.from"));
 		}
 	}
-	
+
 	@Override
 	public void loadIcons(){
 		if(!isDisposed()){
 			this.dialog.setImage(TuxGuitar.instance().getIconManager().getAppIcon());
 		}
 	}
-	
+
 	public boolean isDisposed() {
 		return (this.dialog == null || this.dialog.isDisposed());
 	}
-	
+
 	public void dispose(){
 		if(!isDisposed()){
 			this.dialog.dispose();

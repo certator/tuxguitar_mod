@@ -30,11 +30,11 @@ public class TGBrowserToolBar extends TGBrowserBar{
 	private ToolItem refresh;
 	protected Menu newBrowserMenu;
 	protected TGBrowserCollectionCombo collections;
-	
+
 	public TGBrowserToolBar(TGBrowserDialog browser){
 		super(browser);
 	}
-	
+
 	@Override
 	public void init(Shell shell){
 		this.composite = new Composite(shell,SWT.NONE);
@@ -42,10 +42,10 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		this.composite.setLayoutData(new GridData(SWT.FILL,SWT.TOP,true,false));
 		this.initItems();
 	}
-	
+
 	public void initItems(){
 		this.toolBar = new ToolBar(this.composite,SWT.FLAT | SWT.WRAP);
-		
+
 		//---New Book----------------------------------------------------------
 		this.newBrowserMenu = new Menu(this.composite);
 		Iterator<TGBrowserFactory> bookTypes = TGBrowserManager.instance().getFactories();
@@ -75,7 +75,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 				}
 			}
 		});
-		
+
 		new ToolItem(this.toolBar, SWT.SEPARATOR);
 		//---Root Folder------------------------------------------------------
 		this.root = new ToolItem(this.toolBar,SWT.PUSH);
@@ -86,7 +86,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 				getBrowser().getConnection().cdRoot(TGBrowserDialog.CALL_CD_ROOT);
 			}
 		});
-		
+
 		//---Back Folder------------------------------------------------------
 		this.back = new ToolItem(this.toolBar,SWT.PUSH);
 		this.back.setImage(TuxGuitar.instance().getIconManager().getBrowserBack());
@@ -96,7 +96,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 				getBrowser().getConnection().cdUp(TGBrowserDialog.CALL_CD_UP);
 			}
 		});
-		
+
 		//---Refresh Folder------------------------------------------------------
 		this.refresh = new ToolItem(this.toolBar,SWT.PUSH);
 		this.refresh.setImage(TuxGuitar.instance().getIconManager().getBrowserRefresh());
@@ -106,10 +106,10 @@ public class TGBrowserToolBar extends TGBrowserBar{
 				getBrowser().getConnection().listElements(TGBrowserDialog.CALL_LIST);
 			}
 		});
-		
+
 		//---Finish tool bar
 		new ToolItem(this.toolBar, SWT.SEPARATOR);
-		
+
 		//---Collections-------------------------------------------------------------
 		this.collections = new TGBrowserCollectionCombo(this.composite, SWT.READ_ONLY);
 		this.collections.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,true));
@@ -120,7 +120,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 			}
 		});
 	}
-	
+
 	@Override
 	public void updateItems(){
 		this.newBrowser.setEnabled(!getBrowser().getConnection().isLocked());
@@ -129,12 +129,12 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		this.back.setEnabled(!getBrowser().getConnection().isLocked() && getBrowser().getConnection().isOpen());
 		this.refresh.setEnabled(!getBrowser().getConnection().isLocked() && getBrowser().getConnection().isOpen());
 	}
-	
+
 	@Override
 	public void updateCollections(TGBrowserCollection selection){
 		int index = 0;
 		this.collections.removeAll();
-		
+
 		Iterator<TGBrowserCollection> it = TGBrowserManager.instance().getCollections();
 		while(it.hasNext()){
 			TGBrowserCollection collection = it.next();
@@ -147,7 +147,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 			}
 		}
 	}
-	
+
 	public void reload(){
 		this.disposeItems();
 		this.initItems();
@@ -155,7 +155,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		this.updateItems();
 		this.composite.layout(true,true);
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		this.newBrowser.setToolTipText(TuxGuitar.getProperty("browser.collection.new"));
@@ -164,7 +164,7 @@ public class TGBrowserToolBar extends TGBrowserBar{
 		this.refresh.setToolTipText(TuxGuitar.getProperty("browser.refresh"));
 		this.updateCollections(getBrowser().getCollection());
 	}
-	
+
 	protected void updateCollection(){
 		TGBrowserCollection collection = this.collections.getSelection();
 		if(collection == null){
@@ -173,14 +173,14 @@ public class TGBrowserToolBar extends TGBrowserBar{
 			openCollection(collection);
 		}
 	}
-	
+
 	private void disposeItems(){
 		Control[] controls = this.composite.getChildren();
 		for(int i = 0; i < controls.length; i ++){
 			controls[i].dispose();
 		}
 	}
-	
+
 	private GridLayout getLayout(){
 		GridLayout layout = new GridLayout(2,false);
 		layout.marginWidth = 0;

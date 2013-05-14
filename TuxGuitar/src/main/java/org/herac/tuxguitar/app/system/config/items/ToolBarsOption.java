@@ -19,42 +19,42 @@ import org.herac.tuxguitar.app.system.config.TGConfigEditor;
 
 public class ToolBarsOption extends Option{
 	protected boolean initialized;
-	
+
 	protected Table table;
 	protected TableColumn column;
 	protected Button moveUp;
 	protected Button moveDown;
-	
+
 	public ToolBarsOption(TGConfigEditor configEditor,ToolBar toolBar,final Composite parent){
 		super(configEditor,toolBar,parent,TuxGuitar.getProperty("settings.config.toolbars"), SWT.FILL,SWT.FILL);
 		this.initialized = false;
 	}
-	
+
 	@Override
 	public void createOption() {
 		getToolItem().setText(TuxGuitar.getProperty("settings.config.toolbars"));
 		getToolItem().setImage(TuxGuitar.instance().getIconManager().getOptionToolbars());
 		getToolItem().addSelectionListener(this);
-		
+
 		showLabel(getComposite(),SWT.FILL, SWT.TOP, true, false, SWT.TOP | SWT.LEFT | SWT.WRAP,SWT.BOLD,0,TuxGuitar.getProperty("settings.config.toolbars.tip"));
-		
+
 		Composite composite = new Composite(getComposite(),SWT.NONE);
 		composite.setLayout(new GridLayout());
 		composite.setLayoutData(getTabbedData(SWT.FILL, SWT.FILL));
-		
+
 		this.table = new Table(composite, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION | SWT.CHECK | SWT.H_SCROLL | SWT.V_SCROLL);
 		this.table.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		this.table.setHeaderVisible(true);
 		this.table.setLinesVisible(false);
-		
+
 		this.column = new TableColumn(this.table, SWT.LEFT);
 		this.column.setText(TuxGuitar.getProperty("settings.config.toolbars.list"));
 		this.column.pack();
-		
+
 		Composite buttons = new Composite(getComposite(), SWT.NONE);
 		buttons.setLayout(new GridLayout(2,false));
 		buttons.setLayoutData(new GridData(SWT.RIGHT,SWT.BOTTOM,true,false));
-		
+
 		this.moveUp = new Button(buttons,SWT.PUSH);
 		this.moveUp.setLayoutData(getButtonData());
 		this.moveUp.setText(TuxGuitar.getProperty("settings.config.toolbars.move-up"));
@@ -64,7 +64,7 @@ public class ToolBarsOption extends Option{
 				moveUp();
 			}
 		});
-		
+
 		this.moveDown = new Button(buttons,SWT.PUSH);
 		this.moveDown.setLayoutData(getButtonData());
 		this.moveDown.setText(TuxGuitar.getProperty("settings.config.toolbars.move-down"));
@@ -74,17 +74,17 @@ public class ToolBarsOption extends Option{
 				moveDown();
 			}
 		});
-		
+
 		this.loadConfig();
 	}
-	
+
 	protected GridData getButtonData(){
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.minimumWidth = 80;
 		data.minimumHeight = 25;
 		return data;
 	}
-	
+
 	protected void moveUp(){
 		if(this.initialized){
 			int count = this.table.getItemCount();
@@ -97,7 +97,7 @@ public class ToolBarsOption extends Option{
 			}
 		}
 	}
-	
+
 	protected void moveDown(){
 		if(this.initialized){
 			int count = this.table.getItemCount();
@@ -110,20 +110,20 @@ public class ToolBarsOption extends Option{
 			}
 		}
 	}
-	
+
 	protected void swapItems(TableItem item1, TableItem item2){
 		ToolItems data1 = (ToolItems)item1.getData();
 		ToolItems data2 = (ToolItems)item2.getData();
 		loadItem(item1, data2);
 		loadItem(item2, data1);
 	}
-	
+
 	protected void loadItem(TableItem item, ToolItems data){
 		item.setText( TuxGuitar.getProperty( data.getName() ));
 		item.setChecked( data.isEnabled() );
 		item.setData( data );
 	}
-	
+
 	protected void loadConfig(){
 		new Thread(new Runnable() {
 			@Override
@@ -145,7 +145,7 @@ public class ToolBarsOption extends Option{
 			}
 		}).start();
 	}
-	
+
 	@Override
 	public void updateConfig() {
 		if(this.initialized){
@@ -157,7 +157,7 @@ public class ToolBarsOption extends Option{
 			TuxGuitar.instance().getItemManager().writeToolBars();
 		}
 	}
-	
+
 	@Override
 	public void updateDefaults() {
 		if(this.initialized){
@@ -165,7 +165,7 @@ public class ToolBarsOption extends Option{
 			TuxGuitar.instance().getItemManager().writeToolBars();
 		}
 	}
-	
+
 	@Override
 	public void applyConfig(boolean force){
 		if(force || (this.initialized && TuxGuitar.instance().getItemManager().shouldReloadToolBars())){
@@ -177,7 +177,7 @@ public class ToolBarsOption extends Option{
 			});
 		}
 	}
-	
+
 	@Override
 	public Point computeSize(){
 		return this.computeSize(SWT.DEFAULT,SWT.NONE);

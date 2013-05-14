@@ -38,13 +38,13 @@ import org.herac.tuxguitar.util.TGSynchronizer;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class PrintAction extends Action{
-	
+
 	public static final String NAME = "action.file.print";
-	
+
 	public PrintAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		try{
@@ -52,10 +52,10 @@ public class PrintAction extends Action{
 			if(data != null){
 				PrintDialog dialog = new PrintDialog(TuxGuitar.instance().getShell(), SWT.NULL);
 				PrinterData printerData = dialog.open();
-				
+
 				if (printerData != null) {
 					TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
-					
+
 					this.print(printerData, data);
 				}
 			}
@@ -64,7 +64,7 @@ public class PrintAction extends Action{
 		}
 		return 0;
 	}
-	
+
 	public void print(final PrinterData printerData ,final PrintStyles data){
 		try{
 			new Thread(new Runnable() {
@@ -74,7 +74,7 @@ public class PrintAction extends Action{
 						final TGSongManager manager = new TGSongManager();
 						manager.setFactory(new TGFactoryImpl());
 						manager.setSong(getSongManager().getSong().clone(manager.getFactory()));
-						
+
 						new SyncThread(new Runnable() {
 							@Override
 							public void run() {
@@ -82,7 +82,7 @@ public class PrintAction extends Action{
 									Printer printer = new Printer(printerData);
 									PrintController controller = new PrintController(manager, new TGResourceFactoryImpl(printer));
 									PrintLayout layout = new PrintLayout(controller,data);
-									
+
 									print(printer, printerData, layout , getPrinterArea(printer,0.5), getPrinterScale(printer) );
 								}catch(Throwable throwable ){
 									MessageDialog.errorMessage(throwable);
@@ -98,7 +98,7 @@ public class PrintAction extends Action{
 			MessageDialog.errorMessage(throwable);
 		}
 	}
-	
+
 	protected void print(final Printer printer,final PrinterData printerData ,final PrintLayout layout, final TGRectangle bounds, final float scale){
 		new Thread(new Runnable() {
 			@Override
@@ -113,20 +113,20 @@ public class PrintAction extends Action{
 			}
 		}).start();
 	}
-	
+
 	protected TGRectangle getPrinterArea(Printer printer,double margin) {
 		Rectangle clientArea = printer.getClientArea();
 		Rectangle trim = printer.computeTrim(0, 0, 0, 0);
 		Point dpi = printer.getDPI();
-		
+
 		int x = (int) (margin * dpi.x) - trim.x;
 		int y = (int) (margin * dpi.y) - trim.y;
 		int width = clientArea.width + trim.width - (int) (margin * dpi.x) - trim.x;
 		int height = clientArea.height + trim.height - (int) (margin * dpi.y) - trim.y;
-		
+
 		return new TGRectangle(x,y,width,height);
 	}
-	
+
 	protected float getPrinterScale(Printer printer) {
 		Point dpi = printer.getDPI();
 		if( dpi != null ){
@@ -134,16 +134,16 @@ public class PrintAction extends Action{
 		}
 		return 1.0f;
 	}
-	
+
 	private class PrintDocumentImpl implements PrintDocument{
-		
+
 		private Printer printer;
 		private PrinterData printerData;
 		private PrintLayout layout;
 		private TGPainterImpl painter;
 		private TGRectangle bounds;
 		private boolean started;
-		
+
 		public PrintDocumentImpl(PrintLayout layout, Printer printer,PrinterData printerData, TGRectangle bounds){
 			this.layout = layout;
 			this.printer = printer;
@@ -151,17 +151,17 @@ public class PrintAction extends Action{
 			this.bounds = bounds;
 			this.painter = new TGPainterImpl();
 		}
-		
+
 		@Override
 		public TGPainter getPainter() {
 			return this.painter;
 		}
-		
+
 		@Override
 		public TGRectangle getBounds(){
 			return this.bounds;
 		}
-		
+
 		@Override
 		public void pageStart() {
 			if(this.started){
@@ -169,7 +169,7 @@ public class PrintAction extends Action{
 				this.painter.init(new GC(this.printer));
 			}
 		}
-		
+
 		@Override
 		public void pageFinish() {
 			if(this.started){
@@ -177,12 +177,12 @@ public class PrintAction extends Action{
 				this.printer.endPage();
 			}
 		}
-		
+
 		@Override
 		public void start() {
 			this.started = this.printer.startJob(getJobName());
 		}
-		
+
 		@Override
 		public void finish() {
 			if(this.started){
@@ -201,7 +201,7 @@ public class PrintAction extends Action{
 				TuxGuitar.instance().loadCursor(SWT.CURSOR_ARROW);
 			}
 		}
-		
+
 		@Override
 		public boolean isPaintable(int page){
 			if(this.printerData.scope == PrinterData.PAGE_RANGE){
@@ -214,13 +214,13 @@ public class PrintAction extends Action{
 			}
 			return true;
 		}
-		
+
 		public String getJobName(){
 			String prefix = TuxGuitar.APPLICATION_NAME;
 			String song = this.layout.getSongManager().getSong().getName();
 			return ( song != null && song.length() > 0 ? (prefix + "-" + song) : prefix );
 		}
-		
+
 		public void dispose(){
 			if(!this.printer.isDisposed()){
 				this.printer.dispose();

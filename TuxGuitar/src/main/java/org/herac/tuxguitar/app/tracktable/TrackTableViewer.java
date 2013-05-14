@@ -36,7 +36,7 @@ import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGTrack;
 
 public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, LanguageLoader {
-	
+
 	private Composite composite;
 	private ScrollBar hSroll;
 	private Color[] backgrounds;
@@ -50,12 +50,12 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 	private boolean followScroll;
 	private boolean resetTexts;
 	private final MouseWheelListener trackCanvasZoomMouseWheel;
-	
+
 	public TrackTableViewer() {
 		TuxGuitar.instance().getLanguageManager().addLoader(this);
 		TuxGuitar.instance().getEditorManager().addRedrawListener(this);
 		TuxGuitar.instance().getEditorManager().addUpdateListener(this);
-		
+
 		trackCanvasZoomMouseWheel = new MouseWheelListener() {
 			@Override
 			public void mouseScrolled(MouseEvent e) {
@@ -83,7 +83,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			}
 		};
 	}
-	
+
 	public void init(Composite parent){
 		this.composite = new Composite(parent,SWT.H_SCROLL);
 		this.addColors();
@@ -92,7 +92,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 		this.addHScroll();
 		this.loadConfig();
 	}
-	
+
 	private void addColors(){
 		Display display = this.getComposite().getDisplay();
 
@@ -107,7 +107,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			new Color( display, 0, 0, 0 ),
 		};
 	}
-	
+
 	private void addLayout(){
 		GridLayout layout = new GridLayout();
 		layout.marginWidth = 0;
@@ -118,7 +118,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 		layout.verticalSpacing = 0;
 		getComposite().setLayout(layout);
 	}
-	
+
 	private void addHScroll(){
 		this.hSroll = getComposite().getHorizontalBar();
 		this.hSroll.addListener(SWT.Selection, new Listener() {
@@ -128,7 +128,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			}
 		});
 	}
-	
+
 	private void addTable(){
 		MouseListener listener = mouseFocusListener();
 		this.table = new TrackTable(getComposite());
@@ -146,7 +146,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 		this.fireUpdate(true);
 		this.loadProperties();
 	}
-	
+
 	@Override
 	public void loadProperties() {
 		this.table.getColumnNumber().setTitle(TuxGuitar.getProperty("track.number"));
@@ -154,19 +154,19 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 		this.table.getColumnName().setTitle(TuxGuitar.getProperty("track.name"));
 		this.table.getColumnInstrument().setTitle(TuxGuitar.getProperty("track.instrument"));
 	}
-	
+
 	public void fireUpdate(boolean newSong){
 		this.update = true;
 		if(newSong){
 			this.trackCount = 0;
 		}
 	}
-	
+
 	public void updateItems(){
 		this.resetTexts = true;
 		this.followScroll = true;
 	}
-	
+
 	public void updateHScroll(){
 		int width = 0;
 		int visibleSize = 0;
@@ -179,19 +179,19 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 		this.hSroll.setMaximum(width);
 		this.hSroll.setThumb(visibleSize);
 	}
-	
+
 	public TrackTable getTable(){
 		return this.table;
 	}
-	
+
 	public int getHScrollSelection(){
 		return this.hSroll.getSelection();
 	}
-	
+
 	public TablatureEditor getEditor(){
 		return TuxGuitar.instance().getTablatureEditor();
 	}
-	
+
 	private void updateTable(){
 		if(this.update){
 			int count = TuxGuitar.instance().getSongManager().getSong().countTracks();
@@ -200,22 +200,22 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 				final TrackTableRow row = this.table.newRow();
 				row.getCanvas().addMouseWheelListener(trackCanvasZoomMouseWheel);
 				row.addMouseListenerLabel(new MouseAdapter() {
-					
+
 					@Override
 					public void mouseUp(MouseEvent e) {
 						row.getCanvas().setFocus();
 					}
-					
+
 					@Override
 					public void mouseDown(MouseEvent e) {
 						if(row.getTrack().getNumber() != getEditor().getTablature().getCaret().getTrack().getNumber()){
 							ActionData actionData = new ActionData();
 							actionData.put(GoToTrackAction.PROPERTY_TRACK, row.getTrack());
-							
+
 							TuxGuitar.instance().getAction(GoToTrackAction.NAME).process(actionData);
 						}
 					}
-					
+
 					@Override
 					public void mouseDoubleClick(final MouseEvent e) {
 						new Thread(new Runnable() {
@@ -228,12 +228,12 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 					}
 				});
 				row.addMouseListenerCanvas(new MouseAdapter() {
-					
+
 					@Override
 					public void mouseUp(MouseEvent e) {
 						row.getCanvas().setFocus();
 					}
-					
+
 					@Override
 					public void mouseDown(MouseEvent e) {
 						TGTrack track = row.getTrack();
@@ -259,22 +259,22 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			this.table.update();
 			this.selectedTrack = 0;
 			this.selectedMeasure = 0;
-			
+
 			if(this.autoSizeEnabled && this.trackCount != count){
 				TuxGuitar.instance().setTableHeight( getHeight() );
 				this.trackCount = count;
 			}
-			
+
 		}
 		this.update = false;
 	}
-	
+
 	private int getHeight(){
 		Rectangle r1 = this.composite.getBounds();
 		Rectangle r2 = this.composite.getClientArea();
 		return ( this.table.getMinHeight() + (r1.height - r2.height) );
 	}
-	
+
 	private void resetTextsValues(){
 		int rows = this.table.getRowCount();
 		for(int i = 0; i < rows; i ++){
@@ -282,11 +282,11 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			row.resetTextsValues();
 		}
 	}
-	
+
 	private void redrawRows(int selectedTrack){
 		int rows = this.table.getRowCount();
 		for(int i = 0; i < rows; i ++){
-			TrackTableRow row = this.table.getRow(i); 
+			TrackTableRow row = this.table.getRow(i);
 			row.getCanvas().redraw();
 			if(this.selectedTrack != selectedTrack){
 				row.setBackground( this.backgrounds[ ((selectedTrack - 1) == i)? 2: ( i % 2 ) ] );
@@ -311,7 +311,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			this.selectedTrack = selectedTrack;
 			this.selectedMeasure = 0;
 			this.updateHScroll();
-			
+
 			if( this.resetTexts ){
 				this.resetTextsValues();
 				this.resetTexts = false;
@@ -323,7 +323,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			getComposite().redraw();
 		}
 	}
-	
+
 	public void redrawPlayingMode(){
 		if(!isDisposed() && !TuxGuitar.instance().isLocked()){
 			TGMeasure measure =  TuxGuitar.instance().getEditorCache().getPlayMeasure();
@@ -340,41 +340,41 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			}
 		}
 	}
-	
+
 	private void followHorizontalScroll(int selectedMeasure){
 		int hScrollSelection = this.hSroll.getSelection();
 		int hScrollThumb = this.hSroll.getThumb();
 
 		int measureSize = this.table.getRowHeight();
 		int measurePosition = ( (selectedMeasure * measureSize) - measureSize );
-		
+
 		if( (measurePosition - hScrollSelection) < 0 || (measurePosition + measureSize - hScrollSelection ) > hScrollThumb){
 			this.hSroll.setSelection(measurePosition);
 			// hScroll.setSelection can clamp measurePosition
 			updateCanvasScroll(this.hSroll.getSelection());
 		}
 	}
-	
+
 	public void loadConfig(){
 		this.autoSizeEnabled = TuxGuitar.instance().getConfig().getBooleanConfigValue(TGConfigKeys.TABLE_AUTO_SIZE);
 		this.trackCount = 0;
 	}
-	
+
 	public Composite getComposite(){
 		return this.composite;
 	}
-	
+
 	public Menu createTrackMenu(){
 		final TrackMenu trackMenu = new TrackMenu(getComposite().getShell(),SWT.POP_UP);
 		trackMenu.showItems();
 		trackMenu.update();
-		
+
 		final TGUpdateListener trackMenuUpdateListener = new TGUpdateListener() {
 			@Override
 			public void doUpdate(int type) {
 				if(!trackMenu.isDisposed() && type == TGUpdateListener.SELECTION ){
 					trackMenu.update();
-				}	
+				}
 			}
 		};
 		final LanguageLoader trackMenuLanguageLoader = new LanguageLoader() {
@@ -393,11 +393,11 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 				}
 			}
 		};
-		
+
 		TuxGuitar.instance().getEditorManager().addUpdateListener(trackMenuUpdateListener);
 		TuxGuitar.instance().getLanguageManager().addLoader(trackMenuLanguageLoader);
 		TuxGuitar.instance().getIconManager().addLoader(trackMenuIconLoader);
-		
+
 		trackMenu.getMenu().addDisposeListener(new DisposeListener() {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
@@ -406,10 +406,10 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 				TuxGuitar.instance().getIconManager().removeLoader(trackMenuIconLoader);
 			}
 		});
-		
+
 		return trackMenu.getMenu();
 	}
-	
+
 	public void disposeColors(){
 		for(int i = 0; i < this.backgrounds.length; i++){
 			this.backgrounds[i].dispose();
@@ -418,22 +418,22 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			this.foregrounds[i].dispose();
 		}
 	}
-	
+
 	public void dispose(){
 		if(!isDisposed()){
 			getComposite().dispose();
 			disposeColors();
 		}
 	}
-	
+
 	public boolean isDisposed(){
 		return (getComposite() == null || getComposite().isDisposed());
 	}
-	
+
 	protected int getSelectedTrack(){
 		return this.selectedTrack;
 	}
-	
+
 	private MouseListener mouseFocusListener(){
 		return new MouseAdapter() {
 			@Override
@@ -457,7 +457,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			this.redrawPlayingMode();
 		}
 	}
-	
+
 	@Override
 	public void doUpdate(int type) {
 		if( type == TGUpdateListener.SELECTION ){

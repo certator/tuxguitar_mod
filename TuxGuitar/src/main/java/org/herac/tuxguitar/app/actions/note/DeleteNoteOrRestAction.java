@@ -21,19 +21,19 @@ import org.herac.tuxguitar.song.models.TGVoice;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class DeleteNoteOrRestAction extends Action{
-	
+
 	public static final String NAME = "action.beat.general.delete-note-or-rest";
-	
+
 	public DeleteNoteOrRestAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		//comienza el undoable
 		UndoableMeasureGeneric undoable = UndoableMeasureGeneric.startUndo();
 		TuxGuitar.instance().getFileHistory().setUnsavedFile();
-		
+
 		Caret caret = getEditor().getTablature().getCaret();
 		TGBeat beat = caret.getSelectedBeat();
 		TGVoice voice = beat.getVoice( caret.getVoice() );
@@ -45,14 +45,14 @@ public class DeleteNoteOrRestAction extends Action{
 			int string = caret.getSelectedString().getNumber();
 			getSongManager().getMeasureManager().removeNote(caret.getMeasure(),beat.getStart(), caret.getVoice(), string);
 		}
-		
+
 		//termia el undoable
 		addUndoableEdit(undoable.endUndo());
 		updateTablature();
-		
+
 		return 0;
 	}
-	
+
 	@Override
 	public void updateTablature() {
 		fireUpdate(getEditor().getTablature().getCaret().getMeasure().getNumber());

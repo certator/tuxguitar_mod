@@ -4,13 +4,13 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 
 public class KeyBindingListener implements KeyListener {
-	
+
 	private KeyBindingActionManager keyBindingActionManager;
-	
+
 	public KeyBindingListener(KeyBindingActionManager keyBindingActionManager){
 		this.keyBindingActionManager = keyBindingActionManager;
 	}
-	
+
 	@Override
 	public void keyPressed(KeyEvent event) {
 		KeyBinding keyBinding = new KeyBinding();
@@ -18,7 +18,7 @@ public class KeyBindingListener implements KeyListener {
 		keyBinding.setMask(event.stateMask);
 		this.keyBindingActionManager.processKeyBinding(keyBinding);
 	}
-	
+
 	@Override
 	public void keyReleased(KeyEvent evt) {
 		//not implemented

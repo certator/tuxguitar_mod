@@ -41,9 +41,9 @@ import org.herac.tuxguitar.song.models.TGNote;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class NoteEffectsMenuItem extends MenuItems{
-	
+
 	private MenuItem noteEffectsMenuItem;
-	private Menu menu; 
+	private Menu menu;
 	private MenuItem vibrato;
 	private MenuItem bend;
 	private MenuItem tremoloBar;
@@ -63,114 +63,114 @@ public class NoteEffectsMenuItem extends MenuItems{
 	private MenuItem tapping;
 	private MenuItem slapping;
 	private MenuItem popping;
-	
+
 	private MenuItem fadeIn;
-	
+
 	public NoteEffectsMenuItem(Shell shell,Menu parent, int style) {
 		this.noteEffectsMenuItem = new MenuItem(parent, style);
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
-	
+
 	@Override
 	public void showItems(){
 		//--VIBRATO--
 		this.vibrato = new MenuItem(this.menu, SWT.CHECK);
 		this.vibrato.addSelectionListener(TuxGuitar.instance().getAction(ChangeVibratoNoteAction.NAME));
-		
+
 		//--BEND--
 		this.bend = new MenuItem(this.menu, SWT.CHECK);
 		this.bend.addSelectionListener(TuxGuitar.instance().getAction(ChangeBendNoteAction.NAME));
-		
+
 		//--BEND--
 		this.tremoloBar = new MenuItem(this.menu, SWT.CHECK);
 		this.tremoloBar.addSelectionListener(TuxGuitar.instance().getAction(ChangeTremoloBarAction.NAME));
-		
+
 		//--SLIDE--
 		this.slide = new MenuItem(this.menu, SWT.CHECK);
 		this.slide.addSelectionListener(TuxGuitar.instance().getAction(ChangeSlideNoteAction.NAME));
-		
+
 		//--SLIDE--
 		this.deadNote = new MenuItem(this.menu, SWT.CHECK);
 		this.deadNote.addSelectionListener(TuxGuitar.instance().getAction(ChangeDeadNoteAction.NAME));
-		
+
 		//--HAMMER--
 		this.hammer = new MenuItem(this.menu, SWT.CHECK);
 		this.hammer.addSelectionListener(TuxGuitar.instance().getAction(ChangeHammerNoteAction.NAME));
-		
+
 		//--SEPARATOR--
 		new MenuItem(this.menu, SWT.SEPARATOR);
-		
+
 		//--GHOST NOTE--
 		this.ghostNote = new MenuItem(this.menu, SWT.CHECK);
 		this.ghostNote.addSelectionListener(TuxGuitar.instance().getAction(ChangeGhostNoteAction.NAME));
-		
+
 		//--ACCENTUATED NOTE--
 		this.accentuatedNote = new MenuItem(this.menu, SWT.CHECK);
 		this.accentuatedNote.addSelectionListener(TuxGuitar.instance().getAction(ChangeAccentuatedNoteAction.NAME));
-		
+
 		//--HEAVY ACCENTUATED NOTE--
 		this.heavyAccentuatedNote = new MenuItem(this.menu, SWT.CHECK);
 		this.heavyAccentuatedNote.addSelectionListener(TuxGuitar.instance().getAction(ChangeHeavyAccentuatedNoteAction.NAME));
-		
+
 		//--LET RING--
 		this.letRing = new MenuItem(this.menu, SWT.CHECK);
 		this.letRing.addSelectionListener(TuxGuitar.instance().getAction(ChangeLetRingAction.NAME));
-		
+
 		//--HARMONIC NOTE--
 		this.harmonicNote = new MenuItem(this.menu, SWT.CHECK);
 		this.harmonicNote.addSelectionListener(TuxGuitar.instance().getAction(ChangeHarmonicNoteAction.NAME));
-		
+
 		//--GRACE NOTE--
 		this.graceNote = new MenuItem(this.menu, SWT.CHECK);
 		this.graceNote.addSelectionListener(TuxGuitar.instance().getAction(ChangeGraceNoteAction.NAME));
-		
+
 		//--SEPARATOR--
 		new MenuItem(this.menu, SWT.SEPARATOR);
-		
+
 		//--TRILL--
 		this.trill = new MenuItem(this.menu, SWT.CHECK);
 		this.trill.addSelectionListener(TuxGuitar.instance().getAction(ChangeTrillNoteAction.NAME));
-		
+
 		//--TREMOLO PICKING--
 		this.tremoloPicking = new MenuItem(this.menu, SWT.CHECK);
 		this.tremoloPicking.addSelectionListener(TuxGuitar.instance().getAction(ChangeTremoloPickingAction.NAME));
-		
+
 		//--PALM MUTE--
 		this.palmMute = new MenuItem(this.menu, SWT.CHECK);
 		this.palmMute.addSelectionListener(TuxGuitar.instance().getAction(ChangePalmMuteAction.NAME));
-		
+
 		//--STACCATO
 		this.staccato = new MenuItem(this.menu, SWT.CHECK);
 		this.staccato.addSelectionListener(TuxGuitar.instance().getAction(ChangeStaccatoAction.NAME));
-		
+
 		//--SEPARATOR--
 		new MenuItem(this.menu, SWT.SEPARATOR);
-		
+
 		//--TAPPING
 		this.tapping = new MenuItem(this.menu, SWT.CHECK);
 		this.tapping.addSelectionListener(TuxGuitar.instance().getAction(ChangeTappingAction.NAME));
-		
+
 		//--SLAPPING
 		this.slapping = new MenuItem(this.menu, SWT.CHECK);
 		this.slapping.addSelectionListener(TuxGuitar.instance().getAction(ChangeSlappingAction.NAME));
-		
+
 		//--POPPING
 		this.popping = new MenuItem(this.menu, SWT.CHECK);
 		this.popping.addSelectionListener(TuxGuitar.instance().getAction(ChangePoppingAction.NAME));
-		
+
 		//--SEPARATOR--
 		new MenuItem(this.menu, SWT.SEPARATOR);
-		
+
 		//--FADE IN
 		this.fadeIn = new MenuItem(this.menu, SWT.CHECK);
 		this.fadeIn.addSelectionListener(TuxGuitar.instance().getAction(ChangeFadeInAction.NAME));
-		
+
 		this.noteEffectsMenuItem.setMenu(this.menu);
-		
+
 		this.loadIcons();
 		this.loadProperties();
 	}
-	
+
 	@Override
 	public void update(){
 		TGNote note = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getSelectedNote();
@@ -216,7 +216,7 @@ public class NoteEffectsMenuItem extends MenuItems{
 		this.fadeIn.setSelection(note != null && note.getEffect().isFadeIn());
 		this.fadeIn.setEnabled(!running && note != null);
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.noteEffectsMenuItem, "effects", null);
@@ -241,7 +241,7 @@ public class NoteEffectsMenuItem extends MenuItems{
 		setMenuItemTextAndAccelerator(this.popping, "effects.popping", ChangePoppingAction.NAME);
 		setMenuItemTextAndAccelerator(this.fadeIn, "effects.fade-in", ChangeFadeInAction.NAME);
 	}
-	
+
 	public void loadIcons(){
 		//Nothing to do
 	}

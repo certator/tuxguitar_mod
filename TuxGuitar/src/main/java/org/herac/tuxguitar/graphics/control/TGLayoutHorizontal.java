@@ -20,22 +20,22 @@ import org.herac.tuxguitar.song.models.TGTrack;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class TGLayoutHorizontal extends TGLayout{
-	
+
 	public TGLayoutHorizontal(TGController controller,int style){
 		super(controller,style);
 	}
-	
+
 	@Override
 	public int getMode(){
 		return MODE_HORIZONTAL;
 	}
-	
+
 	@Override
 	public void paintSong(TGPainter painter,TGRectangle clientArea,int fromX,int fromY) {
 		this.setWidth(0);
 		this.setHeight(0);
 		this.clearTrackPositions();
-		
+
 		int style = getStyle();
 		int number = getComponent().getTrackSelection();
 		int posY = fromY + getFirstTrackSpacing();
@@ -45,11 +45,11 @@ public class TGLayoutHorizontal extends TGLayout{
 		while(tracks.hasNext()){
 			TGTrackImpl track = (TGTrackImpl) tracks.next();
 			if(number < 0 || track.getNumber() == number){
-				
+
 				TGTrackSpacing ts = new TGTrackSpacing(this) ;
 				ts.setSize(TGTrackSpacing.POSITION_SCORE_MIDDLE_LINES, ((style & DISPLAY_SCORE) != 0 ?( (getScoreLineSpacing() * 5) ):0));
 				((TGLyricImpl)track.getLyrics()).start();
-				
+
 				//------AUTO_SPACING---------------------------------------
 				int maxY = 0;
 				int minY = 0;
@@ -58,7 +58,7 @@ public class TGLayoutHorizontal extends TGLayout{
 					maxY = ((getScoreLineSpacing() * 4) + (getScoreLineSpacing() * 4));
 					minY = -(getScoreLineSpacing() * 3);
 				}
-				
+
 				Iterator<TGMeasure> measures = track.getMeasures();
 				while(measures.hasNext()){
 					TGMeasureImpl measure = (TGMeasureImpl)measures.next();
@@ -76,14 +76,14 @@ public class TGLayoutHorizontal extends TGLayout{
 				}
 				ts.setSize(TGTrackSpacing.POSITION_LYRIC,10);
 				checkDefaultSpacing(ts);
-				
+
 				//----------------------------------------------------
 				paintMeasures(track,painter,fromX,posY,ts,clientArea);
 				paintLines(track,ts,painter,fromX + (getWidth() + 2),posY,(clientArea.getWidth() - (fromX + getWidth()) ));
-				
+
 				trackHeight = ts.getSize();
 				addTrackPosition(track.getNumber(),posY,trackHeight);
-				
+
 				posY += trackHeight + getTrackSpacing();
 				height += trackHeight + getTrackSpacing();
 			}
@@ -94,23 +94,23 @@ public class TGLayoutHorizontal extends TGLayout{
 		}
 		this.setHeight(height);
 	}
-	
+
 	public void paintMeasures(TGTrackImpl track,TGPainter painter,int fromX, int fromY,TGTrackSpacing ts,TGRectangle clientArea) {
 		int posX = (fromX + getFirstMeasureSpacing());
 		int posY = fromY;
 		int width = getFirstMeasureSpacing();
-		
+
 		Iterator<TGMeasure> measures = track.getMeasures();
 		while(measures.hasNext()){
 			TGMeasureImpl measure = (TGMeasureImpl)measures.next();
-			
+
 			//asigno la posicion dentro del compas
 			measure.setPosX(posX);
 			measure.setPosY(posY);
 			measure.setTs(ts);
-			
+
 			((TGLyricImpl)track.getLyrics()).setCurrentMeasure(measure);
-			
+
 			//Solo pinto lo que entre en pantalla
 			boolean isAtX = ((posX + measure.getWidth(this)) > clientArea.getX() - 100 && posX < clientArea.getX() + clientArea.getWidth() + measure.getWidth(this) + 100);
 			boolean isAtY = (posY + ts.getSize() > clientArea.getY() && posY < clientArea.getY() + clientArea.getHeight() + 80);
@@ -120,7 +120,7 @@ public class TGLayoutHorizontal extends TGLayout{
 			}else{
 				measure.setOutOfBounds(true);
 			}
-			
+
 			int measureWidth = measure.getWidth(this);
 			posX += measureWidth;
 			width += measureWidth;

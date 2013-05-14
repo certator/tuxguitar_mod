@@ -21,11 +21,11 @@ import org.herac.tuxguitar.song.models.TGSong;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class TGSongWriter {
-	
+
 	public TGSongWriter(){
 		super();
 	}
-	
+
 	public void write(TGFactory factory,TGSong song,String path) throws TGFileFormatException{
 		try {
 			Iterator<TGOutputStreamBase> it = TGFileFormatManager.instance().getOutputStreams();
@@ -42,7 +42,7 @@ public class TGSongWriter {
 		}
 		throw new TGFileFormatException("Unsupported file format");
 	}
-	
+
 	private boolean isSupportedExtension(TGOutputStreamBase writer,String path){
 		int index = path.lastIndexOf(".");
 		if(index > 0){
@@ -50,5 +50,5 @@ public class TGSongWriter {
 		}
 		return false;
 	}
-	
+
 }

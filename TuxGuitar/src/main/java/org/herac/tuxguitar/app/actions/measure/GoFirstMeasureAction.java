@@ -20,13 +20,13 @@ import org.herac.tuxguitar.graphics.control.TGTrackImpl;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class GoFirstMeasureAction extends Action{
-	
+
 	public static final String NAME = "action.measure.go-first";
-	
+
 	public GoFirstMeasureAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		if(TuxGuitar.instance().getPlayer().isRunning()){

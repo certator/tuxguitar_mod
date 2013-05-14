@@ -13,11 +13,11 @@ public class UndoableMoveTrackDown implements UndoableEdit{
 	private int trackNumber;
 	private UndoableCaretHelper undoCaret;
 	private UndoableCaretHelper redoCaret;
-	
+
 	private UndoableMoveTrackDown(){
 		super();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -29,7 +29,7 @@ public class UndoableMoveTrackDown implements UndoableEdit{
 		this.redoCaret.update();
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -41,31 +41,31 @@ public class UndoableMoveTrackDown implements UndoableEdit{
 		this.undoCaret.update();
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
-	
+
+
 	public static UndoableMoveTrackDown startUndo(){
 		UndoableMoveTrackDown undoable = new UndoableMoveTrackDown();
 		undoable.doAction = UNDO_ACTION;
 		undoable.undoCaret = new UndoableCaretHelper();
-		
+
 		return undoable;
 	}
-	
+
 	public UndoableMoveTrackDown endUndo(TGTrack track){
 		this.redoCaret = new UndoableCaretHelper();
 		this.trackNumber = track.getNumber();
-		
+
 		return this;
 	}
-	
+
 }

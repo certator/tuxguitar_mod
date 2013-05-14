@@ -19,25 +19,25 @@ import org.herac.tuxguitar.song.models.TGTrack;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class ChangeTrackMuteAction extends Action{
-	
+
 	public static final String NAME = "action.track.change-mute";
-	
+
 	public ChangeTrackMuteAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		TGTrack track = getEditor().getTablature().getCaret().getTrack();
 		if( track != null ){
 			//comienza el undoable
 			UndoableTrackSoloMute undoable = UndoableTrackSoloMute.startUndo(track);
-			
+
 			getSongManager().getTrackManager().changeMute(track, !track.isMute());
-			
+
 			//termia el undoable
 			addUndoableEdit(undoable.endUndo(track));
-			
+
 			TuxGuitar.instance().getFileHistory().setUnsavedFile();
 			if (TuxGuitar.instance().getPlayer().isRunning()) {
 				TuxGuitar.instance().getPlayer().updateTracks();

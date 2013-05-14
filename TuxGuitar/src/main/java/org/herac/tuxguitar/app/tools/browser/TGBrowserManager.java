@@ -13,16 +13,16 @@ import org.herac.tuxguitar.app.tools.browser.xml.TGBrowserWriter;
 import org.herac.tuxguitar.app.util.TGFileUtils;
 
 public class TGBrowserManager {
-	
+
 	private static TGBrowserManager instance;
-	
+
 	private List<TGBrowserFactory> factories;
 	private List<TGBrowserCollection> collections;
 	private List<TGBrowserCollectionInfo> collectionInfos;
 	private boolean changes;
-	
+
 	private TGBrowserFactoryHandler handler;
-	
+
 	private TGBrowserManager(){
 		this.factories = new ArrayList<TGBrowserFactory>();
 		this.collections = new ArrayList<TGBrowserCollection>();
@@ -30,22 +30,22 @@ public class TGBrowserManager {
 		this.readCollections();
 		this.addDefaultFactory();
 	}
-	
+
 	public static TGBrowserManager instance(){
 		if(instance == null){
 			instance = new TGBrowserManager();
 		}
 		return instance;
 	}
-	
+
 	public void setFactoryHandler(TGBrowserFactoryHandler handler){
 		this.handler = handler;
 	}
-	
+
 	public Iterator<TGBrowserFactory> getFactories(){
 		return this.factories.iterator();
 	}
-	
+
 	public TGBrowserFactory getFactory(String type){
 		Iterator<TGBrowserFactory> factories = getFactories();
 		while(factories.hasNext()){
@@ -56,10 +56,10 @@ public class TGBrowserManager {
 		}
 		return null;
 	}
-	
+
 	public void addFactory(TGBrowserFactory factory){
 		this.factories.add(factory);
-		
+
 		Iterator<TGBrowserCollectionInfo> it = this.collectionInfos.iterator();
 		while(it.hasNext()){
 			TGBrowserCollectionInfo info = it.next();
@@ -70,15 +70,15 @@ public class TGBrowserManager {
 				addCollection(collection);
 			}
 		}
-		
+
 		if(this.handler != null){
 			this.handler.notifyAdded();
 		}
 	}
-	
+
 	public void removeFactory(TGBrowserFactory factory){
 		this.factories.remove(factory);
-		
+
 		int index = 0;
 		while(index < this.collections.size()){
 			TGBrowserCollection collection = this.collections.get(index);
@@ -92,24 +92,24 @@ public class TGBrowserManager {
 			this.handler.notifyRemoved();
 		}
 	}
-	
+
 	public void addInfo(TGBrowserCollectionInfo info){
 		this.collectionInfos.add(info);
 	}
-	
+
 	public Iterator<TGBrowserCollection> getCollections(){
 		return this.collections.iterator();
 	}
-	
+
 	public int countCollections(){
 		return this.collections.size();
 	}
-	
+
 	public void removeCollection(TGBrowserCollection collection){
 		this.collections.remove(collection);
 		this.changes = true;
 	}
-	
+
 	public TGBrowserCollection addCollection(TGBrowserCollection collection){
 		if(collection.getData() != null ){
 			TGBrowserCollection existent = getCollection(collection.getType(), collection.getData());
@@ -121,7 +121,7 @@ public class TGBrowserManager {
 		}
 		return collection;
 	}
-	
+
 	public TGBrowserCollection getCollection(String type, TGBrowserData data ){
 		Iterator<TGBrowserCollection> it = this.getCollections();
 		while( it.hasNext() ){
@@ -132,30 +132,30 @@ public class TGBrowserManager {
 		}
 		return null;
 	}
-	
+
 	public TGBrowserCollection getCollection(int index){
 		if(index >= 0 && index < countCollections()){
 			return this.collections.get(index);
 		}
 		return null;
 	}
-	
+
 	public void readCollections(){
 		new TGBrowserReader().loadCollections(this,new File(getCollectionsFileName()));
 		this.changes = false;
 	}
-	
+
 	public void writeCollections(){
 		if(this.changes){
 			new TGBrowserWriter().saveCollections(this,getCollectionsFileName());
 		}
 		this.changes = false;
 	}
-	
+
 	private String getCollectionsFileName(){
 		return TGFileUtils.PATH_USER_CONFIG + File.separator + "browser-collections.xml";
 	}
-	
+
 	private void addDefaultFactory(){
 		this.addFactory(new TGBrowserFactoryImpl());
 	}

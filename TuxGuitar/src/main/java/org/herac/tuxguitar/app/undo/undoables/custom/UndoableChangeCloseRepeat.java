@@ -16,11 +16,11 @@ public class UndoableChangeCloseRepeat implements UndoableEdit{
 	private long position;
 	private int undoRepeatClose;
 	private int redoRepeatClose;
-	
+
 	private UndoableChangeCloseRepeat(){
 		super();
 	}
-	
+
 	@Override
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
@@ -31,10 +31,10 @@ public class UndoableChangeCloseRepeat implements UndoableEdit{
 		TGMeasure measure = manager.getTrackManager().getMeasureAt(manager.getFirstTrack(),this.position);
 		TuxGuitar.instance().getTablatureEditor().getTablature().updateMeasure(measure.getNumber());
 		this.redoCaret.update();
-		
+
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	@Override
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
@@ -45,41 +45,41 @@ public class UndoableChangeCloseRepeat implements UndoableEdit{
 		TGMeasure measure = manager.getTrackManager().getMeasureAt(manager.getFirstTrack(),this.position);
 		TuxGuitar.instance().getTablatureEditor().getTablature().updateMeasure(measure.getNumber());
 		this.undoCaret.update();
-		
+
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	@Override
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	@Override
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public static UndoableChangeCloseRepeat startUndo(){
 		Caret caret = getCaret();
 		return startUndo(caret.getPosition(),caret.getMeasure().getRepeatClose());
 	}
-	
+
 	public static UndoableChangeCloseRepeat startUndo(long position,int repeatClose){
 		UndoableChangeCloseRepeat undoable = new UndoableChangeCloseRepeat();
 		undoable.doAction = UNDO_ACTION;
 		undoable.undoCaret = new UndoableCaretHelper();
 		undoable.position = position;
 		undoable.undoRepeatClose = repeatClose;
-		
+
 		return undoable;
 	}
-	
+
 	public UndoableChangeCloseRepeat endUndo(int redoRepeatClose){
 		this.redoCaret = new UndoableCaretHelper();
 		this.redoRepeatClose = redoRepeatClose;
 		return this;
 	}
-	
+
 	private static Caret getCaret(){
 		return TuxGuitar.instance().getTablatureEditor().getTablature().getCaret();
 	}

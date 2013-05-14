@@ -34,22 +34,22 @@ import org.herac.tuxguitar.graphics.control.TGTrackImpl;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class CopyMeasureAction extends Action{
-	
+
 	public static final String NAME = "action.measure.copy";
-	
+
 	protected boolean copyAllTracks;
-	
+
 	public CopyMeasureAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | DISABLE_ON_PLAYING | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		showDialog(getEditor().getTablature().getShell());
-		
+
 		return 0;
 	}
-	
+
 	public void showDialog(Shell shell) {
 		TGTrackImpl track = getEditor().getTablature().getCaret().getTrack();
 		TGMeasureImpl measure = getEditor().getTablature().getCaret().getMeasure();
@@ -57,15 +57,15 @@ public class CopyMeasureAction extends Action{
 			final Shell dialog = DialogUtils.newDialog(shell, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 			dialog.setLayout(new GridLayout());
 			dialog.setText(TuxGuitar.getProperty("edit.copy"));
-			
+
 			//----------------------------------------------------------------------
 			Group range = new Group(dialog,SWT.SHADOW_ETCHED_IN);
 			range.setLayout(new GridLayout(2,false));
 			range.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 			range.setText(TuxGuitar.getProperty("edit.copy"));
-			
+
 			int measureCount = getSongManager().getSong().countMeasureHeaders();
-			
+
 			Label fromLabel = new Label(range, SWT.NULL);
 			fromLabel.setText(TuxGuitar.getProperty("edit.from"));
 			final Spinner fromSpinner = new Spinner(range, SWT.BORDER);
@@ -73,7 +73,7 @@ public class CopyMeasureAction extends Action{
 			fromSpinner.setMinimum(1);
 			fromSpinner.setMaximum(measureCount);
 			fromSpinner.setSelection(measure.getNumber());
-			
+
 			Label toLabel = new Label(range, SWT.NULL);
 			toLabel.setText(TuxGuitar.getProperty("edit.to"));
 			final Spinner toSpinner = new Spinner(range, SWT.BORDER);
@@ -81,16 +81,16 @@ public class CopyMeasureAction extends Action{
 			toSpinner.setMinimum(1);
 			toSpinner.setMaximum(measureCount);
 			toSpinner.setSelection(measure.getNumber());
-			
+
 			final int minSelection = 1;
 			final int maxSelection = track.countMeasures();
-			
+
 			fromSpinner.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					int fromSelection = fromSpinner.getSelection();
 					int toSelection = toSpinner.getSelection();
-					
+
 					if(fromSelection < minSelection){
 						fromSpinner.setSelection(minSelection);
 					}else if(fromSelection > toSelection){
@@ -117,7 +117,7 @@ public class CopyMeasureAction extends Action{
 				checkComposites.setLayout(new GridLayout());
 				checkComposites.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 				checkComposites.setText(TuxGuitar.getProperty("options"));
-				
+
 				final Button allTracks = new Button(checkComposites,SWT.CHECK);
 				allTracks.setText(TuxGuitar.getProperty("edit.all-tracks"));
 				allTracks.setSelection(this.copyAllTracks);
@@ -132,7 +132,7 @@ public class CopyMeasureAction extends Action{
 			Composite buttons = new Composite(dialog, SWT.NONE);
 			buttons.setLayout(new GridLayout(2,false));
 			buttons.setLayoutData(new GridData(SWT.END,SWT.FILL,true,true));
-			
+
 			final Button buttonOK = new Button(buttons, SWT.PUSH);
 			buttonOK.setText(TuxGuitar.getProperty("ok"));
 			buttonOK.setLayoutData(getButtonData());
@@ -143,7 +143,7 @@ public class CopyMeasureAction extends Action{
 					dialog.dispose();
 				}
 			});
-			
+
 			Button buttonCancel = new Button(buttons, SWT.PUSH);
 			buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 			buttonCancel.setLayoutData(getButtonData());
@@ -153,26 +153,26 @@ public class CopyMeasureAction extends Action{
 					dialog.dispose();
 				}
 			});
-			
+
 			dialog.setDefaultButton( buttonOK );
-			
+
 			DialogUtils.openDialog(dialog,DialogUtils.OPEN_STYLE_CENTER | DialogUtils.OPEN_STYLE_PACK | DialogUtils.OPEN_STYLE_WAIT);
 		}
 	}
-	
+
 	private GridData getButtonData(){
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.minimumWidth = 80;
 		data.minimumHeight = 25;
 		return data;
 	}
-	
+
 	protected GridData getSpinnerData(){
 		GridData data = new GridData(SWT.FILL,SWT.FILL,true,true);
 		data.minimumWidth = 180;
 		return data;
 	}
-	
+
 	protected void copyMeasures(int m1,int m2,boolean allTracks){
 		if(m1 > 0 && m1 <= m2){
 			MeasureTransferable transferable = new MeasureTransferable(getEditor(),m1,m2,allTracks);

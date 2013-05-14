@@ -18,13 +18,13 @@ import org.herac.tuxguitar.app.system.keybindings.editor.KeyBindingEditor;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class EditKeyBindingsAction extends Action{
-	
+
 	public static final String NAME = "action.settings.key-bindings";
-	
+
 	public EditKeyBindingsAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		new KeyBindingEditor().show(TuxGuitar.instance().getShell());

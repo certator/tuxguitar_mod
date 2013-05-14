@@ -25,7 +25,7 @@ import org.herac.tuxguitar.app.tools.custom.TGCustomToolManager;
 
 /**
  * @author julian
- * 
+ *
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class ToolMenuItem extends MenuItems {
@@ -37,23 +37,23 @@ public class ToolMenuItem extends MenuItems {
 	private MenuItem plugins;
 	private MenuItem config;
 	private MenuItem keyBindings;
-	
+
 	public ToolMenuItem(Shell shell,Menu parent, int style) {
 		this.settingsMenuItem = new MenuItem(parent, style);
 		this.menu = new Menu(shell, SWT.DROP_DOWN);
 	}
-	
+
 	@Override
 	public void showItems(){
 		this.transpose = new MenuItem(this.menu, SWT.PUSH);
 		this.transpose.addSelectionListener(TuxGuitar.instance().getAction(TransposeAction.NAME));
-		
+
 		this.scale = new MenuItem(this.menu, SWT.PUSH);
 		this.scale.addSelectionListener(TuxGuitar.instance().getAction(ScaleAction.NAME));
-		
+
 		this.browser = new MenuItem(this.menu, SWT.PUSH);
 		this.browser.addSelectionListener(TuxGuitar.instance().getAction(TGBrowserAction.NAME));
-		
+
 		Iterator<TGCustomTool> it = TGCustomToolManager.instance().getCustomTools();
 		while(it.hasNext()){
 			TGCustomTool tool = it.next();
@@ -61,28 +61,28 @@ public class ToolMenuItem extends MenuItems {
 			menuItem.setText(tool.getName());
 			menuItem.addSelectionListener(TuxGuitar.instance().getAction(tool.getAction()));
 		}
-		
+
 		//--SEPARATOR--
 		new MenuItem(this.menu, SWT.SEPARATOR);
-		
+
 		//--PLUGINS--
 		this.plugins = new MenuItem(this.menu, SWT.PUSH);
 		this.plugins.addSelectionListener(TuxGuitar.instance().getAction(EditPluginsAction.NAME));
-		
+
 		//--KEY BINDINGS--
 		this.keyBindings = new MenuItem(this.menu, SWT.PUSH);
 		this.keyBindings.addSelectionListener(TuxGuitar.instance().getAction(EditKeyBindingsAction.NAME));
-		
+
 		//--CONFIG--
 		this.config = new MenuItem(this.menu, SWT.PUSH);
 		this.config.addSelectionListener(TuxGuitar.instance().getAction(EditConfigAction.NAME));
-		
+
 		this.settingsMenuItem.setMenu(this.menu);
-		
+
 		this.loadIcons();
 		this.loadProperties();
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		setMenuItemTextAndAccelerator(this.settingsMenuItem, "tools", null);
@@ -93,11 +93,11 @@ public class ToolMenuItem extends MenuItems {
 		setMenuItemTextAndAccelerator(this.keyBindings, "tools.shortcuts", EditKeyBindingsAction.NAME);
 		setMenuItemTextAndAccelerator(this.config, "tools.settings", EditConfigAction.NAME);
 	}
-	
+
 	public void loadIcons(){
 		//Nothing to do
 	}
-	
+
 	@Override
 	public void update(){
 		boolean running = TuxGuitar.instance().getPlayer().isRunning();

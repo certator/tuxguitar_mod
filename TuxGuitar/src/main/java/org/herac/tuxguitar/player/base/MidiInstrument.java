@@ -1,7 +1,7 @@
 package org.herac.tuxguitar.player.base;
 
 public class MidiInstrument {
-	
+
 	public static final MidiInstrument[] INSTRUMENT_LIST = new MidiInstrument[]{
 		new MidiInstrument("Piano"),
 		new MidiInstrument("Bright Piano"),
@@ -132,13 +132,13 @@ public class MidiInstrument {
 		new MidiInstrument("Applause"),
 		new MidiInstrument("Gunshot")
 	};
-	
+
 	private String name;
-	
+
 	public MidiInstrument(String name){
 		this.name = name;
 	}
-	
+
 	public String getName(){
 		return this.name;
 	}

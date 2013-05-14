@@ -8,23 +8,23 @@ import org.herac.tuxguitar.app.system.config.TGConfigManager;
 import org.herac.tuxguitar.app.util.TGFileUtils;
 
 public class TGPluginConfigManager extends TGConfigManager{
-	
+
 	private String name;
-	
+
 	public TGPluginConfigManager(String name){
 		this.name = name;
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Plugin Configuration";
 	}
-	
+
 	@Override
 	public String getFileName(){
 		return TGFileUtils.PATH_USER_PLUGINS_CONFIG + File.separator + this.name + ".cfg";
 	}
-	
+
 	@Override
 	public Properties getDefaults() {
 		Properties properties = new Properties();
@@ -38,5 +38,5 @@ public class TGPluginConfigManager extends TGConfigManager{
 		}
 		return properties;
 	}
-	
+
 }

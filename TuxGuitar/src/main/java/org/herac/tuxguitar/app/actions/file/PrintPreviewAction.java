@@ -39,20 +39,20 @@ import org.herac.tuxguitar.util.TGSynchronizer;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class PrintPreviewAction extends Action{
-	
+
 	public static final String NAME = "action.file.print-preview";
-	
+
 	public PrintPreviewAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		try{
 			final PrintStyles data = PrintStylesDialog.open(TuxGuitar.instance().getShell());
 			if(data != null){
 				TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
-				
+
 				this.printPreview(data);
 			}
 		}catch(Throwable throwable){
@@ -60,7 +60,7 @@ public class PrintPreviewAction extends Action{
 		}
 		return 0;
 	}
-	
+
 	public void printPreview(final PrintStyles data){
 		new Thread(new Runnable() {
 			@Override
@@ -69,7 +69,7 @@ public class PrintPreviewAction extends Action{
 					final TGSongManager manager = new TGSongManager();
 					manager.setFactory(new TGFactoryImpl());
 					manager.setSong(getSongManager().getSong().clone(manager.getFactory()));
-				
+
 					printPreview(manager,data);
 				}catch(Throwable throwable){
 					MessageDialog.errorMessage(throwable);
@@ -77,7 +77,7 @@ public class PrintPreviewAction extends Action{
 			}
 		}).start();
 	}
-	
+
 	public void printPreview(final TGSongManager manager, final PrintStyles data){
 		new SyncThread(new Runnable() {
 			@Override
@@ -86,7 +86,7 @@ public class PrintPreviewAction extends Action{
 					TGResourceFactory factory = new TGResourceFactoryImpl(TuxGuitar.instance().getDisplay());
 					PrintController controller = new PrintController(manager, factory);
 					PrintLayout layout = new PrintLayout(controller,data);
-					
+
 					printPreview( layout );
 				}catch(Throwable throwable){
 					MessageDialog.errorMessage(throwable);
@@ -94,7 +94,7 @@ public class PrintPreviewAction extends Action{
 			}
 		}).start();
 	}
-	
+
 	public void printPreview(final PrintLayout layout){
 		new Thread(new Runnable() {
 			@Override
@@ -109,46 +109,46 @@ public class PrintPreviewAction extends Action{
 			}
 		}).start();
 	}
-	
+
 	private class PrintDocumentImpl implements PrintDocument{
-		
+
 		private final TGPainterImpl painter;
 		private final TGRectangle bounds;
 		private final List<Image> pages;
-		
+
 		public PrintDocumentImpl(TGRectangle bounds){
 			this.bounds = bounds;
 			this.painter = new TGPainterImpl();
 			this.pages = new ArrayList<Image>();
 		}
-		
+
 		@Override
 		public TGPainter getPainter() {
 			return this.painter;
 		}
-		
+
 		@Override
 		public TGRectangle getBounds(){
 			return this.bounds;
 		}
-		
+
 		@Override
 		public void pageStart() {
 			Image page = new Image(TuxGuitar.instance().getDisplay(),this.bounds.getWidth() - this.bounds.getX(), this.bounds.getHeight() - this.bounds.getY());
 			this.painter.init( page );
 			this.pages.add( page );
 		}
-		
+
 		@Override
 		public void pageFinish() {
 			this.painter.dispose();
 		}
-		
+
 		@Override
 		public void start() {
 			// Not implemented
 		}
-		
+
 		@Override
 		public void finish() {
 			final TGRectangle bounds = this.bounds;
@@ -170,7 +170,7 @@ public class PrintPreviewAction extends Action{
 				e.printStackTrace();
 			}
 		}
-		
+
 		@Override
 		public boolean isPaintable(int page) {
 			return true;

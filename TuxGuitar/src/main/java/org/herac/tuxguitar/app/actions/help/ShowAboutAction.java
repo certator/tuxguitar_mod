@@ -15,21 +15,21 @@ import org.herac.tuxguitar.app.help.about.AboutDialog;
 
 /**
  * @author julian
- * 
+ *
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
 public class ShowAboutAction extends Action {
-	
+
 	public static final String NAME = "action.help.about";
-	
+
 	protected Canvas imageCanvas;
 	protected Image tabImage;
-	
+
 	public ShowAboutAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		new AboutDialog().open(TuxGuitar.instance().getShell());

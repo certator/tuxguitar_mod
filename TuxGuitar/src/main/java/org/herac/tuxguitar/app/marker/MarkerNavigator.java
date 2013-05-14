@@ -9,11 +9,11 @@ import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGMarker;
 
 public class MarkerNavigator {
-	
+
 	public MarkerNavigator(){
 		super();
 	}
-	
+
 	public void goToSelectedMarker(TGMarker marker){
 		if(marker != null){
 			Caret caret = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret();

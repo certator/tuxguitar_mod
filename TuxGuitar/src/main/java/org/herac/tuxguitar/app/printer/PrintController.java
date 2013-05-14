@@ -12,7 +12,7 @@ import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGMeasureHeader;
 
 public class PrintController implements TGController {
-	
+
 	private static final int DEFAULT_SCORE_LINE_SPACING = 7;
 	private static final int DEFAULT_STRING_SPACING = 8;
 	private static final int DEFAULT_HORIZONTAL_SPACING = 15;
@@ -24,54 +24,54 @@ public class PrintController implements TGController {
 	private static final int CHORD_FRET_INDEX_SPACING = 8;
 	private static final int CHORD_STRING_SPACING = 4;
 	private static final int CHORD_FRET_SPACING = 5;
-	
+
 	private TGSongManager songManager;
 	private TGResourceFactory resourceFactory;
-	
+
 	public PrintController(TGSongManager songManager, TGResourceFactory resourceFactory){
 		this.songManager = songManager;
 		this.resourceFactory = resourceFactory;
 	}
-	
+
 	@Override
 	public TGSongManager getSongManager() {
 		return this.songManager;
 	}
-	
+
 	@Override
 	public TGResourceFactory getResourceFactory(){
 		return this.resourceFactory;
 	}
-	
+
 	@Override
 	public int getTrackSelection() {
 		return -1;
 	}
-	
+
 	@Override
 	public boolean isRunning(TGBeat beat) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isRunning(TGMeasure measure) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isLoopSHeader(TGMeasureHeader measureHeader) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isLoopEHeader(TGMeasureHeader measureHeader) {
 		return false;
 	}
-	
+
 	@Override
 	public void configureStyles(TGLayoutStyles styles){
 		TGConfigManager config = TuxGuitar.instance().getConfig();
-		
+
 		styles.setBufferEnabled(false);
 		styles.setFirstMeasureSpacing(DEFAULT_HORIZONTAL_SPACING);
 		styles.setMinBufferSeparator(DEFAULT_MIN_BUFFER_SEPARATOR);
@@ -90,7 +90,7 @@ public class PrintController implements TGController {
 		styles.setMarkerSpacing(15);
 		styles.setDivisionTypeSpacing(10);
 		styles.setEffectSpacing(8);
-		
+
 		styles.setDefaultFont(config.getFontModelConfigValue(TGConfigKeys.FONT_PRINTER_DEFAULT));
 		styles.setNoteFont(config.getFontModelConfigValue(TGConfigKeys.FONT_PRINTER_NOTE));
 		styles.setTimeSignatureFont(config.getFontModelConfigValue(TGConfigKeys.FONT_PRINTER_TIME_SIGNATURE));

@@ -20,11 +20,11 @@ public class UndoableTrackChannel implements UndoableEdit{
 	private UndoableCaretHelper redoCaret;
 	private List undoChannels;
 	private List redoChannels;
-	
+
 	private UndoableTrackChannel(){
 		super();
 	}
-	
+
 	public void redo() throws CannotRedoException {
 		if(!canRedo()){
 			throw new CannotRedoException();
@@ -41,11 +41,11 @@ public class UndoableTrackChannel implements UndoableEdit{
 		if (TuxGuitar.instance().getPlayer().isRunning()) {
 			TuxGuitar.instance().getPlayer().updateControllers();
 		}
-		
+
 		this.redoCaret.update();
 		this.doAction = UNDO_ACTION;
 	}
-	
+
 	public void undo() throws CannotUndoException {
 		if(!canUndo()){
 			throw new CannotUndoException();
@@ -62,45 +62,45 @@ public class UndoableTrackChannel implements UndoableEdit{
 		if (TuxGuitar.instance().getPlayer().isRunning()) {
 			TuxGuitar.instance().getPlayer().updateControllers();
 		}
-		
+
 		this.undoCaret.update();
-		
+
 		this.doAction = REDO_ACTION;
 	}
-	
+
 	public boolean canRedo() {
 		return (this.doAction == REDO_ACTION);
 	}
-	
+
 	public boolean canUndo() {
 		return (this.doAction == UNDO_ACTION);
 	}
-	
+
 	public static UndoableTrackChannel startUndo(){
 		TGSong song = TuxGuitar.instance().getSongManager().getSong();
 		TGFactory factory = TuxGuitar.instance().getSongManager().getFactory();
 		int tracks = song.countTracks();
-		
+
 		UndoableTrackChannel undoable = new UndoableTrackChannel();
 		undoable.doAction = UNDO_ACTION;
 		undoable.undoCaret = new UndoableCaretHelper();
 		undoable.undoChannels = new ArrayList();
-		
+
 		for( int i = 0; i < tracks; i ++){
 			TGTrack track = song.getTrack(i);
 			undoable.undoChannels.add( track.getChannel().clone(factory) );
 		}
 		return undoable;
 	}
-	
+
 	public UndoableTrackChannel endUndo(){
 		TGSong song = TuxGuitar.instance().getSongManager().getSong();
 		TGFactory factory = TuxGuitar.instance().getSongManager().getFactory();
 		int tracks = song.countTracks();
-		
+
 		this.redoCaret = new UndoableCaretHelper();
 		this.redoChannels = new ArrayList();
-		
+
 		for( int i = 0; i < tracks; i ++){
 			TGTrack track = song.getTrack(i);
 			this.redoChannels.add( track.getChannel().clone(factory) );

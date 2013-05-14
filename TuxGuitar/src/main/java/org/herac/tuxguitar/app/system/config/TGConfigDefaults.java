@@ -24,19 +24,19 @@ import org.herac.tuxguitar.graphics.control.TGLayout;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class TGConfigDefaults{
-	
+
 	private static final String DEFAULT_FILE = "config.dist";
-	
+
 	private static final String DEFAULT_FONT_NAME = getDefaultFontName();
-	
+
 	private final Properties properties;
-	
+
 	public TGConfigDefaults(){
 		this.properties = new Properties();
 		this.loadDefaults();
 		this.loadDefaultFile();
 	}
-	
+
 	public void loadDefaultFile() {
 		try {
 			InputStream is = TGFileUtils.getResourceAsStream(DEFAULT_FILE);
@@ -47,7 +47,7 @@ public class TGConfigDefaults{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void loadDefaults(){
 		this.loadProperty(TGConfigKeys.SKIN,"Lavender");
 		this.loadProperty(TGConfigKeys.WINDOW_TITLE,"${appname} - ${filename}");
@@ -122,23 +122,23 @@ public class TGConfigDefaults{
 		this.loadProperty(TGConfigKeys.TABLE_AUTO_SIZE,true);
 		this.loadProperty(TGConfigKeys.BROWSER_LINES_VISIBLE,true);
 	}
-	
+
 	public Properties getProperties() {
 		return this.properties;
 	}
-	
+
 	private void loadProperty(String key,String value){
 		this.properties.setProperty(key,value);
 	}
-	
+
 	private void loadProperty(String key,int value){
 		this.properties.setProperty(key,Integer.toString(value));
 	}
-	
+
 	private void loadProperty(String key,boolean value){
 		this.properties.setProperty(key,Boolean.toString(value));
 	}
-	
+
 	private static String getDefaultFontName(){
 		if (!TuxGuitar.instance().isInitialized()) {
 			return "";
@@ -152,5 +152,5 @@ public class TGConfigDefaults{
 		}
 		return "";
 	}
-	
+
 }

@@ -5,12 +5,12 @@ import org.herac.tuxguitar.song.models.TGMeasureHeader;
 import org.herac.tuxguitar.song.models.TGSong;
 
 public class MidiRepeatController {
-	
+
 	private TGSong song;
 	private int count;
 	private int index;
-	private int lastIndex;	
-	private boolean shouldPlay;	
+	private int lastIndex;
+	private boolean shouldPlay;
 	private boolean repeatOpen;
 	private long repeatStart;
 	private long repeatEnd;
@@ -20,7 +20,7 @@ public class MidiRepeatController {
 	private int repeatAlternative;
 	private int sHeader;
 	private int eHeader;
-	
+
 	public MidiRepeatController(TGSong song, int sHeader , int eHeader){
 		this.song = song;
 		this.sHeader = sHeader;
@@ -37,34 +37,34 @@ public class MidiRepeatController {
 		this.repeatStartIndex = 0;
 		this.repeatNumber = 0;
 	}
-	
+
 	public void process(){
 		TGMeasureHeader header = this.song.getMeasureHeader(this.index);
-		
+
 		//Verifica si el compas esta dentro del rango.
 		if( (this.sHeader != -1 && header.getNumber() < this.sHeader) || ( this.eHeader != -1 && header.getNumber() > this.eHeader ) ){
 			this.shouldPlay = false;
 			this.index ++;
 			return;
 		}
-		
+
 		//Abro repeticion siempre para el primer compas.
 		if( (this.sHeader != -1 && header.getNumber() == this.sHeader ) || header.getNumber() == 1 ){
 			this.repeatStartIndex = this.index;
 			this.repeatStart = header.getStart();
 			this.repeatOpen = true;
 		}
-		
+
 		//Por defecto el compas deberia sonar
 		this.shouldPlay = true;
-		
+
 		//En caso de existir una repeticion nueva,
 		//guardo el indice de el compas donde empieza una repeticion
 		if (header.isRepeatOpen()) {
 			this.repeatStartIndex = this.index;
 			this.repeatStart = header.getStart();
 			this.repeatOpen = true;
-			
+
 			//Si es la primer vez que paso por este compas
 			//Pongo numero de repeticion y final alternativo en cero
 			if(this.index > this.lastIndex){
@@ -89,11 +89,11 @@ public class MidiRepeatController {
 				return;
 			}
 		}
-		
+
 		//antes de ejecutar una posible repeticion
-		//guardo el indice del ultimo compas tocado 
+		//guardo el indice del ultimo compas tocado
 		this.lastIndex = Math.max(this.lastIndex,this.index);
-		
+
 		//si hay una repeticion la hago
 		if (this.repeatOpen && header.getRepeatClose() > 0) {
 			if (this.repeatNumber < header.getRepeatClose() || (this.repeatAlternative > 0)) {
@@ -109,22 +109,22 @@ public class MidiRepeatController {
 			}
 			this.repeatAlternative = 0;
 		}
-		
+
 		this.index ++;
 	}
-	
+
 	public boolean finished(){
 		return (this.index >= this.count);
 	}
-	
+
 	public boolean shouldPlay(){
 		return this.shouldPlay;
 	}
-	
+
 	public int getIndex(){
 		return this.index;
 	}
-	
+
 	public long getRepeatMove(){
 		return this.repeatMove;
 	}

@@ -15,13 +15,13 @@ import java.util.NoSuchElementException;
 import org.herac.tuxguitar.app.system.plugins.TGPlugin;
 
 public class TGServiceReader {
-	
+
 	private static final String SERVICE_PATH = new String("META-INF/services/");
-	
+
 	public static Iterator<TGPlugin> lookupProviders(Class<?> spi){
 		return lookupProviders(spi,TGClassLoader.instance().getClassLoader());
 	}
-	
+
 	public static Iterator<TGPlugin> lookupProviders(Class<?> spi,ClassLoader loader){
 		try{
 			if (spi == null || loader == null){
@@ -32,20 +32,20 @@ public class TGServiceReader {
 			return Collections.emptyIterator();
 		}
 	}
-	
+
 	private static final class IteratorImpl implements Iterator<TGPlugin> {
 		private final Class<?> spi;
 		private final ClassLoader loader;
 		private final Enumeration<URL> urls;
 		private Iterator<String> iterator;
-		
+
 		public IteratorImpl(Class<?> spi,ClassLoader loader,Enumeration<URL> urls){
 			this.spi = spi;
 			this.loader = loader;
 			this.urls = urls;
 			this.initialize();
 		}
-		
+
 		private void initialize(){
 			List<String> providers = new ArrayList<String>();
 			while (this.urls.hasMoreElements()) {
@@ -67,7 +67,7 @@ public class TGServiceReader {
 			}
 			this.iterator = providers.iterator();
 		}
-		
+
 		private String uncommentLine(String line){
 			int index = line.indexOf('#');
 			if(index >= 0){
@@ -75,12 +75,12 @@ public class TGServiceReader {
 			}
 			return line;
 		}
-		
+
 		@Override
 		public boolean hasNext() {
 			return (this.iterator != null && this.iterator.hasNext());
 		}
-		
+
 		@Override
 		public TGPlugin next() {
 			if (!hasNext()){
@@ -97,7 +97,7 @@ public class TGServiceReader {
 			}
 			throw new NoSuchElementException();
 		}
-		
+
 		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();

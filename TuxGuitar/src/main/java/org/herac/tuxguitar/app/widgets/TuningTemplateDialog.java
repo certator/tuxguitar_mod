@@ -241,7 +241,7 @@ public class TuningTemplateDialog extends Shell {
 		}
 		return reverse;
 	}
-	
+
 	@Override
 	protected void checkSubclass() {
 		// Allow to inherit SWT components... I would like to cook OOP thanks

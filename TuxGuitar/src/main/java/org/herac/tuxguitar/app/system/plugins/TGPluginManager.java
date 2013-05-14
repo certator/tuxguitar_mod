@@ -9,18 +9,18 @@ import org.herac.tuxguitar.util.TGClassLoader;
 import org.herac.tuxguitar.util.TGServiceReader;
 
 public class TGPluginManager {
-	
+
 	private final List<TGPlugin> plugins;
-	
+
 	public TGPluginManager(){
 		this.plugins = new ArrayList<TGPlugin>();
 		this.initPlugins();
 	}
-	
+
 	public List<TGPlugin> getPlugins(){
 		return this.plugins;
 	}
-	
+
 	public void initPlugins(){
 		try{
 			//Search available providers
@@ -40,7 +40,7 @@ public class TGPluginManager {
 			MessageDialog.errorMessage(new TGPluginException("An error ocurred when trying to init plugin",throwable));
 		}
 	}
-	
+
 	public void closePlugins(){
 		Iterator<TGPlugin> it = this.plugins.iterator();
 		while(it.hasNext()){
@@ -53,7 +53,7 @@ public class TGPluginManager {
 			}
 		}
 	}
-	
+
 	public void openPlugins(){
 		Iterator<TGPlugin> it = this.plugins.iterator();
 		while(it.hasNext()){
@@ -67,7 +67,7 @@ public class TGPluginManager {
 			}
 		}
 	}
-	
+
 	public void setEnabled(TGPlugin plugin,boolean enabled){
 		try{
 			TGPluginProperties.instance().setProperty(getEnabledProperty(plugin),enabled);
@@ -79,7 +79,7 @@ public class TGPluginManager {
 			MessageDialog.errorMessage(new TGPluginException("An error ocurred when trying to set plugin status",throwable));
 		}
 	}
-	
+
 	public boolean isEnabled(TGPlugin plugin){
 		try{
 			return TGPluginProperties.instance().getBooleanConfigValue(getEnabledProperty(plugin),true);
@@ -88,9 +88,9 @@ public class TGPluginManager {
 		}
 		return false;
 	}
-	
+
 	public String getEnabledProperty(TGPlugin plugin){
 		return (plugin.getClass().getName() + ".enabled");
 	}
-	
+
 }

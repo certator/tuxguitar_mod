@@ -29,111 +29,111 @@ import org.herac.tuxguitar.song.models.effects.TGEffectTremoloPicking;
 import org.herac.tuxguitar.song.models.effects.TGEffectTrill;
 
 public class TGFactory {
-	
+
 	public TGSong newSong(){
 		return new TGSong();
 	}
-	
+
 	public TGLyric newLyric(){
 		return new TGLyric();
 	}
-	
+
 	public TGMarker newMarker(){
 		return new TGMarker(this);
 	}
-	
+
 	public TGChord newChord(int length){
 		return new TGChord(length);
 	}
-	
+
 	public TGScale newScale(){
 		return new TGScale();
 	}
-	
+
 	public TGColor newColor(){
 		return new TGColor();
 	}
-	
+
 	public TGDuration newDuration(){
 		return new TGDuration(this);
 	}
-	
+
 	public TGDivisionType newDivisionType(){
 		return new TGDivisionType();
 	}
-	
+
 	public TGTimeSignature newTimeSignature(){
 		return new TGTimeSignature(this);
 	}
-	
+
 	public TGTempo newTempo(){
 		return new TGTempo();
 	}
-	
+
 	public TGChannel newChannel(){
 		return new TGChannel();
 	}
-	
+
 	public TGTrack newTrack(){
 		return new TGTrack(this);
 	}
-	
+
 	public TGMeasureHeader newHeader(){
 		return new TGMeasureHeader(this);
 	}
-	
+
 	public TGMeasure newMeasure(TGMeasureHeader header){
 		return new TGMeasure(header);
 	}
-	
+
 	public TGBeat newBeat(){
 		return new TGBeat(this);
 	}
-	
+
 	public TGVoice newVoice(int index){
 		return new TGVoice(this, index);
 	}
-	
+
 	public TGNote newNote(){
 		return new TGNote(this);
 	}
-	
+
 	public TGString newString(){
 		return new TGString();
 	}
-	
+
 	public TGStroke newStroke(){
 		return new TGStroke();
 	}
-	
+
 	public TGText newText(){
 		return new TGText();
 	}
-	
+
 	public TGNoteEffect newEffect(){
 		return new TGNoteEffect();
 	}
-	
+
 	public TGEffectBend newEffectBend(){
 		return new TGEffectBend();
 	}
-	
+
 	public TGEffectTremoloBar newEffectTremoloBar(){
 		return new TGEffectTremoloBar();
 	}
-	
+
 	public TGEffectGrace newEffectGrace(){
 		return new TGEffectGrace();
 	}
-	
+
 	public TGEffectHarmonic newEffectHarmonic(){
 		return new TGEffectHarmonic();
 	}
-	
+
 	public TGEffectTrill newEffectTrill(){
 		return new TGEffectTrill(this);
 	}
-	
+
 	public TGEffectTremoloPicking newEffectTremoloPicking(){
 		return new TGEffectTremoloPicking(this);
 	}

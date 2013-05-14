@@ -45,7 +45,7 @@ public class TGNoteEffect implements Serializable {
 	private boolean popping;
 	private boolean fadeIn;
 	private boolean letRing;
-	
+
 	public TGNoteEffect(){
 		this.bend = null;
 		this.tremoloBar = null;
@@ -68,11 +68,11 @@ public class TGNoteEffect implements Serializable {
 		this.fadeIn = false;
 		this.letRing = false;
 	}
-	
+
 	public boolean isDeadNote() {
 		return this.deadNote;
 	}
-	
+
 	public void setDeadNote(boolean deadNote) {
 		this.deadNote = deadNote;
 		//si es true, quito los efectos incompatibles
@@ -84,11 +84,11 @@ public class TGNoteEffect implements Serializable {
 			this.hammer = false;
 		}
 	}
-	
+
 	public boolean isVibrato() {
 		return this.vibrato;
 	}
-	
+
 	public void setVibrato(boolean vibrato) {
 		this.vibrato = vibrato;
 		//si no es null quito los efectos incompatibles
@@ -96,11 +96,11 @@ public class TGNoteEffect implements Serializable {
 			this.trill = null;
 		}
 	}
-	
+
 	public TGEffectBend getBend() {
 		return this.bend;
 	}
-	
+
 	public void setBend(TGEffectBend bend) {
 		this.bend = bend;
 		//si no es null quito los efectos incompatibles
@@ -112,15 +112,15 @@ public class TGNoteEffect implements Serializable {
 			this.hammer = false;
 		}
 	}
-	
+
 	public boolean isBend() {
 		return (this.bend != null && !this.bend.getPoints().isEmpty());
 	}
-	
+
 	public TGEffectTremoloBar getTremoloBar() {
 		return this.tremoloBar;
 	}
-	
+
 	public void setTremoloBar(TGEffectTremoloBar tremoloBar) {
 		this.tremoloBar = tremoloBar;
 		//si no es null quito los efectos incompatibles
@@ -132,16 +132,16 @@ public class TGNoteEffect implements Serializable {
 			this.hammer = false;
 		}
 	}
-	
+
 	public boolean isTremoloBar() {
 		return (this.tremoloBar != null);
 	}
-	
-	
+
+
 	public TGEffectTrill getTrill() {
 		return this.trill;
 	}
-	
+
 	public void setTrill(TGEffectTrill trill) {
 		this.trill = trill;
 		//si es true, quito los efectos incompatibles
@@ -155,15 +155,15 @@ public class TGNoteEffect implements Serializable {
 			this.vibrato = false;
 		}
 	}
-	
+
 	public boolean isTrill() {
 		return (this.trill != null);
 	}
-	
+
 	public TGEffectTremoloPicking getTremoloPicking() {
 		return this.tremoloPicking;
 	}
-	
+
 	public void setTremoloPicking(TGEffectTremoloPicking tremoloPicking) {
 		this.tremoloPicking = tremoloPicking;
 		//si es true, quito los efectos incompatibles
@@ -177,15 +177,15 @@ public class TGNoteEffect implements Serializable {
 			this.vibrato = false;
 		}
 	}
-	
+
 	public boolean isTremoloPicking() {
 		return (this.tremoloPicking != null);
 	}
-	
+
 	public boolean isHammer() {
 		return this.hammer;
 	}
-	
+
 	public void setHammer(boolean hammer) {
 		this.hammer = hammer;
 		//si es true, quito los efectos incompatibles
@@ -197,11 +197,11 @@ public class TGNoteEffect implements Serializable {
 			this.slide = false;
 		}
 	}
-	
+
 	public boolean isSlide() {
 		return this.slide;
 	}
-	
+
 	public void setSlide(boolean slide) {
 		this.slide = slide;
 		//si es true, quito los efectos incompatibles
@@ -213,11 +213,11 @@ public class TGNoteEffect implements Serializable {
 			this.hammer = false;
 		}
 	}
-	
+
 	public boolean isGhostNote() {
 		return this.ghostNote;
 	}
-	
+
 	public void setGhostNote(boolean ghostNote) {
 		this.ghostNote = ghostNote;
 		//si es true, quito los efectos incompatibles
@@ -226,11 +226,11 @@ public class TGNoteEffect implements Serializable {
 			this.heavyAccentuatedNote = false;
 		}
 	}
-	
+
 	public boolean isAccentuatedNote() {
 		return this.accentuatedNote;
 	}
-	
+
 	public void setAccentuatedNote(boolean accentuatedNote) {
 		this.accentuatedNote = accentuatedNote;
 		//si es true, quito los efectos incompatibles
@@ -239,11 +239,11 @@ public class TGNoteEffect implements Serializable {
 			this.heavyAccentuatedNote = false;
 		}
 	}
-	
+
 	public boolean isHeavyAccentuatedNote() {
 		return this.heavyAccentuatedNote;
 	}
-	
+
 	public void setHeavyAccentuatedNote(boolean heavyAccentuatedNote) {
 		this.heavyAccentuatedNote = heavyAccentuatedNote;
 		//si es true, quito los efectos incompatibles
@@ -252,35 +252,35 @@ public class TGNoteEffect implements Serializable {
 			this.accentuatedNote = false;
 		}
 	}
-	
+
 	public void setHarmonic(TGEffectHarmonic harmonic) {
 		this.harmonic = harmonic;
 	}
-	
+
 	public TGEffectHarmonic getHarmonic() {
 		return this.harmonic;
 	}
-	
+
 	public boolean isHarmonic() {
 		return (this.harmonic != null);
 	}
-	
+
 	public TGEffectGrace getGrace() {
 		return this.grace;
 	}
-	
+
 	public void setGrace(TGEffectGrace grace) {
 		this.grace = grace;
 	}
-	
+
 	public boolean isGrace() {
 		return (this.grace != null);
 	}
-	
+
 	public boolean isPalmMute() {
 		return this.palmMute;
 	}
-	
+
 	public void setPalmMute(boolean palmMute) {
 		this.palmMute = palmMute;
 		//si es true, quito los efectos incompatibles
@@ -289,11 +289,11 @@ public class TGNoteEffect implements Serializable {
 			this.letRing = false;
 		}
 	}
-	
+
 	public boolean isStaccato() {
 		return this.staccato;
 	}
-	
+
 	public void setStaccato(boolean staccato) {
 		this.staccato = staccato;
 		//si es true, quito los efectos incompatibles
@@ -302,11 +302,11 @@ public class TGNoteEffect implements Serializable {
 			this.letRing = false;
 		}
 	}
-	
+
 	public boolean isLetRing() {
 		return this.letRing;
 	}
-	
+
 	public void setLetRing(boolean letRing) {
 		this.letRing = letRing;
 		//si es true, quito los efectos incompatibles
@@ -315,11 +315,11 @@ public class TGNoteEffect implements Serializable {
 			this.palmMute = false;
 		}
 	}
-	
+
 	public boolean isPopping() {
 		return this.popping;
 	}
-	
+
 	public void setPopping(boolean popping) {
 		this.popping = popping;
 		//si es true, quito los efectos incompatibles
@@ -328,11 +328,11 @@ public class TGNoteEffect implements Serializable {
 			this.slapping = false;
 		}
 	}
-	
+
 	public boolean isSlapping() {
 		return this.slapping;
 	}
-	
+
 	public void setSlapping(boolean slapping) {
 		this.slapping = slapping;
 		//si es true, quito los efectos incompatibles
@@ -341,11 +341,11 @@ public class TGNoteEffect implements Serializable {
 			this.popping = false;
 		}
 	}
-	
+
 	public boolean isTapping() {
 		return this.tapping;
 	}
-	
+
 	public void setTapping(boolean tapping) {
 		this.tapping = tapping;
 		//si es true, quito los efectos incompatibles
@@ -354,15 +354,15 @@ public class TGNoteEffect implements Serializable {
 			this.popping = false;
 		}
 	}
-	
+
 	public boolean isFadeIn() {
 		return this.fadeIn;
 	}
-	
+
 	public void setFadeIn(boolean fadeIn) {
 		this.fadeIn = fadeIn;
 	}
-	
+
 	public boolean hasAnyEffect(){
 		return (isBend() ||
 				isTremoloBar() ||
@@ -385,7 +385,7 @@ public class TGNoteEffect implements Serializable {
 				isPopping() ||
 				isFadeIn());
 	}
-	
+
 	public TGNoteEffect clone(TGFactory factory){
 		TGNoteEffect effect = factory.newEffect();
 		effect.setVibrato(isVibrato());
@@ -410,5 +410,5 @@ public class TGNoteEffect implements Serializable {
 		effect.setTremoloPicking(isTremoloPicking()?(TGEffectTremoloPicking)this.tremoloPicking.clone(factory):null);
 		return effect;
 	}
-	
+
 }

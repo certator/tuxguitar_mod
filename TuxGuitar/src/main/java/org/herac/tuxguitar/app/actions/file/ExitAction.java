@@ -13,17 +13,17 @@ import org.herac.tuxguitar.app.actions.ActionLock;
 
 /**
  * @author julian
- * 
+ *
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class ExitAction extends Action {
-	
+
 	public static final String NAME = "action.file.exit";
-	
+
 	public ExitAction() {
 		super(NAME, AUTO_LOCK | KEY_BINDING_AVAILABLE );
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		ActionLock.unlock();

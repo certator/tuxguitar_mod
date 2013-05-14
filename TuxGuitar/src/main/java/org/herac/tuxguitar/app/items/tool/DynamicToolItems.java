@@ -23,9 +23,9 @@ import org.herac.tuxguitar.song.models.TGVelocities;
  */
 public class DynamicToolItems  extends ToolItems{
 	public static final String NAME = "dynamic.items";
-	
+
 	private ToolBar toolBar;
-	
+
 	private ToolItem pianoPianissimo;
 	private ToolItem pianissimo;
 	private ToolItem piano;
@@ -34,12 +34,12 @@ public class DynamicToolItems  extends ToolItems{
 	private ToolItem forte;
 	private ToolItem fortissimo;
 	private ToolItem forteFortissimo;
-	
-	
+
+
 	public DynamicToolItems(){
 		super(NAME);
 	}
-	
+
 	@Override
 	public void showItems(ToolBar toolBar){
 		this.toolBar = toolBar;
@@ -47,46 +47,46 @@ public class DynamicToolItems  extends ToolItems{
 		this.pianoPianissimo = new ToolItem(this.toolBar, SWT.CHECK);
 		this.pianoPianissimo.setData(createChangeVelocityActionData(TGVelocities.PIANO_PIANISSIMO));
 		this.pianoPianissimo.addSelectionListener(TuxGuitar.instance().getAction(ChangeVelocityAction.NAME));
-		
+
 		//--PP--
 		this.pianissimo = new ToolItem(this.toolBar, SWT.CHECK);
 		this.pianissimo.setData(createChangeVelocityActionData(TGVelocities.PIANISSIMO));
 		this.pianissimo.addSelectionListener(TuxGuitar.instance().getAction(ChangeVelocityAction.NAME));
-		
+
 		//--P--
 		this.piano = new ToolItem(this.toolBar, SWT.CHECK);
 		this.piano.setData(createChangeVelocityActionData(TGVelocities.PIANO));
 		this.piano.addSelectionListener(TuxGuitar.instance().getAction(ChangeVelocityAction.NAME));
-		
+
 		//--MP--
 		this.mezzoPiano = new ToolItem(this.toolBar, SWT.CHECK);
 		this.mezzoPiano.setData(createChangeVelocityActionData(TGVelocities.MEZZO_PIANO));
 		this.mezzoPiano.addSelectionListener(TuxGuitar.instance().getAction(ChangeVelocityAction.NAME));
-		
+
 		//--MF--
 		this.mezzoForte = new ToolItem(this.toolBar, SWT.CHECK);
 		this.mezzoForte.setData(createChangeVelocityActionData(TGVelocities.MEZZO_FORTE));
 		this.mezzoForte.addSelectionListener(TuxGuitar.instance().getAction(ChangeVelocityAction.NAME));
-		
+
 		//--F--
 		this.forte = new ToolItem(this.toolBar, SWT.CHECK);
 		this.forte.setData(createChangeVelocityActionData(TGVelocities.FORTE));
 		this.forte.addSelectionListener(TuxGuitar.instance().getAction(ChangeVelocityAction.NAME));
-		
+
 		//--FF--
 		this.fortissimo = new ToolItem(this.toolBar, SWT.CHECK);
 		this.fortissimo.setData(createChangeVelocityActionData(TGVelocities.FORTISSIMO));
 		this.fortissimo.addSelectionListener(TuxGuitar.instance().getAction(ChangeVelocityAction.NAME));
-		
+
 		//--FF--
 		this.forteFortissimo = new ToolItem(this.toolBar, SWT.CHECK);
 		this.forteFortissimo.setData(createChangeVelocityActionData(TGVelocities.FORTE_FORTISSIMO));
 		this.forteFortissimo.addSelectionListener(TuxGuitar.instance().getAction(ChangeVelocityAction.NAME));
-		
+
 		this.loadIcons();
 		this.loadProperties();
 	}
-	
+
 	@Override
 	public void update(){
 		Caret caret = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret();
@@ -109,7 +109,7 @@ public class DynamicToolItems  extends ToolItems{
 		this.forteFortissimo.setSelection(velocity == TGVelocities.FORTE_FORTISSIMO);
 		this.forteFortissimo.setEnabled( !running );
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		this.pianoPianissimo.setToolTipText(TuxGuitar.getProperty("dynamic.piano-pianissimo"));
@@ -121,7 +121,7 @@ public class DynamicToolItems  extends ToolItems{
 		this.fortissimo.setToolTipText(TuxGuitar.getProperty("dynamic.fortissimo"));
 		this.forteFortissimo.setToolTipText(TuxGuitar.getProperty("dynamic.forte-fortissimo"));
 	}
-	
+
 	public void loadIcons(){
 		this.pianoPianissimo.setImage(TuxGuitar.instance().getIconManager().getDynamicPPP());
 		this.pianissimo.setImage(TuxGuitar.instance().getIconManager().getDynamicPP());
@@ -132,7 +132,7 @@ public class DynamicToolItems  extends ToolItems{
 		this.fortissimo.setImage(TuxGuitar.instance().getIconManager().getDynamicFF());
 		this.forteFortissimo.setImage(TuxGuitar.instance().getIconManager().getDynamicFFF());
 	}
-	
+
 	private ActionData createChangeVelocityActionData(int velocity){
 		ActionData actionData = new ActionData();
 		actionData.put(ChangeVelocityAction.PROPERTY_VELOCITY, new Integer(velocity));

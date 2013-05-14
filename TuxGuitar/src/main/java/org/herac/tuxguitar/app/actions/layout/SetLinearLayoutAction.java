@@ -18,13 +18,13 @@ import org.herac.tuxguitar.graphics.control.TGLayoutHorizontal;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class SetLinearLayoutAction extends Action{
-	
+
 	public static final String NAME = "action.view.layout-set-linear";
-	
+
 	public SetLinearLayoutAction() {
 		super(NAME, AUTO_LOCK | AUTO_UNLOCK | AUTO_UPDATE | KEY_BINDING_AVAILABLE);
 	}
-	
+
 	@Override
 	protected int execute(ActionData actionData){
 		Tablature tablature = getEditor().getTablature();

@@ -67,7 +67,7 @@ public class TuningTemplateReader {
 
 	/**
 	 * Read tuning templates from XML file
-	 * 
+	 *
 	 * @param shortcutsNode
 	 * @return
 	 */
@@ -94,7 +94,7 @@ public class TuningTemplateReader {
 					if( nodeStrings == null ) {
 						throw new IllegalArgumentException("Atribute '" + TUNING_ATTRIBUTE_STRINGS + "' expected");
 					}
-					
+
 					String instrument = nodeInstrument.getNodeValue();
 					String name = nodeName.getNodeValue();
 					String stringsSyntax = nodeStrings.getNodeValue();
