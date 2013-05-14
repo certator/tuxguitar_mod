@@ -73,6 +73,11 @@ class TrackCanvas extends Composite implements PaintListener{
 			for(int j = 0;j < count;j++){
 				TGMeasureImpl measure = (TGMeasureImpl)this.track.getMeasure(j);
 
+				// swap the color to show a structural change
+				if (measure.isRepeatOpen()) {
+					normal = !normal;
+				}
+
 				TGColor color = normal ? trackColor : trackColor2;
 				painter.setBackground(color);
 				painter.setForeground(color);
