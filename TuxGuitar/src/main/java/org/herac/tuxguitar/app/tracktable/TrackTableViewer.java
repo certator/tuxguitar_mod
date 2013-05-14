@@ -40,7 +40,7 @@ import org.herac.tuxguitar.song.models.TGTrack;
 public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, LanguageLoader {
 
 	private Composite composite;
-	private ScrollBar hSroll;
+	private ScrollBar hScroll;
 	private Color[] backgrounds;
 	private Color[] foregrounds;
 	private TrackTable table;
@@ -79,9 +79,9 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 					TrackTableRow row = getTable().getRow(i);
 					row.getCanvas().setWidthMeasureCoef(coef);
 				}
-				hSroll.setThumb(canvas.getSize().x);
-				hSroll.setMaximum(canvas.getRealWidth());
-				updateCanvasScroll(hSroll.getSelection());
+				hScroll.setThumb(canvas.getSize().x);
+				hScroll.setMaximum(canvas.getRealWidth());
+				updateCanvasScroll(hScroll.getSelection());
 			}
 		};
 	}
@@ -122,11 +122,11 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 	}
 
 	private void addHScroll(){
-		this.hSroll = getComposite().getHorizontalBar();
-		this.hSroll.addListener(SWT.Selection, new Listener() {
+		this.hScroll = getComposite().getHorizontalBar();
+		this.hScroll.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event e) {
-				updateCanvasScroll(hSroll.getSelection());
+				updateCanvasScroll(hScroll.getSelection());
 			}
 		});
 	}
@@ -177,9 +177,9 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 			width = canvas.getRealWidth();
 			visibleSize = Math.min(width , canvas.getSize().x);
 		}
-		this.hSroll.setIncrement(this.table.getScrollIncrement());
-		this.hSroll.setMaximum(width);
-		this.hSroll.setThumb(visibleSize);
+		this.hScroll.setIncrement(this.table.getScrollIncrement());
+		this.hScroll.setMaximum(width);
+		this.hScroll.setThumb(visibleSize);
 	}
 
 	public TrackTable getTable(){
@@ -187,7 +187,7 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 	}
 
 	public int getHScrollSelection(){
-		return this.hSroll.getSelection();
+		return this.hScroll.getSelection();
 	}
 
 	public TablatureEditor getEditor(){
@@ -356,16 +356,16 @@ public class TrackTableViewer implements TGRedrawListener, TGUpdateListener, Lan
 	}
 
 	private void followHorizontalScroll(int selectedMeasure){
-		int hScrollSelection = this.hSroll.getSelection();
-		int hScrollThumb = this.hSroll.getThumb();
+		int hScrollSelection = this.hScroll.getSelection();
+		int hScrollThumb = this.hScroll.getThumb();
 
 		int measureSize = this.table.getRowHeight();
 		int measurePosition = ( (selectedMeasure * measureSize) - measureSize );
 
 		if( (measurePosition - hScrollSelection) < 0 || (measurePosition + measureSize - hScrollSelection ) > hScrollThumb){
-			this.hSroll.setSelection(measurePosition);
+			this.hScroll.setSelection(measurePosition);
 			// hScroll.setSelection can clamp measurePosition
-			updateCanvasScroll(this.hSroll.getSelection());
+			updateCanvasScroll(this.hScroll.getSelection());
 		}
 	}
 
