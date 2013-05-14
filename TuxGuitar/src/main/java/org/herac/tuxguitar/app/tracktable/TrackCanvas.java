@@ -187,7 +187,7 @@ class TrackCanvas extends Composite implements PaintListener{
 		// clamp
 		if (widthMeasureCoef > 1) {
 			widthMeasureCoef = 1;
-		} else {
+		} else if (this.getSize().y != 0){
 			int measureWidth = (int)(this.getSize().y * widthMeasureCoef);
 			if (measureWidth < 12){
 				widthMeasureCoef = 12.0f / this.getSize().y;
