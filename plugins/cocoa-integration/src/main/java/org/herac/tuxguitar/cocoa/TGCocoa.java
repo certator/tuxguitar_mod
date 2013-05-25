@@ -4,13 +4,6 @@ import java.lang.reflect.Method;
 
 import org.eclipse.swt.internal.C;
 import org.eclipse.swt.internal.Callback;
-import org.eclipse.swt.internal.cocoa.NSButton;
-import org.eclipse.swt.internal.cocoa.NSControl;
-import org.eclipse.swt.internal.cocoa.NSMenu;
-import org.eclipse.swt.internal.cocoa.NSMenuItem;
-import org.eclipse.swt.internal.cocoa.NSString;
-import org.eclipse.swt.internal.cocoa.NSWindow;
-import org.eclipse.swt.internal.cocoa.OS;
 import org.herac.tuxguitar.cocoa.toolbar.MacToolbarDelegate;
 
 public class TGCocoa {

@@ -32,18 +32,22 @@ public class MidiPortSynthesizer implements MidiOutputPort{
 		this.receiver = new MidiPortSynthesizerReceiver(this);
 	}
 	
+	@Override
 	public String getKey() {
 		return this.key;
 	}
 	
+	@Override
 	public String getName() {
 		return this.name;
 	}
 	
+	@Override
 	public void open(){
 		getSynthesizer();
 	}
 	
+	@Override
 	public void close(){
 		if(this.synthesizer != null && this.synthesizer.isOpen()){
 			this.unloadSoundbank();
@@ -51,10 +55,12 @@ public class MidiPortSynthesizer implements MidiOutputPort{
 		}
 	}
 	
+	@Override
 	public MidiReceiver getReceiver(){
 		return this.receiver;
 	}
 	
+	@Override
 	public void check() throws MidiPlayerException{
 		if(!isSynthesizerLoaded()){
 			throw new MidiPlayerException(TuxGuitar.getProperty("jsa.error.midi.unavailable"));
@@ -176,6 +182,7 @@ class MidiPortSynthesizerReceiver implements MidiReceiver{
 		}
 	}
 	
+	@Override
 	public void sendAllNotesOff(){
 		if(getChannels() != null){
 			for(int channel = 0;channel < getChannels().length;channel ++){
@@ -184,30 +191,35 @@ class MidiPortSynthesizerReceiver implements MidiReceiver{
 		}
 	}
 	
+	@Override
 	public void sendNoteOn(int channel, int key, int velocity){
 		if(getChannels() != null && channel >= 0 && channel < getChannels().length){
 			getChannels()[channel].noteOn(key, velocity);
 		}
 	}
 	
+	@Override
 	public void sendNoteOff(int channel, int key, int velocity){
 		if(getChannels() != null && channel >= 0 && channel < getChannels().length){
 			getChannels()[channel].noteOff(key, velocity);
 		}
 	}
 	
+	@Override
 	public void sendControlChange(int channel, int controller, int value){
 		if(getChannels() != null && channel >= 0 && channel < getChannels().length){
 			getChannels()[channel].controlChange(controller, value);
 		}
 	}
 	
+	@Override
 	public void sendProgramChange(int channel, int value){
 		if(getChannels() != null && channel >= 0 && channel < getChannels().length){
 			getChannels()[channel].programChange(value);
 		}
 	}
 	
+	@Override
 	public void sendPitchBend(int channel, int value){
 		if(getChannels() != null && channel >= 0 && channel < getChannels().length){
 			getChannels()[channel].setPitchBend( (value * 128) );

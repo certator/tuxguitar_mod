@@ -47,6 +47,7 @@ public class ABCInfo {
 		return s;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[INFO]");
 		string += "\n     Title:       " + getTitle();

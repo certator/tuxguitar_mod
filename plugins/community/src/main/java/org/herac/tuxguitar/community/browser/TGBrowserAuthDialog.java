@@ -51,6 +51,7 @@ public class TGBrowserAuthDialog {
 		final Button usernameChooser = new Button(group, SWT.PUSH );
 		usernameChooser.setText("...");
 		usernameChooser.addSelectionListener( new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TGCommunityAuthDialog authDialog = new TGCommunityAuthDialog();
 				authDialog.open( dialog );
@@ -70,6 +71,7 @@ public class TGBrowserAuthDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				setAccepted();
 				dialog.dispose();
@@ -80,6 +82,7 @@ public class TGBrowserAuthDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

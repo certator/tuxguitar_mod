@@ -83,6 +83,7 @@ public class JackSettingsDialog {
 		}
 		
 		final SelectionListener routeTypeListener = new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				boolean channelRoutingTabsEnabled = buttonSynthRouteType2.getSelection();
 				boolean programRoutingTabsEnabled = buttonSynthRouteType3.getSelection();
@@ -114,6 +115,7 @@ public class JackSettingsDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				int type = JackOutputPortRouter.CREATE_UNIQUE_PORT;
 				if( buttonSynthRouteType2.getSelection() ){
@@ -131,6 +133,7 @@ public class JackSettingsDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}
@@ -263,6 +266,7 @@ public class JackSettingsDialog {
 		loadProgramRoutingItems( table , routing[0] );
 		
 		srcBankCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int srcBank = srcBankCombo.getSelectionIndex();
 				if( srcBank >= 0 && srcBank < routing.length ){
@@ -280,6 +284,7 @@ public class JackSettingsDialog {
 		buttonOK.setText(TuxGuitar.getProperty("edit"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				int index = table.getSelectionIndex();
 				if( index >= 0 && index < table.getItemCount() ){
@@ -417,6 +422,7 @@ public class JackSettingsDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				route[1] = programPortValue.getSelectionIndex();
 				route[2] = channelRouteValue.getSelectionIndex() - 1;
@@ -431,6 +437,7 @@ public class JackSettingsDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}
@@ -488,6 +495,7 @@ public class JackSettingsDialog {
 		buttonEdit.setText(TuxGuitar.getProperty("edit"));
 		buttonEdit.setLayoutData(getButtonData());
 		buttonEdit.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				int index = table.getSelectionIndex();
 				if( index >= 0 && index < table.getItemCount() ){
@@ -602,6 +610,7 @@ public class JackSettingsDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				route[1] = channelRouteValue.getSelectionIndex() - 1;
 				route[2] = programRouteValue.getSelectionIndex() - 1;
@@ -615,6 +624,7 @@ public class JackSettingsDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

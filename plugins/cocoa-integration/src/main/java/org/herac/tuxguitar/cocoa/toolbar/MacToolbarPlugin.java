@@ -8,10 +8,12 @@ public class MacToolbarPlugin extends TGPluginAdapter {
 	
 	private MacToolbar macToolbar;
 	
+	@Override
 	public void init() throws TGPluginException {
 		// Nothing todo
 	}
 	
+	@Override
 	public void close() throws TGPluginException {
 		try {
 			if( this.macToolbar != null ){
@@ -22,6 +24,7 @@ public class MacToolbarPlugin extends TGPluginAdapter {
 		}
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		try {
 			if( this.macToolbar != null ){

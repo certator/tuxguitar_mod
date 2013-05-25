@@ -20,14 +20,17 @@ public class MidiToAudioExporter implements TGLocalFileExporter{
 		this.settings.setDefaults();
 	}
 	
+	@Override
 	public String getExportName() {
 		return "Audio File";
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat() {
 		return new TGFileFormat(this.settings.getType().toString(), ("*." + this.settings.getType().getExtension()) );
 	}
 	
+	@Override
 	public boolean configure(boolean setDefaults) {
 		if( !setDefaults ){
 			return new MidiToAudioSettingsDialog().open( this.settings );
@@ -37,10 +40,12 @@ public class MidiToAudioExporter implements TGLocalFileExporter{
 		return true;
 	}
 	
+	@Override
 	public void init(TGFactory factory,OutputStream stream){
 		this.stream = stream;
 	}
 	
+	@Override
 	public void exportSong(TGSong song) throws TGFileFormatException {
 		try{
 			if( this.stream != null ){

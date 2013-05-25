@@ -12,6 +12,7 @@ public class ABCTimeSignature {
 		this.toEnd=toEnd;
 	}
 	
+	@Override
 	public String toString() {
 		return this.numerator+"/"+this.denominator;
 	}

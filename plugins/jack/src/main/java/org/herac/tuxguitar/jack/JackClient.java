@@ -22,6 +22,7 @@ public class JackClient{
 		this.openPorts = false;
 	}
 	
+	@Override
 	public void finalize(){
 		if(this.instance != 0 ){
 			this.free(this.instance);

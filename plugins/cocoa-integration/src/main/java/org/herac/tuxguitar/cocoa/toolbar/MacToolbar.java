@@ -2,10 +2,6 @@ package org.herac.tuxguitar.cocoa.toolbar;
 
 import org.eclipse.swt.internal.C;
 import org.eclipse.swt.internal.Callback;
-import org.eclipse.swt.internal.cocoa.NSButton;
-import org.eclipse.swt.internal.cocoa.NSString;
-import org.eclipse.swt.internal.cocoa.NSToolbar;
-import org.eclipse.swt.internal.cocoa.NSWindow;
 import org.eclipse.swt.widgets.Shell;
 import org.herac.tuxguitar.cocoa.TGCocoa;
 
@@ -64,6 +60,7 @@ public class MacToolbar {
 		}
 	}
 	
+	@Override
 	public void finalize() throws Throwable{
 		if( this.delegateRef != 0 ){
 			TGCocoa.DeleteGlobalRef( this.delegateRef );
@@ -85,7 +82,7 @@ public class MacToolbar {
 	}
 	
 	public int callbackProc32( int id, int sel, int arg0 ) {
-		return (int)this.callbackProc( (long)id, (long)sel, (long)arg0);
+		return (int)this.callbackProc( id, sel, arg0);
 	}
 	
 	public boolean isEnabled() {

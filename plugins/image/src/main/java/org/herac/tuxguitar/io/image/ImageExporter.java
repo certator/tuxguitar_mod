@@ -32,6 +32,7 @@ public class ImageExporter implements TGRawExporter{
 	private ImageFormat format;
 	private String path;
 	
+	@Override
 	public String getExportName() {
 		return TuxGuitar.getProperty("tuxguitar-image.export-label");
 	}
@@ -70,6 +71,7 @@ public class ImageExporter implements TGRawExporter{
 		return styles;
 	}
 	
+	@Override
 	public void exportSong(final TGSong song) {
 		if( this.path != null ){
 			if( this.styles == null ){
@@ -84,6 +86,7 @@ public class ImageExporter implements TGRawExporter{
 	
 	public void export(final TGSong song){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try{
 					TGSongManager manager = new TGSongManager();
@@ -100,6 +103,7 @@ public class ImageExporter implements TGRawExporter{
 	
 	public void export(final TGSongManager manager){
 		new SyncThread(new Runnable() {
+			@Override
 			public void run() {
 				try{
 					TGResourceFactory factory = new TGResourceFactoryImpl(TuxGuitar.instance().getDisplay());
@@ -117,6 +121,7 @@ public class ImageExporter implements TGRawExporter{
 	
 	public void export(final PrintLayout layout){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try{
 					layout.loadStyles(1f);
@@ -146,29 +151,35 @@ public class ImageExporter implements TGRawExporter{
 			this.format = format;
 		}
 		
+		@Override
 		public TGPainter getPainter() {
 			return this.painter;
 		}
 		
+		@Override
 		public TGRectangle getBounds(){
 			return this.bounds;
 		}
 		
+		@Override
 		public void pageStart() {
 			this.buffer = new Image(TuxGuitar.instance().getDisplay(),this.bounds.getWidth() + (this.bounds.getX() * 2), this.bounds.getHeight() + (this.bounds.getY() * 2) );
 			this.painter.init( this.buffer );
 		}
 		
+		@Override
 		public void pageFinish() {
 			this.pages.add( this.buffer.getImageData() );
 			this.painter.dispose();
 			this.buffer.dispose();
 		}
 		
+		@Override
 		public void start() {
 			// Not implemented
 		}
 		
+		@Override
 		public void finish() {
 			try {
 				ImageWriter.write(this.format, this.path, this.pages);
@@ -177,6 +188,7 @@ public class ImageExporter implements TGRawExporter{
 			}
 		}
 		
+		@Override
 		public boolean isPaintable(int page) {
 			return true;
 		}

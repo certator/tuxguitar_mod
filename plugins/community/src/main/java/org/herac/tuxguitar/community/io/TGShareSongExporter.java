@@ -11,15 +11,18 @@ public class TGShareSongExporter implements TGRawExporter {
 		super();
 	}
 	
+	@Override
 	public void exportSong(TGSong srcSong) throws TGFileFormatException {
 		final TGSong song = srcSong.clone(new TGFactory());
 		new Thread( new Runnable() {
+			@Override
 			public void run() {
 				new TGShareSong().process( song );
 			}
 		} ).start();
 	}
 	
+	@Override
 	public String getExportName() {
 		return ("Share with the Community");
 	}

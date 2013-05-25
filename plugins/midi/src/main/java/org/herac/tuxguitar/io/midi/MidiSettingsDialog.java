@@ -72,6 +72,7 @@ public class MidiSettingsDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(data);
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				MidiSettingsDialog.this.status = STATUS_ACCEPTED;
 				MidiSettingsDialog.this.settings.setTranspose( (MIN_TRANSPOSE + transposeCombo.getSelectionIndex()) );
@@ -83,6 +84,7 @@ public class MidiSettingsDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(data);
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				MidiSettingsDialog.this.status = STATUS_CANCELLED;
 				dialog.dispose();

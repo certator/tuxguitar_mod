@@ -85,7 +85,8 @@ public class TGTunerDialog implements TGTunerListener {
         buttonSettings.setText(TuxGuitar.getProperty("settings"));
         buttonSettings.setLayoutData(getGridData(80,25));
         buttonSettings.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent arg0) {
+            @Override
+			public void widgetSelected(SelectionEvent arg0) {
             	TGTunerDialog.this.getTuner().pause();
             	new TGTunerSettingsDialog(TGTunerDialog.this).show();
             }
@@ -95,7 +96,8 @@ public class TGTunerDialog implements TGTunerListener {
         buttonExit.setText(TuxGuitar.getProperty("close"));
         buttonExit.setLayoutData(getGridData(80,25));
         buttonExit.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent arg0) {
+            @Override
+			public void widgetSelected(SelectionEvent arg0) {
             	TGTunerDialog.this.getTuner().setCanceled(true);
             	TGTunerDialog.this.dialog.dispose();
             }
@@ -104,6 +106,7 @@ public class TGTunerDialog implements TGTunerListener {
         
         // if closed on [X], set this.tuner.setCanceled(true);
         this.dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent arg0) {
             	TGTunerDialog.this.getTuner().setCanceled(true);
             	TGTunerDialog.this.dialog.dispose();
@@ -126,11 +129,13 @@ public class TGTunerDialog implements TGTunerListener {
 	}
 
 	
+	@Override
 	public void fireFrequency(final double freq) {
 		if (!this.dialog.isDisposed()) {
 			 try {
 				 TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {				
-					 public void run() {
+					 @Override
+					public void run() {
 						if (!TGTunerDialog.this.dialog.isDisposed() && !TGTunerDialog.this.roughTuner.isDisposed()) {
 							TGTunerDialog.this.currentFrequency.setText(Math.floor(freq)+" Hz");
 							TGTunerDialog.this.roughTuner.setCurrentFrequency(freq);
@@ -150,14 +155,17 @@ public class TGTunerDialog implements TGTunerListener {
 		return this.tuner;
 	}
 	
+	@Override
 	public int[] getTuning() {
 		return this.tuning;
 	}
 
 
+	@Override
 	public void fireException(final Exception ex) {
 		try {
 			TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() {
 					if (!TGTunerDialog.this.dialog.isDisposed())
 						MessageDialog.errorMessage(ex);
@@ -169,6 +177,7 @@ public class TGTunerDialog implements TGTunerListener {
 	}
 
 	
+	@Override
 	public void fireCurrentString(final int string) {
 		this.tuner.pause();
 		if (string == 0) { // TODO: it never happens
@@ -188,6 +197,7 @@ public class TGTunerDialog implements TGTunerListener {
 		TGTuningString tempString = new TGTuningString(midiNote,parent,this);
 		this.allStringButtons.add(tempString);
 		tempString.getStringButton().addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				// disable all others
 				TGTunerDialog.this.fineTuner.setCurrentFrequency(-1);

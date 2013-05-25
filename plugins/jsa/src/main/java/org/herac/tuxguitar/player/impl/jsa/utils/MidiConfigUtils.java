@@ -71,6 +71,7 @@ public class MidiConfigUtils {
 		final Button sbCustomChooser = new Button(chooser,SWT.PUSH);
 		sbCustomChooser.setImage(TuxGuitar.instance().getIconManager().getFileOpen());
 		sbCustomChooser.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String fileName = FileChooser.instance().open(dialog,FileChooser.ALL_FORMATS);
 				if(fileName != null){
@@ -92,6 +93,7 @@ public class MidiConfigUtils {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(data);
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				String selection = ( sbCustom.getSelection() ? sbCustomPath.getText() : null);
 				
@@ -117,6 +119,7 @@ public class MidiConfigUtils {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(data);
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

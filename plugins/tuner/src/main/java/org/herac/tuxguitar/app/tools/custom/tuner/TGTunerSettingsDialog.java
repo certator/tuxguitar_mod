@@ -111,6 +111,7 @@ public class TGTunerSettingsDialog {
 		this.noiseGate.setIncrement(5);
 		this.noiseGate.setPageIncrement(10);
 		this.noiseGate.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TGTunerSettingsDialog.this.noiseGateValue.setText(
 						new Integer(TGTunerSettingsDialog.this.noiseGate.getSelection()).toString()+"%");
@@ -140,7 +141,8 @@ public class TGTunerSettingsDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(TGTunerDialog.getGridData(80,25));
 		buttonOK.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent arg0) {
+            @Override
+			public void widgetSelected(SelectionEvent arg0) {
             	TGTunerSettingsDialog.this.dispose(dialog,true);
             }
         });
@@ -148,7 +150,8 @@ public class TGTunerSettingsDialog {
         buttonExit.setText(TuxGuitar.getProperty("close"));
         buttonExit.setLayoutData(TGTunerDialog.getGridData(80,25));
         buttonExit.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent arg0) {
+            @Override
+			public void widgetSelected(SelectionEvent arg0) {
             	TGTunerSettingsDialog.this.dispose(dialog,false);
             }
         });
@@ -294,6 +297,7 @@ public class TGTunerSettingsDialog {
 
 	/** adapter class which sets update flag */
 	protected class UpdatedListener extends SelectionAdapter {
+		@Override
 		public void widgetSelected(SelectionEvent arg0) {
         	TGTunerSettingsDialog.this.updated=true;
         	TGTunerSettingsDialog.this.settingsInfo.setText(" Minimal freq diff = "+this.getMinimalFrequencyDiff()+"Hz   \n Time to fill the buffer = "+ this.getTimeToFillBuffer()+" sec");

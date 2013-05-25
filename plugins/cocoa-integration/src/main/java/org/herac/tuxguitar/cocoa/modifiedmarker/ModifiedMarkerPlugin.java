@@ -7,14 +7,17 @@ public class ModifiedMarkerPlugin extends TGPluginAdapter {
 	
 	private ModifiedMarker modifiedMarker;
 	
+	@Override
 	public void init() throws TGPluginException {
 		// Nothing todo
 	}
 	
+	@Override
 	public void close() throws TGPluginException {
 		// Nothing todo
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		try {
 			if( this.modifiedMarker != null ){

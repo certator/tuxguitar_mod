@@ -1,9 +1,6 @@
 package org.herac.tuxguitar.cocoa.menu;
 
 import org.eclipse.swt.internal.Callback;
-import org.eclipse.swt.internal.cocoa.NSApplication;
-import org.eclipse.swt.internal.cocoa.NSMenu;
-import org.eclipse.swt.internal.cocoa.NSMenuItem;
 import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.actions.file.ExitAction;
 import org.herac.tuxguitar.app.actions.help.ShowAboutAction;
@@ -70,7 +67,7 @@ public class MacMenu {
 	}
 	
 	public int callbackProc32( int id, int sel, int arg0 ) {
-		return (int)this.callbackProc( (long)id, (long)sel, (long)arg0);
+		return (int)this.callbackProc( id, sel, arg0);
 	}
 	
 	public boolean isEnabled() {

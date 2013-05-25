@@ -34,9 +34,11 @@ public class SBAssistant {
 	
 	public void process(){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+						@Override
 						public void run() {
 							ConfirmDialog dialog = new ConfirmDialog(TuxGuitar.getProperty("jsa.soundbank-assistant.confirm-message"));
 							dialog.setDefaultStatus( ConfirmDialog.STATUS_NO );
@@ -80,7 +82,8 @@ public class SBAssistant {
         buttonOk.setText(TuxGuitar.getProperty("ok"));
         buttonOk.setLayoutData(getButtonsData());
         buttonOk.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent arg0) {
+            @Override
+			public void widgetSelected(SelectionEvent arg0) {
             	URL url = getSelection(urls);
             	
             	dialog.dispose();
@@ -95,7 +98,8 @@ public class SBAssistant {
         buttonCancel.setText(TuxGuitar.getProperty("cancel"));
         buttonCancel.setLayoutData(getButtonsData());
         buttonCancel.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent arg0) {
+            @Override
+			public void widgetSelected(SelectionEvent arg0) {
                 dialog.dispose();
             }
         });

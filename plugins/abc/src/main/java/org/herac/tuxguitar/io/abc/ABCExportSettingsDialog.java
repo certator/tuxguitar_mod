@@ -65,6 +65,7 @@ public class ABCExportSettingsDialog {
 		xNumSpinner.setSelection(minXNum);
 		
 		xNumSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int fromSelection = xNumSpinner.getSelection();
 				
@@ -129,6 +130,7 @@ public class ABCExportSettingsDialog {
 		measureToSpinner.setSelection(maxSelection);
 		
 		measureFromSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int fromSelection = measureFromSpinner.getSelection();
 				int toSelection = measureToSpinner.getSelection();
@@ -141,6 +143,7 @@ public class ABCExportSettingsDialog {
 			}
 		});
 		measureToSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int toSelection = measureToSpinner.getSelection();
 				int fromSelection = measureFromSpinner.getSelection();
@@ -272,6 +275,7 @@ public class ABCExportSettingsDialog {
 		measuresPerLineSpinner.setSelection(3);
 
 		tablatureCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!tablatureCheck.getSelection()){
 					scoreCheck.setSelection(true);
@@ -279,6 +283,7 @@ public class ABCExportSettingsDialog {
 			}
 		});
 		scoreCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!scoreCheck.getSelection()){
 					tablatureCheck.setSelection(true);
@@ -286,6 +291,7 @@ public class ABCExportSettingsDialog {
 			}
 		});
 		trackAllCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				trackLabel.setEnabled( !trackAllCheck.getSelection() );
 				trackCombo.setEnabled( !trackAllCheck.getSelection() );
@@ -293,17 +299,20 @@ public class ABCExportSettingsDialog {
 			}
 		});
 		chordDiagramsCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				diagramTrackCombo.setEnabled( chordDiagramsCheck.getSelection() );
 			}
 		});
 		chordTracksCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				chordTrackCombo.setEnabled( chordTracksCheck.getSelection() );
 				baseTrackCombo.setEnabled( chordTracksCheck.getSelection() );
 			}
 		});
 		droneTrackCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				droneTrackCombo.setEnabled( droneTrackCheck.getSelection() );
 			}
@@ -318,6 +327,7 @@ public class ABCExportSettingsDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				ABCExportSettingsDialog.this.status = STATUS_ACCEPTED;
 				
@@ -366,6 +376,7 @@ public class ABCExportSettingsDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				ABCExportSettingsDialog.this.status = STATUS_CANCELLED;
 				dialog.dispose();

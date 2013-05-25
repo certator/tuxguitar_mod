@@ -46,6 +46,7 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 		this.showProcess();
 		
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				TGConverterProcess.this.converter.process();
 			}
@@ -59,12 +60,14 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 		this.dialog.setLayout(new GridLayout());
 		this.dialog.setSize( SHELL_WIDTH , SHELL_HEIGHT );
 		this.dialog.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				TuxGuitar.instance().getIconManager().removeLoader( TGConverterProcess.this );
 				TuxGuitar.instance().getLanguageManager().removeLoader( TGConverterProcess.this );
 			}
 		});
 		this.dialog.addShellListener(new ShellAdapter() {
+			@Override
 			public void shellClosed(ShellEvent e) {
 				e.doit = TGConverterProcess.this.finished;
 			}
@@ -87,6 +90,7 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 		this.buttonCancel.setEnabled( false );
 		this.buttonCancel.setLayoutData(getButtonsData());
 		this.buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TGConverterProcess.this.converter.setCancelled( true );
 			}
@@ -96,6 +100,7 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 		this.buttonClose.setEnabled( false );
 		this.buttonClose.setLayoutData(getButtonsData());
 		this.buttonClose.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				TGConverterProcess.this.dialog.dispose();
 			}
@@ -121,6 +126,7 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 		return (this.dialog == null || this.dialog.isDisposed() );
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.loadProperties(true);
 	}
@@ -136,6 +142,7 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 		}
 	}
 	
+	@Override
 	public void loadIcons() {
 		this.loadIcons(true);
 	}
@@ -153,10 +160,12 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 	//---TGConverterListener Implementation ----------------------------------------------------------//
 	//------------------------------------------------------------------------------------------------//
 	
+	@Override
 	public void notifyFileProcess(final String filename) {
 		if(!isDisposed() ){
 			try {
 				TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+					@Override
 					public void run() {
 						if(!isDisposed() ){
 							TGConverterProcess.this.output.append(TuxGuitar.getProperty("batch.converter.messages.converting", new String[] {filename}));
@@ -170,10 +179,12 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 		}
 	}
 	
+	@Override
 	public void notifyFileResult(final String filename, final int result) {
 		if(!isDisposed() ){
 			try {
 				TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+					@Override
 					public void run() {
 						if(!isDisposed() ){
 							TGConverterProcess.this.appendLogMessage(result, filename);
@@ -187,10 +198,12 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 		}
 	}
 	
+	@Override
 	public void notifyStart() {
 		if(!isDisposed() ){
 			try {
 				TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+					@Override
 					public void run() {
 						if(!isDisposed() ){
 							TGConverterProcess.this.finished = false;
@@ -206,10 +219,12 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 		}
 	}
 	
+	@Override
 	public void notifyFinish() {
 		if(!isDisposed() ){
 			try {
 				TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+					@Override
 					public void run() {
 						if(!isDisposed() ){
 							TGConverterProcess.this.finished = true;

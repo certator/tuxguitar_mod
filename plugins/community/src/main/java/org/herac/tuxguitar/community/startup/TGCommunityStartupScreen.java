@@ -35,6 +35,7 @@ public class TGCommunityStartupScreen {
 		try {
 			final Shell parent = TuxGuitar.instance().getShell();
 			TGSynchronizer.instance().runLater( new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					open( parent );
 				}
@@ -100,6 +101,7 @@ public class TGCommunityStartupScreen {
 		buttonOK.setLayoutData(getButtonOkData());
 		buttonOK.setFocus();
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				setDisabled( buttonDisabled.getSelection() );
 				dialog.dispose();
@@ -130,6 +132,7 @@ public class TGCommunityStartupScreen {
 			final Font font = new Font(label.getDisplay(),fontDatas[0].getName(),fHeight, fStyle);
 			label.setFont(font);
 			label.addDisposeListener(new DisposeListener() {
+				@Override
 				public void widgetDisposed(DisposeEvent arg0) {
 					font.dispose();
 				}
@@ -148,10 +151,12 @@ public class TGCommunityStartupScreen {
 		link.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		link.setText(text);
 		link.addListener(SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				final String href = event.text;
 				if( href != null ){
 					new Thread( new Runnable() {
+						@Override
 						public void run() {
 							TGCommunityWeb.open( href );
 						}

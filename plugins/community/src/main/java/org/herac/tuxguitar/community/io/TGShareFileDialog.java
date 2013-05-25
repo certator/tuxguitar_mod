@@ -33,6 +33,7 @@ public class TGShareFileDialog {
 	public void open() {
 		try {
 			TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					if( !TuxGuitar.isDisposed() ){
 						open( TuxGuitar.instance().getShell() );
@@ -71,6 +72,7 @@ public class TGShareFileDialog {
 		final Button usernameChooser = new Button(group, SWT.PUSH );
 		usernameChooser.setText("...");
 		usernameChooser.addSelectionListener( new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TGCommunityAuthDialog authDialog = new TGCommunityAuthDialog();
 				authDialog.open( dialog );
@@ -117,6 +119,7 @@ public class TGShareFileDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				update(titleText.getText(), tagkeysText.getText() , descriptionText.getText() );
 				
@@ -128,6 +131,7 @@ public class TGShareFileDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

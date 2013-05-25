@@ -18,6 +18,7 @@ public class TEPercussion {
 		return this.volume;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[PERCUSSION]");
 		string += "\n     Name:       " + getName();

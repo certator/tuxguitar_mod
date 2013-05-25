@@ -33,36 +33,42 @@ public class MidiReceiverImpl implements MidiReceiver{
 		}
 	}
 	
+	@Override
 	public void sendAllNotesOff() {
 		for(int i = 0; i < 16; i ++){
 			this.sendControlChange(i,MidiControllers.ALL_NOTES_OFF,0);
 		}
 	}
 	
+	@Override
 	public void sendControlChange(int channel, int controller, int value) {
 		if(isConnected()){
 			this.midiSystem.controlChange(channel, controller, value);
 		}
 	}
 	
+	@Override
 	public void sendNoteOff(int channel, int key, int velocity) {
 		if(isConnected()){
 			this.midiSystem.noteOff(channel, key, velocity);
 		}
 	}
 	
+	@Override
 	public void sendNoteOn(int channel, int key, int velocity) {
 		if(isConnected()){
 			this.midiSystem.noteOn(channel, key, velocity);
 		}
 	}
 	
+	@Override
 	public void sendPitchBend(int channel, int value) {
 		if(isConnected()){
 			this.midiSystem.pitchBend(channel, value);
 		}
 	}
 	
+	@Override
 	public void sendProgramChange(int channel, int value) {
 		if(isConnected()){
 			this.midiSystem.programChange(channel, value);

@@ -9,26 +9,32 @@ public class MidiOutputPortProviderPlugin extends TGMidiOutputPortProviderPlugin
 	
 	private MidiOutputPortProviderImpl provider;
 	
+	@Override
 	protected MidiOutputPortProvider getProvider() {
 		return getProviderImpl();
 	}
 	
+	@Override
 	public String getAuthor() {
 		return "Julian Casadesus <julian@casadesus.com.ar>";
 	}
 	
+	@Override
 	public String getDescription() {
 		return "FluidSynth output plugin";
 	}
 	
+	@Override
 	public String getName() {
 		return "FluidSynth output plugin";
 	}
 	
+	@Override
 	public String getVersion() {
 		return "1.0";
 	}
 	
+	@Override
 	public void setupDialog(Shell parent) {
 		getProviderImpl().getSettings().configure(parent);
 	}

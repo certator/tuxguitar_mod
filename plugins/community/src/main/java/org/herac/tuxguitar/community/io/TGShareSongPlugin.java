@@ -6,6 +6,7 @@ import org.herac.tuxguitar.io.base.TGRawExporter;
 
 public class TGShareSongPlugin extends TGExporterPlugin {
 	
+	@Override
 	protected TGRawExporter getExporter() throws TGPluginException {
 		return new TGShareSongExporter();
 	}

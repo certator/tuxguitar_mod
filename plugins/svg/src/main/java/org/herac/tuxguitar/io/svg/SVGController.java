@@ -31,10 +31,12 @@ public class SVGController implements TGController {
 		this.tgLayout = new TGLayoutVertical(this, this.tgStyles.getFlags() );
 	}
 	
+	@Override
 	public TGSongManager getSongManager() {
 		return this.tgSongManager;
 	}
 	
+	@Override
 	public TGResourceFactory getResourceFactory() {
 		return this.tgResourceFactory;
 	}
@@ -80,6 +82,7 @@ public class SVGController implements TGController {
 		}
 	}
 	
+	@Override
 	public void configureStyles(TGLayoutStyles styles) {
 		styles.setBufferEnabled( false );
 		styles.setStringSpacing( this.tgStyles.getStyles().getStringSpacing() );
@@ -118,22 +121,27 @@ public class SVGController implements TGController {
 		styles.setLoopEMarkerColor( this.tgStyles.getStyles().getLoopEMarkerColor());
 	}
 	
+	@Override
 	public int getTrackSelection() {
 		return this.tgStyles.getTrack();
 	}
 	
+	@Override
 	public boolean isRunning(TGBeat beat) {
 		return false;
 	}
 	
+	@Override
 	public boolean isRunning(TGMeasure measure) {
 		return false;
 	}
 	
+	@Override
 	public boolean isLoopSHeader(TGMeasureHeader measureHeader) {
 		return false;
 	}
 	
+	@Override
 	public boolean isLoopEHeader(TGMeasureHeader measureHeader) {
 		return false;
 	}

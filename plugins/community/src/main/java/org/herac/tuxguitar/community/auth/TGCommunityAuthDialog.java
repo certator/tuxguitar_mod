@@ -38,6 +38,7 @@ public class TGCommunityAuthDialog {
 		try {
 			if( shell != null && !shell.isDisposed() ){
 				TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+					@Override
 					public void run() throws Throwable {
 						if( !shell.isDisposed() ){
 							doOpen( shell );
@@ -94,10 +95,12 @@ public class TGCommunityAuthDialog {
 		joinLink.setLayoutData( new GridData(SWT.LEFT, SWT.CENTER, true, true ));
 		joinLink.setText(TuxGuitar.getProperty("tuxguitar-community.auth-dialog.signup.tip"));
 		joinLink.addListener(SWT.Selection, new Listener() {
+			@Override
 			public void handleEvent(Event event) {
 				final String href = event.text;
 				if( href != null ){
 					new Thread( new Runnable() {
+						@Override
 						public void run() {
 							TGCommunityWeb.open( href );
 						}
@@ -115,6 +118,7 @@ public class TGCommunityAuthDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				update(usernameText.getText(), passwordText.getText());
 				
@@ -126,6 +130,7 @@ public class TGCommunityAuthDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

@@ -321,6 +321,7 @@ public class ABCEvent implements Comparable<Object> {
 		}
 	}
 
+	@Override
 	public Object clone() {
 		ABCEvent e=new ABCEvent(this.type, this.name, this.pitch);
 		e.ticks=this.ticks;
@@ -421,10 +422,12 @@ public class ABCEvent implements Comparable<Object> {
 		return 0;
 	}
 
+	@Override
 	public String toString() {
 		return name;
 	}
 	
+	@Override
 	public int compareTo(Object o) {
 		if(o==null) return 1;
 		if (o instanceof ABCEvent) {

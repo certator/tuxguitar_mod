@@ -48,6 +48,7 @@ public class TGTunerFineWidget extends Composite {
 		this.composite = new Composite(this,SWT.BORDER | SWT.DOUBLE_BUFFERED);
 		this.composite.setBackground(this.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		this.composite.addPaintListener(new PaintListener() {
+			@Override
 			public void paintControl(PaintEvent e) {
 				TGPainterImpl painter = new TGPainterImpl(e.gc);
 				TGTunerFineWidget.this.paintWidget(painter);
@@ -123,6 +124,7 @@ public class TGTunerFineWidget extends Composite {
 		this.redraw();
 	}
 
+	@Override
 	public void redraw(){
 		super.redraw();
 		this.composite.redraw();

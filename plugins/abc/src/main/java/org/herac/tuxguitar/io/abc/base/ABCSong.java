@@ -299,6 +299,7 @@ public class ABCSong {
 		return last.getTempo();
 	}
 
+	@Override
 	public String toString(){
 		String string = new String("[SONG] *** ABC file format ***\n");
 		string +=  (this.getInfo().toString() + "\n");
@@ -2043,6 +2044,7 @@ private void insertDecoration(int i, String s) {
 		if(getEvents()==null) return;
 		if(this.sorted) return;
 		Collections.sort(getEvents(),new Comparator<Object>() {
+			@Override
 			public int compare(Object o1, Object o2) {
 				if(o1 instanceof ABCLocation){
 					ABCLocation c1 = (ABCLocation)o1;

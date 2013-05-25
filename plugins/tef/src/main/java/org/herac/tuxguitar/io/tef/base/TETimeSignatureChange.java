@@ -18,6 +18,7 @@ public class TETimeSignatureChange{
 		return this.timeSignature;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[TIME SIGNATURE CHANGE]");
 		string += "\n     Measure:     " + getMeasure();

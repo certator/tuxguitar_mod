@@ -29,6 +29,7 @@ public class JackMidiPlayerStarter implements MidiPlayerListener{
 		TuxGuitar.instance().getTransport().play();
 	}
 	
+	@Override
 	public void notifyCountDownStarted() {
 		this.countDownByPass = (this.jackSequencer.getJackClient().isTransportRunning() && getPlayer().getCountDown().isEnabled());
 		if( this.countDownByPass ){
@@ -36,6 +37,7 @@ public class JackMidiPlayerStarter implements MidiPlayerListener{
 		}
 	}
 	
+	@Override
 	public void notifyCountDownStopped() {
 		if( this.countDownByPass ){
 			this.countDownByPass = false;
@@ -43,14 +45,17 @@ public class JackMidiPlayerStarter implements MidiPlayerListener{
 		}
 	}
 	
+	@Override
 	public void notifyStarted() {
 		// TODO Auto-generated method stub
 	}
 	
+	@Override
 	public void notifyStopped() {
 		// TODO Auto-generated method stub
 	}
 	
+	@Override
 	public void notifyLoop() {
 		// TODO Auto-generated method stub
 	}

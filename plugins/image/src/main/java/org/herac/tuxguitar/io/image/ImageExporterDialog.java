@@ -22,8 +22,10 @@ import org.herac.tuxguitar.song.models.TGSong;
 
 public class ImageExporterDialog extends ImageExporter {
 	
+	@Override
 	public void exportSong(final TGSong song) {
 		new SyncThread(new Runnable() {
+			@Override
 			public void run() {
 				try{
 					exportSongDialog(song, TuxGuitar.instance().getShell());
@@ -115,6 +117,7 @@ public class ImageExporterDialog extends ImageExporter {
 		toSpinner.setSelection(maxSelection);
 		
 		fromSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int fromSelection = fromSpinner.getSelection();
 				int toSelection = toSpinner.getSelection();
@@ -127,6 +130,7 @@ public class ImageExporterDialog extends ImageExporter {
 			}
 		});
 		toSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int toSelection = toSpinner.getSelection();
 				int fromSelection = fromSpinner.getSelection();
@@ -164,6 +168,7 @@ public class ImageExporterDialog extends ImageExporter {
 		blackAndWhite.setSelection(true);
 		
 		tablatureEnabled.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!tablatureEnabled.getSelection()){
 					scoreEnabled.setSelection(true);
@@ -171,6 +176,7 @@ public class ImageExporterDialog extends ImageExporter {
 			}
 		});
 		scoreEnabled.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!scoreEnabled.getSelection()){
 					tablatureEnabled.setSelection(true);
@@ -187,6 +193,7 @@ public class ImageExporterDialog extends ImageExporter {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				int format = formatCombo.getSelectionIndex();
 				if( format < 0 || format >= ImageFormat.IMAGE_FORMATS.length ){
@@ -214,6 +221,7 @@ public class ImageExporterDialog extends ImageExporter {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

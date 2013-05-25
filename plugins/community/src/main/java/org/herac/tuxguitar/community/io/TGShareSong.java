@@ -35,6 +35,7 @@ public class TGShareSong {
 	public void processDialog( final TGShareFile file , final String errors ) {
 		try {
 			TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					TGShareFileDialog fileDialog = new TGShareFileDialog( file , errors );
 					fileDialog.open();
@@ -51,6 +52,7 @@ public class TGShareSong {
 	public void processAuthDialog( final TGShareFile file ) {
 		try {
 			TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					TGCommunityAuthDialog authDialog = new TGCommunityAuthDialog();
 					authDialog.open();
@@ -68,6 +70,7 @@ public class TGShareSong {
 		this.setActiveMode();
 		
 		new Thread( new Runnable() {
+			@Override
 			public void run() {
 				try {
 					TGShareSongConnection share = new TGShareSongConnection();

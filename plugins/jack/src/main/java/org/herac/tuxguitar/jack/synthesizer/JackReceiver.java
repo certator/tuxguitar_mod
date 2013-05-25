@@ -14,12 +14,14 @@ public class JackReceiver implements MidiReceiver{
 		this.jackOutputPort = jackOutputPort;
 	}
 	
+	@Override
 	public void sendAllNotesOff() {
 		for(int i = 0; i < 16; i ++){
 			sendControlChange(i,MidiControllers.ALL_NOTES_OFF,0);
 		}
 	}
 	
+	@Override
 	public void sendNoteOn(int channel, int key, int velocity) {
 		byte[] event = new byte[3];
 		event[0] = (byte)(0x90 | this.jackOutputPort.getRouter().getChannelRoute(channel) );
@@ -28,6 +30,7 @@ public class JackReceiver implements MidiReceiver{
 		this.jackClient.addEventToQueue( this.jackOutputPort.getRouter().getPortRoute(channel) , event);
 	}
 	
+	@Override
 	public void sendNoteOff(int channel, int key, int velocity) {
 		byte[] event = new byte[3];
 		event[0] = (byte)(0x80 | this.jackOutputPort.getRouter().getChannelRoute(channel) );
@@ -36,6 +39,7 @@ public class JackReceiver implements MidiReceiver{
 		this.jackClient.addEventToQueue( this.jackOutputPort.getRouter().getPortRoute(channel) , event);
 	}
 	
+	@Override
 	public void sendPitchBend(int channel, int value) {
 		byte[] event = new byte[3];
 		event[0] = (byte)(0xE0 | this.jackOutputPort.getRouter().getChannelRoute(channel) );
@@ -44,6 +48,7 @@ public class JackReceiver implements MidiReceiver{
 		this.jackClient.addEventToQueue( this.jackOutputPort.getRouter().getPortRoute(channel) , event);
 	}
 	
+	@Override
 	public void sendProgramChange(int channel, int value) {
 		this.jackOutputPort.getRouter().setProgram(channel, value);
 		
@@ -60,6 +65,7 @@ public class JackReceiver implements MidiReceiver{
 		this.jackClient.addEventToQueue( this.jackOutputPort.getRouter().getPortRoute(channel) , event2);
 	}
 	
+	@Override
 	public void sendControlChange(int channel, int controller, int value) {
 		if( controller == MidiControllers.BANK_SELECT){
 			this.jackOutputPort.getRouter().setBank(channel, value);

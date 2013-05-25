@@ -99,6 +99,7 @@ public class LilypondSettingsDialog {
 		measureToSpinner.setSelection(maxSelection);
 		
 		measureFromSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int fromSelection = measureFromSpinner.getSelection();
 				int toSelection = measureToSpinner.getSelection();
@@ -111,6 +112,7 @@ public class LilypondSettingsDialog {
 			}
 		});
 		measureToSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int toSelection = measureToSpinner.getSelection();
 				int fromSelection = measureFromSpinner.getSelection();
@@ -175,6 +177,7 @@ public class LilypondSettingsDialog {
 		chordDiagramsCheck.setText(TuxGuitar.getProperty("lilypond.options.layout.enable-chord-diagrams"));
 		
 		tablatureCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!tablatureCheck.getSelection()){
 					scoreCheck.setSelection(true);
@@ -182,6 +185,7 @@ public class LilypondSettingsDialog {
 			}
 		});
 		scoreCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!scoreCheck.getSelection()){
 					tablatureCheck.setSelection(true);
@@ -189,6 +193,7 @@ public class LilypondSettingsDialog {
 			}
 		});
 		trackAllCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				trackLabel.setEnabled( !trackAllCheck.getSelection() );
 				trackCombo.setEnabled( !trackAllCheck.getSelection() );
@@ -205,6 +210,7 @@ public class LilypondSettingsDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				LilypondSettingsDialog.this.status = STATUS_ACCEPTED;
 				
@@ -229,6 +235,7 @@ public class LilypondSettingsDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				LilypondSettingsDialog.this.status = STATUS_CANCELLED;
 				dialog.dispose();

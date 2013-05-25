@@ -28,6 +28,7 @@ public class ABCLocation implements Comparable<Object> {
 		this.event = event;
 	}
 
+	@Override
 	public String toString() {
 		String s;
 		if(part==null) s="";
@@ -74,6 +75,7 @@ public class ABCLocation implements Comparable<Object> {
 		return event;
 	}
 
+	@Override
 	public int compareTo(Object o) {
 		if(o==null) return 1;
 		if (o instanceof ABCLocation) {

@@ -17,6 +17,7 @@ public class ABCTempoChange {
 		return this.tempo;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[TEMPO CHANGE]");
 		string += "\n     Measure:     " + getMeasure();

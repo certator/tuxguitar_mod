@@ -83,6 +83,7 @@ class MiStaffNote
 	}
 
 
+	@Override
 	public String	toString()
 	{
 	String	out =

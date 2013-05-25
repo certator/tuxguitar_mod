@@ -7,14 +7,17 @@ public class MacMenuPlugin extends TGPluginAdapter {
 	
 	private MacMenu macMenu;
 	
+	@Override
 	public void init() throws TGPluginException {
 		// Nothing todo
 	}
 	
+	@Override
 	public void close() throws TGPluginException {
 		// Nothing todo
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		try {
 			if( this.macMenu != null ){

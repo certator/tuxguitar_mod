@@ -8,10 +8,12 @@ public class TGBrowserDataImpl implements TGBrowserData {
 		super();
 	}
 	
+	@Override
 	public String getTitle() {
 		return "TuxGuitar Community";
 	}
 	
+	@Override
 	public String toString(){
 		return getTitle();
 	}

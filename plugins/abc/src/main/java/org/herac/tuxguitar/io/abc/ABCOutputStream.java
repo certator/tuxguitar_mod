@@ -1096,7 +1096,7 @@ public class ABCOutputStream {
 				// Check if is there any note at same string.
 				Iterator<TGNote> it = voice.getNotes().iterator();
 				while( it.hasNext() ){
-					TGNote current = (TGNote) it.next();
+					TGNote current = it.next();
 					if(current.getString() == note.getString()){
 						return current.isTiedNote();
 					}

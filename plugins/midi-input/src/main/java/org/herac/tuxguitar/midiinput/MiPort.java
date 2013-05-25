@@ -47,6 +47,7 @@ public class MiPort
 		if(!f_Device.isOpen()) {
 			final MidiDevice device = f_Device;
 			TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					device.open();
 					}
@@ -56,6 +57,7 @@ public class MiPort
 		if(f_Transmitter == null) {
 			final MidiDevice device = f_Device;
 			TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					connectTransmitter(device.getTransmitter());
 					}
@@ -75,6 +77,7 @@ public class MiPort
 		if(f_Transmitter != null) {
 			final Transmitter transmitter = f_Transmitter;
 			TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					transmitter.close();
 					connectTransmitter(null);
@@ -85,6 +88,7 @@ public class MiPort
 		if(f_Device.isOpen()) {
 			final MidiDevice device = f_Device;
 			TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					device.close();
 					}
@@ -147,11 +151,13 @@ public class MiPort
 	 *	javax.sound.midi.Receiver implementation
 	 */
 	
+	@Override
 	public void close()
 	{	
 	}
 
 
+	@Override
 	public void send(MidiMessage inMessage, long inTimeStamp)
 	{
 	if(inMessage instanceof ShortMessage)

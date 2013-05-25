@@ -30,10 +30,12 @@ public class OpenDocAction {
 				}
 				TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 				new Thread(new Runnable() {
+					@Override
 					public void run() {
 						if(!TuxGuitar.isDisposed()){
 							FileActionUtils.save(fileName);
 							new SyncThread(new Runnable() {
+								@Override
 								public void run() {
 									if(!TuxGuitar.isDisposed()){
 										TuxGuitar.instance().loadCursor(SWT.CURSOR_ARROW);
@@ -57,6 +59,7 @@ public class OpenDocAction {
 		}
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				if(!TuxGuitar.isDisposed()){
 					FileActionUtils.open(url);

@@ -22,6 +22,7 @@ public class JackOutputPort implements JackSettingsListener, MidiOutputPort {
 		this.jackClient = jackClient;
 	}
 	
+	@Override
 	public void open(){
 		if(!this.jackClient.isPortsOpen()){
 			this.loadSettings( this.jackSettings.getConfig() );
@@ -30,6 +31,7 @@ public class JackOutputPort implements JackSettingsListener, MidiOutputPort {
 		}
 	}
 	
+	@Override
 	public void close(){
 		if(this.jackClient.isPortsOpen()){
 			this.jackClient.closePorts();
@@ -37,6 +39,7 @@ public class JackOutputPort implements JackSettingsListener, MidiOutputPort {
 		}
 	}
 	
+	@Override
 	public void check() throws MidiPlayerException {
 		if( !this.jackClient.isServerRunning() || !this.jackClient.isPortsOpen() ){
 			this.open();
@@ -46,6 +49,7 @@ public class JackOutputPort implements JackSettingsListener, MidiOutputPort {
 		}
 	}
 	
+	@Override
 	public MidiReceiver getReceiver(){
 		return this.jackReceiver;
 	}
@@ -54,6 +58,7 @@ public class JackOutputPort implements JackSettingsListener, MidiOutputPort {
 		return this.jackOutputPortRouter;
 	}
 	
+	@Override
 	public void loadSettings(TGConfigManager config) {
 		boolean connected = this.jackClient.isPortsOpen();
 		if( connected ){
@@ -65,10 +70,12 @@ public class JackOutputPort implements JackSettingsListener, MidiOutputPort {
 		}
 	}
 	
+	@Override
 	public String getKey(){
 		return ("tuxguitar-jack");
 	}
 	
+	@Override
 	public String getName(){
 		return ("Jack Midi Port");
 	}

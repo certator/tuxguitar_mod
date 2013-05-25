@@ -122,6 +122,7 @@ public class ABCTrack {
 		return this.instrument;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[TRACK]");
 		string += "\n     "  + this.getName();

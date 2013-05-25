@@ -18,6 +18,7 @@ public class TEChord {
 		return this.strings;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[CHORD]");
 		string += "\n     Name:       " + getName();

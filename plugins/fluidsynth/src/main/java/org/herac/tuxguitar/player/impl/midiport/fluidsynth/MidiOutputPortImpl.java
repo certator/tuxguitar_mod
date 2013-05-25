@@ -21,23 +21,27 @@ public class MidiOutputPortImpl implements MidiOutputPort{
 		this.synth = synth;
 	}
 	
+	@Override
 	public void open(){
 		if(!this.synth.isConnected(this)){
 			this.synth.connect(this);
 		}
 	}
 	
+	@Override
 	public void close(){
 		if(this.synth.isConnected(this)){
 			this.synth.disconnect(this);
 		}
 	}
 	
+	@Override
 	public MidiReceiver getReceiver(){
 		this.open();
 		return this.receiver;
 	}
 	
+	@Override
 	public void check(){
 		// Not implemented
 	}
@@ -46,10 +50,12 @@ public class MidiOutputPortImpl implements MidiOutputPort{
 		return this.soundFont;
 	}
 	
+	@Override
 	public String getKey(){
 		return this.key;
 	}
 	
+	@Override
 	public String getName(){
 		return this.name;
 	}

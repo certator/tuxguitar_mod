@@ -46,7 +46,7 @@ public class OpenDocListener {
 	}
 	
 	public int callbackProc32(int id, int sel,int arg0, int arg1) {
-		return (int)this.callbackProc( (long)id, (long)sel, (long)arg0, (long)arg1);
+		return (int)this.callbackProc( id, sel, arg0, arg1);
 	}
 	
 	public boolean isEnabled() {

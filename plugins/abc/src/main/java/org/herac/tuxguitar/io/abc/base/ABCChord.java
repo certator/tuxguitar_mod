@@ -174,6 +174,7 @@ public class ABCChord {
 		return this.size;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[CHORD]");
 		string += "\n     Name:       " + getName();

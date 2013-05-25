@@ -12,6 +12,7 @@ public class TEText {
 		return this.value;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[TEXT]");
 		string += "\n     Value:       " + getValue();

@@ -34,6 +34,7 @@ public class TEComponentNote extends TEComponent{
 		return this.fret;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[NOTE]");
 		string += "\n     Measure:   " + getMeasure();

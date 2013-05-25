@@ -1,6 +1,5 @@
 package org.herac.tuxguitar.cocoa.modifiedmarker;
 
-import org.eclipse.swt.internal.cocoa.NSWindow;
 import org.eclipse.swt.widgets.Shell;
 import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.editors.TGUpdateListener;
@@ -14,6 +13,7 @@ public class ModifiedMarker implements TGUpdateListener {
 	}
 	
 	/** From 'TGUpdateListener' */
+	@Override
 	public void doUpdate( int type ){
 	    if (!enabled) return;
 	    

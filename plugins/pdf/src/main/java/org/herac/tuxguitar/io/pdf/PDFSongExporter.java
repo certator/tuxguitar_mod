@@ -35,10 +35,12 @@ public class PDFSongExporter implements TGLocalFileExporter{
 	private PrintStyles styles;
 	private OutputStream stream;
 	
+	@Override
 	public String getExportName() {
 		return "PDF";
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat() {
 		return new TGFileFormat("PDF","*.pdf");
 	}
@@ -53,15 +55,18 @@ public class PDFSongExporter implements TGLocalFileExporter{
 		return styles;
 	}
 	
+	@Override
 	public boolean configure(boolean setDefaults) {
 		this.styles = (!setDefaults ? PrintStylesDialog.open(TuxGuitar.instance().getShell()) : null );
 		return ( this.styles != null || setDefaults );
 	}
 	
+	@Override
 	public void init(TGFactory factory,OutputStream stream){
 		this.stream = stream;
 	}
 	
+	@Override
 	public void exportSong(TGSong song) {
 		try{
 			if( this.stream != null ){
@@ -74,6 +79,7 @@ public class PDFSongExporter implements TGLocalFileExporter{
 	
 	public void export(final OutputStream stream,final TGSong song,final PrintStyles data){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try{
 					TGSongManager manager = new TGSongManager();
@@ -90,6 +96,7 @@ public class PDFSongExporter implements TGLocalFileExporter{
 	
 	public void export(final OutputStream stream,final TGSongManager manager, final PrintStyles data){
 		new SyncThread(new Runnable() {
+			@Override
 			public void run() {
 				try{
 					TGResourceFactory factory = new TGResourceFactoryImpl(TuxGuitar.instance().getDisplay());
@@ -107,6 +114,7 @@ public class PDFSongExporter implements TGLocalFileExporter{
 	
 	public void export(final OutputStream stream, final PrintLayout layout){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try{
 					layout.loadStyles(1f);
@@ -134,29 +142,35 @@ public class PDFSongExporter implements TGLocalFileExporter{
 			this.pages = new ArrayList<ImageData>();
 		}
 		
+		@Override
 		public TGPainter getPainter() {
 			return this.painter;
 		}
 		
+		@Override
 		public TGRectangle getBounds(){
 			return this.bounds;
 		}
 		
+		@Override
 		public void pageStart() {
 			this.buffer = new Image(TuxGuitar.instance().getDisplay(),this.bounds.getWidth() - this.bounds.getX(), this.bounds.getHeight() - this.bounds.getY());
 			this.painter.init( this.buffer );
 		}
 		
+		@Override
 		public void pageFinish() {
 			this.pages.add( this.buffer.getImageData() );
 			this.painter.dispose();
 			this.buffer.dispose();
 		}
 		
+		@Override
 		public void start() {
 			// Not implemented
 		}
 		
+		@Override
 		public void finish() {
 			try{
 				PDFWriter.write(this.stream,this.pages);
@@ -165,6 +179,7 @@ public class PDFSongExporter implements TGLocalFileExporter{
 			}
 		}
 		
+		@Override
 		public boolean isPaintable(int page) {
 			return true;
 		}

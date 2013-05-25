@@ -19,6 +19,7 @@ public class ABCRepeat {
 		return this.data2;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[REPEAT]     ");
 		string += (this.getData1() + "-" + this.getData2());

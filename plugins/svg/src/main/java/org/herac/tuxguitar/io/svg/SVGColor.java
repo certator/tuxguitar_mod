@@ -11,10 +11,12 @@ public class SVGColor implements TGColor{
 		this.handle = new TGColorModel(red, green, blue);
 	}
 	
+	@Override
 	public void dispose() {
 		this.handle = null;
 	}
 	
+	@Override
 	public boolean isDisposed() {
 		return (this.handle == null);
 	}
@@ -23,14 +25,17 @@ public class SVGColor implements TGColor{
 		return this.handle;
 	}
 	
+	@Override
 	public int getRed() {
 		return this.handle.getRed();
 	}
 	
+	@Override
 	public int getGreen() {
 		return this.handle.getGreen();
 	}
 	
+	@Override
 	public int getBlue() {
 		return this.handle.getBlue();
 	}

@@ -13,6 +13,7 @@ public class ABCComponentChord extends ABCComponent{
 		return this.chord;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[NOTE]");
 		string += "\n     Measure:   " + getMeasure();

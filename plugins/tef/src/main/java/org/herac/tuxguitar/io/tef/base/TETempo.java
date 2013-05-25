@@ -12,6 +12,7 @@ public class TETempo {
 		return this.value;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[TEMPO]");
 		string += "\n     Value:       " + getValue();

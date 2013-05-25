@@ -74,6 +74,7 @@ public class SBInstallerGui implements SBInstallerlistener{
 		final Font font = new Font(headerTip.getDisplay(),fontData);
 		headerTip.setFont(font);
 		headerTip.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent arg0) {
 				font.dispose();
 			}
@@ -104,7 +105,8 @@ public class SBInstallerGui implements SBInstallerlistener{
         buttonCancel.setText(TuxGuitar.getProperty("cancel"));
         buttonCancel.setLayoutData(data);
         buttonCancel.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent arg0) {
+            @Override
+			public void widgetSelected(SelectionEvent arg0) {
                 getInstaller().setCancelled(true);
             	getDialog().dispose();
             }
@@ -117,6 +119,7 @@ public class SBInstallerGui implements SBInstallerlistener{
 
 	private void process(){
 		new Thread(new Runnable() {
+			@Override
 			public void run() {				
 				if(!isDisposed()){
 					getInstaller().process();
@@ -125,10 +128,12 @@ public class SBInstallerGui implements SBInstallerlistener{
 		}).start();
 	}
 	
+	@Override
 	public void notifyProcess(final String process){
 		if(!isDisposed()){
 			try {
 				TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+					@Override
 					public void run() {
 						if(!isDisposed()){
 							getProgressLabel().setText(process);
@@ -141,10 +146,12 @@ public class SBInstallerGui implements SBInstallerlistener{
 		}
 	}
 
+	@Override
 	public void notifyFinish(){
 		if(!isDisposed()){
 			try {
 				TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+					@Override
 					public void run() {
 						if(!isDisposed()){
 							getDialog().dispose();
@@ -157,10 +164,12 @@ public class SBInstallerGui implements SBInstallerlistener{
 		}
 	}
 	
+	@Override
 	public void notifyFailed(final Throwable throwable){
 		if(!isDisposed()){
 			try {
 				TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+					@Override
 					public void run() {
 						if(!isDisposed()){
 							getDialog().dispose();

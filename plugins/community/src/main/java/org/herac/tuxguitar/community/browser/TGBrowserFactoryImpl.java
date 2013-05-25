@@ -13,22 +13,27 @@ public class TGBrowserFactoryImpl implements TGBrowserFactory {
 		this.data = new TGBrowserDataImpl();
 	}
 	
+	@Override
 	public String getName() {
 		return "Community Files";
 	}
 	
+	@Override
 	public String getType() {
 		return "community";
 	}
 	
+	@Override
 	public TGBrowser newTGBrowser(TGBrowserData data) {
 		return new TGBrowserImpl( (TGBrowserDataImpl)data );
 	}
 	
+	@Override
 	public TGBrowserData parseData(String string) {
 		return this.data;
 	}
 	
+	@Override
 	public TGBrowserData dataDialog(Shell parent) {
 		TGBrowserAuthDialog authDialog = new TGBrowserAuthDialog();
 		authDialog.open( parent );

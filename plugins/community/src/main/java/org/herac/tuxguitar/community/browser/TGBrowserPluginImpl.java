@@ -6,6 +6,7 @@ import org.herac.tuxguitar.app.tools.browser.base.TGBrowserFactory;
 
 public class TGBrowserPluginImpl extends TGBrowserPlugin {
 	
+	@Override
 	protected TGBrowserFactory getFactory() throws TGPluginException {
 		return new TGBrowserFactoryImpl();
 	}

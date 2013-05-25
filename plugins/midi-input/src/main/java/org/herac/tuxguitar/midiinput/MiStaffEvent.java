@@ -38,6 +38,7 @@ class MiStaffEvent
 	TGBeat		getBeat()				{ return(f_Beat); }
 
 
+	@Override
 	public String	toString()
 	{
 	String	out = Long.toString(f_BeginTime);

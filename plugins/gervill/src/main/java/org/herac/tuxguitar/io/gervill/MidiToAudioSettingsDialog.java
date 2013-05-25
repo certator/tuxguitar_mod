@@ -79,6 +79,7 @@ public class MidiToAudioSettingsDialog {
 		}
 		
 		eCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateTypesCombo( settings, formats, eCombo, tCombo );
 			}
@@ -110,6 +111,7 @@ public class MidiToAudioSettingsDialog {
 		sbCustomChooser.setImage(TuxGuitar.instance().getIconManager().getFileOpen());
 		sbCustomChooser.setEnabled( (settings.getSoundbankPath() != null) );
 		sbCustomChooser.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String fileName = FileChooser.instance().open(dialog, soundbankFormats);
 				if(fileName != null){
@@ -119,6 +121,7 @@ public class MidiToAudioSettingsDialog {
 		});
 		
 		SelectionListener sbRadioSelectionListener = new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				sbCustomPath.setEnabled(sbCustom.getSelection());
 				sbCustomChooser.setEnabled(sbCustom.getSelection());
@@ -140,6 +143,7 @@ public class MidiToAudioSettingsDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(data);
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				String soundbankPath = (sbCustom.getSelection() ? sbCustomPath.getText() : null);
 				int tIndex = tCombo.getSelectionIndex();
@@ -161,6 +165,7 @@ public class MidiToAudioSettingsDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(data);
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

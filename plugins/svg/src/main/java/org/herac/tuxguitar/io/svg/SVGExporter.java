@@ -18,14 +18,17 @@ public class SVGExporter implements TGLocalFileExporter {
 		this.styles = styles;
 	}
 	
+	@Override
 	public String getExportName() {
 		return "SVG";
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat() {
 		return new TGFileFormat("Scalable Vector Graphics","*.svg");
 	}
 	
+	@Override
 	public boolean configure(boolean setDefaults) {
 		if( setDefaults ){
 			this.styles.configureWithDefaults();
@@ -35,10 +38,12 @@ public class SVGExporter implements TGLocalFileExporter {
 		return this.styles.isConfigured();
 	}
 	
+	@Override
 	public void init(TGFactory factory, OutputStream stream) {
 		this.stream = stream;
 	}
 	
+	@Override
 	public void exportSong(TGSong song) throws TGFileFormatException {
 		try {
 			if( this.styles.isConfigured() ){

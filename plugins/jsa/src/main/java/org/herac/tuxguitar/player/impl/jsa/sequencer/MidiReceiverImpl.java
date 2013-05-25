@@ -14,6 +14,7 @@ public class MidiReceiverImpl implements Receiver{
 		this.sequencer = sequencer;
 	}
 	
+	@Override
 	public void send(MidiMessage message, long timeStamp) {
 		try {
 			if( this.sequencer.isRunning() ){
@@ -24,6 +25,7 @@ public class MidiReceiverImpl implements Receiver{
 		}
 	}
 	
+	@Override
 	public void close(){
 		//not implemented
 	}

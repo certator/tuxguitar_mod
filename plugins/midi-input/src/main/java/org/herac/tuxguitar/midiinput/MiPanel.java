@@ -91,6 +91,7 @@ class MiPanel
 			f_CmbMode.select(MiConfig.instance().getMode());
 
 			f_CmbMode.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					int		mode = f_CmbMode.getSelectionIndex();
 
@@ -111,6 +112,7 @@ class MiPanel
 
 			f_BtnConfig.setText(TuxGuitar.getProperty("midiinput.panel.button.config"));
 			f_BtnConfig.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					MiConfig.instance().showDialog(f_Dialog);
 				}
@@ -129,6 +131,7 @@ class MiPanel
 
 			f_BtnRecord.setText(TuxGuitar.getProperty("midiinput.panel.button.start"));
 			f_BtnRecord.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					MiRecorder.instance().start();
 					updateControls();
@@ -141,6 +144,7 @@ class MiPanel
 
 			f_BtnStop.setText(TuxGuitar.getProperty("midiinput.panel.button.stop"));
 			f_BtnStop.addSelectionListener(new SelectionAdapter() {
+				@Override
 				public void widgetSelected(SelectionEvent arg0) {
 					MiRecorder.instance().stop();
 					updateControls();

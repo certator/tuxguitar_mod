@@ -15,21 +15,25 @@ public class MidiOutputPortImpl implements MidiOutputPort{
 		this.receiver = new MidiReceiverImpl(this,midiSystem);
 	}
 	
+	@Override
 	public void open(){
 		if(!this.receiver.isConnected()){
 			this.receiver.connect();
 		}
 	}
 	
+	@Override
 	public void close(){
 		this.receiver.disconnect();
 	}
 	
+	@Override
 	public MidiReceiver getReceiver(){
 		this.open();
 		return this.receiver;
 	}
 	
+	@Override
 	public void check(){
 		// Not implemented
 	}
@@ -42,10 +46,12 @@ public class MidiOutputPortImpl implements MidiOutputPort{
 		return (Integer.toString(device));
 	}
 	
+	@Override
 	public String getKey() {
 		return (Integer.toString(this.device));
 	}
 	
+	@Override
 	public String getName() {
 		return this.name;
 	}

@@ -46,11 +46,13 @@ public class TGTray implements IconLoader,LanguageLoader{
 			TrayItem item = new TrayItem (this.tray, SWT.NONE);
 			item.setToolTipText(TuxGuitar.APPLICATION_NAME);
 			item.addListener (SWT.Selection, new Listener () {
+				@Override
 				public void handleEvent (Event event) {
 					setVisible();
 				}
 			});
 			item.addListener (SWT.MenuDetect, new Listener () {
+				@Override
 				public void handleEvent (Event event) {
 					showMenu();
 				}
@@ -60,11 +62,13 @@ public class TGTray implements IconLoader,LanguageLoader{
 		}
 	}
 	
+	@Override
 	public void loadIcons() {
 		this.icon.loadImage();
 		this.menu.loadIcons();
 	}
 	
+	@Override
 	public void loadProperties(){
 		this.menu.loadProperties();
 	}

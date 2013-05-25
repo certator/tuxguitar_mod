@@ -10,14 +10,17 @@ public class TGCommunityStartupPlugin extends TGPluginAdapter {
 		this.done = false;
 	}
 	
+	@Override
 	public void init() {
 		// Nothing to init.
 	}
 	
+	@Override
 	public void close() {
 		// Nothing to close.
 	}
 	
+	@Override
 	public void setEnabled(boolean enabled) {
 		if(!this.done && enabled){
 			TGCommunityStartupScreen startup = new TGCommunityStartupScreen();

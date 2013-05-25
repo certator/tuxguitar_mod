@@ -11,26 +11,32 @@ public class SVGFont implements TGFont {
 		this.handle = new TGFontModel(name, height, bold, italic);
 	}
 	
+	@Override
 	public void dispose() {
 		this.handle = null;
 	}
 	
+	@Override
 	public boolean isDisposed() {
 		return (this.handle == null);
 	}
 	
+	@Override
 	public String getName() {
 		return this.handle.getName();
 	}
 	
+	@Override
 	public int getHeight() {
 		return this.handle.getHeight();
 	}
 	
+	@Override
 	public boolean isBold() {
 		return this.handle.isBold();
 	}
 	
+	@Override
 	public boolean isItalic() {
 		return this.handle.isItalic();
 	}

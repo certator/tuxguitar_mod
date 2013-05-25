@@ -12,6 +12,7 @@ public class MidiInputPlugin
 	extends TGToolItemPlugin
 	implements TGPluginSetup
 {
+	@Override
 	public void setEnabled(boolean enabled)
 		throws TGPluginException
 	{
@@ -60,24 +61,28 @@ public class MidiInputPlugin
 	 *	TGPlugin implementation
 	 */
 
+	@Override
 	public String getAuthor()
 	{
 	return "Amedeo Farello <afarello@tiscalinet.it>";
 	}
 
 
+	@Override
 	public String getDescription()
 	{
 	return "Supports MIDI equipped guitars";
 	}
 
 
+	@Override
 	public String getName()
 	{
 	return "MIDI input plugin";
 	}
 
 
+	@Override
 	public String getVersion()
 	{
 	return "1.0";
@@ -87,6 +92,7 @@ public class MidiInputPlugin
 	 *	TGPluginSetup implementation
 	 */
 
+	@Override
 	public void setupDialog(Shell parent)
 	{
 	MiConfig.instance().showDialog(parent);
@@ -96,12 +102,14 @@ public class MidiInputPlugin
 	 *	TGToolItemPlugin implementation
 	 */
 
+	@Override
 	protected void doAction()
 	{
 	MiPanel.instance().showDialog(TuxGuitar.instance().getShell());
 	}
 
 
+	@Override
 	protected String getItemName()
 	{
 	return "MIDI input";

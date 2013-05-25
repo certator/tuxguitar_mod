@@ -64,6 +64,7 @@ public class ABCImportSettingsDialog {
 		xNumSpinner.setSelection(minXNum);
 		
 		xNumSpinner.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int fromSelection = xNumSpinner.getSelection();
 				
@@ -125,6 +126,7 @@ public class ABCImportSettingsDialog {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				ABCImportSettingsDialog.this.status = STATUS_ACCEPTED;
 				
@@ -146,6 +148,7 @@ public class ABCImportSettingsDialog {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				ABCImportSettingsDialog.this.status = STATUS_CANCELLED;
 				dialog.dispose();

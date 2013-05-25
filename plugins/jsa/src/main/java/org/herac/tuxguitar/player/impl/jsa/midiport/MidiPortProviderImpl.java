@@ -21,6 +21,7 @@ public class MidiPortProviderImpl implements MidiOutputPortProvider{
 		super();
 	}
 	
+	@Override
 	public List<MidiOutputPort> listPorts() throws MidiPlayerException{
 		try {
 			List<MidiOutputPort> ports = new ArrayList<MidiOutputPort>();
@@ -57,6 +58,7 @@ public class MidiPortProviderImpl implements MidiOutputPortProvider{
 		}
 	}
 	
+	@Override
 	public void closeAll() {
 		// Not implemented
 	}

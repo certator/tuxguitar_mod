@@ -24,6 +24,7 @@ public class TERhythm {
 		return this.volume;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[RHYTHM]     ");
 		string += "\n     Name:       " + getName();

@@ -50,6 +50,7 @@ public class TGBrowserDataImpl implements TGBrowserData{
 		return ((this.username != null && this.username.length() > 0)?this.username:TGBrowserFTPClient.DEFAULT_USER_NAME);
 	}
 	
+	@Override
 	public String getTitle(){
 		return getName();
 	}
@@ -70,6 +71,7 @@ public class TGBrowserDataImpl implements TGBrowserData{
 		return this.proxyPwd;
 	}
 
+	@Override
 	public String toString(){
 		String username = new String( Base64Encoder.encode( getUsername().getBytes() ) );
 		String password = new String( Base64Encoder.encode( getPassword().getBytes() ) );

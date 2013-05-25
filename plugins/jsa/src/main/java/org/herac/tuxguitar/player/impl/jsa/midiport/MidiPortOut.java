@@ -22,10 +22,12 @@ public class MidiPortOut implements MidiOutputPort {
 		this.receiver = new MidiReceiverImpl(device);
 	}
 	
+	@Override
 	public MidiReceiver getReceiver(){
 		return this.receiver;
 	}
 	
+	@Override
 	public void open() throws MidiPlayerException{
 		try {
 			this.receiver.open();
@@ -34,6 +36,7 @@ public class MidiPortOut implements MidiOutputPort {
 		}
 	}
 	
+	@Override
 	public void close() throws MidiPlayerException{
 		try {
 			this.receiver.close();
@@ -42,6 +45,7 @@ public class MidiPortOut implements MidiOutputPort {
 		}
 	}
 	
+	@Override
 	public void check() throws MidiPlayerException{
 		try {
 			this.receiver.open();
@@ -50,10 +54,12 @@ public class MidiPortOut implements MidiOutputPort {
 		}
 	}
 	
+	@Override
 	public String getKey() {
 		return this.key;
 	}
 	
+	@Override
 	public String getName() {
 		return this.name;
 	}
@@ -72,6 +78,7 @@ class MidiReceiverImpl implements MidiReceiver{
 		if(!this.device.isOpen()){
 			final MidiDevice device = this.device;
 			TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					device.open();
 				}
@@ -80,6 +87,7 @@ class MidiReceiverImpl implements MidiReceiver{
 		if(this.receiver == null){
 			final MidiDevice device = this.device;
 			TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					setReceiver(device.getReceiver());
 				}
@@ -91,6 +99,7 @@ class MidiReceiverImpl implements MidiReceiver{
 		if(this.receiver != null){
 			final Receiver receiver = this.receiver;
 			TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					receiver.close();
 					setReceiver(null);
@@ -100,6 +109,7 @@ class MidiReceiverImpl implements MidiReceiver{
 		if(this.device.isOpen()){
 			final MidiDevice device = this.device;
 			TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
+				@Override
 				public void run() throws Throwable {
 					device.close();
 				}
@@ -121,6 +131,7 @@ class MidiReceiverImpl implements MidiReceiver{
 		}
 	}
 	
+	@Override
 	public void sendAllNotesOff(){
 		if(getReceiver() != null){
 			for(int channel = 0; channel < 16; channel ++){
@@ -129,30 +140,35 @@ class MidiReceiverImpl implements MidiReceiver{
 		}
 	}
 	
+	@Override
 	public void sendNoteOn(int channel, int key, int velocity) {
 		if(getReceiver() != null){
 			getReceiver().send(MidiMessageUtils.noteOn(channel, key, velocity),-1);
 		}
 	}
 	
+	@Override
 	public void sendNoteOff(int channel, int key, int velocity) {
 		if(getReceiver() != null){
 			getReceiver().send(MidiMessageUtils.noteOff(channel, key, velocity),-1);
 		}
 	}
 	
+	@Override
 	public void sendControlChange(int channel, int controller, int value) {
 		if(getReceiver() != null){
 			getReceiver().send(MidiMessageUtils.controlChange(channel,controller, value),-1);
 		}
 	}
 	
+	@Override
 	public void sendProgramChange(int channel, int value) {
 		if(getReceiver() != null){
 			getReceiver().send(MidiMessageUtils.programChange(channel, value),-1);
 		}
 	}
 	
+	@Override
 	public void sendPitchBend(int channel, int value) {
 		if(getReceiver() != null){
 			getReceiver().send(MidiMessageUtils.pitchBend(channel, value),-1);

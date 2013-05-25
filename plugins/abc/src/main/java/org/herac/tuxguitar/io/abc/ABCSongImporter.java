@@ -55,25 +55,30 @@ public class ABCSongImporter implements TGLocalFileImporter{
 		super();
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat() {
 		return new TGFileFormat("ABC","*.abc");
 	}
 	
+	@Override
 	public String getImportName() {
 		return "ABC";
 	}
 	
+	@Override
 	public boolean configure(boolean setDefaults){
 		this.settings = (setDefaults ? ABCSettings.getDefaults() : new ABCImportSettingsDialog().open());
 		return (this.settings != null);
 	}
 	
 	
+	@Override
 	public void init(TGFactory factory,InputStream stream) {
 		this.manager = new TGSongManager(factory);
 		this.stream = stream;
 	}
 	
+	@Override
 	public TGSong importSong() throws TGFileFormatException {
 		try {
 			if( this.manager != null && this.stream != null ){
@@ -207,7 +212,7 @@ public class ABCSongImporter implements TGLocalFileImporter{
 		ABCTrack[] tracks = song.getTracks();
 		Iterator<ABCLocation> it = song.getEvents().iterator();
 		while(it.hasNext()){
-			ABCLocation component = (ABCLocation)it.next();
+			ABCLocation component = it.next();
 			
 			if(component.getMeasure() >= 0 && component.getMeasure() < this.manager.getSong().countMeasureHeaders()){
 				for(int i = 0; i < tracks.length; i ++){
@@ -513,10 +518,10 @@ class TGSongAdjuster{
 	public TGSong process(){
 		Iterator<TGTrack> tracks = this.manager.getSong().getTracks();
 		while(tracks.hasNext()){
-			TGTrack track = (TGTrack)tracks.next();
+			TGTrack track = tracks.next();
 			Iterator<TGMeasure> measures = track.getMeasures();
 			while(measures.hasNext()){
-				TGMeasure measure = (TGMeasure)measures.next();
+				TGMeasure measure = measures.next();
 				this.process(measure);
 			}
 		}

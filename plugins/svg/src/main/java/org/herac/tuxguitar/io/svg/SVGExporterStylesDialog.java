@@ -21,6 +21,7 @@ public class SVGExporterStylesDialog extends SVGExporterStyles {
 		super();
 	}
 	
+	@Override
 	public void configure() {
 		final Shell dialog = DialogUtils.newDialog(TuxGuitar.instance().getShell(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		dialog.setLayout(new GridLayout());
@@ -47,6 +48,7 @@ public class SVGExporterStylesDialog extends SVGExporterStyles {
 		trackAllCheck.setText(TuxGuitar.getProperty("export.all-tracks"));
 		trackAllCheck.setSelection(false);
 		trackAllCheck.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				trackLabel.setEnabled( !trackAllCheck.getSelection() );
 				trackCombo.setEnabled( !trackAllCheck.getSelection() );
@@ -76,6 +78,7 @@ public class SVGExporterStylesDialog extends SVGExporterStyles {
 		chordDiagramEnabled.setSelection(true);
 		
 		tablatureEnabled.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!tablatureEnabled.getSelection()){
 					scoreEnabled.setSelection(true);
@@ -83,6 +86,7 @@ public class SVGExporterStylesDialog extends SVGExporterStyles {
 			}
 		});
 		scoreEnabled.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				if(!scoreEnabled.getSelection()){
 					tablatureEnabled.setSelection(true);
@@ -99,6 +103,7 @@ public class SVGExporterStylesDialog extends SVGExporterStyles {
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData());
 		buttonOK.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				int track = (!trackAllCheck.getSelection() ? (trackCombo.getSelectionIndex() + 1) : -1);
 				boolean showScore = scoreEnabled.getSelection();
@@ -116,6 +121,7 @@ public class SVGExporterStylesDialog extends SVGExporterStyles {
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData());
 		buttonCancel.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				dialog.dispose();
 			}

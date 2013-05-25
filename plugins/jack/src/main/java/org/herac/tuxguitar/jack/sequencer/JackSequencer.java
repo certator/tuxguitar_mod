@@ -63,10 +63,12 @@ public class JackSequencer implements MidiSequencer{
 		this.jackTickController.setTempo(tempo);
 	}
 	
+	@Override
 	public long getTickPosition(){
 		return Math.round(this.jackTickController.getTick());
 	}
 	
+	@Override
 	public void setTickPosition(long tickPosition){
 		this.setTickPosition(tickPosition, !this.transportLockTick );
 		this.transportLockTick = false;
@@ -77,6 +79,7 @@ public class JackSequencer implements MidiSequencer{
 		this.jackTickController.setTick(tickPosition , transportUpdate);
 	}
 	
+	@Override
 	public long getTickLength(){
 		return this.jackTickController.getTickLength();
 	}
@@ -97,10 +100,12 @@ public class JackSequencer implements MidiSequencer{
 		this.jackTickController.clearTick();
 	}
 	
+	@Override
 	public boolean isRunning() {
 		return this.running;
 	}
 	
+	@Override
 	public void start() throws MidiPlayerException{
 		this.start( true );
 	}
@@ -117,6 +122,7 @@ public class JackSequencer implements MidiSequencer{
 		}
 	}
 	
+	@Override
 	public void stop() throws MidiPlayerException{
 		this.stop( true );
 	}
@@ -160,10 +166,12 @@ public class JackSequencer implements MidiSequencer{
 		return this.transmitter;
 	}
 	
+	@Override
 	public void setTransmitter(MidiTransmitter transmitter) {
 		this.transmitter = transmitter;
 	}
 	
+	@Override
 	public void open() {
 		if(!this.jackClient.isTransportOpen() ){
 			this.jackClient.openTransport();
@@ -172,6 +180,7 @@ public class JackSequencer implements MidiSequencer{
 		this.jackTimer.setRunning( true );
 	}
 	
+	@Override
 	public void close() throws MidiPlayerException {
 		this.jackTimer.setRunning( false );
 		if(this.isRunning()){
@@ -183,6 +192,7 @@ public class JackSequencer implements MidiSequencer{
 		}
 	}
 	
+	@Override
 	public void check() throws MidiPlayerException {
 		if( !this.jackClient.isServerRunning() || !this.jackClient.isTransportOpen() ){
 			this.open();
@@ -192,24 +202,29 @@ public class JackSequencer implements MidiSequencer{
 		}
 	}
 	
+	@Override
 	public MidiSequenceHandler createSequence(int tracks) throws MidiPlayerException{
 		this.stopAndClearEvents();
 		
 		return new JackSequenceHandler(this,tracks);
 	}
 	
+	@Override
 	public void setSolo(int index,boolean solo) throws MidiPlayerException{
 		this.getJackTrackController().setSolo(index, solo);
 	}
 	
+	@Override
 	public void setMute(int index,boolean mute) throws MidiPlayerException{
 		this.getJackTrackController().setMute(index, mute);
 	}
 	
+	@Override
 	public String getKey() {
 		return "tuxguitar-jack";
 	}
 	
+	@Override
 	public String getName() {
 		return "Jack Sequencer";
 	}
@@ -277,6 +292,7 @@ public class JackSequencer implements MidiSequencer{
 			}
 		}
 		
+		@Override
 		public void run() {
 			try {
 				synchronized(this.sequencerSync) {

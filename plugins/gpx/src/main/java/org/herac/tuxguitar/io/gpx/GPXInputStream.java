@@ -16,10 +16,12 @@ public class GPXInputStream implements TGInputStreamBase{
 	private GPXFileSystem gpxFileSystem;
 	private TGFactory factory;
 	
+	@Override
 	public TGFileFormat getFileFormat() {
 		return new TGFileFormat("Guitar Pro 6","*.gpx");
 	}
 	
+	@Override
 	public void init(TGFactory factory, InputStream stream) {
 		this.factory = factory;
 		this.gpxStream = stream;
@@ -27,6 +29,7 @@ public class GPXInputStream implements TGInputStreamBase{
 		this.gpxFileSystem = new GPXFileSystem();
 	}
 	
+	@Override
 	public boolean isSupportedVersion() {
 		try {
 			this.gpxHeader = this.gpxFileSystem.getHeader( this.gpxStream );
@@ -37,6 +40,7 @@ public class GPXInputStream implements TGInputStreamBase{
 		}
 	}
 	
+	@Override
 	public TGSong readSong() throws TGFileFormatException, IOException {
 		try {
 			this.gpxFileSystem.load(this.gpxHeader, this.gpxStream);

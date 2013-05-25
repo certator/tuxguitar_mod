@@ -13,6 +13,7 @@ public class TEComponentChord extends TEComponent{
 		return this.chord;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[NOTE]");
 		string += "\n     Measure:   " + getMeasure();

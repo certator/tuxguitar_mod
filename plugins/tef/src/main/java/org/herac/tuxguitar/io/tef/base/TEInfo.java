@@ -36,6 +36,7 @@ public class TEInfo {
 		this.notes = notes;
 	}
 	
+	@Override
 	public String toString(){
 		String string = new String("[INFO]");
 		string += "\n     Title:       " + getTitle();

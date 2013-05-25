@@ -57,12 +57,14 @@ public class TGInputStream extends TGStream implements TGInputStreamBase{
 		super();
 	}
 	
+	@Override
 	public void init(TGFactory factory,InputStream stream) {
 		this.factory = factory;
 		this.dataInputStream = new DataInputStream(stream);
 		this.version = null;
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("TuxGuitar","*.tg");
 	}
@@ -71,6 +73,7 @@ public class TGInputStream extends TGStream implements TGInputStreamBase{
 		return (version.equals(TG_VERSION));
 	}
 	
+	@Override
 	public boolean isSupportedVersion(){
 		try{
 			readVersion();
@@ -86,6 +89,7 @@ public class TGInputStream extends TGStream implements TGInputStreamBase{
 		}
 	}
 	
+	@Override
 	public TGSong readSong() throws TGFileFormatException{
 		try {
 			if(this.isSupportedVersion()){
