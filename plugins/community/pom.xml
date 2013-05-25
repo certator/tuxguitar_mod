@@ -5,9 +5,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.herac.tuxguitar</groupId>
 	<artifactId>tuxguitar-community</artifactId>
-	<version>1.3-SNAPSHOT</version>
 	<parent>
 		<artifactId>tuxguitar</artifactId>
 		<groupId>org.herac.tuxguitar</groupId>
@@ -23,7 +21,6 @@
 			<!-- compiler -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -36,7 +33,6 @@
 	        <dependency>
 					<groupId>org.herac.tuxguitar</groupId>
 					<artifactId>tuxguitar-app</artifactId>
-					<version>1.3-SNAPSHOT</version>
 				    <scope>provided</scope>
 	        </dependency>
 	</dependencies>

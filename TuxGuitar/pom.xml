@@ -5,9 +5,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.herac.tuxguitar</groupId>
 	<artifactId>tuxguitar-app</artifactId>
-	<version>1.3-SNAPSHOT</version>
 	<parent>
 		<artifactId>tuxguitar</artifactId>
 		<groupId>org.herac.tuxguitar</groupId>
@@ -29,7 +27,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
 
 				<executions>
 					<execution>
