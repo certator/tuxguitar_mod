@@ -47,10 +47,12 @@ public class GP3InputStream extends GTPInputStream {
 		super(settings, SUPPORTED_VERSIONS);
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("Guitar Pro 3","*.gp3");
 	}
 	
+	@Override
 	public TGSong readSong() throws GTPFormatException, IOException {
 		readVersion();
 		if (!isSupportedVersion(getVersion())) {
@@ -68,7 +70,7 @@ public class GP3InputStream extends GTPInputStream {
 		this.keySignature = readKeySignature();
 		this.skip(3);
 		
-		List channels = readChannels();
+		List<TGChannel> channels = readChannels();
 		
 		int measures = readInt();
 		int tracks = readInt();
@@ -82,8 +84,8 @@ public class GP3InputStream extends GTPInputStream {
 		return song;
 	}
 	
-	private List readChannels() throws IOException{
-		List channels = new ArrayList();
+	private List<TGChannel> readChannels() throws IOException{
+		List<TGChannel> channels = new ArrayList<TGChannel>();
 		for (int i = 0; i < 64; i++) {
 			TGChannel channel = getFactory().newChannel();
 			channel.setChannel((short)i);
@@ -123,7 +125,7 @@ public class GP3InputStream extends GTPInputStream {
 		}
 	}
 	
-	private void readTracks(TGSong song, int count, List channels) throws IOException{
+	private void readTracks(TGSong song, int count, List<TGChannel> channels) throws IOException{
 		for (int number = 1; number <= count; number++) {
 			song.addTrack(readTrack(song,number, channels));
 		}
@@ -347,7 +349,7 @@ public class GP3InputStream extends GTPInputStream {
 		return note;
 	}
 	
-	private TGTrack readTrack(TGSong song, int number, List channels) throws IOException {
+	private TGTrack readTrack(TGSong song, int number, List<TGChannel> channels) throws IOException {
 		TGTrack track = getFactory().newTrack();
 		track.setNumber(number);
 		readUnsignedByte();
@@ -370,13 +372,13 @@ public class GP3InputStream extends GTPInputStream {
 		return track;
 	}
 	
-	private void readChannel(TGSong song, TGTrack track,List channels) throws IOException {
+	private void readChannel(TGSong song, TGTrack track,List<TGChannel> channels) throws IOException {
 		int index = (readInt() - 1);
 		int effectChannel = (readInt() - 1);
 		if(index >= 0 && index < channels.size()){
 			TGChannel channel = getFactory().newChannel();
 			
-			((TGChannel) channels.get(index)).copy(channel);
+			channels.get(index).copy(channel);
 			if (channel.getProgram() < 0) {
 				channel.setProgram((short)0);
 			}
@@ -403,9 +405,9 @@ public class GP3InputStream extends GTPInputStream {
 	private int parseRepeatAlternative(TGSong song,int measure,int value){
 		int repeatAlternative = 0;
 		int existentAlternatives = 0;
-		Iterator it = song.getMeasureHeaders();
+		Iterator<TGMeasureHeader> it = song.getMeasureHeaders();
 		while(it.hasNext()){
-			TGMeasureHeader header = (TGMeasureHeader)it.next();
+			TGMeasureHeader header = it.next();
 			if(header.getNumber() == measure){
 				break;
 			}
@@ -627,9 +629,9 @@ public class GP3InputStream extends GTPInputStream {
 	
 	private int getClef( TGTrack track ){
 		if(!isPercussionChannel(track.getSong(),track.getChannelId())){
-			Iterator it = track.getStrings().iterator();
+			Iterator<TGString> it = track.getStrings().iterator();
 			while( it.hasNext() ){
-				TGString string = (TGString) it.next();
+				TGString string = it.next();
 				if( string.getValue() <= 34 ){
 					return TGMeasure.CLEF_BASS;
 				}
@@ -639,9 +641,9 @@ public class GP3InputStream extends GTPInputStream {
 	}
 	
 	private boolean isPercussionChannel( TGSong song, int channelId ){
-		Iterator it = song.getChannels();
+		Iterator<TGChannel> it = song.getChannels();
 		while( it.hasNext() ){
-			TGChannel channel = (TGChannel)it.next();
+			TGChannel channel = it.next();
 			if( channel.getChannelId() == channelId ){
 				return channel.isPercussionChannel();
 			}

@@ -68,14 +68,17 @@ public class GP5OutputStream extends GTPOutputStream {
 		super(settings);
 	}
 	
+	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("Guitar Pro 5","*.gp5");
 	}
 	
+	@Override
 	public boolean isSupportedExtension(String extension) {
 		return (extension.toLowerCase().equals(GP5_FORMAT_EXTENSION)) ;
 	}
 	
+	@Override
 	public void writeSong(TGSong song){
 		try {
 			if(song.isEmpty()){
@@ -106,7 +109,7 @@ public class GP5OutputStream extends GTPOutputStream {
 	}
 	
 	private void writeInfo(TGSong song) throws IOException{
-		List comments = toCommentLines(song.getComments());
+		List<String> comments = toCommentLines(song.getComments());
 		writeStringByteSizeOfInteger(song.getName());
 		writeStringByteSizeOfInteger("");
 		writeStringByteSizeOfInteger(song.getArtist());
@@ -118,15 +121,15 @@ public class GP5OutputStream extends GTPOutputStream {
 		writeStringByteSizeOfInteger("");
 		writeInt( comments.size() );
 		for (int i = 0; i < comments.size(); i++) {
-			writeStringByteSizeOfInteger( (String)comments.get(i) );
+			writeStringByteSizeOfInteger( comments.get(i) );
 		}
 	}
 	
 	private void writeLyrics(TGSong song) throws IOException{
 		TGTrack lyricTrack = null;
-		Iterator it = song.getTracks();
+		Iterator<TGTrack> it = song.getTracks();
 		while(it.hasNext()){
-			TGTrack track = (TGTrack)it.next();
+			TGTrack track = it.next();
 			if(!track.getLyrics().isEmpty()){
 				lyricTrack = track;
 				break;
@@ -271,7 +274,7 @@ public class GP5OutputStream extends GTPOutputStream {
 		for (int i = 0; i < 7; i++) {
 			int value = 0;
 			if (track.getStrings().size() > i) {
-				TGString string = (TGString) track.getStrings().get(i);
+				TGString string = track.getStrings().get(i);
 				value = string.getValue();
 			}
 			writeInt(value);
@@ -300,7 +303,7 @@ public class GP5OutputStream extends GTPOutputStream {
 	
 	private void writeMeasure(TGMeasure measure, boolean changeTempo) throws IOException {
 		for(int v = 0; v < 2 ; v ++){
-			List voices = new ArrayList();
+			List<TGVoice> voices = new ArrayList<TGVoice>();
 			for (int m = 0; m < measure.countBeats(); m ++) {
 				TGBeat beat = measure.getBeat( m );
 				if( v < beat.countVoices() ){
@@ -313,7 +316,7 @@ public class GP5OutputStream extends GTPOutputStream {
 			if( voices.size() > 0 ){
 				writeInt( voices.size() );
 				for( int i = 0; i < voices.size() ; i ++ ){
-					TGVoice voice = (TGVoice) voices.get( i );
+					TGVoice voice = voices.get( i );
 					writeBeat(voice, voice.getBeat(), measure, ( changeTempo && i == 0 ) );					
 				}
 			}else{
@@ -627,7 +630,7 @@ public class GP5OutputStream extends GTPOutputStream {
 		writeInt(0);
 		writeInt(points);
 		for (int i = 0; i < points; i++) {
-			TGEffectBend.BendPoint point = (TGEffectBend.BendPoint) bend.getPoints().get(i);
+			TGEffectBend.BendPoint point = bend.getPoints().get(i);
 			writeInt( (point.getPosition() * GP_BEND_POSITION / TGEffectBend.MAX_POSITION_LENGTH) );
 			writeInt( (point.getValue() * GP_BEND_SEMITONE / TGEffectBend.SEMITONE_LENGTH) );
 			writeByte((byte) 0);
@@ -640,7 +643,7 @@ public class GP5OutputStream extends GTPOutputStream {
 		writeInt(0);
 		writeInt(points);
 		for (int i = 0; i < points; i++) {
-			TGEffectTremoloBar.TremoloBarPoint point = (TGEffectTremoloBar.TremoloBarPoint) tremoloBar.getPoints().get(i);
+			TGEffectTremoloBar.TremoloBarPoint point = tremoloBar.getPoints().get(i);
 			writeInt( (point.getPosition() * GP_BEND_POSITION / TGEffectBend.MAX_POSITION_LENGTH) );
 			writeInt( (point.getValue() * (GP_BEND_SEMITONE * 2)) );
 			writeByte((byte) 0);
@@ -738,9 +741,9 @@ public class GP5OutputStream extends GTPOutputStream {
 			channels[i].setTremolo((short)0);
 		}
 		
-		Iterator it = song.getChannels();
+		Iterator<TGChannel> it = song.getChannels();
 		while (it.hasNext()) {
-			TGChannel tgChannel = (TGChannel) it.next();
+			TGChannel tgChannel = it.next();
 			channels[tgChannel.getChannel()].setProgram(tgChannel.getProgram());
 			channels[tgChannel.getChannel()].setVolume(tgChannel.getVolume());
 			channels[tgChannel.getChannel()].setBalance(tgChannel.getBalance());
@@ -792,8 +795,8 @@ public class GP5OutputStream extends GTPOutputStream {
 		return  (byte) ((s + 1) / 8);
 	}
 	
-	private List toCommentLines( String comments ){
-		List lines = new ArrayList();
+	private List<String> toCommentLines( String comments ){
+		List<String> lines = new ArrayList<String>();
 		
 		String line = comments;
 		while( line.length() > Byte.MAX_VALUE ) {

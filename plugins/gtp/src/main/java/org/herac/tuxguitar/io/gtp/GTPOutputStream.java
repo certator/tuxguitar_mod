@@ -20,6 +20,7 @@ public abstract class GTPOutputStream extends GTPFileFormat implements TGOutputS
 		super(settings);
 	}
 	
+	@Override
 	public void init(TGFactory factory,OutputStream stream) {
 		super.init(factory);
 		this.channelAux = null;
@@ -114,9 +115,9 @@ public abstract class GTPOutputStream extends GTPFileFormat implements TGOutputS
 	}
 	
 	protected boolean isPercussionChannel( TGSong song, int channelId ){
-		Iterator it = song.getChannels();
+		Iterator<TGChannel> it = song.getChannels();
 		while( it.hasNext() ){
-			TGChannel channel = (TGChannel)it.next();
+			TGChannel channel = it.next();
 			if( channel.getChannelId() == channelId ){
 				return channel.isPercussionChannel();
 			}
