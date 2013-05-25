@@ -29,7 +29,8 @@ public class TGServiceReader {
 			}
 			return new IteratorImpl(spi,loader,loader.getResources(SERVICE_PATH + spi.getName()));
 		}catch (IOException ioex){
-			return Collections.emptyIterator();
+			List<TGPlugin> list = Collections.emptyList();
+			return list.iterator();
 		}
 	}
 
