@@ -13,6 +13,7 @@ import org.herac.tuxguitar.song.models.TGTrack;
  * @author julian
  */
 public class TGTrackImpl extends TGTrack{
+	private static final long serialVersionUID = 1L;
 
 	private int tabHeight;
 	private int scoreHeight;

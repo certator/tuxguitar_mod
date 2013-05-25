@@ -21,6 +21,7 @@ import org.herac.tuxguitar.song.models.effects.TGEffectHarmonic;
  * @author julian
  */
 public class TGNoteImpl extends TGNote {
+	private static final long serialVersionUID = 1L;
 
 	private final TGRectangle noteOrientation;
 

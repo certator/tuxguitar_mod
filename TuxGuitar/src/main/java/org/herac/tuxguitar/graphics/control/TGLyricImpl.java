@@ -4,6 +4,7 @@ import org.herac.tuxguitar.graphics.TGPainter;
 import org.herac.tuxguitar.song.models.TGLyric;
 
 public class TGLyricImpl extends TGLyric{
+	private static final long serialVersionUID = 1L;
 
 	private int height;
 	private int nextIndex = 0;

@@ -14,6 +14,7 @@ import org.herac.tuxguitar.song.models.TGString;
  * @author julian
  */
 public class TGChordImpl extends TGChord {
+	private static final long serialVersionUID = 1L;
 
 	public static final int MAX_FRETS = 6;
 

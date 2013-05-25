@@ -4,6 +4,7 @@ import org.herac.tuxguitar.graphics.TGPainter;
 import org.herac.tuxguitar.song.models.TGText;
 
 public class TGTextImpl extends TGText{
+	private static final long serialVersionUID = 1L;
 
 	public void paint(TGLayout layout,TGPainter painter,int fromX, int fromY){
 		TGBeatImpl beat = (TGBeatImpl)getBeat();

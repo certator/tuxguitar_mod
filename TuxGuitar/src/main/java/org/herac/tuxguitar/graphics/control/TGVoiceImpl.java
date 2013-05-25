@@ -12,6 +12,7 @@ import org.herac.tuxguitar.song.models.TGNote;
 import org.herac.tuxguitar.song.models.TGVoice;
 
 public class TGVoiceImpl extends TGVoice{
+	private static final long serialVersionUID = 1L;
 	/**
 	 * desviacion a la izquierda
 	 */

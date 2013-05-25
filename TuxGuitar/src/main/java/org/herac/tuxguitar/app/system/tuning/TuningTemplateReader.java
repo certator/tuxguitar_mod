@@ -117,7 +117,7 @@ public class TuningTemplateReader {
 		TGString[] strings = new TGString[rawStrings.length];
 		for (int i = 0; i < rawStrings.length; i++) {
 			int value = TGMusicKeyUtils.getTgValueFromName(rawStrings[i]);
-			TGString string = new TGString() {};
+			TGString string = new TGString();
 			string.setNumber(i);
 			string.setValue(value);
 			strings[i] = string;

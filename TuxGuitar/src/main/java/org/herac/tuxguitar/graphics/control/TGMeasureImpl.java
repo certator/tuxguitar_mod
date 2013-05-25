@@ -27,6 +27,7 @@ import org.herac.tuxguitar.song.models.TGNote;
  * @author julian
  */
 public class TGMeasureImpl extends TGMeasure{
+	private static final long serialVersionUID = 1L;
 
 	public static final int NATURAL = 1;
 	public static final int SHARP = 2;

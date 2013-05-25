@@ -4,6 +4,7 @@ import org.herac.tuxguitar.song.factory.TGFactory;
 import org.herac.tuxguitar.song.models.TGMeasureHeader;
 
 public class TGMeasureHeaderImpl extends TGMeasureHeader{
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Espacio por defecto del timeSignature
 	 */

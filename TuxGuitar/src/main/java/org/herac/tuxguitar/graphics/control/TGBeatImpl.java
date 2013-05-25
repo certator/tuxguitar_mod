@@ -8,6 +8,7 @@ import org.herac.tuxguitar.song.models.TGStroke;
 import org.herac.tuxguitar.song.models.TGVoice;
 
 public class TGBeatImpl extends TGBeat{
+	private static final long serialVersionUID = 1L;
 	/**
 	 * desviacion a la izquierda
 	 */
