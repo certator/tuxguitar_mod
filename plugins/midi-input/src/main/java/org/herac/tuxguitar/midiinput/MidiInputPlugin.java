@@ -1,7 +1,6 @@
 package org.herac.tuxguitar.midiinput;
 
 import org.eclipse.swt.widgets.Shell;
-
 import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.system.plugins.TGPluginException;
 import org.herac.tuxguitar.app.system.plugins.TGPluginSetup;

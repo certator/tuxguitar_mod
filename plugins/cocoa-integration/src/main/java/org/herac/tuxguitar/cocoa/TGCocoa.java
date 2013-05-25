@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 
 import org.eclipse.swt.internal.C;
 import org.eclipse.swt.internal.Callback;
+import org.eclipse.swt.internal.gtk.OS;
 import org.herac.tuxguitar.cocoa.toolbar.MacToolbarDelegate;
 
 public class TGCocoa {
