@@ -19,7 +19,7 @@ public class TGTunerRoughWidget extends Composite {
 	private static final int MIN_HEIGHT = 25;
 	protected Composite composite = null;
 	protected float currentFrequency = 0;
-	
+
 	/** constants for drawing */
 	private final int startA = 20;
 	private final int endAb = 20;
@@ -27,19 +27,19 @@ public class TGTunerRoughWidget extends Composite {
 	private final int markerHeight = 12;
 	private final int markerWidth = 4;
 	static String[] TONESSTRING = {"C","C#","D","D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-	
-	
+
+
 	public TGTunerRoughWidget(Composite parent) {
 		super(parent, SWT.NONE);
 		this.init();
 	}
-	
+
 	public void init() {
 		this.setLayout(new GridLayout(1,true));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		((GridData)this.getLayoutData()).widthHint = 600;
-		
-		
+
+
 		this.composite = new Composite(this,SWT.BORDER | SWT.DOUBLE_BUFFERED);
 		this.composite.setBackground(this.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		this.composite.addPaintListener(new PaintListener() {
@@ -56,12 +56,12 @@ public class TGTunerRoughWidget extends Composite {
 		this.composite.setLayoutData(data);
 
 	}
-	
-	
+
+
 	private void paintWidget(TGPainterImpl painter) {
-		
+
 		Point compositeSize = this.composite.getSize();
-		
+
 		// lines and tones
 		painter.setForeground(new TGColorImpl(getDisplay().getSystemColor(SWT.COLOR_BLACK)));
 		painter.initPath();
@@ -78,7 +78,7 @@ public class TGTunerRoughWidget extends Composite {
 			painter.drawString(TONESSTRING[currentTone%12], i, compositeSize.y/2-this.boundaryHeight/2-20);
 			currentTone++;
 		}
-		
+
 		// marker
 		if (this.currentFrequency>0) {
 			painter.setForeground(new TGColorImpl(getDisplay().getSystemColor(SWT.COLOR_BLUE)));
@@ -89,7 +89,7 @@ public class TGTunerRoughWidget extends Composite {
 			painter.lineTo(markerPos, compositeSize.y/2+this.markerHeight/2);
 			painter.closePath();
 		}
-		
+
 	}
 
 	public void setCurrentFrequency(double currentFrequency) {
@@ -103,13 +103,13 @@ public class TGTunerRoughWidget extends Composite {
 		this.composite.redraw();
 	}
 
-	
+
 	/** formula which gets fine tone position (on scale 0-240)
-	 * in fact, it's inverse formula of inverse of TGTuner::getNoteFrequency() 
+	 * in fact, it's inverse formula of inverse of TGTuner::getNoteFrequency()
 	 */
 	protected int getTone(float frequency) {
 		float midiTone = (float)(45+12*(Math.log(frequency/110)/Math.log(2)));
 		return Math.round(  20 *   (midiTone % 12));
 	}
-	
+
 }

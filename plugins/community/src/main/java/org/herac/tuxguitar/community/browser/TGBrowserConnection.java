@@ -10,22 +10,22 @@ import org.herac.tuxguitar.community.auth.TGCommunityAuth;
 import org.herac.tuxguitar.community.auth.TGCommunityAuthDialog;
 
 public class TGBrowserConnection {
-	
+
 	private static final String HTTP_STATUS_OK = "200";
 	private static final String HTTP_STATUS_UNAUTHORIZED = "401";
-	
+
 	private final TGCommunityAuth auth;
-	
+
 	public TGBrowserConnection(){
 		this.auth = TGCommunitySingleton.getInstance().getAuth();
 		this.auth.update();
 	}
-	
+
 	public void getElements( List<TGBrowserElement> elements, TGBrowserElementImpl element ) throws TGBrowserException{
 		try {
 			TGBrowserRequest request = new TGBrowserRequest(this.auth, element);
 			TGBrowserResponse response = request.getResponse();
-			
+
 			String status = response.getStatus();
 			if( status != null && status.equals(HTTP_STATUS_OK) ){
 				response.loadElements( elements );

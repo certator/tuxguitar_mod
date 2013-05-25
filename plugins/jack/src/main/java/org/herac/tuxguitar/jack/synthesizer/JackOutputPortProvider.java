@@ -9,16 +9,16 @@ import org.herac.tuxguitar.player.base.MidiOutputPort;
 import org.herac.tuxguitar.player.base.MidiOutputPortProvider;
 
 public class JackOutputPortProvider implements MidiOutputPortProvider{
-	
+
 	private List<MidiOutputPort> jackOutputPorts;
 	private final JackClient jackClient;
 	private final JackSettings jackSettings;
-	
+
 	public JackOutputPortProvider(JackClient jackClient,JackSettings jackSettings){
 		this.jackClient = jackClient;
 		this.jackSettings = jackSettings;
 	}
-	
+
 	@Override
 	public List<MidiOutputPort> listPorts() {
 		if(this.jackOutputPorts == null){
@@ -27,12 +27,12 @@ public class JackOutputPortProvider implements MidiOutputPortProvider{
 		}
 		return this.jackOutputPorts;
 	}
-	
+
 	@Override
 	public void closeAll(){
 		if(this.jackClient.isPortsOpen()){
 			this.jackClient.closePorts();
 		}
 	}
-	
+
 }

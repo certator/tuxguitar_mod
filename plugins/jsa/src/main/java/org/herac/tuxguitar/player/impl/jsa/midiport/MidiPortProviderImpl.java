@@ -16,11 +16,11 @@ import org.herac.tuxguitar.player.base.MidiOutputPort;
 import org.herac.tuxguitar.player.base.MidiOutputPortProvider;
 
 public class MidiPortProviderImpl implements MidiOutputPortProvider{
-	
+
 	public MidiPortProviderImpl(){
 		super();
 	}
-	
+
 	@Override
 	public List<MidiOutputPort> listPorts() throws MidiPlayerException{
 		try {
@@ -57,7 +57,7 @@ public class MidiPortProviderImpl implements MidiOutputPortProvider{
 			throw new MidiPlayerException(TuxGuitar.getProperty("jsa.error.unknown"),t);
 		}
 	}
-	
+
 	@Override
 	public void closeAll() {
 		// Not implemented

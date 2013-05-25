@@ -16,7 +16,7 @@ import org.herac.tuxguitar.player.impl.jsa.sequencer.MidiSequencerProviderImpl;
 import org.herac.tuxguitar.player.impl.jsa.utils.MidiConfigUtils;
 
 public class MidiPluginList extends TGPluginList implements TGPluginSetup{
-	
+
 	@Override
 	protected List<TGPlugin> getPlugins() {
 		List<TGPlugin> plugins = new ArrayList<TGPlugin>();
@@ -34,27 +34,27 @@ public class MidiPluginList extends TGPluginList implements TGPluginSetup{
 		});
 		return plugins;
 	}
-	
+
 	@Override
 	public void setupDialog(Shell parent) {
 		MidiConfigUtils.setupDialog(parent);
 	}
-	
+
 	@Override
 	public String getAuthor() {
 		return "Julian Casadesus <julian@casadesus.com.ar>";
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return "Java Sound Api plugin";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Java Sound Api plugin";
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return "1.0";

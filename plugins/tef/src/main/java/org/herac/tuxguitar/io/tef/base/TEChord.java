@@ -1,23 +1,23 @@
 package org.herac.tuxguitar.io.tef.base;
 
 public class TEChord {
-	
+
 	private byte[] strings;
 	private String name;
-	
+
 	public TEChord(byte[] strings,String name){
 		this.strings = strings;
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public byte[] getStrings() {
 		return this.strings;
 	}
-	
+
 	@Override
 	public String toString(){
 		String string = new String("[CHORD]");

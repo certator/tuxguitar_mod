@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.herac.tuxguitar.app.tools.custom.tuner;
 
@@ -26,7 +26,7 @@ public class TGTunerFineWidget extends Composite {
 	private static final int MIN_HEIGHT = 60;
 	private static final int MIN_WIDTH = 80;
 	private final float bottomY = 10.0f;
-	
+
 	private Composite composite = null;
 	protected String currentNoteString = null;
 	protected int currentNoteValue = -1;
@@ -43,8 +43,8 @@ public class TGTunerFineWidget extends Composite {
 	protected void init() {
 		this.setLayout(new GridLayout(1,true));
 		this.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
-		
+
+
 		this.composite = new Composite(this,SWT.BORDER | SWT.DOUBLE_BUFFERED);
 		this.composite.setBackground(this.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		this.composite.addPaintListener(new PaintListener() {
@@ -54,7 +54,7 @@ public class TGTunerFineWidget extends Composite {
 				TGTunerFineWidget.this.paintWidget(painter);
 			}
 		});
-		
+
 		GridData data = new GridData(SWT.FILL,SWT.FILL,true,true);
 		data.minimumHeight = MIN_HEIGHT;
 		data.minimumWidth = MIN_WIDTH;
@@ -68,13 +68,13 @@ public class TGTunerFineWidget extends Composite {
 							);
 
 	}
-	
-	
+
+
 	public void paintWidget(TGPainterImpl painter) {
 		Point compositeSize = this.composite.getSize();
-		
+
 		// margins & stuff
-		
+
 		painter.setForeground(new TGColorImpl(getDisplay().getSystemColor(SWT.COLOR_BLACK)));
 		painter.initPath();
 		painter.setLineWidth(2);
@@ -87,7 +87,7 @@ public class TGTunerFineWidget extends Composite {
 		painter.moveTo(compositeSize.x/2-height, compositeSize.y-this.bottomY);
 		painter.lineTo(compositeSize.x/2+height, compositeSize.y-this.bottomY);
 		painter.closePath();
-		
+
 		if (this.isEnabled()) {
 			// tone name
 			painter.setForeground(new TGColorImpl(getDisplay().getSystemColor(SWT.COLOR_BLUE)));
@@ -104,21 +104,21 @@ public class TGTunerFineWidget extends Composite {
 			painter.closePath();
 			}
 		}
-		
-		
-		
-	
+
+
+
+
 	}
-	
-	
+
+
 	public void setWantedTone(int tone) {
 		this.setEnabled(true);
 		this.currentNoteValue = tone;
 		this.currentNoteString = TGTunerRoughWidget.TONESSTRING[tone%12]+(int)Math.floor(tone/12);
 		this.redraw();
-		
+
 	}
-	
+
 	public void setCurrentFrequency(double freq) {
 		this.currentFrequency = freq;
 		this.redraw();
@@ -129,16 +129,16 @@ public class TGTunerFineWidget extends Composite {
 		super.redraw();
 		this.composite.redraw();
 	}
-	
+
 	protected double getAngleRad() {
 		return Math.PI*( 1 - (this.stickDistance(this.getTone(this.currentFrequency) - this.currentNoteValue) + this.FINE_TUNING_RANGE  )/(2*this.FINE_TUNING_RANGE) );
 	}
 
-	
+
 	private float getTone(double frequency) {
 		return (float)(45+12*(Math.log(frequency/110)/Math.log(2)));
 	}
-	
+
 	private double stickDistance(double diff) {
 		if (Math.abs(diff) > this.FINE_TUNING_RANGE)
 			if (diff > 0)
@@ -148,5 +148,5 @@ public class TGTunerFineWidget extends Composite {
 		return diff;
 	}
 
-	
+
 }

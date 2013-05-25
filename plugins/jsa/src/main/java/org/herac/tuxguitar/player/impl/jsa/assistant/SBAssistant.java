@@ -27,11 +27,11 @@ public class SBAssistant {
 	};
 
 	private MidiPortSynthesizer synthesizer;
-	
+
 	public SBAssistant(MidiPortSynthesizer synthesizer){
 		this.synthesizer = synthesizer;
 	}
-	
+
 	public void process(){
 		new Thread(new Runnable() {
 			@Override
@@ -44,7 +44,7 @@ public class SBAssistant {
 							dialog.setDefaultStatus( ConfirmDialog.STATUS_NO );
 							if (dialog.confirm(ConfirmDialog.BUTTON_YES | ConfirmDialog.BUTTON_NO , ConfirmDialog.BUTTON_YES) == ConfirmDialog.STATUS_YES){
 								open();
-							}		
+							}
 						}
 					});
 				} catch (Throwable e) {
@@ -53,18 +53,18 @@ public class SBAssistant {
 			}
 		}).start();
 	}
-	
-	protected void open(){		
+
+	protected void open(){
 		final Shell dialog = DialogUtils.newDialog(TuxGuitar.instance().getShell(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		dialog.setLayout(new GridLayout());
-		
+
 		//------------------------------------------------------------------------------
         Group group = new Group(dialog,SWT.SHADOW_ETCHED_IN);
         group.setLayout(new GridLayout());
-        group.setLayoutData(getGroupData());   
+        group.setLayoutData(getGroupData());
         group.setText(TuxGuitar.getProperty("jsa.soundbank-assistant.select"));
-        
-        
+
+
         final Button urls[] = new Button[ URLS.length ];
         for(int i = 0; i < URLS.length ; i ++){
 	        urls[i] = new Button(group, SWT.RADIO);
@@ -72,11 +72,11 @@ public class SBAssistant {
 	        urls[i].setData(URLS[i]);
 	        urls[i].setSelection(i == 0);
         }
-		
-        //------------------BUTTONS--------------------------            
+
+        //------------------BUTTONS--------------------------
         Composite buttons = new Composite(dialog, SWT.NONE);
         buttons.setLayout(new GridLayout(2,false));
-        buttons.setLayoutData(new GridData(SWT.RIGHT,SWT.BOTTOM,true,false));    	
+        buttons.setLayoutData(new GridData(SWT.RIGHT,SWT.BOTTOM,true,false));
 
         Button buttonOk = new Button(buttons, SWT.PUSH);
         buttonOk.setText(TuxGuitar.getProperty("ok"));
@@ -85,15 +85,15 @@ public class SBAssistant {
             @Override
 			public void widgetSelected(SelectionEvent arg0) {
             	URL url = getSelection(urls);
-            	
+
             	dialog.dispose();
-            	
+
             	if(url != null ){
             		install(url);
             	}
             }
-        });		
-		
+        });
+
         Button buttonCancel = new Button(buttons, SWT.PUSH);
         buttonCancel.setText(TuxGuitar.getProperty("cancel"));
         buttonCancel.setLayoutData(getButtonsData());
@@ -103,25 +103,25 @@ public class SBAssistant {
                 dialog.dispose();
             }
         });
-		
+
         dialog.setDefaultButton( buttonOk );
-        
+
         DialogUtils.openDialog(dialog, DialogUtils.OPEN_STYLE_CENTER | DialogUtils.OPEN_STYLE_PACK);
 	}
-	
+
 	protected GridData getGroupData(){
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.minimumWidth = 250;
 		return data;
-	}	
-	
+	}
+
 	protected GridData getButtonsData(){
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.minimumWidth = 80;
 		data.minimumHeight = 25;
 		return data;
 	}
-	
+
 	protected URL getSelection(Button[] buttons){
     	for(int i = 0; i < buttons.length ; i ++){
     		if( buttons[i].getSelection() && buttons[i].getData() instanceof SBUrl ){
@@ -130,7 +130,7 @@ public class SBAssistant {
     	}
     	return null;
 	}
-	
+
 	protected void install(URL url ){
 		new SBInstallerGui(url,this.synthesizer).open();
 	}
@@ -143,5 +143,5 @@ public class SBAssistant {
 		}
 		return null;
 	}
-	
+
 }

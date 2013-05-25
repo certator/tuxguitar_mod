@@ -1,33 +1,33 @@
 package org.herac.tuxguitar.io.gpx.score;
 
 public class GPXMasterBar {
-	
+
 	private int[] barIds;
 	private int[] time;
-	
+
 	private int repeatCount;
 	private boolean repeatStart;
 	private int accidentalCount;
 	private String mode;
 	private String tripletFeel;
-	
+
 	public GPXMasterBar(){
 		this.accidentalCount = 0;
 		this.mode = null;
 	}
-	
+
 	public int[] getBarIds() {
 		return this.barIds;
 	}
-	
+
 	public void setBarIds(int[] barIds) {
 		this.barIds = barIds;
 	}
-	
+
 	public int[] getTime() {
 		return time;
 	}
-	
+
 	public void setTime(int[] time) {
 		this.time = time;
 	}
@@ -67,7 +67,7 @@ public class GPXMasterBar {
 	public String getTripletFeel() {
 		return this.tripletFeel;
 	}
-	
+
 	public void setTripletFeel(String tripletFeel) {
 		this.tripletFeel = tripletFeel;
 	}

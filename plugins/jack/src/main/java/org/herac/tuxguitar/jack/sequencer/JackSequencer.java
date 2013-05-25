@@ -7,7 +7,7 @@ import org.herac.tuxguitar.player.base.MidiSequencer;
 import org.herac.tuxguitar.player.base.MidiTransmitter;
 
 public class JackSequencer implements MidiSequencer{
-	
+
 	private long transportUID;
 	private long transportTryCount;
 	private long transportTryNumber;
@@ -25,7 +25,7 @@ public class JackSequencer implements MidiSequencer{
 	private JackTimer jackTimer;
 	private JackClient jackClient;
 	private JackMidiPlayerStarter jackMidiPlayerStarter;
-	
+
 	public JackSequencer(JackClient jackClient){
 		this.stopped = true;
 		this.running = false;
@@ -42,74 +42,74 @@ public class JackSequencer implements MidiSequencer{
 		this.jackTimer = new JackTimer(this);
 		this.jackMidiPlayerStarter = new JackMidiPlayerStarter(this);
 	}
-	
+
 	public JackClient getJackClient(){
 		return this.jackClient;
 	}
-	
+
 	public JackTickController getJackTickController(){
 		return this.jackTickController;
 	}
-	
+
 	public JackEventController getJackEventController(){
 		return this.jackEventController;
 	}
-	
+
 	public JackTrackController getJackTrackController(){
 		return this.jackTrackController;
 	}
-	
+
 	public void setTempo(int tempo){
 		this.jackTickController.setTempo(tempo);
 	}
-	
+
 	@Override
 	public long getTickPosition(){
 		return Math.round(this.jackTickController.getTick());
 	}
-	
+
 	@Override
 	public void setTickPosition(long tickPosition){
 		this.setTickPosition(tickPosition, !this.transportLockTick );
 		this.transportLockTick = false;
 	}
-	
+
 	public void setTickPosition(long tickPosition, boolean transportUpdate ){
 		this.reset = true;
 		this.jackTickController.setTick(tickPosition , transportUpdate);
 	}
-	
+
 	@Override
 	public long getTickLength(){
 		return this.jackTickController.getTickLength();
 	}
-	
+
 	public void sendEvent(JackEvent event) throws MidiPlayerException{
 		if(!this.reset){
 			this.jackEventDispacher.dispatch(event);
 		}
 	}
-	
+
 	public void addEvent(JackEvent event){
 		this.jackEventController.addEvent(event);
 		this.jackTickController.notifyTick(event.getTick());
 	}
-	
+
 	public void clearEvents() {
 		this.jackEventController.clearEvents();
 		this.jackTickController.clearTick();
 	}
-	
+
 	@Override
 	public boolean isRunning() {
 		return this.running;
 	}
-	
+
 	@Override
 	public void start() throws MidiPlayerException{
 		this.start( true );
 	}
-	
+
 	public void start( boolean startTransport ) throws MidiPlayerException{
 		synchronized ( this.jackLock ) {
 			if(!this.running ){
@@ -121,12 +121,12 @@ public class JackSequencer implements MidiSequencer{
 			}
 		}
 	}
-	
+
 	@Override
 	public void stop() throws MidiPlayerException{
 		this.stop( true );
 	}
-	
+
 	public void stop( boolean stopTransport ) throws MidiPlayerException{
 		synchronized ( this.jackLock ) {
 			if( this.running ){
@@ -137,7 +137,7 @@ public class JackSequencer implements MidiSequencer{
 			}
 		}
 	}
-	
+
 	public void stopAndClearEvents() throws MidiPlayerException{
 		synchronized ( this.jackLock ) {
 			this.stop( true );
@@ -146,14 +146,14 @@ public class JackSequencer implements MidiSequencer{
 			this.stopped = true;
 		}
 	}
-	
+
 	public void reset()  throws MidiPlayerException{
 		this.getTransmitter().sendAllNotesOff();
 		for(int channel = 0; channel < 16;channel ++){
 			this.getTransmitter().sendPitchBend(channel, 64);
 		}
 	}
-	
+
 	protected void startPlayer(){
 		// Make sure sequencer was already initialized.
 		if( this.transmitter != null ){
@@ -161,16 +161,16 @@ public class JackSequencer implements MidiSequencer{
 			this.jackMidiPlayerStarter.start();
 		}
 	}
-	
+
 	public MidiTransmitter getTransmitter() {
 		return this.transmitter;
 	}
-	
+
 	@Override
 	public void setTransmitter(MidiTransmitter transmitter) {
 		this.transmitter = transmitter;
 	}
-	
+
 	@Override
 	public void open() {
 		if(!this.jackClient.isTransportOpen() ){
@@ -179,7 +179,7 @@ public class JackSequencer implements MidiSequencer{
 		this.jackMidiPlayerStarter.open();
 		this.jackTimer.setRunning( true );
 	}
-	
+
 	@Override
 	public void close() throws MidiPlayerException {
 		this.jackTimer.setRunning( false );
@@ -191,7 +191,7 @@ public class JackSequencer implements MidiSequencer{
 			this.jackClient.closeTransport();
 		}
 	}
-	
+
 	@Override
 	public void check() throws MidiPlayerException {
 		if( !this.jackClient.isServerRunning() || !this.jackClient.isTransportOpen() ){
@@ -201,38 +201,38 @@ public class JackSequencer implements MidiSequencer{
 			}
 		}
 	}
-	
+
 	@Override
 	public MidiSequenceHandler createSequence(int tracks) throws MidiPlayerException{
 		this.stopAndClearEvents();
-		
+
 		return new JackSequenceHandler(this,tracks);
 	}
-	
+
 	@Override
 	public void setSolo(int index,boolean solo) throws MidiPlayerException{
 		this.getJackTrackController().setSolo(index, solo);
 	}
-	
+
 	@Override
 	public void setMute(int index,boolean mute) throws MidiPlayerException{
 		this.getJackTrackController().setMute(index, mute);
 	}
-	
+
 	@Override
 	public String getKey() {
 		return "tuxguitar-jack";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Jack Sequencer";
 	}
-	
+
 	protected void process() throws MidiPlayerException{
 		synchronized ( this.jackLock ) {
 			boolean transportRunning = this.jackClient.isTransportRunning();
-			
+
 			// Check if transport was started
 			if( transportRunning && !this.transportRunning && !this.running ){
 				this.startPlayer();
@@ -270,28 +270,28 @@ public class JackSequencer implements MidiSequencer{
 			this.transportRunning = transportRunning;
 		}
 	}
-	
+
 	private class JackTimer implements Runnable{
-		
+
 		private static final int TIMER_DELAY = 10;
-		
+
 		private Object sequencerSync;
 		private JackSequencer sequencer;
 		private boolean running;
-		
+
 		public JackTimer(JackSequencer sequencer){
 			this.sequencerSync = new Object();
 			this.sequencer = sequencer;
 			this.running = false;
 		}
-		
+
 		public void setRunning( boolean running ){
 			this.running = running;
 			if( this.running ){
 				new Thread( this ).start();
 			}
 		}
-		
+
 		@Override
 		public void run() {
 			try {

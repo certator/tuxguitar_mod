@@ -1,7 +1,7 @@
 package org.herac.tuxguitar.io.gpx.score;
 
 public class GPXBeat {
-	
+
 	private int id;
 	private int rhythmId;
 	private int[] noteIds;
@@ -13,7 +13,7 @@ public class GPXBeat {
 	private boolean FadeIn;
 	private boolean FadeOut;
 	private String text;
-	
+
 	private boolean whammyBarEnabled;
 	private Integer whammyBarOriginValue;
 	private Integer whammyBarMiddleValue;
@@ -22,7 +22,7 @@ public class GPXBeat {
 	private Integer whammyBarMiddleOffset1;
 	private Integer whammyBarMiddleOffset2;
 	private Integer whammyBarDestinationOffset;
-	
+
 	public GPXBeat(){
 		this.slapped = false;
 		this.popped = false;
@@ -32,35 +32,35 @@ public class GPXBeat {
 		this.brush = new String();
 		this.text = new String();
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public int getRhythmId() {
 		return this.rhythmId;
 	}
-	
+
 	public void setRhythmId(int rhythmId) {
 		this.rhythmId = rhythmId;
 	}
-	
+
 	public int[] getNoteIds() {
 		return this.noteIds;
 	}
-	
+
 	public void setNoteIds(int[] noteIds) {
 		this.noteIds = noteIds;
 	}
-	
+
 	public String getDynamic() {
 		return this.dynamic;
 	}
-	
+
 	public void setDynamic(String dynamic) {
 		this.dynamic = dynamic;
 	}

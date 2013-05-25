@@ -27,43 +27,43 @@ import org.herac.tuxguitar.app.util.FileChooser;
 import org.herac.tuxguitar.io.base.TGFileFormat;
 
 public class MidiToAudioSettingsDialog {
-	
+
 	protected boolean success;
-	
+
 	public MidiToAudioSettingsDialog(){
 		super();
 	}
-	
+
 	public boolean open(final MidiToAudioSettings settings) {
 		this.success = false;
-		
+
 		final List<MidiToAudioFormat> formats = getAvailableFormats();
 		final List<TGFileFormat> soundbankFormats = getSupportedSoundbankFormats();
-		
+
 		final Shell dialog = DialogUtils.newDialog(TuxGuitar.instance().getShell(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		dialog.setLayout(new GridLayout());
 		dialog.setText(TuxGuitar.getProperty("gervill.options"));
-		
+
 		//------------------AUDIO FORMAT------------------
 		Group audioFormatGroup = new Group(dialog,SWT.SHADOW_ETCHED_IN);
 		audioFormatGroup.setLayout(new GridLayout(2,false));
 		audioFormatGroup.setLayoutData(getGroupData());
 		audioFormatGroup.setText(TuxGuitar.getProperty("gervill.options.audio-format"));
-		
+
 		Label eLabel = new Label(audioFormatGroup, SWT.NONE);
 		eLabel.setText(TuxGuitar.getProperty("gervill.options.file-encoding") + ":");
 		eLabel.setLayoutData(new GridData(SWT.LEFT,SWT.CENTER,true,true));
-		
+
 		final Combo eCombo = new Combo(audioFormatGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
 		eCombo.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,true));
-		
+
 		Label tLabel = new Label(audioFormatGroup, SWT.NONE);
 		tLabel.setText(TuxGuitar.getProperty("gervill.options.file-type") + ":");
 		tLabel.setLayoutData(new GridData(SWT.LEFT,SWT.CENTER,true,true));
-		
+
 		final Combo tCombo = new Combo(audioFormatGroup, SWT.DROP_DOWN | SWT.READ_ONLY);
 		tCombo.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,true));
-		
+
 		int eSelectionIndex = 0;
 		for( int i = 0 ; i < formats.size() ; i ++ ) {
 			MidiToAudioFormat format = formats.get(i);
@@ -72,41 +72,41 @@ public class MidiToAudioSettingsDialog {
 				eSelectionIndex = i;
 			}
 		}
-		
+
 		if( !formats.isEmpty() ){
 			eCombo.select( eSelectionIndex );
 			updateTypesCombo( settings, formats, eCombo, tCombo );
 		}
-		
+
 		eCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				updateTypesCombo( settings, formats, eCombo, tCombo );
 			}
 		});
-		
+
 		//------------------SOUNDBANK-----------------------
 		Group soundbankGroup = new Group(dialog,SWT.SHADOW_ETCHED_IN);
 		soundbankGroup.setLayout(new GridLayout());
 		soundbankGroup.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		soundbankGroup.setText(TuxGuitar.getProperty("gervill.options.soundbank.tip"));
-		
+
 		final Button sbDefault = new Button(soundbankGroup,SWT.RADIO);
 		sbDefault.setText(TuxGuitar.getProperty("gervill.options.soundbank.default"));
 		sbDefault.setSelection( (settings.getSoundbankPath() == null) );
-		
+
 		final Button sbCustom = new Button(soundbankGroup,SWT.RADIO);
 		sbCustom.setText(TuxGuitar.getProperty("gervill.options.soundbank.custom"));
 		sbCustom.setSelection( (settings.getSoundbankPath() != null) );
-		
+
 		Composite chooser = new Composite(soundbankGroup,SWT.NONE);
 		chooser.setLayout(new GridLayout(2,false));
-		
+
 		final Text sbCustomPath = new Text(chooser,SWT.BORDER);
 		sbCustomPath.setLayoutData(new GridData(350,SWT.DEFAULT));
 		sbCustomPath.setText( (settings.getSoundbankPath() == null ? new String() : settings.getSoundbankPath())  );
 		sbCustomPath.setEnabled( (settings.getSoundbankPath() != null) );
-		
+
 		final Button sbCustomChooser = new Button(chooser,SWT.PUSH);
 		sbCustomChooser.setImage(TuxGuitar.instance().getIconManager().getFileOpen());
 		sbCustomChooser.setEnabled( (settings.getSoundbankPath() != null) );
@@ -119,7 +119,7 @@ public class MidiToAudioSettingsDialog {
 				}
 			}
 		});
-		
+
 		SelectionListener sbRadioSelectionListener = new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -129,16 +129,16 @@ public class MidiToAudioSettingsDialog {
 		};
 		sbDefault.addSelectionListener(sbRadioSelectionListener);
 		sbCustom.addSelectionListener(sbRadioSelectionListener);
-		
+
 		//------------------BUTTONS--------------------------
 		Composite buttons = new Composite(dialog, SWT.NONE);
 		buttons.setLayout(new GridLayout(2,false));
 		buttons.setLayoutData(new GridData(SWT.END,SWT.FILL,true,true));
-		
+
 		GridData data = new GridData(SWT.FILL,SWT.FILL,true,true);
 		data.minimumWidth = 80;
 		data.minimumHeight = 25;
-		
+
 		final Button buttonOK = new Button(buttons, SWT.PUSH);
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(data);
@@ -160,7 +160,7 @@ public class MidiToAudioSettingsDialog {
 				dialog.dispose();
 			}
 		});
-		
+
 		Button buttonCancel = new Button(buttons, SWT.PUSH);
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(data);
@@ -170,24 +170,24 @@ public class MidiToAudioSettingsDialog {
 				dialog.dispose();
 			}
 		});
-		
+
 		dialog.setDefaultButton( buttonOK );
-		
+
 		DialogUtils.openDialog(dialog, DialogUtils.OPEN_STYLE_CENTER | DialogUtils.OPEN_STYLE_PACK | DialogUtils.OPEN_STYLE_WAIT);
-		
+
 		return this.success;
 	}
-	
+
 	private GridData getGroupData(){
 		GridData data = new GridData(SWT.FILL,SWT.FILL,true,true);
 		data.minimumWidth = 300;
 		return data;
 	}
-	
+
 	private void updateTypesCombo( MidiToAudioSettings settings, List<MidiToAudioFormat> encodings, Combo eCombo , Combo tCombo ){
 		tCombo.removeAll();
-		
-		int eIndex = eCombo.getSelectionIndex();		
+
+		int eIndex = eCombo.getSelectionIndex();
 		if( eIndex >= 0 && eIndex < encodings.size() ){
 			MidiToAudioFormat encoding = encodings.get( eIndex );
 			AudioFileFormat.Type[] types = encoding.getTypes();
@@ -201,7 +201,7 @@ public class MidiToAudioSettingsDialog {
 			tCombo.select( tSelectionIndex );
 		}
 	}
-	
+
 	public List<MidiToAudioFormat> getAvailableFormats(){
 		List<MidiToAudioFormat> list = new ArrayList<MidiToAudioFormat>();
 		AudioFormat srcFormat = MidiToAudioSettings.DEFAULT_FORMAT;
@@ -216,35 +216,35 @@ public class MidiToAudioSettingsDialog {
 		}
 		return list;
 	}
-	
+
 	private List<TGFileFormat> getSupportedSoundbankFormats(){
 		List<TGFileFormat> list = new ArrayList<TGFileFormat>();
 		list.add(new TGFileFormat("SF2 files","*.sf2"));
 		list.add(new TGFileFormat("DLS files","*.dls"));
 		return list;
 	}
-	
+
 	public boolean isSameEncoding( AudioFormat f1, AudioFormat f2 ){
 		if( f1 == null || f2 == null || f1.getEncoding() == null || f2.getEncoding() == null ){
 			return false;
 		}
 		return ( f1.getEncoding().toString().equals( f2.getEncoding().toString() ) );
 	}
-	
+
 	private class MidiToAudioFormat {
-		
+
 		private AudioFormat format;
 		private AudioFileFormat.Type[] types;
-		
+
 		public MidiToAudioFormat(AudioFormat format, AudioFileFormat.Type[] types){
 			this.format = format;
 			this.types = types;
 		}
-		
+
 		public AudioFormat getFormat() {
 			return this.format;
 		}
-		
+
 		public AudioFileFormat.Type[] getTypes() {
 			return this.types;
 		}

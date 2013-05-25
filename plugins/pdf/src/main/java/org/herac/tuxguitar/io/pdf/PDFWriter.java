@@ -15,7 +15,7 @@ import com.lowagie.text.Image;
 import com.lowagie.text.pdf.PdfWriter;
 
 public class PDFWriter {
-	
+
 	/**
 	 * Escribe el documento PDF en el OutputStream
 	 * @param out
@@ -40,7 +40,7 @@ public class PDFWriter {
 			throw new TGFileFormatException("Could not write song!.",throwable);
 		}
 	}
-	
+
 	/**
 	 * Crea un com.lowagie.text.Image a partir de un org.eclipse.swt.graphics.ImageData
 	 * @param data
@@ -51,7 +51,7 @@ public class PDFWriter {
 			PaletteData palette = data.palette;
 			int width = data.width;
 			int height = data.height;
-			
+
 			byte bytes[] = new byte[(width * height * 3)];
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {

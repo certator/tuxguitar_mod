@@ -10,14 +10,14 @@ import org.herac.tuxguitar.player.base.MidiSequencer;
 import org.herac.tuxguitar.player.base.MidiSequencerProvider;
 
 public class JackSequencerProvider implements MidiSequencerProvider{
-	
+
 	private List<MidiSequencer> jackSequencerProviders;
 	private final JackClient jackClient;
-	
+
 	public JackSequencerProvider(JackClient jackClient){
 		this.jackClient = jackClient;
 	}
-	
+
 	@Override
 	public List<MidiSequencer> listSequencers() throws MidiPlayerException {
 		if(this.jackSequencerProviders == null){
@@ -26,7 +26,7 @@ public class JackSequencerProvider implements MidiSequencerProvider{
 		}
 		return this.jackSequencerProviders;
 	}
-	
+
 	@Override
 	public void closeAll() throws MidiPlayerException {
 		Iterator<MidiSequencer> it = listSequencers().iterator();
@@ -35,5 +35,5 @@ public class JackSequencerProvider implements MidiSequencerProvider{
 			sequencer.close();
 		}
 	}
-	
+
 }

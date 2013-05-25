@@ -10,14 +10,14 @@ import org.herac.tuxguitar.player.base.MidiOutputPortProvider;
 import org.herac.tuxguitar.player.base.MidiPlayerException;
 
 public class MidiOutputPortProviderImpl implements MidiOutputPortProvider{
-	
+
 	private MidiSynth synth;
 	private MidiOutputPortSettings settings;
-	
+
 	public MidiOutputPortProviderImpl(){
 		super();
 	}
-	
+
 	@Override
 	public List<MidiOutputPort> listPorts() throws MidiPlayerException {
 		try{
@@ -35,7 +35,7 @@ public class MidiOutputPortProviderImpl implements MidiOutputPortProvider{
 			throw new MidiPlayerException(throwable.getMessage(), throwable);
 		}
 	}
-	
+
 	@Override
 	public void closeAll() throws MidiPlayerException {
 		try{
@@ -47,7 +47,7 @@ public class MidiOutputPortProviderImpl implements MidiOutputPortProvider{
 			throw new MidiPlayerException(throwable.getMessage(), throwable);
 		}
 	}
-	
+
 	public MidiSynth getSynth(){
 		if(this.synth == null || !this.synth.isInitialized()){
 			this.synth = new MidiSynth();
@@ -55,7 +55,7 @@ public class MidiOutputPortProviderImpl implements MidiOutputPortProvider{
 		}
 		return this.synth;
 	}
-	
+
 	public MidiOutputPortSettings getSettings(){
 		if(this.settings == null){
 			this.settings = new MidiOutputPortSettings( this );

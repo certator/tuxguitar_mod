@@ -10,31 +10,31 @@ import org.herac.tuxguitar.song.managers.TGSongManager;
 import org.herac.tuxguitar.song.models.TGSong;
 
 public class MidiSongExporter implements TGLocalFileExporter{
-	
+
 	private OutputStream stream;
 	private MidiSettings settings;
-	
+
 	@Override
 	public String getExportName() {
 		return "Midi";
 	}
-	
+
 	@Override
 	public TGFileFormat getFileFormat() {
 		return new TGFileFormat("Midi","*.mid;*.midi");
 	}
-	
+
 	@Override
 	public boolean configure(boolean setDefaults) {
 		this.settings = (setDefaults ? MidiSettings.getDefaults(): new MidiSettingsDialog().open() );
 		return (this.settings != null);
 	}
-	
+
 	@Override
 	public void init(TGFactory factory,OutputStream stream){
 		this.stream = stream;
 	}
-	
+
 	@Override
 	public void exportSong(TGSong song) {
 		if( this.stream != null && this.settings != null ){

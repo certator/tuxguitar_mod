@@ -14,7 +14,7 @@ public class MiPort
 {
 	private MidiDevice	f_Device;
 	private Transmitter	f_Transmitter;
-	
+
 	private static MiPort	s_NotesPort;
 	private static MiPort	s_ControlPort;
 
@@ -150,10 +150,10 @@ public class MiPort
 	/*
 	 *	javax.sound.midi.Receiver implementation
 	 */
-	
+
 	@Override
 	public void close()
-	{	
+	{
 	}
 
 
@@ -163,7 +163,7 @@ public class MiPort
 	if(inMessage instanceof ShortMessage)
 		{
 		ShortMessage	mm = (ShortMessage)inMessage;
-		
+
 		switch(mm.getCommand())
 			{
 			case ShortMessage.NOTE_ON:

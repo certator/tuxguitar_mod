@@ -14,16 +14,16 @@ import org.herac.tuxguitar.app.tools.browser.base.TGBrowser;
 import org.herac.tuxguitar.app.tools.browser.base.TGBrowserElement;
 
 public class TGBrowserImpl extends TGBrowser{
-	
+
 	private final TGBrowserDataImpl data;
-	private String root; 
-	private String path; 
+	private String root;
+	private String path;
 	private TGBrowserFTPClient client;
-	
+
 	public TGBrowserImpl(TGBrowserDataImpl data){
 		this.data = data;
 	}
-	
+
 	private String getRoot(){
 		if(this.root == null){
 			this.root = "/";
@@ -36,7 +36,7 @@ public class TGBrowserImpl extends TGBrowser{
 		}
 		return this.root;
 	}
-	
+
 	@Override
 	public void open() throws TGBrowserException{
 		try {
@@ -50,7 +50,7 @@ public class TGBrowserImpl extends TGBrowser{
 		}
 	}
 
-	
+
 	@Override
 	public void close() throws TGBrowserException{
 		try {
@@ -60,7 +60,7 @@ public class TGBrowserImpl extends TGBrowser{
 			throw new TGBrowserException(throwable);
 		}
 	}
-	
+
 	@Override
 	public void cdElement(TGBrowserElement element) throws TGBrowserException {
 		try {
@@ -72,7 +72,7 @@ public class TGBrowserImpl extends TGBrowser{
 			throw new TGBrowserException(throwable);
 		}
 	}
-	
+
 	@Override
 	public void cdRoot() throws TGBrowserException {
 		try {
@@ -82,7 +82,7 @@ public class TGBrowserImpl extends TGBrowser{
 			throw new TGBrowserException(throwable);
 		}
 	}
-	
+
 	@Override
 	public void cdUp() throws TGBrowserException {
 		try {
@@ -92,7 +92,7 @@ public class TGBrowserImpl extends TGBrowser{
 			throw new TGBrowserException(throwable);
 		}
 	}
-	
+
 	@Override
 	public List<TGBrowserElement> listElements() throws TGBrowserException {
 		List<TGBrowserElement> elements = new ArrayList<TGBrowserElement>();
@@ -100,11 +100,11 @@ public class TGBrowserImpl extends TGBrowser{
 			this.client.binary();
 			String[] names = this.client.listNames();
 			String[] infos = this.client.listDetails();
-			
+
 			if(names.length > 0 && infos.length > 0){
 				for(int i = 0;i < names.length;i++){
 					String name = names[i].trim();
-					
+
 					if(name.indexOf(this.path) == 0 && name.length() > this.path.length()){
 						name = name.substring(this.path.length());
 					}
@@ -130,20 +130,20 @@ public class TGBrowserImpl extends TGBrowser{
 		}
 		return elements;
 	}
-	
+
 	public InputStream getInputStream(String path,TGBrowserElement element)throws TGBrowserException {
 		try {
 			this.client.cd(path);
 			this.client.binary();
-			
+
 			byte[] bytes = this.client.get(element.getName());
-			
+
 			return new ByteArrayInputStream( bytes );
 		} catch (Throwable throwable) {
 			throw new TGBrowserException(throwable);
 		}
 	}
-	
+
 	private void checkForProxy() {
 		if (this.data.getProxyHost() != null && this.data.getProxyPort() > 0) {
 			System.setProperty("socksProxyHost", this.data.getProxyHost());

@@ -39,16 +39,16 @@ public class GP5InputStream extends GTPInputStream {
 	private static final float GP_BEND_POSITION = 60f;
 
 	private int keySignature;
-	
+
 	public GP5InputStream(GTPSettings settings) {
 		super(settings, supportedVersions);
 	}
-	
+
 	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("Guitar Pro 5","*.gp5");
 	}
-	
+
 	@Override
 	public TGSong readSong() throws IOException, GTPFormatException {
 		readVersion();
@@ -57,42 +57,42 @@ public class GP5InputStream extends GTPInputStream {
 			throw new GTPFormatException("Unsupported Version");
 		}
 		TGSong song = getFactory().newSong();
-		
+
 		readInfo(song);
-		
+
 		//lyrics
 		int lyricTrack = readInt();
 		TGLyric lyric = readLyrics();
-		
+
 		readPageSetup();
-		
+
 		int tempoValue = readInt();
-		
+
 		if(getVersionIndex() > 0){
 			skip(1);
 		}
-		
+
 		this.keySignature = readKeySignature();
 		this.skip(3);
-		
+
 		readByte(); //octave
-		
+
 		List<TGChannel> channels = readChannels();
-		
+
 		skip(42);
-		
+
 		int measures = readInt();
 		int tracks = readInt();
-		
+
 		readMeasureHeaders(song, measures);
 		readTracks(song, tracks, channels, lyric, lyricTrack);
 		readMeasures(song, measures, tracks, tempoValue);
-		
+
 		this.close();
-		
+
 		return song;
 	}
-	
+
 	private void readInfo(TGSong song) throws IOException{
 		song.setName(readStringByteSizeOfInteger());
 		readStringByteSizeOfInteger();
@@ -108,7 +108,7 @@ public class GP5InputStream extends GTPInputStream {
 			song.setComments( song.getComments() + readStringByteSizeOfInteger() );
 		}
 	}
-	
+
 	private void readPageSetup() throws IOException{
 		skip( (getVersionIndex() > 0 ?49 : 30 ) );
 		for (int i = 0; i < 11; i++) {
@@ -116,7 +116,7 @@ public class GP5InputStream extends GTPInputStream {
 			readStringByte(0);
 		}
 	}
-	
+
 	private void readMeasureHeaders(TGSong song, int count) throws IOException{
 		TGTimeSignature timeSignature = getFactory().newTimeSignature();
 		for (int i = 0; i < count; i++) {
@@ -126,14 +126,14 @@ public class GP5InputStream extends GTPInputStream {
 			song.addMeasureHeader(readMeasureHeader(i,timeSignature));
 		}
 	}
-	
+
 	private void readTracks(TGSong song, int count, List<TGChannel> channels,TGLyric lyric, int lyricTrack) throws IOException{
 		for (int number = 1; number <= count; number++) {
 			song.addTrack(readTrack(song,number, channels,(number == lyricTrack)?lyric:getFactory().newLyric()));
 		}
 		skip( (getVersionIndex() == 0 ? 2 : 1) );
 	}
-	
+
 	private void readMeasures(TGSong song, int measures, int tracks, int tempoValue) throws IOException{
 		TGTempo tempo = getFactory().newTempo();
 		tempo.setValue(tempoValue);
@@ -152,7 +152,7 @@ public class GP5InputStream extends GTPInputStream {
 			start += header.getLength();
 		}
 	}
-	
+
 	private TGLyric readLyrics() throws IOException{
 		TGLyric lyric = getFactory().newLyric();
 		lyric.setFrom(readInt());
@@ -163,10 +163,10 @@ public class GP5InputStream extends GTPInputStream {
 		}
 		return lyric;
 	}
-	
+
 	private long readBeat(long start, TGMeasure measure, TGTrack track, TGTempo tempo, int voiceIndex) throws IOException{
 		int flags = readUnsignedByte();
-		
+
 		TGBeat beat = getBeat(measure, start);
 		TGVoice voice = beat.getVoice(voiceIndex);
 		if((flags & 0x40) != 0){
@@ -196,18 +196,18 @@ public class GP5InputStream extends GTPInputStream {
 			}
 			duration.copy(voice.getDuration());
 		}
-		
+
 		skip(1);
-		
+
 		int read = readByte();
 		//if (read == 8 || read == 10 || read == 24 ) {
 		if( (read & 0x08) != 0 ){
 			skip(1);
 		}
-		
+
 		return (!voice.isEmpty() ? duration.getTime() : 0 );
 	}
-	
+
 	private List<TGChannel> readChannels() throws IOException{
 		List<TGChannel> channels = new ArrayList<TGChannel>();
 		for (int i = 0; i < 64; i++) {
@@ -226,13 +226,13 @@ public class GP5InputStream extends GTPInputStream {
 		}
 		return channels;
 	}
-	
+
 	private void readText(TGBeat beat) throws IOException{
 		TGText text = getFactory().newText();
 		text.setValue(readStringByteSizeOfInteger());
 		beat.setText(text);
 	}
-	
+
 	private TGDuration readDuration(int flags) throws IOException {
 		TGDuration duration = getFactory().newDuration();
 		duration.setValue( (int) (Math.pow( 2 , (readByte() + 4) ) / 4 ) );
@@ -280,7 +280,7 @@ public class GP5InputStream extends GTPInputStream {
 		}
 		return duration;
 	}
-	
+
 	private int getTiedNoteValue(int string, TGTrack track) {
 		int measureCount = track.countMeasures();
 		if (measureCount > 0) {
@@ -304,14 +304,14 @@ public class GP5InputStream extends GTPInputStream {
 		}
 		return -1;
 	}
-	
+
 	private void readColor(TGColor color) throws IOException {
 		color.setR(readUnsignedByte());
 		color.setG(readUnsignedByte());
 		color.setB(readUnsignedByte());
 		skip(1);
 	}
-	
+
 	private TGMarker readMarker(int measure) throws IOException {
 		TGMarker marker = getFactory().newMarker();
 		marker.setMeasure(measure);
@@ -319,7 +319,7 @@ public class GP5InputStream extends GTPInputStream {
 		readColor(marker.getColor());
 		return marker;
 	}
-	
+
 	private TGMeasureHeader readMeasureHeader(int index,TGTimeSignature timeSignature) throws IOException {
 		int flags = readUnsignedByte();
 		TGMeasureHeader header = getFactory().newHeader();
@@ -366,7 +366,7 @@ public class GP5InputStream extends GTPInputStream {
 		}
 		return header;
 	}
-	
+
 	private void readMeasure(TGMeasure measure, TGTrack track, TGTempo tempo) throws IOException {
 		for( int voice = 0 ; voice < 2 ; voice ++ ){
 			long start = measure.getStart();
@@ -375,7 +375,7 @@ public class GP5InputStream extends GTPInputStream {
 				start += readBeat(start, measure, track, tempo, voice);
 			}
 		}
-		
+
 		List<TGBeat> emptyBeats = new ArrayList<TGBeat>();
 		for( int i = 0 ; i < measure.countBeats() ; i ++ ){
 			TGBeat beat = measure.getBeat( i );
@@ -397,7 +397,7 @@ public class GP5InputStream extends GTPInputStream {
 		measure.setClef( getClef(track) );
 		measure.setKeySignature(this.keySignature);
 	}
-	
+
 	private TGNote readNote(TGString string,TGTrack track,TGNoteEffect effect)throws IOException {
 		int flags = readUnsignedByte();
 		TGNote note = getFactory().newNote();
@@ -431,7 +431,7 @@ public class GP5InputStream extends GTPInputStream {
 		}
 		return note;
 	}
-	
+
 	private TGTrack readTrack(TGSong song, int number, List<TGChannel> channels,TGLyric lyrics) throws IOException {
 		readUnsignedByte();
 		if(number ==  1 || getVersionIndex() == 0){
@@ -463,13 +463,13 @@ public class GP5InputStream extends GTPInputStream {
 		}
 		return track;
 	}
-	
+
 	private void readChannel(TGSong song, TGTrack track,List<TGChannel> channels) throws IOException {
 		int index = (readInt() - 1);
 		int effectChannel = (readInt() - 1);
 		if(index >= 0 && index < channels.size()){
 			TGChannel channel = getFactory().newChannel();
-			
+
 			channels.get(index).copy(channel);
 			if (channel.getProgram() < 0) {
 				channel.setProgram((short)0);
@@ -477,7 +477,7 @@ public class GP5InputStream extends GTPInputStream {
 			if(!channel.isPercussionChannel()){
 				channel.setEffectChannel((short)effectChannel);
 			}
-			
+
 			//------------------------------------------//
 			for( int i = 0 ; i < song.countChannels() ; i ++ ){
 				TGChannel channelAux = song.getChannel(i);
@@ -493,7 +493,7 @@ public class GP5InputStream extends GTPInputStream {
 			track.setChannelId(channel.getChannelId());
 		}
 	}
-	
+
 	private void readChord(int strings,TGBeat beat) throws IOException{
 		TGChord chord = getFactory().newChord(strings);
 		this.skip(17);
@@ -511,7 +511,7 @@ public class GP5InputStream extends GTPInputStream {
 			beat.setChord(chord);
 		}
 	}
-	
+
 	private void readBeatEffects(TGBeat beat, TGNoteEffect noteEffect) throws IOException {
 		int flags1 = readUnsignedByte();
 		int flags2 = readUnsignedByte();
@@ -535,13 +535,13 @@ public class GP5InputStream extends GTPInputStream {
 			}else if( strokeDown > 0 ){
 				beat.getStroke().setDirection( TGStroke.STROKE_DOWN );
 				beat.getStroke().setValue( toStrokeValue(strokeDown) );
-			} 
+			}
 		}
 		if ((flags2 & 0x02) != 0) {
 			readByte();
 		}
 	}
-	
+
 	private void readNoteEffects(TGNoteEffect noteEffect) throws IOException {
 		int flags1 = readUnsignedByte();
 		int flags2 = readUnsignedByte();
@@ -570,7 +570,7 @@ public class GP5InputStream extends GTPInputStream {
 		noteEffect.setPalmMute(((flags2 & 0x02) != 0));
 		noteEffect.setStaccato(((flags2 & 0x01) != 0));
 	}
-	
+
 	private void readGrace(TGNoteEffect effect) throws IOException {
 		int fret = readUnsignedByte();
 		int dynamic = readUnsignedByte();
@@ -597,7 +597,7 @@ public class GP5InputStream extends GTPInputStream {
 		}
 		effect.setGrace(grace);
 	}
-	
+
 	private void readBend(TGNoteEffect effect) throws IOException {
 		skip(5);
 		TGEffectBend bend = getFactory().newEffectBend();
@@ -606,7 +606,7 @@ public class GP5InputStream extends GTPInputStream {
 			int bendPosition = readInt();
 			int bendValue = readInt();
 			readByte();
-			
+
 			int pointPosition = Math.round(bendPosition * TGEffectBend.MAX_POSITION_LENGTH / GP_BEND_POSITION);
 			int pointValue = Math.round(bendValue * TGEffectBend.SEMITONE_LENGTH / GP_BEND_SEMITONE);
 			bend.addPoint(pointPosition,pointValue);
@@ -615,7 +615,7 @@ public class GP5InputStream extends GTPInputStream {
 			effect.setBend(bend);
 		}
 	}
-	
+
 	private void readTremoloBar(TGNoteEffect effect) throws IOException {
 		skip(5);
 		TGEffectTremoloBar tremoloBar = getFactory().newEffectTremoloBar();
@@ -624,7 +624,7 @@ public class GP5InputStream extends GTPInputStream {
 			int position = readInt();
 			int value = readInt();
 			readByte();
-			
+
 			int pointPosition = Math.round(position * TGEffectTremoloBar.MAX_POSITION_LENGTH / GP_BEND_POSITION);
 			int pointValue = Math.round(value / (GP_BEND_SEMITONE * 2f));
 			tremoloBar.addPoint(pointPosition,pointValue);
@@ -633,7 +633,7 @@ public class GP5InputStream extends GTPInputStream {
 			effect.setTremoloBar(tremoloBar);
 		}
 	}
-	
+
 	private void readTrill(TGNoteEffect effect) throws IOException{
 		byte fret = readByte();
 		byte period = readByte();
@@ -650,7 +650,7 @@ public class GP5InputStream extends GTPInputStream {
 			effect.setTrill(trill);
 		}
 	}
-	
+
 	private void readArtificialHarmonic(TGNoteEffect effect) throws IOException{
 		int type = readByte();
 		TGEffectHarmonic harmonic = getFactory().newEffectHarmonic();
@@ -674,7 +674,7 @@ public class GP5InputStream extends GTPInputStream {
 			effect.setHarmonic(harmonic);
 		}
 	}
-	
+
 	public void readTremoloPicking(TGNoteEffect effect) throws IOException{
 		int value = readUnsignedByte();
 		TGEffectTremoloPicking tp = getFactory().newEffectTremoloPicking();
@@ -689,10 +689,10 @@ public class GP5InputStream extends GTPInputStream {
 			effect.setTremoloPicking(tp);
 		}
 	}
-	
+
 	private void readMixChange(TGTempo tempo) throws IOException {
 		readByte(); //instrument
-		
+
 		skip(16);
 		int volume = readByte();
 		int pan = readByte();
@@ -734,17 +734,17 @@ public class GP5InputStream extends GTPInputStream {
 			readStringByteSizeOfInteger();
 		}
 	}
-	
+
 	private int readKeySignature() throws IOException {
-		// 0: C 1: G, -1: F		
+		// 0: C 1: G, -1: F
 		int keySignature = readByte();
 		if (keySignature < 0){
 			keySignature = 7 - keySignature; // translate -1 to 8, etc.
 		}
-		
+
 		return keySignature;
 	}
-	
+
 	private int toStrokeValue( int value ){
 		if( value == 1 || value == 2){
 			return TGDuration.SIXTY_FOURTH;
@@ -763,12 +763,12 @@ public class GP5InputStream extends GTPInputStream {
 		}
 		return TGDuration.SIXTY_FOURTH;
 	}
-	
+
 	private short toChannelShort(byte b){
 		short value = (short)(( b * 8 ) - 1);
 		return (short)Math.max(value,0);
 	}
-	
+
 	private int getClef( TGTrack track ){
 		if(!isPercussionChannel(track.getSong(),track.getChannelId())){
 			Iterator<TGString> it = track.getStrings().iterator();
@@ -781,7 +781,7 @@ public class GP5InputStream extends GTPInputStream {
 		}
 		return TGMeasure.CLEF_TREBLE;
 	}
-	
+
 	private TGBeat getBeat(TGMeasure measure, long start){
 		int count = measure.countBeats();
 		for(int i = 0 ; i < count ; i ++ ){
@@ -795,7 +795,7 @@ public class GP5InputStream extends GTPInputStream {
 		measure.addBeat(beat);
 		return beat;
 	}
-	
+
 	private boolean isPercussionChannel( TGSong song, int channelId ){
 		Iterator<TGChannel> it = song.getChannels();
 		while( it.hasNext() ){

@@ -21,7 +21,7 @@ public class TGShareSong {
 	public TGShareSong( ) {
 		super();
 	}
-	
+
 	public void process( TGSong song ) {
 		try {
 			TGShareFile file = new TGShareFile();
@@ -31,7 +31,7 @@ public class TGShareSong {
 			MessageDialog.errorMessage(throwable);
 		}
 	}
-	
+
 	public void processDialog( final TGShareFile file , final String errors ) {
 		try {
 			TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
@@ -48,7 +48,7 @@ public class TGShareSong {
 			MessageDialog.errorMessage(throwable);
 		}
 	}
-	
+
 	public void processAuthDialog( final TGShareFile file ) {
 		try {
 			TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {
@@ -65,10 +65,10 @@ public class TGShareSong {
 			MessageDialog.errorMessage(throwable);
 		}
 	}
-	
+
 	public void processUpload( final TGShareFile file ) {
 		this.setActiveMode();
-		
+
 		new Thread( new Runnable() {
 			@Override
 			public void run() {
@@ -81,10 +81,10 @@ public class TGShareSong {
 			}
 		} ).start();
 	}
-	
+
 	public void processResult( TGShareSongResponse response, TGShareFile file ){
 		this.setPasiveMode();
-		
+
 		try {
 			String status = response.getStatus();
 			if( status != null && status.equals(TGShareSongConnection.HTTP_STATUS_OK) ){
@@ -110,7 +110,7 @@ public class TGShareSong {
 			MessageDialog.errorMessage(throwable);
 		}
 	}
-	
+
 	private byte[] getSongBytes( TGSong song ) throws Throwable {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		TGOutputStreamBase tgStream = new TGOutputStream();
@@ -119,13 +119,13 @@ public class TGShareSong {
 		out.close();
 		return out.toByteArray();
 	}
-	
+
 	public void setActiveMode(){
 		TuxGuitar.instance().lock();
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_WAIT);
 		ActionLock.lock();
 	}
-	
+
 	public void setPasiveMode(){
 		ActionLock.unlock();
 		TuxGuitar.instance().loadCursor(SWT.CURSOR_ARROW);

@@ -12,7 +12,7 @@ import org.herac.tuxguitar.app.util.MessageDialog;
  *
  */
 public class TGTunerSettings {
-	
+
 	protected int sampleSize;
 	protected float sampleRate;
 	protected String deviceName;
@@ -23,9 +23,9 @@ public class TGTunerSettings {
 	static final int DEFAULT_BUFFER_SIZE = 4096; // 2^12
 	static final int DEFAULT_FFT_SIZE = 16384; // 2^14
 	static final int CHANNELS_NUMBER = 1;
-	
-	
-	
+
+
+
 	/** default settings, if faild to load from properties */
 	public static TGTunerSettings getDefaults() {
 		TGTunerSettings retValue = new TGTunerSettings();
@@ -38,8 +38,8 @@ public class TGTunerSettings {
 		return retValue;
 	}
 
-	
-	
+
+
 	/** gets dataline from format specification */
 	protected static TargetDataLine getDataLine(TGTunerSettings settings) throws TGTuner.TGTunerException {
 		TargetDataLine	targetDataLine = null;
@@ -47,18 +47,18 @@ public class TGTunerSettings {
 		if (settings!=null) {
 			// get info for initialization
 			DataLine.Info info = settings.getDataLineInfo();
-			
+
 			try {
-				
+
 				targetDataLine = (TargetDataLine)AudioSystem.getLine(info);
-				
+
 			} catch (Exception ex) {
 				MessageDialog.errorMessage(ex);
 			}
 		}
-		else 
+		else
 			throw new TGTuner.TGTunerException("Could not retrieve data from the input. Check your system device settings.");
-		
+
 		return targetDataLine;
 	}
 
@@ -66,7 +66,7 @@ public class TGTunerSettings {
 	protected DataLine.Info getDataLineInfo() {
 				return new DataLine.Info(TargetDataLine.class,
 													this.getAudioFormat(), this.getBufferSize());
-				
+
 	}
 
 	/** creates AudioFormat based on settings */
@@ -97,28 +97,28 @@ public class TGTunerSettings {
 		// TODO: adjust size in TGTuner also then
 		this.bufferSize = bufferSize;
 	}
-	
+
 	public int getFFTSize() {
 		return this.fftSize;
 	}
 	public void setFFTSize(int size) {
 		this.fftSize = size;
 	}
-	
-	
-	
+
+
+
 	public float getSampleRate() {
 		return this.sampleRate;
 	}
-	
+
 	public double getTreshold() {
 		return this.treshold;
 	}
-	
+
 	public void setTreshold(double nt) {
 		this.treshold = nt;
 	}
-	
+
 	public void setSampleRate(float sampleRate) {
 		this.sampleRate = sampleRate;
 	}
@@ -143,11 +143,11 @@ public class TGTunerSettings {
 		//return null;
 	}
 
-	
-	
-	
+
+
+
 	/* MAYBE USEFUL CODE
-	 * 
+	 *
 	 * Port lineIn;
 FloatControl volCtrl;
 try {
@@ -156,7 +156,7 @@ try {
   lineIn.open();
   volCtrl = (FloatControl) lineIn.getControl(
       FloatControl.Type.VOLUME);
-  // Assuming getControl call succeeds, 
+  // Assuming getControl call succeeds,
   // we now have our LINE_IN VOLUME control.
 } catch (Exception e) {
   System.out.println("Failed trying to find LINE_IN"
@@ -165,8 +165,8 @@ try {
 float newValue = 2.0F;
 if (volCtrl != null)
   // This changes the volume of the signal flowing though the line that "owns" the control.
-  volCtrl.setValue(newValue); 
-	 * 
+  volCtrl.setValue(newValue);
+	 *
 	 */
-	
+
 }

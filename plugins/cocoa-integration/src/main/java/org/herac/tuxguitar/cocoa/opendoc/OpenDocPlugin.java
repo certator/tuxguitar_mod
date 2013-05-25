@@ -4,19 +4,19 @@ import org.herac.tuxguitar.app.system.plugins.TGPluginException;
 import org.herac.tuxguitar.app.system.plugins.base.TGPluginAdapter;
 
 public class OpenDocPlugin extends TGPluginAdapter {
-	
+
 	private OpenDocListener openDocListener;
-	
+
 	@Override
 	public void init() throws TGPluginException {
 		// Nothing todo
 	}
-	
+
 	@Override
 	public void close() throws TGPluginException {
 		// Nothing todo
 	}
-	
+
 	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		try {

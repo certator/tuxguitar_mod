@@ -22,29 +22,29 @@ import org.herac.tuxguitar.app.util.DialogUtils;
 import org.herac.tuxguitar.util.TGSynchronizer;
 
 public class TGConverterProcess implements TGConverterListener,LanguageLoader,IconLoader{
-	
+
 	private static final int SHELL_WIDTH = 650;
 	private static final int SHELL_HEIGHT = 350;
-	
+
 	protected static final String EOL = ("\n");
-	
+
 	protected static final Color COLOR_INFO  = TuxGuitar.instance().getDisplay().getSystemColor(SWT.COLOR_BLUE);
 	protected static final Color COLOR_ERROR = TuxGuitar.instance().getDisplay().getSystemColor(SWT.COLOR_RED );
-	
+
 	protected Shell dialog;
 	protected StyledText output;
 	protected Button buttonCancel;
 	protected Button buttonClose;
 	protected TGConverter converter;
 	protected boolean finished;
-	
+
 	public void start(final String initFolder,String destFolder, TGConverterFormat format ){
 		this.converter = new TGConverter(initFolder,destFolder);
 		this.converter.setFormat(format);
 		this.converter.setListener(this);
-		
+
 		this.showProcess();
-		
+
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -52,10 +52,10 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 			}
 		}).start();
 	}
-	
+
 	protected void showProcess() {
 		this.finished = false;
-		
+
 		this.dialog = DialogUtils.newDialog(TuxGuitar.instance().getShell(),SWT.SHELL_TRIM);
 		this.dialog.setLayout(new GridLayout());
 		this.dialog.setSize( SHELL_WIDTH , SHELL_HEIGHT );
@@ -72,20 +72,20 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 				e.doit = TGConverterProcess.this.finished;
 			}
 		});
-		
+
 		Composite composite = new Composite(this.dialog,SWT.NONE);
 		composite.setLayout(new GridLayout());
 		composite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		this.output = new StyledText(composite,SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		this.output.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		this.output.setEditable(false);
-		
+
 		//------------------BUTTONS--------------------------
 		Composite buttons = new Composite(this.dialog, SWT.NONE);
 		buttons.setLayout(new GridLayout(2,false));
 		buttons.setLayoutData(new GridData(SWT.RIGHT,SWT.BOTTOM,true,false));
-		
+
 		this.buttonCancel = new Button(buttons, SWT.PUSH);
 		this.buttonCancel.setEnabled( false );
 		this.buttonCancel.setLayoutData(getButtonsData());
@@ -95,7 +95,7 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 				TGConverterProcess.this.converter.setCancelled( true );
 			}
 		});
-		
+
 		this.buttonClose = new Button(buttons, SWT.PUSH);
 		this.buttonClose.setEnabled( false );
 		this.buttonClose.setLayoutData(getButtonsData());
@@ -105,32 +105,32 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 				TGConverterProcess.this.dialog.dispose();
 			}
 		});
-		
+
 		this.loadIcons(false);
 		this.loadProperties(false);
-		
+
 		TuxGuitar.instance().getIconManager().addLoader( this );
 		TuxGuitar.instance().getLanguageManager().addLoader( this );
-		
+
 		DialogUtils.openDialog(this.dialog, DialogUtils.OPEN_STYLE_CENTER);
 	}
-	
+
 	private GridData getButtonsData(){
 		GridData data = new GridData(SWT.FILL,SWT.FILL,true,true);
 		data.minimumWidth = 80;
 		data.minimumHeight = 25;
 		return data;
 	}
-	
+
 	public boolean isDisposed(){
 		return (this.dialog == null || this.dialog.isDisposed() );
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		this.loadProperties(true);
 	}
-	
+
 	public void loadProperties(boolean layout){
 		if(!isDisposed()){
 			this.dialog.setText(TuxGuitar.getProperty("batch.converter"));
@@ -141,12 +141,12 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 			}
 		}
 	}
-	
+
 	@Override
 	public void loadIcons() {
 		this.loadIcons(true);
 	}
-	
+
 	public void loadIcons(boolean layout){
 		if(!isDisposed()){
 			this.dialog.setImage(TuxGuitar.instance().getIconManager().getAppIcon());
@@ -155,11 +155,11 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 			}
 		}
 	}
-	
+
 	//------------------------------------------------------------------------------------------------//
 	//---TGConverterListener Implementation ----------------------------------------------------------//
 	//------------------------------------------------------------------------------------------------//
-	
+
 	@Override
 	public void notifyFileProcess(final String filename) {
 		if(!isDisposed() ){
@@ -178,7 +178,7 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 			}
 		}
 	}
-	
+
 	@Override
 	public void notifyFileResult(final String filename, final int result) {
 		if(!isDisposed() ){
@@ -197,7 +197,7 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 			}
 		}
 	}
-	
+
 	@Override
 	public void notifyStart() {
 		if(!isDisposed() ){
@@ -218,7 +218,7 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 			}
 		}
 	}
-	
+
 	@Override
 	public void notifyFinish() {
 		if(!isDisposed() ){
@@ -239,10 +239,10 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 			}
 		}
 	}
-	
+
 	protected void appendLogMessage(int result, String fileName) {
 		String message = (TuxGuitar.getProperty( "batch.converter.messages." + (result == TGConverter.FILE_OK ? "ok" : "failed") ) + EOL);
-		
+
 		switch (result) {
 			case TGConverter.FILE_COULDNT_WRITE :
 				message += ( TuxGuitar.getProperty("batch.converter.messages.couldnt-write", new String[] {fileName}) + EOL );
@@ -263,12 +263,12 @@ public class TGConverterProcess implements TGConverterListener,LanguageLoader,Ic
 				message += ( TuxGuitar.getProperty("batch.converter.messages.unknown-error", new String[] {fileName}) + EOL );
 				break;
 		}
-		
+
 		StyleRange range = new StyleRange();
 		range.foreground = ( result == TGConverter.FILE_OK ? TGConverterProcess.COLOR_INFO : TGConverterProcess.COLOR_ERROR );
 		range.start = TGConverterProcess.this.output.getCharCount();
 		range.length = message.length();
-		
+
 		TGConverterProcess.this.output.append( message );
 		TGConverterProcess.this.output.setStyleRange(range);
 	}

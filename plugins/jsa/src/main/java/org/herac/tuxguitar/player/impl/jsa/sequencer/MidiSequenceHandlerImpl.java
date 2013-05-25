@@ -11,17 +11,17 @@ import org.herac.tuxguitar.song.models.TGDuration;
 import org.herac.tuxguitar.song.models.TGTimeSignature;
 
 public class MidiSequenceHandlerImpl extends MidiSequenceHandler{
-	
+
 	private MidiSequenceLoader loader;
 	private Sequence sequence;
 	private Track[] midiTracks;
-	
+
 	public MidiSequenceHandlerImpl(MidiSequenceLoader loader,int tracks){
 		super(tracks);
 		this.loader = loader;
 		this.init();
 	}
-	
+
 	private void init(){
 		try {
 			this.sequence = new Sequence(Sequence.PPQ,(int)TGDuration.QUARTER_TIME);
@@ -33,52 +33,52 @@ public class MidiSequenceHandlerImpl extends MidiSequenceHandler{
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Sequence getSequence(){
 		return this.sequence;
 	}
-	
+
 	public void addEvent(int track, MidiEvent event) {
 		if(track >= 0 && track < this.midiTracks.length){
 			this.midiTracks[track].add(event);
 		}
 	}
-	
+
 	@Override
 	public void addControlChange(long tick,int track,int channel, int controller, int value) {
 		addEvent(track,new MidiEvent(MidiMessageUtils.controlChange(channel, controller, value), tick ));
 	}
-	
+
 	@Override
 	public void addNoteOff(long tick,int track,int channel, int note, int velocity) {
 		addEvent(track,new MidiEvent(MidiMessageUtils.noteOff(channel, note, velocity), tick ));
 	}
-	
+
 	@Override
 	public void addNoteOn(long tick,int track,int channel, int note, int velocity) {
 		addEvent(track,new MidiEvent(MidiMessageUtils.noteOn(channel, note, velocity), tick ));
 	}
-	
+
 	@Override
 	public void addPitchBend(long tick,int track,int channel, int value) {
 		addEvent(track,new MidiEvent(MidiMessageUtils.pitchBend(channel, value), tick ));
 	}
-	
+
 	@Override
 	public void addProgramChange(long tick,int track,int channel, int instrument) {
 		addEvent(track,new MidiEvent(MidiMessageUtils.programChange(channel, instrument), tick ));
 	}
-	
+
 	@Override
 	public void addTempoInUSQ(long tick,int track,int usq) {
 		addEvent(track,new MidiEvent(MidiMessageUtils.tempoInUSQ(usq), tick ));
 	}
-	
+
 	@Override
 	public void addTimeSignature(long tick,int track,TGTimeSignature ts) {
 		addEvent(track,new MidiEvent(MidiMessageUtils.timeSignature(ts), tick ));
 	}
-	
+
 	@Override
 	public void notifyFinish(){
 		this.loader.setSequence(getSequence());

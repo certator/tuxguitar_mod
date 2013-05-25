@@ -8,11 +8,11 @@ import org.herac.tuxguitar.player.base.MidiOutputPortProvider;
 public class MidiPortReaderAudioUnit implements MidiOutputPortProvider{
 
 	private static final MidiReceiverImpl midiOut = new MidiReceiverImpl();
-	
+
 	public MidiPortReaderAudioUnit(){
 		super();
 	}
-	
+
 	@Override
 	public List<MidiOutputPort> listPorts() {
 		if(!midiOut.isOpen()){
@@ -22,8 +22,8 @@ public class MidiPortReaderAudioUnit implements MidiOutputPortProvider{
 	}
 
 	@Override
-	public void closeAll(){	
+	public void closeAll(){
 		midiOut.close();
 	}
-	
+
 }

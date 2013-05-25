@@ -25,7 +25,7 @@ import org.herac.tuxguitar.util.TGSynchronizer;
  *
  */
 public class TGTunerDialog implements TGTunerListener {
-	
+
 	private static final int SHELL_WIDTH = 400;
 	protected TGTuner tuner = null;
 	protected int[] tuning = null;
@@ -34,7 +34,7 @@ public class TGTunerDialog implements TGTunerListener {
 	protected TGTunerRoughWidget roughTuner = null;
 	protected ArrayList<TGTuningString> allStringButtons = null;
 	protected TGTunerFineWidget fineTuner = null;
-	
+
 	TGTunerDialog(int[] tuning) {
 		this.tuning = tuning;
 	}
@@ -48,20 +48,20 @@ public class TGTunerDialog implements TGTunerListener {
 		this.dialog.setText(TuxGuitar.getProperty("tuner.instrument-tuner"));
 		this.dialog.setMinimumSize(SHELL_WIDTH,SWT.DEFAULT);
 		this.dialog.setSize(700, 400);
-		
-		Group group = new Group(this.dialog,SWT.SHADOW_ETCHED_IN);            
+
+		Group group = new Group(this.dialog,SWT.SHADOW_ETCHED_IN);
 		group.setLayout(new GridLayout());
 		group.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		group.setText(TuxGuitar.getProperty("tuner.tuner"));
-		
+
 		Composite specialComposite = new Composite(group,SWT.NONE);
 		specialComposite.setLayout(new GridLayout(2,false));
 		specialComposite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
 		this.allStringButtons = new ArrayList<TGTuningString>(this.tuning.length);
-		
+
 		this.fineTuner = new TGTunerFineWidget(specialComposite);
-		
-		
+
+
 		Composite buttonsComposite = new Composite (specialComposite,SWT.NONE);
 		buttonsComposite.setLayout(new GridLayout(1,false));
 		buttonsComposite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
@@ -71,16 +71,16 @@ public class TGTunerDialog implements TGTunerListener {
 		Composite tunComposite = new Composite(group,SWT.NONE);
 		tunComposite.setLayout(new GridLayout(1,false));
 		tunComposite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		this.currentFrequency = new Label(tunComposite,SWT.LEFT);
 		this.currentFrequency.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		this.roughTuner = new TGTunerRoughWidget(group);
-		
+
 		Composite btnComposite = new Composite(group,SWT.NONE);
 		btnComposite.setLayout(new GridLayout(2,false));
 		btnComposite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
         final Button buttonSettings = new Button(btnComposite, SWT.PUSH);
         buttonSettings.setText(TuxGuitar.getProperty("settings"));
         buttonSettings.setLayoutData(getGridData(80,25));
@@ -91,7 +91,7 @@ public class TGTunerDialog implements TGTunerListener {
             	new TGTunerSettingsDialog(TGTunerDialog.this).show();
             }
         });
-        
+
         final Button buttonExit = new Button(btnComposite, SWT.PUSH);
         buttonExit.setText(TuxGuitar.getProperty("close"));
         buttonExit.setLayoutData(getGridData(80,25));
@@ -103,7 +103,7 @@ public class TGTunerDialog implements TGTunerListener {
             }
         });
 
-        
+
         // if closed on [X], set this.tuner.setCanceled(true);
         this.dialog.addDisposeListener(new DisposeListener() {
 			@Override
@@ -118,7 +118,7 @@ public class TGTunerDialog implements TGTunerListener {
         // start the tuner thread
         this.tuner = new TGTuner(this);
         this.getTuner().start();
-        
+
 	}
 
 	static GridData getGridData(int minimumWidth, int minimumHeight){
@@ -128,12 +128,12 @@ public class TGTunerDialog implements TGTunerListener {
 		return data;
 	}
 
-	
+
 	@Override
 	public void fireFrequency(final double freq) {
 		if (!this.dialog.isDisposed()) {
 			 try {
-				 TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {				
+				 TGSynchronizer.instance().addRunnable(new TGSynchronizer.TGRunnable() {
 					 @Override
 					public void run() {
 						if (!TGTunerDialog.this.dialog.isDisposed() && !TGTunerDialog.this.roughTuner.isDisposed()) {
@@ -150,11 +150,11 @@ public class TGTunerDialog implements TGTunerListener {
 		}
 	}
 
-	
+
 	public TGTuner getTuner() {
 		return this.tuner;
 	}
-	
+
 	@Override
 	public int[] getTuning() {
 		return this.tuning;
@@ -176,7 +176,7 @@ public class TGTunerDialog implements TGTunerListener {
 		}
 	}
 
-	
+
 	@Override
 	public void fireCurrentString(final int string) {
 		this.tuner.pause();
@@ -190,9 +190,9 @@ public class TGTunerDialog implements TGTunerListener {
 		}
 		this.tuner.resumeFromPause();
 	}
-	
-	
-	
+
+
+
 	protected void createTuningString(int midiNote, Composite parent) {
 		TGTuningString tempString = new TGTuningString(midiNote,parent,this);
 		this.allStringButtons.add(tempString);
@@ -209,7 +209,7 @@ public class TGTunerDialog implements TGTunerListener {
 			}
 		});
 		tempString.addListener();
-		
+
 	}
-	
+
 }

@@ -4,7 +4,7 @@ import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.util.TGSynchronizer;
 
 public class MacToolbarAction {
-	
+
 	protected static void toogleToolbar(){
 		try {
 			TGSynchronizer.instance().runLater(new TGSynchronizer.TGRunnable() {

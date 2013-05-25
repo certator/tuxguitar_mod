@@ -5,14 +5,14 @@ import org.herac.tuxguitar.app.system.plugins.TGPluginException;
 import org.herac.tuxguitar.app.system.plugins.base.TGPluginAdapter;
 
 public class MacToolbarPlugin extends TGPluginAdapter {
-	
+
 	private MacToolbar macToolbar;
-	
+
 	@Override
 	public void init() throws TGPluginException {
 		// Nothing todo
 	}
-	
+
 	@Override
 	public void close() throws TGPluginException {
 		try {
@@ -23,7 +23,7 @@ public class MacToolbarPlugin extends TGPluginAdapter {
 			throw new TGPluginException( throwable );
 		}
 	}
-	
+
 	@Override
 	public void setEnabled(boolean enabled) throws TGPluginException {
 		try {

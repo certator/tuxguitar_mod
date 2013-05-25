@@ -16,13 +16,13 @@ import org.herac.tuxguitar.song.models.TGMeasureHeader;
 import org.herac.tuxguitar.song.models.TGSong;
 
 public class SVGController implements TGController {
-	
+
 	private SVGExporterStyles tgStyles;
-	
+
 	private TGSongManager tgSongManager;
 	private TGResourceFactory tgResourceFactory;
 	private TGLayoutVertical tgLayout;
-	
+
 	public SVGController(SVGExporterStyles tgStyles){
 		this.tgStyles = tgStyles;
 		this.tgSongManager = new TGSongManager();
@@ -30,38 +30,38 @@ public class SVGController implements TGController {
 		this.tgResourceFactory = new SVGResourceFactory();
 		this.tgLayout = new TGLayoutVertical(this, this.tgStyles.getFlags() );
 	}
-	
+
 	@Override
 	public TGSongManager getSongManager() {
 		return this.tgSongManager;
 	}
-	
+
 	@Override
 	public TGResourceFactory getResourceFactory() {
 		return this.tgResourceFactory;
 	}
-	
+
 	public void load(TGSong song) throws TGFileFormatException {
 		this.tgSongManager.setSong(song);
 		this.tgLayout.loadStyles();
 		this.tgLayout.updateSong();
 	}
-	
-	public void write(StringBuffer svgBuffer) throws Throwable {		
+
+	public void write(StringBuffer svgBuffer) throws Throwable {
 		if( this.tgSongManager.getSong() != null ){
 			// Do a paint to calculate the document height.
 			TGRectangle svgBounds = new TGRectangle(0, 0, 960, 0 );
 			TGPainter svgPainter = new SVGPainter(new StringBuffer());
 			this.tgLayout.paint(svgPainter, svgBounds, 0, 0);
 			svgBounds.setHeight(this.tgLayout.getHeight());
-			
+
 			// Start of SVG document
 			svgBuffer.append("<svg width=\"" + svgBounds.getWidth() + "px\" height=\"" + svgBounds.getHeight() + "px\" xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">");
 			svgBuffer.append("\r\n");
-			
+
 			// Open the painter
 			svgPainter = new SVGPainter(svgBuffer);
-			
+
 			// Fill the background.
 			TGColor svgBackground = svgPainter.createColor(this.tgStyles.getStyles().getBackgroundColor());
 			svgPainter.setBackground(svgBackground);
@@ -69,19 +69,19 @@ public class SVGController implements TGController {
 			svgPainter.addRectangle(0, 0, svgBounds.getWidth(), svgBounds.getHeight());
 			svgPainter.closePath();
 			svgBackground.dispose();
-			
+
 			// Paint the TGSong
 			this.tgLayout.paint(svgPainter, svgBounds, 0, 0);
-			
+
 			// Closes the painter
 			svgPainter.dispose();
-			
+
 			// End of SVG document
 			svgBuffer.append("\r\n");
 			svgBuffer.append("</svg>");
 		}
 	}
-	
+
 	@Override
 	public void configureStyles(TGLayoutStyles styles) {
 		styles.setBufferEnabled( false );
@@ -120,27 +120,27 @@ public class SVGController implements TGController {
 		styles.setLoopSMarkerColor( this.tgStyles.getStyles().getLoopSMarkerColor());
 		styles.setLoopEMarkerColor( this.tgStyles.getStyles().getLoopEMarkerColor());
 	}
-	
+
 	@Override
 	public int getTrackSelection() {
 		return this.tgStyles.getTrack();
 	}
-	
+
 	@Override
 	public boolean isRunning(TGBeat beat) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isRunning(TGMeasure measure) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isLoopSHeader(TGMeasureHeader measureHeader) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isLoopEHeader(TGMeasureHeader measureHeader) {
 		return false;

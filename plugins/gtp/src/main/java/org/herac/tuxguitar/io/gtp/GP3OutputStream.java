@@ -38,7 +38,7 @@ import org.herac.tuxguitar.song.models.effects.TGEffectHarmonic;
 
 /**
  * @author julian
- * 
+ *
  * TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style - Code Templates
  */
 public class GP3OutputStream extends GTPOutputStream{
@@ -46,21 +46,21 @@ public class GP3OutputStream extends GTPOutputStream{
 	private static final String GP3_VERSION = "FICHIER GUITAR PRO v3.00";
 	private static final int GP_BEND_SEMITONE = 25;
 	private static final int GP_BEND_POSITION = 60;
-	
+
 	public GP3OutputStream(GTPSettings settings){
 		super(settings);
 	}
-	
+
 	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("Guitar Pro 3",("*" + GP3_FORMAT_EXTENSION));
 	}
-	
+
 	@Override
 	public boolean isSupportedExtension(String extension) {
 		return (extension.toLowerCase().equals(GP3_FORMAT_EXTENSION)) ;
 	}
-	
+
 	@Override
 	public void writeSong(TGSong song){
 		try {
@@ -84,7 +84,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void writeInfo(TGSong song) throws IOException{
 		List<String> comments = toCommentLines(song.getComments());
 		writeStringByteSizeOfInteger(song.getName());
@@ -100,7 +100,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			writeStringByteSizeOfInteger( comments.get(i) );
 		}
 	}
-	
+
 	private void writeChannels(TGSong song) throws IOException{
 		TGChannel[] channels = makeChannels(song);
 		for (int i = 0; i < channels.length; i++) {
@@ -114,7 +114,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			writeBytes(new byte[]{0,0});
 		}
 	}
-	
+
 	private void writeMeasureHeaders(TGSong song) throws IOException {
 		TGTimeSignature timeSignature = getFactory().newTimeSignature();
 		if (song.countMeasureHeaders() > 0) {
@@ -126,7 +126,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			}
 		}
 	}
-	
+
 	private void writeMeasures(TGSong song,TGTempo tempo) throws IOException{
 		for (int i = 0; i < song.countMeasureHeaders(); i++) {
 			TGMeasureHeader header = song.getMeasureHeader(i);
@@ -138,7 +138,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			header.getTempo().copy( tempo );
 		}
 	}
-	
+
 	private void writeMeasureHeader(TGMeasureHeader measure, TGTimeSignature timeSignature) throws IOException {
 		int flags = 0;
 		if (measure.getNumber() == 1 || measure.getTimeSignature().getNumerator() != timeSignature.getNumerator()) {
@@ -160,7 +160,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			flags |= 0x80;
 		}
 		writeUnsignedByte(flags);
-		
+
 		if ((flags & 0x01) != 0) {
 			writeByte((byte) measure.getTimeSignature().getNumerator());
 		}
@@ -174,23 +174,23 @@ public class GP3OutputStream extends GTPOutputStream{
 			writeMarker(measure.getMarker());
 		}
 	}
-	
+
 	private void writeTracks(TGSong song) throws IOException {
 		for (int i = 0; i < song.countTracks(); i++) {
 			TGTrack track = song.getTrack(i);
 			createTrack(track);
 		}
 	}
-	
+
 	private void createTrack(TGTrack track) throws IOException {
 		TGChannel channel = getChannel(track.getSong(), track);
-		
+
 		int flags = 0;
 		if (isPercussionChannel(track.getSong(),track.getChannelId())) {
 			flags |= 0x01;
 		}
 		writeUnsignedByte(flags);
-		
+
 		writeStringByte(track.getName(), 40);
 		writeInt(track.getStrings().size());
 		for (int i = 0; i < 7; i++) {
@@ -208,10 +208,10 @@ public class GP3OutputStream extends GTPOutputStream{
 		writeInt(Math.min(Math.max(track.getOffset(),0),12));
 		writeColor(track.getColor());
 	}
-	
+
 	private void writeMeasure(TGMeasure srcMeasure, boolean changeTempo) throws IOException {
 		TGMeasure measure = new GTPVoiceJoiner(getFactory(),srcMeasure).process();
-		
+
 		int beatCount = measure.countBeats();
 		writeInt(beatCount);
 		for (int i = 0; i < beatCount; i++) {
@@ -219,7 +219,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			writeBeat(beat, measure, ( changeTempo && i == 0 ) );
 		}
 	}
-	
+
 	private void writeBeat(TGBeat beat,TGMeasure measure, boolean changeTempo) throws IOException {
 		TGVoice voice = beat.getVoice(0);
 		TGDuration duration = voice.getDuration();
@@ -254,7 +254,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			}
 		}
 		writeUnsignedByte(flags);
-		
+
 		if ((flags & 0x40) != 0) {
 			writeUnsignedByte(2);
 		}
@@ -292,12 +292,12 @@ public class GP3OutputStream extends GTPOutputStream{
 			}
 		}
 	}
-	
+
 	private void writeNote(TGNote note) throws IOException {
 		int flags = ( 0x20 | 0x10 );
 		if(note.getEffect().isGhostNote()){
 			flags |= 0x04;
-		} 
+		}
 		if (note.getEffect().isBend() || note.getEffect().isGrace() || note.getEffect().isSlide() || note.getEffect().isHammer() || note.getEffect().isLetRing()) {
 			flags |= 0x08;
 		}
@@ -321,7 +321,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			writeNoteEffects(note.getEffect());
 		}
 	}
-	
+
 	private byte parseDuration(TGDuration duration) {
 		byte value = 0;
 		switch (duration.getValue()) {
@@ -349,11 +349,11 @@ public class GP3OutputStream extends GTPOutputStream{
 		}
 		return value;
 	}
-	
+
 	private void writeText(TGText text) throws IOException {
 		writeStringByteSizeOfInteger(text.getValue());
 	}
-	
+
 	private void writeBeatEffects(TGBeat beat, TGNoteEffect noteEffect) throws IOException {
 		int flags = 0;
 		if (noteEffect.isVibrato()) {
@@ -375,7 +375,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			flags += 0x10;
 		}
 		writeUnsignedByte(flags);
-		
+
 		if ((flags & 0x20) != 0) {
 			if (noteEffect.isTremoloBar()){
 				writeUnsignedByte(0);
@@ -399,7 +399,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			writeUnsignedByte( (beat.getStroke().getDirection() == TGStroke.STROKE_UP ? toStrokeValue(beat.getStroke()) : 0 ) );
 		}
 	}
-	
+
 	private void writeNoteEffects(TGNoteEffect effect) throws IOException {
 		int flags = 0;
 		if (effect.isBend()) {
@@ -418,7 +418,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			flags |= 0x10;
 		}
 		writeUnsignedByte(flags);
-		
+
 		if ((flags & 0x01) != 0) {
 			writeBend(effect.getBend());
 		}
@@ -426,7 +426,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			writeGrace(effect.getGrace());
 		}
 	}
-	
+
 	private void writeBend(TGEffectBend bend) throws IOException {
 		int points = bend.getPoints().size();
 		writeByte((byte) 1);
@@ -439,7 +439,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			writeByte((byte) 0);
 		}
 	}
-	
+
 	private void writeGrace(TGEffectGrace grace) throws IOException {
 		if(grace.isDead()){
 			writeUnsignedByte(0xff);
@@ -461,7 +461,7 @@ public class GP3OutputStream extends GTPOutputStream{
 		}
 		writeUnsignedByte(grace.getDuration());
 	}
-	
+
 	private void writeMixChange(TGTempo tempo) throws IOException {
 		for (int i = 0; i < 7; i++) {
 			writeByte((byte) -1);
@@ -469,19 +469,19 @@ public class GP3OutputStream extends GTPOutputStream{
 		writeInt(tempo.getValue());
 		writeByte((byte) 0);
 	}
-	
+
 	private void writeMarker(TGMarker marker) throws IOException {
 		writeStringByteSizeOfInteger(marker.getTitle());
 		writeColor(marker.getColor());
 	}
-	
+
 	private void writeColor(TGColor color) throws IOException {
 		writeUnsignedByte(color.getR());
 		writeUnsignedByte(color.getG());
 		writeUnsignedByte(color.getB());
 		writeByte((byte)0);
 	}
-	
+
 	private TGChannel[] makeChannels(TGSong song) {
 		TGChannel[] channels = new TGChannel[64];
 		for (int i = 0; i < channels.length; i++) {
@@ -496,7 +496,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			channels[i].setPhaser((short)0);
 			channels[i].setTremolo((short)0);
 		}
-		
+
 		Iterator<TGChannel> it = song.getChannels();
 		while (it.hasNext()) {
 			TGChannel tgChannel = it.next();
@@ -507,10 +507,10 @@ public class GP3OutputStream extends GTPOutputStream{
 			channels[tgChannel.getEffectChannel()].setVolume(tgChannel.getVolume());
 			channels[tgChannel.getEffectChannel()].setBalance(tgChannel.getBalance());
 		}
-		
+
 		return channels;
 	}
-	
+
 	private int toStrokeValue( TGStroke stroke ){
 		if( stroke.getValue() == TGDuration.SIXTY_FOURTH ){
 			return 2;
@@ -529,14 +529,14 @@ public class GP3OutputStream extends GTPOutputStream{
 		}
 		return 2;
 	}
-	
+
 	private byte toChannelByte(short s){
 		return  (byte) ((s + 1) / 8);
 	}
-	
+
 	private List<String> toCommentLines( String comments ){
 		List<String> lines = new ArrayList<String>();
-		
+
 		String line = comments;
 		while( line.length() > Byte.MAX_VALUE ) {
 			String subline = line.substring(0, Byte.MAX_VALUE);
@@ -544,7 +544,7 @@ public class GP3OutputStream extends GTPOutputStream{
 			line = line.substring( Byte.MAX_VALUE );
 		}
 		lines.add( line );
-		
+
 		return lines;
 	}
 }

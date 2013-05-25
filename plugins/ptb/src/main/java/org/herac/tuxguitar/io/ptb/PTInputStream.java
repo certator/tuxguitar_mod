@@ -21,34 +21,34 @@ import org.herac.tuxguitar.song.models.TGMeasureHeader;
 import org.herac.tuxguitar.song.models.TGSong;
 
 public class PTInputStream implements TGInputStreamBase{
-	
+
 	private static final String PTB_VERSION = "ptab-4";
-	
+
 	private InputStream stream;
 	private String version;
 	private PTSong song;
 	private PTSongParser parser;
-	
+
 	public PTInputStream(){
 		super();
 	}
-	
+
 	@Override
 	public void init(TGFactory factory,InputStream stream){
 		this.version = null;
 		this.stream = stream;
 		this.parser = new PTSongParser(factory);
 	}
-	
+
 	@Override
 	public TGFileFormat getFileFormat(){
 		return new TGFileFormat("PowerTab","*.ptb");
 	}
-	
+
 	public boolean isSupportedVersion(String version){
 		return (version.equals(PTB_VERSION));
 	}
-	
+
 	@Override
 	public boolean isSupportedVersion(){
 		try{
@@ -60,13 +60,13 @@ public class PTInputStream implements TGInputStreamBase{
 			return false;
 		}
 	}
-	
+
 	private void readVersion(){
 		if(this.version == null){
 			this.version = (readString(4) + "-" + readShort());
 		}
 	}
-	
+
 	@Override
 	public TGSong readSong() throws IOException{
 		this.readVersion();
@@ -78,10 +78,10 @@ public class PTInputStream implements TGInputStreamBase{
 		this.readDataInstruments(this.song.getTrack1());
 		this.readDataInstruments(this.song.getTrack2());
 		this.close();
-		
+
 		return this.parser.parseSong(this.song);
 	}
-	
+
 	private void readSongInfo(){
 		this.song.getInfo().setClassification(readByte());
 		if(this.song.getInfo().getClassification() == 0) {
@@ -124,7 +124,7 @@ public class PTInputStream implements TGInputStreamBase{
 			this.song.getInfo().setCopyright(readString());
 		}
 	}
-	
+
 	private void readDataInstruments(PTTrack track){
 		// Guitar section
 		int itemCount = readHeaderItems();
@@ -170,7 +170,7 @@ public class PTInputStream implements TGInputStreamBase{
 		itemCount = readHeaderItems();
 		for (int j = 0; j < itemCount; j++) {
 			readDynamic();
-			
+
 			if (j < itemCount - 1){
 				readShort();
 			}
@@ -192,7 +192,7 @@ public class PTInputStream implements TGInputStreamBase{
 			}
 		}
 	}
-	
+
 	private void readTrackInfo(PTTrack track){
 		PTTrackInfo info = new PTTrackInfo();
 		info.setNumber(readByte());
@@ -204,40 +204,40 @@ public class PTInputStream implements TGInputStreamBase{
 		info.setChorus((short)readByte());
 		info.setTremolo((short)readByte());
 		info.setPhaser((short)readByte());
-		
+
 		readByte();//capo
-		
+
 		// Tuning
 		readString();//tunningName
-		
+
 		//bit 7 = Music notation offset sign, bits 6 to 1 = Music notation offset value, bit 0 = display sharps or flats;
 		readByte();  //offset
-		
+
 		int[] strings = new int[ (readByte() & 0xff) ];
 		for (int i = 0; i < strings.length; i++) {
 			strings[i] = readByte();
 		}
 		info.setStrings(strings);
-		
+
 		track.getInfos().add(info);
 	}
-	
+
 	private void readSection(PTSection section){
 		readInt();//left
 		readInt();//top
 		readInt();//right
 		readInt();//bottom
-		
+
 		int lastBarData = readByte();
-		
+
 		readByte();
 		readByte();
 		readByte();
 		readByte();
-		
+
 		// BarLine
 		readBarLine(section);
-		
+
 		// Direction section
 		int itemCount = readHeaderItems();
 		for (int j = 0; j < itemCount; j++) {
@@ -282,14 +282,14 @@ public class PTInputStream implements TGInputStreamBase{
 		bar.setRepeatClose(((lastBarData >>> 5) == 4)?(lastBarData - 128):0);
 		section.getPosition(section.getNextPositionNumber()).addComponent(bar);
 	}
-	
+
 	private void readStaff(int staff,PTSection section){
 		readByte();
 		readByte();
 		readByte();
 		readByte();
 		readByte();
-		
+
 		for( int voice = 0 ; voice < 2 ; voice ++ ){
 			int itemCount = readHeaderItems();
 			for (int j = 0; j < itemCount; j++) {
@@ -300,33 +300,33 @@ public class PTInputStream implements TGInputStreamBase{
 			}
 		}
 	}
-	
+
 	private void readPosition(int staff,int voice,PTSection section){
 		PTBeat beat = new PTBeat(staff,voice);
-		
+
 		int position = readByte();
 		int beaming = readByte();
 		beaming = ((beaming - 128 < 0)?beaming:beaming - 128);
-		
+
 		readByte();
-		
+
 		int data1 = readByte();
 		readByte();
 		int data3 = readByte();
 		int durationValue = readByte();
-		
+
 		int multiBarRest = 1;
 		int complexCount = readByte();
 		for (int i = 0; i < complexCount; i++) {
 			int count = readShort();
 			readByte();
-			
+
 			int type = readByte();
 			if((type & 0x08) != 0){
 				multiBarRest = count;
 			}
 		}
-		
+
 		int itemCount = readHeaderItems();
 		for (int j = 0; j < itemCount; j++) {
 			readNote(beat);
@@ -337,7 +337,7 @@ public class PTInputStream implements TGInputStreamBase{
 		beat.setMultiBarRest((itemCount == 0)?multiBarRest:1);
 		beat.setVibrato(((data1 & 0x08) != 0) || ((data1 & 0x10) != 0));
 		beat.setGrace((data3 & 0x01) != 0);
-		
+
 		// Set the duration
 		beat.setDuration(durationValue);
 		beat.setDotted((data1 & 0x01) != 0);
@@ -346,10 +346,10 @@ public class PTInputStream implements TGInputStreamBase{
 		beat.setArpeggioDown((data1 & 0x40) != 0);
 		beat.setEnters(((beaming - (beaming % 8)) / 8) + 1);
 		beat.setTimes((beaming % 8) + 1);
-		
+
 		section.getPosition(position).addComponent(beat);
 	}
-	
+
 	private void readNote(PTBeat beat){
 		PTNote note = new PTNote();
 		int position = readByte();
@@ -369,36 +369,36 @@ public class PTInputStream implements TGInputStreamBase{
 		note.setDead((simpleData & 0x02) != 0);
 		beat.addNote(note);
 	}
-	
+
 	private void readTimeSignature(PTBar bar){
 		int data = readInt();
 		readByte(); //measurePulses
-		
+
 		bar.setNumerator(((((data >> 24) - ((data >> 24) % 8)) / 8) + 1));
 		bar.setDenominator((int)Math.pow(2,(data >> 24) % 8));
 	}
-	
+
 	private void readKeySignature(){
 		readByte();
 	}
-	
+
 	private void readBarLine(PTSection section){
 		PTBar bar = new PTBar();
 		int position = readByte();
 		int type = readByte();
-		
+
 		//repeat start
 		bar.setRepeatStart(((type >>> 5) == 3));
-		
+
 		//repeat end
 		bar.setRepeatClose((((type >>> 5) == 4)?(type - 128):0));
-		
+
 		readKeySignature();
 		readTimeSignature(bar);
 		readRehearsalSign();
 		section.getPosition(position).addComponent(bar);
 	}
-	
+
 	private void readChord(){
 		readShort(); //chordKey
 		readByte();
@@ -410,7 +410,7 @@ public class PTInputStream implements TGInputStreamBase{
 			readByte(); //fret
 		}
 	}
-	
+
 	private void readFloattingText(){
 		// Floating text
 		readString();
@@ -419,21 +419,21 @@ public class PTInputStream implements TGInputStreamBase{
 		readInt();//top
 		readInt();//right
 		readInt();//bottom
-		
+
 		readByte();
 		readFontSetting();
 	}
-	
+
 	private void readFontSetting(){
 		readString();//fontName
-		readInt();//pointSize	
+		readInt();//pointSize
 		readInt();//weight
 		readBoolean();//italic
 		readBoolean();//underline
 		readBoolean();//strikeout
 		readInt();//color
 	}
-	
+
 	private void readGuitarIn(PTTrack track){
 		int section = readShort();
 		int staff = readByte();
@@ -442,7 +442,7 @@ public class PTInputStream implements TGInputStreamBase{
 		int info = (readByte() & 0xff);
 		track.getSection(section).getPosition(position).addComponent(new PTGuitarIn(staff,info));
 	}
-	
+
 	private void readTempoMarker(PTTrack track){
 		int section = readShort();
 		int position = readByte();
@@ -459,7 +459,7 @@ public class PTInputStream implements TGInputStreamBase{
 			track.getSection(section).getPosition(position).addComponent(new PTTempo(tempo,tripletFeel));
 		}
 	}
-	
+
 	private void readSectionSymbol(PTTrack track){
 		int section = readShort();
 		int position = readByte();
@@ -468,19 +468,19 @@ public class PTInputStream implements TGInputStreamBase{
 		symbol.setEndNumber( (data >> 16) );
 		track.getSection(section).getPosition(position).addComponent(symbol);
 	}
-	
+
 	private void readDynamic(){
 		readShort();
 		readByte();
 		readByte();
 		readShort();
 	}
-	
+
 	private void readRehearsalSign(){
 		readByte();
 		readString();
 	}
-	
+
 	private void readDirection(PTSection section){
 		int position = readByte();
 		int symboleCount = readByte();
@@ -489,7 +489,7 @@ public class PTInputStream implements TGInputStreamBase{
 			section.getPosition(position).addComponent(new PTDirection( ( data >> 8 ) , ((data & 0xc0) >> 6), (data & 0x1f) ) );
 		}
 	}
-	
+
 	private void readChordText(){
 		readByte();
 		readShort();
@@ -497,13 +497,13 @@ public class PTInputStream implements TGInputStreamBase{
 		readShort();
 		readByte();
 	}
-	
+
 	private void readRhythmSlash(){
 		readByte();
 		readByte();
 		readInt();
 	}
-	
+
 	private int readHeaderItems(){
 		int nbItems = readShort();
 		if (nbItems != 0){
@@ -517,7 +517,7 @@ public class PTInputStream implements TGInputStreamBase{
 		}
 		return nbItems;
 	}
-	
+
 	private String readString(){
 		try {
 			int length = (this.stream.read() & 0xff);
@@ -527,7 +527,7 @@ public class PTInputStream implements TGInputStreamBase{
 		}
 		return null;
 	}
-	
+
 	private String readString(int length){
 		try {
 			byte[] bytes = new byte[length];
@@ -538,7 +538,7 @@ public class PTInputStream implements TGInputStreamBase{
 		}
 		return null;
 	}
-	
+
 	private int readInt(){
 		try {
 			byte[] b = new byte[4];
@@ -549,7 +549,7 @@ public class PTInputStream implements TGInputStreamBase{
 		}
 		return 0;
 	}
-	
+
 	private int readShort(){
 		try {
 			byte[] b = {0, 0};
@@ -560,7 +560,7 @@ public class PTInputStream implements TGInputStreamBase{
 		}
 		return 0;
 	}
-	
+
 	private boolean readBoolean(){
 		try {
 			return (this.stream.read() > 0);
@@ -569,7 +569,7 @@ public class PTInputStream implements TGInputStreamBase{
 		}
 		return false;
 	}
-	
+
 	private int readByte(){
 		try {
 			return this.stream.read();
@@ -578,7 +578,7 @@ public class PTInputStream implements TGInputStreamBase{
 		}
 		return 0;
 	}
-	
+
 	private void skip(int bytes){
 		try {
 			this.stream.read(new byte[bytes]);
@@ -586,7 +586,7 @@ public class PTInputStream implements TGInputStreamBase{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void close(){
 		try {
 			this.stream.close();

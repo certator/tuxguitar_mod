@@ -16,7 +16,7 @@ public class MidiPortReaderPlugin extends TGMidiOutputPortProviderPlugin{
 	}
 
 	@Override
-	public String getDescription() {		
+	public String getDescription() {
 		return "Core Audio output plugin";
 	}
 
@@ -29,5 +29,5 @@ public class MidiPortReaderPlugin extends TGMidiOutputPortProviderPlugin{
 	public String getVersion() {
 		return "1.0";
 	}
-	
+
 }

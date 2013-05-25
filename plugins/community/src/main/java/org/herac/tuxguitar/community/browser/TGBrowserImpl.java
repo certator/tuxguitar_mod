@@ -8,37 +8,37 @@ import org.herac.tuxguitar.app.tools.browser.base.TGBrowser;
 import org.herac.tuxguitar.app.tools.browser.base.TGBrowserElement;
 
 public class TGBrowserImpl extends TGBrowser {
-	
+
 	private final TGBrowserConnection connection;
 	private TGBrowserElementImpl element;
-	
+
 	public TGBrowserImpl(TGBrowserDataImpl data){
 		this.element = null;
 		this.connection = new TGBrowserConnection();
 	}
-	
+
 	@Override
 	public void open() throws TGBrowserException {
 		// TODO Auto-generated method stub
 	}
-	
+
 	@Override
 	public void close() throws TGBrowserException {
 		// TODO Auto-generated method stub
 	}
-	
+
 	@Override
 	public void cdRoot() throws TGBrowserException {
 		this.element = null;
 	}
-	
+
 	@Override
 	public void cdUp() throws TGBrowserException {
 		if( this.element != null ){
 			this.element = this.element.getParent();
 		}
 	}
-	
+
 	@Override
 	public void cdElement(TGBrowserElement element) throws TGBrowserException {
 		if( element instanceof TGBrowserElementImpl ){
@@ -47,7 +47,7 @@ public class TGBrowserImpl extends TGBrowser {
 			this.element = nextElement;
 		}
 	}
-	
+
 	@Override
 	public List<TGBrowserElement> listElements() throws TGBrowserException {
 		List<TGBrowserElement> elements = new ArrayList<TGBrowserElement>();

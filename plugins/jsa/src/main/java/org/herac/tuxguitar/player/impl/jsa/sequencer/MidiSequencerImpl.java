@@ -12,19 +12,19 @@ import org.herac.tuxguitar.player.base.MidiSequencer;
 import org.herac.tuxguitar.player.base.MidiTransmitter;
 
 public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
-	
+
 	private static final int TICK_MOVE = 1;
-	
+
 	private Object lock;
 	private Sequencer sequencer;
 	private Transmitter sequencerTransmitter;
 	private MidiTransmitter transmitter;
-	
+
 	public MidiSequencerImpl(Sequencer sequencer){
 		this.lock = new Object();
 		this.sequencer = sequencer;
 	}
-	
+
 	@Override
 	public synchronized void open() {
 		try {
@@ -37,7 +37,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public synchronized void close() {
 		try {
@@ -49,7 +49,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	public void openTransmitter(){
 		try {
 			this.sequencerTransmitter = getSequencer().getTransmitter();
@@ -58,7 +58,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	public void closeTransmitter(){
 		try {
 			if(this.sequencerTransmitter != null){
@@ -69,33 +69,33 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	protected Sequencer getSequencer(boolean open) {
 		if( open ){
 			this.open();
 		}
 		return this.sequencer;
 	}
-	
+
 	protected Sequencer getSequencer() {
 		return this.getSequencer(true);
 	}
-	
+
 	@Override
 	public MidiSequenceHandler createSequence(int tracks) {
 		this.resetTracks();
 		return new MidiSequenceHandlerImpl(this,tracks);
 	}
-	
+
 	public synchronized MidiTransmitter getTransmitter() {
 		return this.transmitter;
 	}
-	
+
 	@Override
 	public synchronized void setTransmitter(MidiTransmitter transmitter) {
 		this.transmitter = transmitter;
 	}
-	
+
 	@Override
 	public long getTickLength() {
 		try {
@@ -105,7 +105,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 		}
 		return 0;
 	}
-	
+
 	@Override
 	public long getTickPosition() {
 		try {
@@ -115,7 +115,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 		}
 		return 0;
 	}
-	
+
 	@Override
 	public void setTickPosition(long tickPosition) {
 		try {
@@ -125,7 +125,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void setMute(int index, boolean mute) {
 		try {
@@ -134,7 +134,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void setSolo(int index, boolean solo) {
 		try {
@@ -143,7 +143,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void setSequence(Sequence sequence){
 		try {
@@ -152,7 +152,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void start() {
 		try {
@@ -161,7 +161,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void stop() {
 		try {
@@ -170,7 +170,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public boolean isRunning() {
 		try {
@@ -180,7 +180,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 		}
 		return false;
 	}
-	
+
 	public void setRunning( boolean running ) {
 		try {
 			synchronized ( this.lock ) {
@@ -195,7 +195,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	public void reset(){
 		try {
 			this.getTransmitter().sendAllNotesOff();
@@ -206,7 +206,7 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	public void resetTracks(){
 		try {
 			Sequence sequence = this.getSequencer().getSequence();
@@ -224,17 +224,17 @@ public class MidiSequencerImpl implements MidiSequencer,MidiSequenceLoader{
 			throwable.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public String getKey() {
 		return this.sequencer.getDeviceInfo().getName();
 	}
-	
+
 	@Override
 	public String getName() {
 		return this.sequencer.getDeviceInfo().getName();
 	}
-	
+
 	@Override
 	public void check() throws MidiPlayerException {
 		this.getSequencer( true );

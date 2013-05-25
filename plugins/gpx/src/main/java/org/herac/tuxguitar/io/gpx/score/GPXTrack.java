@@ -1,32 +1,32 @@
 package org.herac.tuxguitar.io.gpx.score;
 
 public class GPXTrack {
-	
+
 	private int id;
 	private int[] tunningPitches;
 	private int[] color;
 	private String name;
-	
+
 	private int gmProgram;
 	private int gmChannel1;
 	private int gmChannel2;
-	
+
 	public GPXTrack(){
 		super();
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public int[] getTunningPitches() {
 		return this.tunningPitches;
 	}
-	
+
 	public void setTunningPitches(int[] tunningPitches) {
 		this.tunningPitches = tunningPitches;
 	}
@@ -38,19 +38,19 @@ public class GPXTrack {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public int[] getColor() {
 		return color;
 	}
-	
+
 	public void setColor(int[] color) {
 		this.color = color;
 	}
-	
+
 	public int getGmProgram() {
 		return gmProgram;
 	}
-	
+
 	public void setGmProgram(int gmProgram) {
 		this.gmProgram = gmProgram;
 	}

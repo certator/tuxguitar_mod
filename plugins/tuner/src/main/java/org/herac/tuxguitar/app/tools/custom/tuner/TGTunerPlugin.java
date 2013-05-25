@@ -12,7 +12,7 @@ import org.herac.tuxguitar.song.models.TGString;
  */
 public class TGTunerPlugin extends org.herac.tuxguitar.app.system.plugins.base.TGToolItemPlugin {
 
-	
+
 	@Override
 	protected void doAction() {
 		List<TGString> strings = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getTrack().getStrings();
@@ -26,7 +26,7 @@ public class TGTunerPlugin extends org.herac.tuxguitar.app.system.plugins.base.T
 		}
 		TGTunerDialog dialog = new TGTunerDialog(tuning);
 		dialog.show();
-		
+
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class TGTunerPlugin extends org.herac.tuxguitar.app.system.plugins.base.T
 	public String getName() {
 		return "GuitarTuner";
 	}
-	
+
 	@Override
 	public String getAuthor() {
 		return "Nikola Kolarovic";
@@ -53,7 +53,7 @@ public class TGTunerPlugin extends org.herac.tuxguitar.app.system.plugins.base.T
 	@Override
 	public String getVersion() {
 		return "0.01b";
-	}	
-	
+	}
+
 
 }

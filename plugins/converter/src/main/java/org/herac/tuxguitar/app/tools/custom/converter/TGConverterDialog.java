@@ -31,9 +31,9 @@ import org.herac.tuxguitar.io.base.TGOutputStreamBase;
 import org.herac.tuxguitar.io.base.TGRawExporter;
 
 public class TGConverterDialog implements LanguageLoader,IconLoader{
-	
+
 	private static final int SHELL_WIDTH = 500;
-	
+
 	protected Shell dialog;
 	protected Group group;
 	protected Label outputFormatLabel;
@@ -43,13 +43,13 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 	protected Button outputFolderChooser;
 	protected Button buttonOK;
 	protected Button buttonCancel;
-	
+
 	protected List<TGConverterFormat> outputFormats;
-	
+
 	public TGConverterDialog() {
 		this.outputFormats = new ArrayList<TGConverterFormat>();
 	}
-	
+
 	public void show() {
 		this.dialog = DialogUtils.newDialog(TuxGuitar.instance().getShell(),SWT.DIALOG_TRIM);
 		this.dialog.setLayout(new GridLayout());
@@ -61,29 +61,29 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 				TuxGuitar.instance().getLanguageManager().removeLoader( TGConverterDialog.this );
 			}
 		});
-		
+
 		// Settings
 		this.group = new Group(this.dialog,SWT.SHADOW_ETCHED_IN);
 		this.group.setLayout(new GridLayout());
 		this.group.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		Composite composite = new Composite(this.group,SWT.NONE);
 		composite.setLayout(new GridLayout(3,false));
 		composite.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		this.outputFormatLabel = new Label(composite,SWT.LEFT);
 		this.outputFormatLabel.setLayoutData(new GridData(SWT.LEFT,SWT.CENTER,false,false));
-		
+
 		final Combo outputFormat = new Combo(composite, SWT.DROP_DOWN | SWT.READ_ONLY);
 		outputFormat.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,false,2,1));
 		addFileFormats(outputFormat);
-		
+
 		this.inputFolderLabel = new Label(composite,SWT.LEFT);
 		this.inputFolderLabel.setLayoutData(new GridData(SWT.LEFT,SWT.CENTER,false,false));
-		
+
 		final Text inputFolder = new Text(composite,SWT.BORDER);
 		inputFolder.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,true,false));
-		
+
 		this.inputFolderChooser = new Button(composite,SWT.PUSH);
 		this.inputFolderChooser.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -95,13 +95,13 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 				}
 			}
 		});
-		
+
 		this.outputFolderLabel = new Label(composite,SWT.LEFT);
 		this.outputFolderLabel.setLayoutData(new GridData(SWT.LEFT,SWT.CENTER,false,false));
-		
+
 		final Text outputFolder = new Text(composite,SWT.BORDER);
 		outputFolder.setLayoutData(new GridData(SWT.FILL, SWT.CENTER,true,false));
-		
+
 		this.outputFolderChooser = new Button(composite,SWT.PUSH);
 		this.outputFolderChooser.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -113,12 +113,12 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 				}
 			}
 		});
-		
+
 		//------------------BUTTONS--------------------------
 		Composite buttons = new Composite(this.dialog, SWT.NONE);
 		buttons.setLayout(new GridLayout(2,false));
 		buttons.setLayoutData(new GridData(SWT.RIGHT,SWT.BOTTOM,true,false));
-		
+
 		this.buttonOK = new Button(buttons, SWT.PUSH);
 		this.buttonOK.setLayoutData(getGridData(80,25));
 		this.buttonOK.addSelectionListener(new SelectionAdapter() {
@@ -127,7 +127,7 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 				String inputFolderValue = inputFolder.getText();
 				String outputFolderValue = outputFolder.getText();
 				TGConverterFormat outputFormatValue = getFileFormat( outputFormat.getSelectionIndex() );
-				
+
 				if(inputFolderValue == null || inputFolderValue.trim().length() == 0){
 					MessageDialog.errorMessage(TGConverterDialog.this.dialog,TuxGuitar.getProperty("batch.converter.input.folder.invalid"));
 				}
@@ -144,7 +144,7 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 				}
 			}
 		});
-		
+
 		this.buttonCancel = new Button(buttons, SWT.PUSH);
 		this.buttonCancel.setLayoutData(getGridData(80,25));
 		this.buttonCancel.addSelectionListener(new SelectionAdapter() {
@@ -153,38 +153,38 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 				TGConverterDialog.this.dialog.dispose();
 			}
 		});
-		
+
 		this.dialog.setDefaultButton( this.buttonOK );
-		
+
 		this.loadIcons(false);
 		this.loadProperties(false);
-		
+
 		TuxGuitar.instance().getIconManager().addLoader( this );
 		TuxGuitar.instance().getLanguageManager().addLoader( this );
-		
+
 		DialogUtils.openDialog(this.dialog, DialogUtils.OPEN_STYLE_CENTER | DialogUtils.OPEN_STYLE_PACK);
 	}
-	
+
 	public boolean isDisposed(){
 		return (this.dialog == null || this.dialog.isDisposed());
 	}
-	
+
 	private GridData getGridData(int minimumWidth, int minimumHeight){
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.minimumWidth = minimumWidth;
 		data.minimumHeight = minimumHeight;
 		return data;
 	}
-	
+
 	private void addFileFormats(Combo combo){
 		this.outputFormats.clear();
-		
+
 		Iterator<TGOutputStreamBase> outputStreams = TGFileFormatManager.instance().getOutputStreams();
 		while(outputStreams.hasNext()){
 			TGOutputStreamBase stream = outputStreams.next();
 			addFileFormats(combo, stream.getFileFormat() , stream );
 		}
-		
+
 		Iterator<TGRawExporter> exporters = TGFileFormatManager.instance().getExporters();
 		while (exporters.hasNext()) {
 			TGRawExporter exporter = exporters.next();
@@ -196,7 +196,7 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 			combo.select( 0 );
 		}
 	}
-	
+
 	private void addFileFormats(Combo combo, TGFileFormat format, Object exporter ){
 		if(format.getSupportedFormats() != null){
 			String[] extensions = format.getSupportedFormats().split(TGFileFormat.EXTENSION_SEPARATOR);
@@ -215,19 +215,19 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 			}
 		}
 	}
-	
+
 	protected TGConverterFormat getFileFormat(int index){
 		if(index >= 0 && index < this.outputFormats.size()){
 			return this.outputFormats.get(index);
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		this.loadProperties(true);
 	}
-	
+
 	public void loadProperties(boolean layout){
 		if(!isDisposed()){
 			this.dialog.setText(TuxGuitar.getProperty("batch.converter"));
@@ -242,12 +242,12 @@ public class TGConverterDialog implements LanguageLoader,IconLoader{
 			}
 		}
 	}
-	
+
 	@Override
 	public void loadIcons() {
 		this.loadIcons(true);
 	}
-	
+
 	public void loadIcons(boolean layout){
 		if(!isDisposed()){
 			this.dialog.setImage(TuxGuitar.instance().getIconManager().getAppIcon());

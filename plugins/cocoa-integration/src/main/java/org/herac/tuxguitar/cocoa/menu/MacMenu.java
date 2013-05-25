@@ -8,19 +8,19 @@ import org.herac.tuxguitar.app.actions.settings.EditConfigAction;
 import org.herac.tuxguitar.cocoa.TGCocoa;
 
 public class MacMenu {
-	
+
 	private static final long kAboutMenuItem = 0;
 	private static final long kPreferencesMenuItem = 2;
-	
+
 	private static long sel_preferencesMenuItemSelected_ = TGCocoa.sel_registerName("preferencesMenuItemSelected:");
 	private static long sel_aboutMenuItemSelected_ = TGCocoa.sel_registerName("aboutMenuItemSelected:");
-	
+
 	private boolean enabled;
-	
+
 	public MacMenu(){
 		super();
 	}
-	
+
 	public void init() throws Throwable{
 		long cls = TGCocoa.objc_lookUpClass ("SWTApplicationDelegate");
 		if( cls != 0 ){
@@ -36,7 +36,7 @@ public class MacMenu {
 		if( TGCocoa.getMenuNumberOfItems( mainMenu ) > 0 ){
 			NSMenuItem appMenuItem = TGCocoa.getMenuItemAtIndex( mainMenu , 0 );
 			NSMenu appMenu = appMenuItem.submenu();
-			
+
 			long itemCount = TGCocoa.getMenuNumberOfItems( appMenu );
 			if( itemCount > kPreferencesMenuItem ) {
 				NSMenuItem menuItem = TGCocoa.getMenuItemAtIndex( appMenu , kPreferencesMenuItem );
@@ -50,7 +50,7 @@ public class MacMenu {
 			}
 		}
 	}
-	
+
 	public long callbackProc( long id, long sel, long arg0 ) {
 		if ( this.isEnabled() ){
 			if ( sel == sel_preferencesMenuItemSelected_ ) {
@@ -61,33 +61,33 @@ public class MacMenu {
 		}
 		return TGCocoa.noErr;
 	}
-	
+
 	public long callbackProc64( long id, long sel, long arg0 ) {
 		return this.callbackProc(id, sel, arg0);
 	}
-	
+
 	public int callbackProc32( int id, int sel, int arg0 ) {
 		return (int)this.callbackProc( id, sel, arg0);
 	}
-	
+
 	public boolean isEnabled() {
 		return this.enabled;
 	}
-	
+
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
 	public long handleQuitCommand(){
 		TuxGuitar.instance().getAction(ExitAction.NAME).process(null);
 		return TGCocoa.noErr;
 	}
-	
+
 	public long handleAboutCommand(){
 		TuxGuitar.instance().getAction(ShowAboutAction.NAME).process(null);
 		return TGCocoa.noErr;
 	}
-	
+
 	public long handlePreferencesCommand(){
 		TuxGuitar.instance().getAction(EditConfigAction.NAME).process(null);
 		return TGCocoa.noErr;

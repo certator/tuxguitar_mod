@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class GPXDocument {
-	
+
 	private GPXScore score;
 	private List<GPXTrack> tracks;
 	private List<GPXMasterBar> masterBars;
@@ -15,7 +15,7 @@ public class GPXDocument {
 	private List<GPXNote> notes;
 	private List<GPXRhythm> rhythms;
 	private List<GPXAutomation> automations;
-	
+
 	public GPXDocument(){
 		this.score = new GPXScore();
 		this.tracks = new ArrayList<GPXTrack>();
@@ -27,43 +27,43 @@ public class GPXDocument {
 		this.rhythms = new ArrayList<GPXRhythm>();
 		this.automations = new ArrayList<GPXAutomation>();
 	}
-	
+
 	public GPXScore getScore(){
 		return this.score;
 	}
-	
+
 	public List<GPXTrack> getTracks() {
 		return this.tracks;
 	}
-	
+
 	public List<GPXMasterBar> getMasterBars() {
 		return this.masterBars;
 	}
-	
+
 	public List<GPXBar> getBars() {
 		return this.bars;
 	}
-	
+
 	public List<GPXVoice> getVoices() {
 		return this.voices;
 	}
-	
+
 	public List<GPXBeat> getBeats() {
 		return this.beats;
 	}
-	
+
 	public List<GPXNote> getNotes() {
 		return this.notes;
 	}
-	
+
 	public List<GPXRhythm> getRhythms() {
 		return this.rhythms;
 	}
-	
+
 	public List<GPXAutomation> getAutomations() {
 		return this.automations;
 	}
-	
+
 	public GPXBar getBar( int id ){
 		Iterator<GPXBar> it = this.bars.iterator();
 		while( it.hasNext() ){
@@ -74,7 +74,7 @@ public class GPXDocument {
 		}
 		return null;
 	}
-	
+
 	public GPXVoice getVoice( int id ){
 		Iterator<GPXVoice> it = this.voices.iterator();
 		while( it.hasNext() ){
@@ -85,7 +85,7 @@ public class GPXDocument {
 		}
 		return null;
 	}
-	
+
 	public GPXBeat getBeat( int id ){
 		Iterator<GPXBeat> it = this.beats.iterator();
 		while( it.hasNext() ){
@@ -96,7 +96,7 @@ public class GPXDocument {
 		}
 		return null;
 	}
-	
+
 	public GPXNote getNote( int id ){
 		Iterator<GPXNote> it = this.notes.iterator();
 		while( it.hasNext() ){
@@ -107,7 +107,7 @@ public class GPXDocument {
 		}
 		return null;
 	}
-	
+
 	public GPXRhythm getRhythm( int id ){
 		Iterator<GPXRhythm> it = this.rhythms.iterator();
 		while( it.hasNext() ){
@@ -118,10 +118,10 @@ public class GPXDocument {
 		}
 		return null;
 	}
-	
+
 	public GPXAutomation getAutomation( String type, int untilBarId ){
 		GPXAutomation result = null;
-		
+
 		Iterator<GPXAutomation> it = this.automations.iterator();
 		while( it.hasNext() ){
 			GPXAutomation automation = it.next();

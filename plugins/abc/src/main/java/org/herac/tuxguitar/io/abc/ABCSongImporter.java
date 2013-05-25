@@ -35,7 +35,7 @@ import org.herac.tuxguitar.song.models.TGDivisionType;
 import org.herac.tuxguitar.song.models.effects.TGEffectGrace;
 
 public class ABCSongImporter implements TGLocalFileImporter{
-	
+
 	public static final int[][] PERCUSSION_TUNINGS = new int[][]{
 		new int[]{ 32 },
 		new int[]{ 49, 32 },
@@ -45,39 +45,39 @@ public class ABCSongImporter implements TGLocalFileImporter{
 		new int[]{ 49, 51, 42, 50, 45, 37 },
 		new int[]{ 49, 51, 42, 50, 45, 37, 41 },
 	};
-	
+
 	protected TGSongManager manager;
 	protected InputStream stream;
 
 	private ABCSettings settings;
-	
+
 	public ABCSongImporter(){
 		super();
 	}
-	
+
 	@Override
 	public TGFileFormat getFileFormat() {
 		return new TGFileFormat("ABC","*.abc");
 	}
-	
+
 	@Override
 	public String getImportName() {
 		return "ABC";
 	}
-	
+
 	@Override
 	public boolean configure(boolean setDefaults){
 		this.settings = (setDefaults ? ABCSettings.getDefaults() : new ABCImportSettingsDialog().open());
 		return (this.settings != null);
 	}
-	
-	
+
+
 	@Override
 	public void init(TGFactory factory,InputStream stream) {
 		this.manager = new TGSongManager(factory);
 		this.stream = stream;
 	}
-	
+
 	@Override
 	public TGSong importSong() throws TGFileFormatException {
 		try {
@@ -89,17 +89,17 @@ public class ABCSongImporter implements TGLocalFileImporter{
 		}
 		throw new TGFileFormatException();
 	}
-	
+
 	private TGSong parseSong(ABCSong song){
 		song.sortEvents();
 		this.newTGSong(song);
 		this.addMeasureValues(song);
 		this.addTrackValues(song.getTracks());
 		this.addComponents(song);
-		
+
 		return new TGSongAdjuster(this.manager).process();
 	}
-	
+
 	private void newTGSong(ABCSong song) {
 		int tracks=song.getTracks().length;
 		int measures=song.getMeasures();
@@ -158,7 +158,7 @@ public class ABCSongImporter implements TGLocalFileImporter{
 			}
 		}
 	}
-	
+
 	private void addMeasureValues(ABCSong song){
 		for(int i = 0; i < this.manager.getSong().countMeasureHeaders(); i ++){
 			TGTimeSignature timeSignature = this.manager.getFactory().newTimeSignature();
@@ -177,11 +177,11 @@ public class ABCSongImporter implements TGLocalFileImporter{
 			this.manager.changeTripletFeel(header, TGMeasureHeader.TRIPLET_FEEL_EIGHTH, true);
 		}
 	}
-	
+
 	private void addTrackValues(ABCTrack[] tracks){
 		for(int i = 0; i < tracks.length; i ++){
 			TGTrack track = this.manager.getSong().getTrack(i);
-			
+
 			TGChannel tgChannel = this.manager.addChannel();
 			tgChannel.setVolume((short) 127);
 			tgChannel.setBalance((short)(( tracks[i].getPan() * 127) / 15));
@@ -193,7 +193,7 @@ public class ABCSongImporter implements TGLocalFileImporter{
 			track.setName(tracks[i].getName());
 			track.getStrings().clear();
 			int strings[] = tracks[i].getStrings();
-			
+
 			for(int j = 0; j < strings.length;j ++){
 				if(j >= 7){
 					break;
@@ -207,13 +207,13 @@ public class ABCSongImporter implements TGLocalFileImporter{
 			}
 		}
 	}
-	
+
 	private void addComponents(ABCSong song){
 		ABCTrack[] tracks = song.getTracks();
 		Iterator<ABCLocation> it = song.getEvents().iterator();
 		while(it.hasNext()){
 			ABCLocation component = it.next();
-			
+
 			if(component.getMeasure() >= 0 && component.getMeasure() < this.manager.getSong().countMeasureHeaders()){
 				for(int i = 0; i < tracks.length; i ++){
 					if( component.getTrack()==i ) {
@@ -361,7 +361,7 @@ public class ABCSongImporter implements TGLocalFileImporter{
 					marker.setTitle(m);
 				else
 					marker.setTitle(m+" | Coda");
-				
+
 			}
 			else
 				marker.setTitle("Coda");
@@ -406,21 +406,21 @@ public class ABCSongImporter implements TGLocalFileImporter{
 		}
 		return beat;
 	}
-	
+
 	private long getStart(TGDuration duration, TGMeasure measure,int position){
 		float fixedPosition = (position*64)/ABCSong.TICKS_PER_QUART;
 		if(duration != null && !duration.getDivision().isEqual(TGDivisionType.NORMAL)){
 			fixedPosition = (( fixedPosition - (fixedPosition % 64)) + ((((fixedPosition % 64) * 2) * 2) / 3) );
 		}
 		long start = ((long) (measure.getStart() + ( (fixedPosition * TGDuration.QUARTER_TIME)  / 64)) );
-		
+
 		return start;
 	}
-	
+
 	private TGDuration getDuration(int duration){
 		return TGDuration.fromTime(this.manager.getFactory(), ticksToTime(duration));
 	}
-	
+
 	private int ticksToTime(int tcks) {
 		return (int) ((tcks*TGDuration.QUARTER_TIME)/ABCSong.TICKS_PER_QUART);
 	}
@@ -471,7 +471,7 @@ public class ABCSongImporter implements TGLocalFileImporter{
 		if(e.isGrace()) {
 			for(int i=0;i<tgBeat.getVoice(0).countNotes();i++) {
 				TGNote n=tgBeat.getVoice(0).getNote(i);
-				if(n.getString()==tgNote.getString()) 
+				if(n.getString()==tgNote.getString())
 					n.setEffect(tgNote.getEffect().clone(factory));
 			}
 		}
@@ -486,12 +486,12 @@ public class ABCSongImporter implements TGLocalFileImporter{
 			tgBeat.getVoice(0).addNote(tgNote);
 		}
 	}
-	
+
 	private void addChord(ABCChord[] chords,ABCLocation component,TGTrack tgTrack,TGMeasure tgMeasure){
 		if(component.getEvent().getChordnum() >= 0 && component.getEvent().getChordnum() < chords.length){
 			ABCChord chord = chords[component.getEvent().getChordnum()];
 			byte[] strings = chord.getStrings();
-			
+
 			TGChord tgChord = this.manager.getFactory().newChord(tgTrack.stringCount());
 			tgChord.setName(chord.getName());
 			for(int i = 0; i < tgChord.countStrings(); i ++){
@@ -504,17 +504,17 @@ public class ABCSongImporter implements TGLocalFileImporter{
 			}
 		}
 	}
-	
+
 }
 
 class TGSongAdjuster{
-	
+
 	protected TGSongManager manager;
-	
+
 	public TGSongAdjuster(TGSongManager manager){
 		this.manager = manager;
 	}
-	
+
 	public TGSong process(){
 		Iterator<TGTrack> tracks = this.manager.getSong().getTracks();
 		while(tracks.hasNext()){
@@ -527,16 +527,16 @@ class TGSongAdjuster{
 		}
 		return this.manager.getSong();
 	}
-	
+
 	public void process(TGMeasure measure){
 		this.manager.getMeasureManager().orderBeats(measure);
 		this.adjustBeats(measure);
 	}
-	
+
 	public void adjustBeats(TGMeasure measure){
 		TGBeat previous = null;
 		boolean finish = true;
-		
+
 		long measureStart = measure.getStart();
 		long measureEnd = (measureStart + measure.getLength());
 		for(int i = 0;i < measure.countBeats();i++){
@@ -546,7 +546,7 @@ class TGSongAdjuster{
 			if(previous != null){
 				long previousStart = previous.getStart();
 				long previousLength = previous.getVoice(0).getDuration().getTime();
-				
+
 				// check for a chord in a rest beat
 				if( beat.getVoice(0).isRestVoice() && beat.isChordBeat() ){
 					TGBeat candidate = null;
@@ -567,7 +567,7 @@ class TGSongAdjuster{
 					finish = false;
 					break;
 				}
-				
+
 				// check the duration
 				if(previousStart < beatStart && (previousStart + previousLength) > beatStart){
 					if(beat.getVoice(0).isRestVoice()){

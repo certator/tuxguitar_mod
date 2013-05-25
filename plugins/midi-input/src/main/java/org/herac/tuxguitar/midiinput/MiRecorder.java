@@ -104,7 +104,7 @@ static	private	MiRecorder	s_Instance;
 
 	TuxGuitar.instance().getAction(TransportStopAction.NAME).process(null);
 	TuxGuitar.instance().getPlayer().setMetronomeEnabled(f_SavedMetronomeStatus);
-	
+
 	// qui deve cancellare la traccia di servizio...
 	tgSongMgr.removeTrack(f_TempTrack);
 

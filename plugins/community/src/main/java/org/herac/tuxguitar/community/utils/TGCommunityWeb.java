@@ -8,9 +8,9 @@ import org.herac.tuxguitar.app.system.config.TGConfigManager;
 import org.herac.tuxguitar.community.TGCommunitySingleton;
 
 public class TGCommunityWeb {
-	
+
 	public static String HOME_URL = TGCommunitySingleton.getInstance().getConfig().getStringConfigValue("community.url");
-	
+
 	public static void open( String suffix ){
 		try {
 			open( new URL(HOME_URL + "/" + suffix) );
@@ -18,7 +18,7 @@ public class TGCommunityWeb {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static boolean open( URL url ){
 		if( openDesktopBrowser( url ) ){
 			return true;
@@ -28,7 +28,7 @@ public class TGCommunityWeb {
 		}
 		return false;
 	}
-	
+
 	private static boolean openDesktopBrowser( URL url ){
 		try {
 			Class<?> desktopClass = Class.forName("java.awt.Desktop");
@@ -48,15 +48,15 @@ public class TGCommunityWeb {
 		}
 		return false;
 	}
-	
+
 	private static boolean openCommandLineBrowser( URL url ){
 		TGConfigManager config = TGCommunitySingleton.getInstance().getConfig();
-		
+
 		String[] browserCmds = config.getStringConfigValue("community.browser","").split(";");
 		for( int i = 0 ; i < browserCmds.length ; i ++ ){
 			try {
 				String browserCmd = browserCmds[i];
-				
+
 				if( browserCmd != null && browserCmd.length() > 0 ){
 					String pattern = ("%s");
 					int indexOfPattern = browserCmd.indexOf( pattern );

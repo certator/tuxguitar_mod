@@ -28,48 +28,48 @@ import org.herac.tuxguitar.app.TuxGuitar;
 import org.herac.tuxguitar.app.util.DialogUtils;
 
 public class MidiOutputPortSettings extends MidiSettings {
-	
+
 	private static final int TABLE_WIDTH = 350;
 	private static final int TABLE_HEIGHT = 200;
-	
+
 	public MidiOutputPortSettings(MidiOutputPortProviderImpl provider){
 		super( provider );
 	}
-	
+
 	public void configure(Shell parent) {
 		final Shell dialog = DialogUtils.newDialog(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
 		dialog.setText(TuxGuitar.getProperty("fluidsynth.settings"));
 		dialog.setLayout(new GridLayout());
 		dialog.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		TabFolder tabs = new TabFolder(dialog, SWT.TOP);
 		tabs.setLayout( new FormLayout() );
-		
+
 		// ----------------------------------------------------------------------
 		Composite cSoundfonts = new Composite( tabs , SWT.NONE);
 		cSoundfonts.setLayout(getGridLayout( 2 ));
 		cSoundfonts.setLayoutData(new FormData());
-		
-		TabItem tSoundfonts = new TabItem( tabs  , SWT.None ); 
+
+		TabItem tSoundfonts = new TabItem( tabs  , SWT.None );
 		tSoundfonts.setText(TuxGuitar.getProperty("fluidsynth.settings.soundfonts"));
 		tSoundfonts.setControl(cSoundfonts);
-		
+
 		Composite cSoundfontsTable = new Composite(cSoundfonts, SWT.NONE);
 		cSoundfontsTable.setLayout(new GridLayout());
 		cSoundfontsTable.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
+
 		final Table soundfontsTable = new Table(cSoundfontsTable, SWT.BORDER | SWT.SINGLE | SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
 		soundfontsTable.setLayoutData(getTableData());
 		soundfontsTable.setHeaderVisible(true);
-		
+
 		TableColumn soundfontsTableColumn = new TableColumn(soundfontsTable, SWT.NONE);
 		soundfontsTableColumn.setWidth(TABLE_WIDTH);
 		soundfontsTableColumn.setText(TuxGuitar.getProperty("fluidsynth.settings.soundfonts.list"));
-		
+
 		Composite cSoundfontsButtons = new Composite(cSoundfonts, SWT.NONE);
 		cSoundfontsButtons.setLayout(new GridLayout());
 		cSoundfontsButtons.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		
+
 		Button buttonAdd = new Button(cSoundfontsButtons, SWT.PUSH);
 		buttonAdd.setLayoutData(getButtonData(SWT.FILL,SWT.TOP, true,false));
 		buttonAdd.setText(TuxGuitar.getProperty("add"));
@@ -79,7 +79,7 @@ public class MidiOutputPortSettings extends MidiSettings {
 				addMidiPort(soundfontsTable);
 			}
 		});
-		
+
 		Button buttonDelete = new Button(cSoundfontsButtons, SWT.PUSH);
 		buttonDelete.setText(TuxGuitar.getProperty("remove"));
 		buttonDelete.setLayoutData(getButtonData(SWT.FILL,SWT.TOP, true,false));
@@ -89,122 +89,122 @@ public class MidiOutputPortSettings extends MidiSettings {
 				removeMidiPort(soundfontsTable);
 			}
 		});
-		
+
 		this.addMidiPorts( soundfontsTable);
-		
+
 		// ----------------------------------------------------------------------
 		Composite cAudio = new Composite( tabs , SWT.NONE);
 		cAudio.setLayout(new GridLayout(2, false));
 		cAudio.setLayoutData(new FormData());
-		
-		TabItem tAudio = new TabItem( tabs  , SWT.None ); 
+
+		TabItem tAudio = new TabItem( tabs  , SWT.None );
 		tAudio.setText(TuxGuitar.getProperty("fluidsynth.settings.audio"));
 		tAudio.setControl( cAudio );
-		
+
 		// Audio Driver  --------------------------------------------------------
 		final List<String> audioDriverOptions = this.getAudioDriverOptions();
-		
+
 		Label lAudioDriver = new Label(cAudio, SWT.NONE);
 		lAudioDriver.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lAudioDriver.setText(TuxGuitar.getProperty("fluidsynth.settings.audio.driver"));
-		
+
 		final Combo cAudioDriver = new Combo(cAudio, SWT.DROP_DOWN | SWT.READ_ONLY);
 		cAudioDriver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		fillAudioDriverCombo( audioDriverOptions , cAudioDriver );
-		
+
 		// Audio Sample Format  -----------------------------------------------------
 		final List<String> audioSampleFormatOptions = this.getAudioSampleFormatOptions();
-		
+
 		Label lAudioSampleFormat = new Label(cAudio, SWT.NONE);
 		lAudioSampleFormat.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lAudioSampleFormat.setText(TuxGuitar.getProperty("fluidsynth.settings.audio.sample-format"));
-		
+
 		final Combo cAudioSampleFormat = new Combo(cAudio, SWT.DROP_DOWN | SWT.READ_ONLY);
 		cAudioSampleFormat.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		fillAudioSampleFormatCombo( audioSampleFormatOptions , cAudioSampleFormat );
-		
+
 		// Audio Period Size -------------------------------------------------------
 		final List<Integer> audioPeriodSizeOptions = this.getAudioPeriodSizeOptions();
-		
+
 		Label lAudioPeriodSize = new Label( cAudio , SWT.NONE);
 		lAudioPeriodSize.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lAudioPeriodSize.setText(TuxGuitar.getProperty("fluidsynth.settings.audio.period-size"));
-		
+
 		final Combo cAudioPeriodSize = new Combo( cAudio , SWT.DROP_DOWN | SWT.READ_ONLY);
 		cAudioPeriodSize.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		fillAudioPeriodSizeCombo( audioPeriodSizeOptions , cAudioPeriodSize );
-		
+
 		// Audio Period Count -------------------------------------------------------
 		final List<Integer> audioPeriodCountOptions = this.getAudioPeriodCountOptions();
-		
+
 		Label lAudioPeriodCount = new Label( cAudio , SWT.NONE);
 		lAudioPeriodCount.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lAudioPeriodCount.setText(TuxGuitar.getProperty("fluidsynth.settings.audio.periods"));
-		
+
 		final Combo cAudioPeriodCount = new Combo( cAudio , SWT.DROP_DOWN | SWT.READ_ONLY);
 		cAudioPeriodCount.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		fillAudioPeriodCountCombo( audioPeriodCountOptions , cAudioPeriodCount );
-		
+
 		// ----------------------------------------------------------------------
 		Composite cSynth = new Composite( tabs , SWT.NONE);
 		cSynth.setLayout(new GridLayout(2, false));
 		cSynth.setLayoutData(new FormData());
-		
-		TabItem tSynth = new TabItem( tabs  , SWT.None ); 
+
+		TabItem tSynth = new TabItem( tabs  , SWT.None );
 		tSynth.setText(TuxGuitar.getProperty("fluidsynth.settings.synth"));
 		tSynth.setControl( cSynth );
-		
+
 		// Synth Gain -------------------------------------------------------
 		Label lSynthGain = new Label( cSynth , SWT.NONE);
 		lSynthGain.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lSynthGain.setText(TuxGuitar.getProperty("fluidsynth.settings.synth.gain"));
-		
+
 		final Scale sSynthGain = new Scale( cSynth , SWT.HORIZONTAL );
 		sSynthGain.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		fillSynthGainScale( sSynthGain );
-		
+
 		// Synth Sample Rate -------------------------------------------------------
 		final List<Double> synthSampleRateOptions = this.getSynthSampleRateOptions();
-		
+
 		Label lSynthSampleRate = new Label( cSynth , SWT.NONE);
 		lSynthSampleRate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lSynthSampleRate.setText(TuxGuitar.getProperty("fluidsynth.settings.synth.sample-rate"));
-		
+
 		final Combo cSynthSampleRate = new Combo( cSynth , SWT.DROP_DOWN | SWT.READ_ONLY);
 		cSynthSampleRate.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
+
 		fillSynthSampleRateCombo( synthSampleRateOptions , cSynthSampleRate );
-		
+
 		// Synth Polyphony -------------------------------------------------------
 		Label lSynthPolyphony = new Label( cSynth , SWT.NONE);
 		lSynthPolyphony.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		lSynthPolyphony.setText(TuxGuitar.getProperty("fluidsynth.settings.synth.polyphony"));
-		
+
 		final Spinner sSynthPolyphony = new Spinner( cSynth , SWT.BORDER );
 		sSynthPolyphony.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		fillSynthPolyphonySpinner( sSynthPolyphony );
-		
+
 		// Synth Reverb -------------------------------------------------------
 		final Button bSynthReverbActive = new Button( cSynth , SWT.CHECK);
 		bSynthReverbActive.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,2,1));
 		bSynthReverbActive.setText(TuxGuitar.getProperty("fluidsynth.settings.synth.reverb.active"));
 		fillSynthReverbActiveCheckbox(bSynthReverbActive);
-		
+
 		// Synth Chorus -------------------------------------------------------
 		final Button bSynthChorusActive = new Button( cSynth , SWT.CHECK);
 		bSynthChorusActive.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false,2,1));
 		bSynthChorusActive.setText(TuxGuitar.getProperty("fluidsynth.settings.synth.chorus.active"));
 		fillSynthChorusActiveCheckbox(bSynthChorusActive);
-		
+
 		// ------------------BUTTONS--------------------------
 		Composite compositeButtons = new Composite(dialog, SWT.NONE);
 		compositeButtons.setLayout(new GridLayout(2,false));
 		compositeButtons.setLayoutData(new GridData(SWT.RIGHT,SWT.FILL,true,true));
-		
+
 		final Button buttonOK = new Button(compositeButtons, SWT.PUSH);
 		buttonOK.setText(TuxGuitar.getProperty("ok"));
 		buttonOK.setLayoutData(getButtonData(SWT.FILL, SWT.FILL, true, true));
@@ -221,18 +221,18 @@ public class MidiOutputPortSettings extends MidiSettings {
 				updateSynthPolyphonySelection( sSynthPolyphony.getSelection() );
 				updateSynthReverbActiveSelection( bSynthReverbActive.getSelection() );
 				updateSynthChorusActiveSelection( bSynthChorusActive.getSelection() );
-				
+
 				new Thread( new Runnable() {
 					@Override
 					public void run() {
 						update();
 					}
 				}).start();
-				
+
 				dialog.dispose();
 			}
 		});
-		
+
 		Button buttonCancel = new Button(compositeButtons, SWT.PUSH);
 		buttonCancel.setText(TuxGuitar.getProperty("cancel"));
 		buttonCancel.setLayoutData(getButtonData(SWT.FILL, SWT.FILL, true, true));
@@ -242,32 +242,32 @@ public class MidiOutputPortSettings extends MidiSettings {
 				dialog.dispose();
 			}
 		});
-		
+
 		dialog.setDefaultButton( buttonOK );
-		
+
 		DialogUtils.openDialog(dialog,DialogUtils.OPEN_STYLE_CENTER | DialogUtils.OPEN_STYLE_PACK | DialogUtils.OPEN_STYLE_WAIT);
 	}
-	
+
 	protected GridLayout getGridLayout(int columns){
 		GridLayout layout = new GridLayout(columns, false);
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		return layout;
 	}
-	
+
 	protected GridData getTableData(){
 		GridData data = new GridData(SWT.FILL,SWT.FILL,true,true);
 		data.minimumHeight = TABLE_HEIGHT;
 		return data;
 	}
-	
+
 	protected GridData getButtonData(int hAlignment,int vAlignment,boolean grabExcessHSpace,boolean grabExcessVSpace){
 		GridData data = new GridData(hAlignment,vAlignment,grabExcessHSpace,grabExcessVSpace);
 		data.minimumWidth = 80;
 		data.minimumHeight = 25;
 		return data;
 	}
-	
+
 	protected void addMidiPorts(Table table){
 		Iterator<String> it = getSoundfonts().iterator();
 		while(it.hasNext()){
@@ -275,7 +275,7 @@ public class MidiOutputPortSettings extends MidiSettings {
 			this.addMidiPort(table, path );
 		}
 	}
-	
+
 	protected void addMidiPort(final Table table) {
 		FileDialog chooser = new FileDialog(table.getShell());
 		String path = chooser.open();
@@ -283,28 +283,28 @@ public class MidiOutputPortSettings extends MidiSettings {
 			addMidiPort(table, path);
 		}
 	}
-	
+
 	protected void addMidiPort(Table table, String path){
 		TableItem item = new TableItem(table, SWT.NONE);
 		item.setText( path );
 		item.setData( path );
 	}
-	
+
 	protected void removeMidiPort(Table table){
 		int index = table.getSelectionIndex();
 		if(index >= 0 && index < table.getItemCount()){
 			table.remove( index );
 		}
 	}
-	
+
 	protected List<String> getAudioDriverOptions(){
 		return this.getSynth().getPropertyOptions(MidiSettings.AUDIO_DRIVER);
 	}
-	
+
 	protected List<String> getAudioSampleFormatOptions(){
 		return this.getSynth().getPropertyOptions(MidiSettings.AUDIO_SAMPLE_FORMAT);
 	}
-	
+
 	protected List<Integer> getAudioPeriodSizeOptions(){
 		List<Integer> options = new ArrayList<Integer>();
 		int[] range = getSynth().getIntegerPropertyRange( MidiSettings.AUDIO_PERIOD_SIZE );
@@ -317,7 +317,7 @@ public class MidiOutputPortSettings extends MidiSettings {
 		}
 		return options;
 	}
-	
+
 	protected List<Integer> getAudioPeriodCountOptions(){
 		List<Integer> options = new ArrayList<Integer>();
 		int[] range = getSynth().getIntegerPropertyRange( MidiSettings.AUDIO_PERIOD_COUNT );
@@ -330,7 +330,7 @@ public class MidiOutputPortSettings extends MidiSettings {
 		}
 		return options;
 	}
-	
+
 	protected List<Double> getSynthSampleRateOptions(){
 		List<Double> options = new ArrayList<Double>();
 		double[] range = getSynth().getDoublePropertyRange( MidiSettings.SYNTH_SAMPLE_RATE );
@@ -344,7 +344,7 @@ public class MidiOutputPortSettings extends MidiSettings {
 		}
 		return options;
 	}
-	
+
 	protected void fillAudioDriverCombo( List<String> options, Combo combo ){
 		int selectedIndex = 0;
 		String selectedValue = getStringValue( AUDIO_DRIVER );
@@ -357,7 +357,7 @@ public class MidiOutputPortSettings extends MidiSettings {
 		}
 		combo.select( selectedIndex );
 	}
-	
+
 	protected void fillAudioSampleFormatCombo( List<String> options, Combo combo ){
 		int selectedIndex = 0;
 		String selectedValue = getStringValue( AUDIO_SAMPLE_FORMAT );
@@ -370,7 +370,7 @@ public class MidiOutputPortSettings extends MidiSettings {
 		}
 		combo.select( selectedIndex );
 	}
-	
+
 	protected void fillAudioPeriodSizeCombo( List<Integer> options, Combo combo ){
 		int selectedIndex = 0;
 		int selectedValue = getIntegerValue( AUDIO_PERIOD_SIZE );
@@ -383,7 +383,7 @@ public class MidiOutputPortSettings extends MidiSettings {
 		}
 		combo.select( selectedIndex );
 	}
-	
+
 	protected void fillAudioPeriodCountCombo( List<Integer> options, Combo combo ){
 		int selectedIndex = 0;
 		int selectedValue = getIntegerValue( AUDIO_PERIOD_COUNT );
@@ -396,7 +396,7 @@ public class MidiOutputPortSettings extends MidiSettings {
 		}
 		combo.select( selectedIndex );
 	}
-	
+
 	protected void fillSynthGainScale( Scale scale ){
 		double[] range = getSynth().getDoublePropertyRange( MidiSettings.SYNTH_GAIN );
 		if( range.length == 2 ){
@@ -414,7 +414,7 @@ public class MidiOutputPortSettings extends MidiSettings {
 			}
 		}
 	}
-	
+
 	protected void fillSynthSampleRateCombo( List<Double> options, Combo combo ){
 		int selectedIndex = 0;
 		double selectedValue = getDoubleValue( MidiSettings.SYNTH_SAMPLE_RATE );
@@ -427,7 +427,7 @@ public class MidiOutputPortSettings extends MidiSettings {
 		}
 		combo.select( selectedIndex );
 	}
-	
+
 	protected void fillSynthPolyphonySpinner( Spinner spinner ){
 		int value = getIntegerValue( MidiSettings.SYNTH_POLYPHONY );
 		int[] range = getSynth().getIntegerPropertyRange( MidiSettings.SYNTH_POLYPHONY );
@@ -441,39 +441,39 @@ public class MidiOutputPortSettings extends MidiSettings {
 			}
 		}
 	}
-	
+
 	protected void fillSynthReverbActiveCheckbox( Button button ){
 		button.setSelection( getBooleanValue( SYNTH_REVERB_ACTIVE ) );
 	}
-	
+
 	protected void fillSynthChorusActiveCheckbox( Button button ){
 		button.setSelection( getBooleanValue( SYNTH_CHORUS_ACTIVE ) );
 	}
-	
+
 	protected void updateAudioDriverSelection( List<String> options , int index ){
 		if( index >=0 && index < options.size() ){
-			setStringValue(MidiSettings.AUDIO_DRIVER, options.get( index ) ); 
+			setStringValue(MidiSettings.AUDIO_DRIVER, options.get( index ) );
 		}
 	}
-	
+
 	protected void updateAudioSampleFormatSelection( List<String> options , int index ){
 		if( index >=0 && index < options.size() ){
-			setStringValue(MidiSettings.AUDIO_SAMPLE_FORMAT, options.get( index ) ); 
+			setStringValue(MidiSettings.AUDIO_SAMPLE_FORMAT, options.get( index ) );
 		}
 	}
-	
+
 	protected void updateAudioPeriodSizeSelection( List<Integer> options , int index ){
 		if( index >=0 && index < options.size() ){
-			setIntegerValue(MidiSettings.AUDIO_PERIOD_SIZE, options.get( index ).intValue() ); 
+			setIntegerValue(MidiSettings.AUDIO_PERIOD_SIZE, options.get( index ).intValue() );
 		}
 	}
-	
+
 	protected void updateAudioPeriodCountSelection( List<Integer> options , int index ){
 		if( index >=0 && index < options.size() ){
 			setIntegerValue(MidiSettings.AUDIO_PERIOD_COUNT, options.get( index ).intValue() );
 		}
 	}
-	
+
 	protected void updateSynthGainSelection( int value ){
 		double doubleValue = ( value / 10.00 );
 		double[] range = getSynth().getDoublePropertyRange( MidiSettings.SYNTH_GAIN );
@@ -485,13 +485,13 @@ public class MidiOutputPortSettings extends MidiSettings {
 			}
 		}
 	}
-	
+
 	protected void updateSynthSampleRateSelection( List<Double> options , int index ){
 		if( index >=0 && index < options.size() ){
 			setDoubleValue(MidiSettings.SYNTH_SAMPLE_RATE, options.get( index ).doubleValue() );
 		}
 	}
-	
+
 	protected void updateSynthPolyphonySelection( int value ){
 		int[] range = getSynth().getIntegerPropertyRange( MidiSettings.SYNTH_POLYPHONY );
 		if( range.length == 2 && range[0] < range[1] && value >= range[0] && value <= range[1] ){
@@ -500,15 +500,15 @@ public class MidiOutputPortSettings extends MidiSettings {
 			}
 		}
 	}
-	
+
 	protected void updateSynthReverbActiveSelection( boolean value ){
 		setBooleanValue( MidiSettings.SYNTH_REVERB_ACTIVE, value );
 	}
-	
+
 	protected void updateSynthChorusActiveSelection( boolean value ){
 		setBooleanValue( MidiSettings.SYNTH_CHORUS_ACTIVE, value );
 	}
-	
+
 	protected void updateSoundfontsSelection(Table table){
 		List<String> soundfonts = new ArrayList<String>();
 		int count = table.getItemCount();
@@ -520,10 +520,10 @@ public class MidiOutputPortSettings extends MidiSettings {
 		}
 		setSoundfonts( soundfonts );
 	}
-	
+
 	protected void update(){
 		this.save();
 		this.apply();
 	}
-	
+
 }

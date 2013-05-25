@@ -8,12 +8,12 @@ import org.herac.tuxguitar.app.helper.SyncThread;
 import org.herac.tuxguitar.app.util.ConfirmDialog;
 
 public class OpenDocAction {
-	
+
 	public static void saveAndOpen(final String file){
 		ActionLock.lock();
-		
+
 		TuxGuitar.instance().getPlayer().reset();
-		
+
 		if(TuxGuitar.instance().getFileHistory().isUnsavedFile()){
 			ConfirmDialog confirm = new ConfirmDialog(TuxGuitar.getProperty("file.save-changes-question"));
 			confirm.setDefaultStatus( ConfirmDialog.STATUS_CANCEL );
@@ -51,7 +51,7 @@ public class OpenDocAction {
 		}
 		openFile(file );
 	}
-	
+
 	protected static void openFile(final String url){
 		if(url == null){
 			ActionLock.unlock();

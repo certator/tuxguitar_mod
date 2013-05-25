@@ -1,15 +1,15 @@
 package org.herac.tuxguitar.io.abc.base;
 
 public class ABCComponentNote extends ABCComponent{
-	
+
 	private int fret;
-	
+
 	private int duration;
-	
+
 	private int dynamic;
-	
+
 	private int effect;
-	
+
 	public ABCComponentNote(int position,int measure, int string, int fret, int duration, int dynamic, int effect) {
 		super(position, measure, string);
 		this.fret = fret;
@@ -17,23 +17,23 @@ public class ABCComponentNote extends ABCComponent{
 		this.dynamic = dynamic;
 		this.effect = effect;
 	}
-	
+
 	public int getDuration() {
 		return this.duration;
 	}
-	
+
 	public int getDynamic() {
 		return this.dynamic;
 	}
-	
+
 	public int getEffect() {
 		return this.effect;
 	}
-	
+
 	public int getFret() {
 		return this.fret;
 	}
-	
+
 	@Override
 	public String toString(){
 		String string = new String("[NOTE]");
@@ -41,7 +41,7 @@ public class ABCComponentNote extends ABCComponent{
 		string += "\n     Position:  " + getPosition();
 		string += "\n     String:    " + getString();
 		string += "\n     Fret:      " + getFret();
-		
+
 		return string;
 	}
 }

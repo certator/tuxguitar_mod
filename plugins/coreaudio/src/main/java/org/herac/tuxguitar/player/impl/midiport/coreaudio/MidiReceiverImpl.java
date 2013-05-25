@@ -10,11 +10,11 @@ import org.herac.tuxguitar.player.base.MidiReceiver;
 
 public class MidiReceiverImpl extends MidiReceiverJNI implements MidiReceiver{
 	private boolean open; // unncessary
-    private boolean connected;	
+    private boolean connected;
 	private final List<MidiOutputPort> ports;
-	
+
 	public MidiReceiverImpl(){
-		this.ports = new ArrayList<MidiOutputPort>();	
+		this.ports = new ArrayList<MidiOutputPort>();
         this.connected = false;
 	}
 
@@ -31,19 +31,19 @@ public class MidiReceiverImpl extends MidiReceiverJNI implements MidiReceiver{
 			super.close();
 			this.open = false;
 		}
-	}	
-		
+	}
+
 	public boolean isOpen(){
 		return (this.open);
-	}	
-			
+	}
+
 	public boolean isConnected(){
 		return (this.isOpen() && this.connected);
-	}	
-			
+	}
+
     public void connect(){
         if(isOpen()){
-            if(!isConnected()){             
+            if(!isConnected()){
                 this.connected = true;
                 this.openDevice();
             }
@@ -55,8 +55,8 @@ public class MidiReceiverImpl extends MidiReceiverJNI implements MidiReceiver{
 			this.closeDevice();
 			this.connected = false;
 		}
-	}		
-		
+	}
+
 	public List<MidiOutputPort> listPorts(){
 		if(isOpen()){
 			this.ports.clear();
@@ -64,18 +64,18 @@ public class MidiReceiverImpl extends MidiReceiverJNI implements MidiReceiver{
 			return this.ports;
 		}
 		return Collections.emptyList();
-	}		
+	}
 
 	public void sendSystemReset() {
 		if(isOpen()){
 			//not implemented
 		}
 	}
-	
+
 	@Override
 	public void sendAllNotesOff() {
 		for(int i = 0; i < 16; i ++){
-			sendControlChange(i,MidiControllers.ALL_NOTES_OFF,0);		
+			sendControlChange(i,MidiControllers.ALL_NOTES_OFF,0);
 		}
 	}
 

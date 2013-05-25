@@ -12,13 +12,13 @@ import org.herac.tuxguitar.app.system.icons.IconLoader;
 import org.herac.tuxguitar.app.system.language.LanguageLoader;
 
 public class TGTray implements IconLoader,LanguageLoader{
-	
+
 	private boolean visible;
 	private Display display;
 	private Tray tray;
 	private TGTrayIcon icon;
 	private TGTrayMenu menu;
-	
+
 	public TGTray(){
 		this.display = TuxGuitar.instance().getDisplay();
 		this.tray = this.display.getSystemTray();
@@ -27,7 +27,7 @@ public class TGTray implements IconLoader,LanguageLoader{
 		TuxGuitar.instance().getIconManager().addLoader(this);
 		TuxGuitar.instance().getLanguageManager().addLoader(this);
 	}
-	
+
 	public void removeTray(){
 		if (this.tray != null) {
 			setVisible(true);
@@ -38,7 +38,7 @@ public class TGTray implements IconLoader,LanguageLoader{
 			this.menu.dispose();
 		}
 	}
-	
+
 	public void addTray() {
 		if (this.tray != null) {
 			this.menu.make();
@@ -61,22 +61,22 @@ public class TGTray implements IconLoader,LanguageLoader{
 			this.loadIcons();
 		}
 	}
-	
+
 	@Override
 	public void loadIcons() {
 		this.icon.loadImage();
 		this.menu.loadIcons();
 	}
-	
+
 	@Override
 	public void loadProperties(){
 		this.menu.loadProperties();
 	}
-	
+
 	protected void setVisible(){
 		this.setVisible(!this.visible);
 	}
-	
+
 	protected void setVisible(boolean visible){
 		if (this.tray != null) {
 			Shell shells[] = this.display.getShells();
@@ -86,7 +86,7 @@ public class TGTray implements IconLoader,LanguageLoader{
 			this.visible = visible;
 		}
 	}
-	
+
 	protected void showMenu(){
 		this.menu.show();
 	}

@@ -5,12 +5,12 @@ import org.herac.tuxguitar.io.base.TGRawExporter;
 import org.herac.tuxguitar.song.factory.TGFactory;
 import org.herac.tuxguitar.song.models.TGSong;
 
-public class TGShareSongExporter implements TGRawExporter { 
-	
+public class TGShareSongExporter implements TGRawExporter {
+
 	public TGShareSongExporter(){
 		super();
 	}
-	
+
 	@Override
 	public void exportSong(TGSong srcSong) throws TGFileFormatException {
 		final TGSong song = srcSong.clone(new TGFactory());
@@ -21,7 +21,7 @@ public class TGShareSongExporter implements TGRawExporter {
 			}
 		} ).start();
 	}
-	
+
 	@Override
 	public String getExportName() {
 		return ("Share with the Community");

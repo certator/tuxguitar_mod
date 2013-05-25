@@ -3,32 +3,32 @@ package org.herac.tuxguitar.jack.synthesizer;
 import org.herac.tuxguitar.app.system.config.TGConfigManager;
 
 public class JackOutputPortRouter {
-	
+
 	public static final int CREATE_UNIQUE_PORT = 0;
 	public static final int CREATE_MULTIPLE_PORTS_BY_CHANNEL = 1;
 	public static final int CREATE_MULTIPLE_PORTS_BY_PROGRAM = 2;
-	
+
 	private static final int PORT_INDEX = 0;
 	private static final int CHANNEL_INDEX = 1;
 	private static final int PROGRAM_INDEX = 2;
 	private static final int BANK_INDEX = 3;
-	
+
 	private int ports;
 	private int[] banks;
 	private int[][] channels;
 	private int[][][] programs;
-	
+
 	public JackOutputPortRouter(){
 		this.ports = 1;
 		this.banks = new int[16];
 		this.channels = new int[16][4];
 		this.programs = new int[129][128][4];
 	}
-	
+
 	public int getPortCount(){
 		return this.ports;
 	}
-	
+
 	public int getPortRoute( int channel ){
 		if( channel >= 0 && channel < this.channels.length ){
 			int route = this.channels[ channel ][ PORT_INDEX ];
@@ -36,7 +36,7 @@ public class JackOutputPortRouter {
 		}
 		return 0;
 	}
-	
+
 	public int getChannelRoute( int channel ){
 		if( channel >= 0 && channel < this.channels.length ){
 			int route = this.channels[ channel ][ CHANNEL_INDEX ];
@@ -44,7 +44,7 @@ public class JackOutputPortRouter {
 		}
 		return 0;
 	}
-	
+
 	public int getProgramRoute( int channel , int program ){
 		if( channel >= 0 && channel < this.channels.length ){
 			int route = this.channels[ channel ][ PROGRAM_INDEX ];
@@ -52,7 +52,7 @@ public class JackOutputPortRouter {
 		}
 		return 0;
 	}
-	
+
 	public int getBankRoute( int channel ){
 		if( channel >= 0 && channel < this.channels.length ){
 			int route = this.channels[ channel ][ BANK_INDEX ];
@@ -60,7 +60,7 @@ public class JackOutputPortRouter {
 		}
 		return 0;
 	}
-	
+
 	public void setProgram( int channel , int program ){
 		if( channel >= 0 && channel < this.channels.length && program >= 0 && program < this.programs.length ){
 			if( this.channels[ channel ][ PROGRAM_INDEX ] >= 0 ){
@@ -84,20 +84,20 @@ public class JackOutputPortRouter {
 			}
 		}
 	}
-	
+
 	public void setBank( int channel , int bank ){
 		if( channel != 9 && channel >= 0 && channel < this.banks.length ){
 			this.banks[channel] = bank;
 		}
 	}
-	
+
 	public int getBank( int channel ){
 		if( channel >= 0 && channel < this.banks.length ){
 			return (channel == 9 ? 128 : this.banks[channel]);
 		}
 		return 0;
 	}
-	
+
 	protected void createUniquePort(){
 		this.ports = 1;
 		for( int channel = 0 ; channel < this.channels.length ; channel ++ ){
@@ -115,10 +115,10 @@ public class JackOutputPortRouter {
 			}
 		}
 	}
-	
+
 	protected void createMultiplePortsByChannel( int[][] routing ){
 		this.ports = this.channels.length;
-		
+
 		// Initialize default channel values
 		for( int channel = 0 ; channel < this.channels.length ; channel ++ ){
 			this.channels[channel][ PORT_INDEX ] = channel;
@@ -135,7 +135,7 @@ public class JackOutputPortRouter {
 				this.programs[bank][program][ BANK_INDEX ] = -1;
 			}
 		}
-		
+
 		// load new routing
 		for( int i = 0 ; i < routing.length ; i ++ ){
 			if( routing[i].length == 4 ){
@@ -148,10 +148,10 @@ public class JackOutputPortRouter {
 			}
 		}
 	}
-	
+
 	protected void createMultiplePortsByProgram( int[][][] routing ){
 		this.ports = 1;
-		
+
 		// Initialize default channel values
 		for( int i = 0 ; i < this.channels.length ; i ++ ){
 			this.channels[i][ PORT_INDEX ] = -1;
@@ -159,7 +159,7 @@ public class JackOutputPortRouter {
 			this.channels[i][ PROGRAM_INDEX ] = 0;
 			this.channels[i][ BANK_INDEX ] = 0;
 		}
-		
+
 		// Initialize default program values
 		for( int bank = 0 ; bank < this.programs.length ; bank ++ ){
 			for( int program = 0 ; program < this.programs[bank].length ; program ++ ){
@@ -169,7 +169,7 @@ public class JackOutputPortRouter {
 				this.programs[bank][program][ CHANNEL_INDEX ] = -1;
 			}
 		}
-		
+
 		// load new routing
 		for( int bank = 0 ; bank < routing.length ; bank ++ ){
 			for( int prg = 0 ; prg < routing[bank].length ; prg ++ ){
@@ -186,7 +186,7 @@ public class JackOutputPortRouter {
 			}
 		}
 	}
-	
+
 	public void loadSettings( TGConfigManager config ){
 		int type = config.getIntConfigValue("jack.midi.ports.type", CREATE_UNIQUE_PORT );
 		if( type == CREATE_MULTIPLE_PORTS_BY_PROGRAM ){

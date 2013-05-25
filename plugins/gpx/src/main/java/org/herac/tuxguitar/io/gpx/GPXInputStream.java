@@ -10,17 +10,17 @@ import org.herac.tuxguitar.song.factory.TGFactory;
 import org.herac.tuxguitar.song.models.TGSong;
 
 public class GPXInputStream implements TGInputStreamBase{
-	
+
 	private int gpxHeader;
 	private InputStream gpxStream;
 	private GPXFileSystem gpxFileSystem;
 	private TGFactory factory;
-	
+
 	@Override
 	public TGFileFormat getFileFormat() {
 		return new TGFileFormat("Guitar Pro 6","*.gpx");
 	}
-	
+
 	@Override
 	public void init(TGFactory factory, InputStream stream) {
 		this.factory = factory;
@@ -28,26 +28,26 @@ public class GPXInputStream implements TGInputStreamBase{
 		this.gpxHeader = 0;
 		this.gpxFileSystem = new GPXFileSystem();
 	}
-	
+
 	@Override
 	public boolean isSupportedVersion() {
 		try {
 			this.gpxHeader = this.gpxFileSystem.getHeader( this.gpxStream );
-			
+
 			return this.gpxFileSystem.isSupportedHeader(this.gpxHeader);
 		} catch (Throwable throwable) {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public TGSong readSong() throws TGFileFormatException, IOException {
 		try {
 			this.gpxFileSystem.load(this.gpxHeader, this.gpxStream);
-			
+
 			GPXDocumentReader gpxReader = new GPXDocumentReader( this.gpxFileSystem.getFileContentsAsStream("score.gpif"));
 			GPXDocumentParser gpxParser = new GPXDocumentParser( this.factory , gpxReader.read() );
-			
+
 			return gpxParser.parse();
 		} catch (Throwable throwable) {
 			throw new TGFileFormatException( throwable );

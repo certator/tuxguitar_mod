@@ -24,43 +24,43 @@ import org.herac.tuxguitar.song.managers.TGSongManager;
 import org.herac.tuxguitar.song.models.TGSong;
 
 public class ImageExporter implements TGRawExporter{
-	
+
 	private static final int PAGE_WIDTH = 550;
 	private static final int PAGE_HEIGHT = 800;
-	
+
 	private PrintStyles styles;
 	private ImageFormat format;
 	private String path;
-	
+
 	@Override
 	public String getExportName() {
 		return TuxGuitar.getProperty("tuxguitar-image.export-label");
 	}
-	
+
 	public PrintStyles getStyles() {
 		return this.styles;
 	}
-	
+
 	public void setStyles(PrintStyles styles) {
 		this.styles = styles;
 	}
-	
+
 	public ImageFormat getFormat() {
 		return this.format;
 	}
-	
+
 	public void setFormat(ImageFormat format) {
 		this.format = format;
 	}
-	
+
 	public String getPath() {
 		return this.path;
 	}
-	
+
 	public void setPath(String path) {
 		this.path = path;
 	}
-	
+
 	public PrintStyles getDefaultStyles(TGSong song){
 		PrintStyles styles = new PrintStyles();
 		styles.setStyle(TGLayout.DISPLAY_TABLATURE);
@@ -70,7 +70,7 @@ public class ImageExporter implements TGRawExporter{
 		styles.setBlackAndWhite(false);
 		return styles;
 	}
-	
+
 	@Override
 	public void exportSong(final TGSong song) {
 		if( this.path != null ){
@@ -83,7 +83,7 @@ public class ImageExporter implements TGRawExporter{
 			export(song);
 		}
 	}
-	
+
 	public void export(final TGSong song){
 		new Thread(new Runnable() {
 			@Override
@@ -92,7 +92,7 @@ public class ImageExporter implements TGRawExporter{
 					TGSongManager manager = new TGSongManager();
 					manager.setFactory(new TGFactoryImpl());
 					manager.setSong(song.clone(manager.getFactory()));
-					
+
 					export(manager);
 				}catch(Throwable throwable){
 					MessageDialog.errorMessage(throwable);
@@ -100,17 +100,17 @@ public class ImageExporter implements TGRawExporter{
 			}
 		}).start();
 	}
-	
+
 	public void export(final TGSongManager manager){
 		new SyncThread(new Runnable() {
 			@Override
 			public void run() {
 				try{
 					TGResourceFactory factory = new TGResourceFactoryImpl(TuxGuitar.instance().getDisplay());
-					
+
 					PrintController controller = new PrintController(manager, factory);
 					PrintLayout layout = new PrintLayout(controller, getStyles());
-					
+
 					export(layout);
 				}catch(Throwable throwable){
 					MessageDialog.errorMessage(throwable);
@@ -118,7 +118,7 @@ public class ImageExporter implements TGRawExporter{
 			}
 		}).start();
 	}
-	
+
 	public void export(final PrintLayout layout){
 		new Thread(new Runnable() {
 			@Override
@@ -133,16 +133,16 @@ public class ImageExporter implements TGRawExporter{
 			}
 		}).start();
 	}
-	
+
 	private class PrintDocumentImpl implements PrintDocument{
-		
+
 		private TGPainterImpl painter;
 		private TGRectangle bounds;
 		private String path;
 		private Image buffer;
 		private List<ImageData> pages;
 		private ImageFormat format;
-		
+
 		public PrintDocumentImpl(TGRectangle bounds, ImageFormat format, String path){
 			this.bounds = bounds;
 			this.path = path;
@@ -150,35 +150,35 @@ public class ImageExporter implements TGRawExporter{
 			this.pages = new ArrayList<ImageData>();
 			this.format = format;
 		}
-		
+
 		@Override
 		public TGPainter getPainter() {
 			return this.painter;
 		}
-		
+
 		@Override
 		public TGRectangle getBounds(){
 			return this.bounds;
 		}
-		
+
 		@Override
 		public void pageStart() {
 			this.buffer = new Image(TuxGuitar.instance().getDisplay(),this.bounds.getWidth() + (this.bounds.getX() * 2), this.bounds.getHeight() + (this.bounds.getY() * 2) );
 			this.painter.init( this.buffer );
 		}
-		
+
 		@Override
 		public void pageFinish() {
 			this.pages.add( this.buffer.getImageData() );
 			this.painter.dispose();
 			this.buffer.dispose();
 		}
-		
+
 		@Override
 		public void start() {
 			// Not implemented
 		}
-		
+
 		@Override
 		public void finish() {
 			try {
@@ -187,7 +187,7 @@ public class ImageExporter implements TGRawExporter{
 				MessageDialog.errorMessage(throwable);
 			}
 		}
-		
+
 		@Override
 		public boolean isPaintable(int page) {
 			return true;

@@ -86,7 +86,7 @@ static private	MiProvider	s_Instance;
 	public void	echo_ResetNotes()
 	{
 	f_EchoLastWasOn = false;
-		
+
 	for(int s = 0; s < f_EchoNotes.length; s++)
 		f_EchoNotes[s] = -1;
 	}
@@ -145,17 +145,17 @@ static private	MiProvider	s_Instance;
 						case MiConfig.MODE_FRETBOARD_ECHO:
 							echo(stringIndex, fretIndex, false);
 							break;
-	
+
 						case MiConfig.MODE_CHORDS_RECORDING:
 							echo(stringIndex, fretIndex, false);
 							chord_AddNote(stringIndex, fretIndex, pitch, (byte)0, inTimeStamp);
 							break;
-	
+
 						case MiConfig.MODE_SCALES_RECOGNITION:
 							echo(stringIndex, fretIndex, false);
 							scale_AddNote(stringIndex, fretIndex, pitch, (byte)0, inTimeStamp);
 							break;
-	
+
 						case MiConfig.MODE_SONG_RECORDING:
 							echo(stringIndex, fretIndex, false);
 							MiRecorder.instance().addNote(stringIndex, fretIndex, pitch, (byte)0, inTimeStamp);
@@ -264,7 +264,7 @@ static private	MiProvider	s_Instance;
 	f_EchoLastWasOn = inIsOn;
 
 	TGSongManager	songMgr	= TuxGuitar.instance().getSongManager();
-	
+
 	f_EchoBeat = songMgr.getFactory().newBeat();
 
 	for(int s = 0; s < f_EchoNotes.length; s++)
@@ -281,7 +281,7 @@ static private	MiProvider	s_Instance;
 
 	echo_UpdateExternalBeat(false);
 	}
-	
+
 
 	private void	echo(int inString, int inFret, boolean inIsNoteOn)
 	{
@@ -377,7 +377,7 @@ static private	MiProvider	s_Instance;
 									}
 								}
 							}
-							
+
 						songMgr.getMeasureManager().addChord(beat, chord);
 						TuxGuitar.instance().getFileHistory().setUnsavedFile();
 						editor.getTablature().updateMeasure(measure.getNumber());
@@ -390,7 +390,7 @@ static private	MiProvider	s_Instance;
 					}
 				}
 			};
-		
+
 		if(inVelocity > 0)
 			{
 			//System.out.println("New chord");
@@ -410,7 +410,7 @@ static private	MiProvider	s_Instance;
 			f_InputTimer.restart();
 		}
 	}
-	
+
 
 	private void	scale_AddNote(byte inString, byte inFret, byte inPitch, byte inVelocity, long inTimeStamp)
 	{

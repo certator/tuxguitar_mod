@@ -13,11 +13,11 @@ import org.herac.tuxguitar.io.base.TGInputStreamBase;
 import org.herac.tuxguitar.io.base.TGOutputStreamBase;
 
 public class GTPPluginList extends TGPluginList implements TGPluginSetup{
-	
+
 	@Override
 	protected List<TGPlugin> getPlugins() {
 		GTPSettingsUtil.instance().load();
-		
+
 		List<TGPlugin> plugins = new ArrayList<TGPlugin>();
 		plugins.add(new TGInputStreamPlugin() {
 			@Override
@@ -69,27 +69,27 @@ public class GTPPluginList extends TGPluginList implements TGPluginSetup{
 		});
 		return plugins;
 	}
-	
+
 	@Override
 	public void setupDialog(Shell parent) {
 		GTPSettingsUtil.instance().configure(parent);
 	}
-	
+
 	@Override
 	public String getAuthor() {
 		return "Julian Casadesus <julian@casadesus.com.ar>";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Guitar Pro File Format plugin";
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return "Guitar Pro File Format plugin for TuxGuitar";
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return "1.0";

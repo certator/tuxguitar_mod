@@ -15,41 +15,41 @@ public class TGCommunityPluginImpl extends TGPluginList {
 	@Override
 	protected List<TGPlugin> getPlugins() throws TGPluginException {
 		List<TGPlugin> plugins = new ArrayList<TGPlugin>();
-		
+
 		plugins.add(new TGShareSongPlugin());
 		plugins.add(new TGBrowserPluginImpl());
 		plugins.add(new TGCommunityStartupPlugin());
-		
+
 		return plugins;
 	}
-	
+
 	@Override
 	public void init() throws TGPluginException{
 		TGCommunitySingleton.getInstance().loadSettings();
 		super.init();
 	}
-	
+
 	@Override
 	public void close() throws TGPluginException{
 		TGCommunitySingleton.getInstance().saveSettings();
 		super.close();
 	}
-	
+
 	@Override
 	public String getName() {
 		return "TuxGuitar Community Integration";
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return "TuxGuitar Community Integration";
 	}
-	
+
 	@Override
 	public String getAuthor() {
 		return "Julian Casadesus <julian@casadesus.com.ar>";
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return "1.2";
