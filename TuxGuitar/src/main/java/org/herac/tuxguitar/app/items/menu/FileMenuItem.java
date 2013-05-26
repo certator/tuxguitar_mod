@@ -7,6 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -191,6 +193,15 @@ public class FileMenuItem extends MenuItems {
 			}
 		}
 
+		Comparator<TGRawImporter> comparator = new Comparator<TGRawImporter>() {
+			@Override
+			public int compare(TGRawImporter a, TGRawImporter b) {
+				return a.getImportName().compareToIgnoreCase(b.getImportName());
+			}
+		};
+		Collections.sort(importersRaw, comparator);
+		Collections.sort(importersFile, comparator);
+
 		for( int i = 0 ; i < importersFile.size() ; i ++ ){
 			ActionData actionData = new ActionData();
 			actionData.put(ImportSongAction.PROPERTY_IMPORTER, importersFile.get( i ));
@@ -230,6 +241,15 @@ public class FileMenuItem extends MenuItems {
 				exportersRaw.add( exporter );
 			}
 		}
+
+		Comparator<TGRawExporter> comparator = new Comparator<TGRawExporter>() {
+			@Override
+			public int compare(TGRawExporter a, TGRawExporter b) {
+				return a.getExportName().compareToIgnoreCase(b.getExportName());
+			}
+		};
+		Collections.sort(exportersRaw, comparator);
+		Collections.sort(exportersFile, comparator);
 
 		for( int i = 0 ; i < exportersFile.size() ; i ++ ){
 			ActionData actionData = new ActionData();

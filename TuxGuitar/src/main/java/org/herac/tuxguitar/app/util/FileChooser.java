@@ -5,6 +5,8 @@ package org.herac.tuxguitar.app.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -133,6 +135,13 @@ public class FileChooser {
 		private final String[] filterNames;
 
 		public  FilterList(List<TGFileFormat> formats) {
+			Collections.sort(formats, new Comparator<TGFileFormat>() {
+				@Override
+				public int compare(TGFileFormat a, TGFileFormat b) {
+					return a.getName().compareToIgnoreCase(b.getName());
+				}
+			});
+
 			int size = (formats.size() + 2);
 			this.filterNames = new String[size];
 			this.filterExtensions = new String[size];
