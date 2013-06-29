@@ -45,17 +45,17 @@ class TrackCanvas extends Composite implements PaintListener{
 	}
 
 	protected void paintTrack(TGPainterImpl painter){
-		if (track == null)
+		if (this.track == null)
 			return;
 
 		if(!TuxGuitar.instance().isLocked()){
 			TuxGuitar.instance().lock();
 
-			int x = -hScroll;
+			int x = -this.hScroll;
 			int y = 0;
 			int height = this.getSize().y;
 			int width = painter.getGC().getDevice().getBounds().width;
-			int measureWidth = (int)(height * widthMeasureCoef);
+			int measureWidth = (int)(height * this.widthMeasureCoef);
 			boolean playing = TuxGuitar.instance().getPlayer().isRunning();
 
 			painter.setBackground(new TGColorImpl(painter.getGC().getDevice().getSystemColor(SWT.COLOR_GRAY)));
@@ -69,12 +69,13 @@ class TrackCanvas extends Composite implements PaintListener{
 			TGColor selectedColor = createSelectionColor(painter, this.track.getColor());
 
 			boolean normal = true;
+			boolean hasChange = false;
 			int count = this.track.countMeasures();
 			for(int j = 0;j < count;j++){
 				TGMeasureImpl measure = (TGMeasureImpl)this.track.getMeasure(j);
 
 				// swap the color to show a structural change
-				if (measure.isRepeatOpen()) {
+				if (measure.isRepeatOpen() && !hasChange) {
 					normal = !normal;
 				}
 
@@ -106,7 +107,10 @@ class TrackCanvas extends Composite implements PaintListener{
 
 				// swap the color to show a structural change
 				if (measure.hasDoubleBar() || measure.getRepeatClose() != 0) {
+					hasChange = true;
 					normal = !normal;
+				} else {
+					hasChange = false;
 				}
 			}
 			trackColor.dispose();
@@ -174,14 +178,14 @@ class TrackCanvas extends Composite implements PaintListener{
 	 * Size taken by the draw of the full track inside the component
 	 */
 	public int getRealWidth() {
-		if (track == null)
+		if (this.track == null)
 			return 0;
-		int width = track.countMeasures() * (int)(this.getSize().y * this.widthMeasureCoef);
+		int width = this.track.countMeasures() * (int)(this.getSize().y * this.widthMeasureCoef);
 		return width;
 	}
 
 	public float getWidthMeasureCoef() {
-		return widthMeasureCoef;
+		return this.widthMeasureCoef;
 	}
 
 	public void setWidthMeasureCoef(float widthMeasureCoef) {
@@ -206,15 +210,15 @@ class TrackCanvas extends Composite implements PaintListener{
 	 * @return
 	 */
 	public TGMeasure getMeasureAtPosition(int x) {
-		if (track == null) {
+		if (this.track == null) {
 			return null;
 		}
-		int measureWidth = (int)(this.getSize().y * widthMeasureCoef);
-		int index = (x + hScroll) / measureWidth;
-		if (index < 0 || index >= track.countMeasures()) {
+		int measureWidth = (int)(this.getSize().y * this.widthMeasureCoef);
+		int index = (x + this.hScroll) / measureWidth;
+		if (index < 0 || index >= this.track.countMeasures()) {
 			return null;
 		}
-		return track.getMeasure(index);
+		return this.track.getMeasure(index);
 	}
 
 }
