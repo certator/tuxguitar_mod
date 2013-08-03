@@ -90,6 +90,7 @@ public class CompositionToolItems extends ToolItems{
 		this.repeatClose.setSelection(measure != null && measure.getRepeatClose() > 0);
 		this.repeatAlternative.setEnabled( !running );
 		this.repeatAlternative.setSelection(measure != null && measure.getHeader().getRepeatAlternative() > 0);
+		this.doubleBar.setEnabled( !running );
 		this.doubleBar.setSelection(measure != null && measure.getHeader().hasDoubleBar());
 	}
 }
