@@ -1,0 +1,91 @@
+<project
+		xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>plugins</artifactId>
+	<parent>
+		<artifactId>tuxguitar</artifactId>
+		<groupId>org.herac.tuxguitar</groupId>
+		<version>1.3-SNAPSHOT</version>
+	</parent>
+
+	<packaging>pom</packaging>
+	<name>TuxGuitar :: plugins</name>
+	<description>Plugins for TuxGuitar</description>
+
+	<profiles>
+		<profile>
+			<id>purejava</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+				<module>abc</module>
+				<module>ascii</module>
+				<module>browser-ftp</module>
+				<module>community</module>
+				<module>compat</module>
+				<module>converter</module>
+				<module>gervill</module>
+				<module>gpx</module>
+				<module>gtp</module>
+				<module>image</module>
+				<module>jsa</module>
+				<module>lilypond</module>
+				<module>midi</module>
+				<module>midi-input</module>
+				<module>musicxml</module>
+				<module>pdf</module>
+				<module>ptb</module>
+				<module>svg</module>
+				<module>tef</module>
+				<module>tray</module>
+				<module>tuner</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<id>linux-jni</id>
+			<modules>
+				<module>alsa</module>
+				<module>fluidsynth</module>
+				<module>jack</module>
+				<module>oss</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<id>windows-jni</id>
+			<modules>
+				<!-- JNI plugins -->
+				<!-- TODO the project need some fix to build with Windows -->
+				<!-- TODO maybe it need to split the project linux/windows -->
+				<module>fluidsynth</module>
+				<!-- TODO the project need some fix to build with Windows -->
+				<module>winmm</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<id>mac-jni</id>
+			<modules>
+				<!-- OS integration -->
+				<!-- TODO the project need some fix to build with Mac OS.-->
+				<!-- it is maybe needed to use another SWT version, for example http://swt-repo.googlecode.com/svn/repo/org/eclipse/swt/ -->
+				<module>cocoa-integration</module>
+				<!-- TODO the project need some fix to build with Mac OS -->
+				<module>carbon-integration</module>
+
+				<!-- JNI plugins -->
+				<!-- TODO the project need some fix to build with Mac OS -->
+				<module>audiounit</module>
+				<!-- TODO the project need some fix to build with Mac OS -->
+				<module>coreaudio</module>
+			</modules>
+		</profile>
+
+	</profiles>
+</project>

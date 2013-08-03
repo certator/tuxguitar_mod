@@ -2,3 +2,5 @@
 *.jar
 *.jnilib
 bin/
+target/
+.*

@@ -1,5 +1,11 @@
 # 1.3
 
+composition.doublebar=Double bar
+
+tuning.load=Load...
+tuning.dialog.properties=Tuning selection
+tuning.string-instrument={0} {1}-strings
+
 action.caret.go-up=Move cursor up
 action.caret.go-down=Move cursor down
 action.caret.go-left=Move cursor left
