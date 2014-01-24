@@ -51,9 +51,11 @@ sourceSets {
             srcDir 'TuxGuitar-image/src'
 
         }
-        /*resources {
-            srcDir 'src/resources'
-        }*/
+        resources {
+            srcDir 'TuxGuitar/share'
+            srcDir 'TuxGuitar-ascii/share'
+            srcDir 'TuxGuitar-gtp/share'
+        }
     }
 }
 

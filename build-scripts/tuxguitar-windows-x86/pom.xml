@@ -260,6 +260,9 @@
 									<fileset file="./src/resources/tuxguitar.bat"/>
 								</copy>
 								<copy todir="${project.build.directory}/${project.finalName}/" overwrite="true">
+									<fileset file="./src/resources/tuxguitar_debug.bat"/>
+								</copy>
+								<copy todir="${project.build.directory}/${project.finalName}/" overwrite="true">
 									<fileset file="./src/resources/tuxguitar.lap"/>
 								</copy>
 								<copy todir="${project.build.directory}/${project.finalName}/" overwrite="true">
