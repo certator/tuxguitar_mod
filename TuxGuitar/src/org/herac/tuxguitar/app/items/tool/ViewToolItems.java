@@ -10,9 +10,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.herac.tuxguitar.app.TuxGuitar;
-import org.herac.tuxguitar.app.actions.view.ShowFretBoardAction;
-import org.herac.tuxguitar.app.actions.view.ShowInstrumentsAction;
-import org.herac.tuxguitar.app.actions.view.ShowTransportAction;
+import org.herac.tuxguitar.app.action.TGActionProcessor;
+import org.herac.tuxguitar.app.action.impl.view.ShowFretBoardAction;
+import org.herac.tuxguitar.app.action.impl.view.ShowInstrumentsAction;
+import org.herac.tuxguitar.app.action.impl.view.ShowTransportAction;
 import org.herac.tuxguitar.app.items.ToolItems;
 
 /**
@@ -35,15 +36,15 @@ public class ViewToolItems extends ToolItems{
 	public void showItems(ToolBar toolBar){
 		//--FRETBOARD--
 		this.showFretBoard = new ToolItem(toolBar, SWT.CHECK);
-		this.showFretBoard.addSelectionListener(TuxGuitar.instance().getAction(ShowFretBoardAction.NAME));
+		this.showFretBoard.addSelectionListener(new TGActionProcessor(ShowFretBoardAction.NAME));
 		
 		//--INSTRUMENTS--
 		this.showInstruments = new ToolItem(toolBar, SWT.CHECK);
-		this.showInstruments.addSelectionListener(TuxGuitar.instance().getAction(ShowInstrumentsAction.NAME));
+		this.showInstruments.addSelectionListener(new TGActionProcessor(ShowInstrumentsAction.NAME));
 		
 		//--TRANSPORT--
 		this.showTransport = new ToolItem(toolBar, SWT.CHECK);
-		this.showTransport.addSelectionListener(TuxGuitar.instance().getAction(ShowTransportAction.NAME));
+		this.showTransport.addSelectionListener(new TGActionProcessor(ShowTransportAction.NAME));
 		
 		this.loadIcons();
 		this.loadProperties();

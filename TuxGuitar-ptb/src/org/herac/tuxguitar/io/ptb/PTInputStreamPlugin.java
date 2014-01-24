@@ -1,27 +1,17 @@
 package org.herac.tuxguitar.io.ptb;
 
-import org.herac.tuxguitar.app.system.plugins.base.TGInputStreamPlugin;
 import org.herac.tuxguitar.io.base.TGInputStreamBase;
+import org.herac.tuxguitar.io.plugin.TGInputStreamPlugin;
 
 public class PTInputStreamPlugin extends TGInputStreamPlugin{
+	
+	public static final String MODULE_ID = "tuxguitar-ptb";
 	
 	protected TGInputStreamBase getInputStream() {
 		return new PTInputStream();
 	}
 	
-	public String getAuthor() {
-		return "Julian Casadesus <julian@casadesus.com.ar>";
-	}
-	
-	public String getDescription() {
-		return "PTB File Format plugin";
-	}
-	
-	public String getName() {
-		return "PTB File Format plugin";
-	}
-	
-	public String getVersion() {
-		return "1.0";
+	public String getModuleId(){
+		return MODULE_ID;
 	}
 }

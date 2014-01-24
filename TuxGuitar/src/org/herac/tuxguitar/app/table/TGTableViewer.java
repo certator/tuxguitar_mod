@@ -15,12 +15,13 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.ScrollBar;
+import org.herac.tuxguitar.action.TGActionContext;
+import org.herac.tuxguitar.action.TGActionManager;
 import org.herac.tuxguitar.app.TuxGuitar;
-import org.herac.tuxguitar.app.actions.ActionData;
-import org.herac.tuxguitar.app.actions.ActionLock;
-import org.herac.tuxguitar.app.actions.composition.ChangeInfoAction;
-import org.herac.tuxguitar.app.actions.track.GoToTrackAction;
-import org.herac.tuxguitar.app.actions.track.TrackPropertiesAction;
+import org.herac.tuxguitar.app.action.TGActionLock;
+import org.herac.tuxguitar.app.action.impl.composition.ChangeInfoAction;
+import org.herac.tuxguitar.app.action.impl.track.GoToTrackAction;
+import org.herac.tuxguitar.app.action.impl.track.TrackPropertiesAction;
 import org.herac.tuxguitar.app.editors.TGRedrawListener;
 import org.herac.tuxguitar.app.editors.TGUpdateListener;
 import org.herac.tuxguitar.app.editors.TablatureEditor;
@@ -34,11 +35,13 @@ import org.herac.tuxguitar.song.models.TGBeat;
 import org.herac.tuxguitar.song.models.TGChannel;
 import org.herac.tuxguitar.song.models.TGMeasure;
 import org.herac.tuxguitar.song.models.TGTrack;
+import org.herac.tuxguitar.util.TGException;
+import org.herac.tuxguitar.util.TGSynchronizer;
 
 public class TGTableViewer implements TGRedrawListener, TGUpdateListener, LanguageLoader {
 	
 	private Composite composite;
-	private ScrollBar hSroll;
+	private ScrollBar hScroll;
 	private Color[] backgrounds;
 	private Color[] foregrounds;
 	private TGTable table;
@@ -92,8 +95,8 @@ public class TGTableViewer implements TGRedrawListener, TGUpdateListener, Langua
 	}
 	
 	private void addHScroll(){
-		this.hSroll = getComposite().getHorizontalBar();
-		this.hSroll.addListener(SWT.Selection, new Listener() {
+		this.hScroll = getComposite().getHorizontalBar();
+		this.hScroll.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				redrawLocked();
 			}
@@ -110,7 +113,11 @@ public class TGTableViewer implements TGRedrawListener, TGUpdateListener, Langua
 		this.table.getColumnCanvas().getControl().addMouseListener(listener);
 		this.table.getColumnCanvas().getControl().addMouseListener(new MouseAdapter() {
 			public void mouseDoubleClick(MouseEvent e) {
-				TuxGuitar.instance().getAction(ChangeInfoAction.NAME).process(new ActionData());
+				TGSynchronizer.instance().executeLater(new TGSynchronizer.TGRunnable() {
+					public void run() throws TGException {
+						TGActionManager.getInstance().execute(ChangeInfoAction.NAME);
+					}
+				});
 			}
 		});
 		this.fireUpdate(true);
@@ -138,9 +145,9 @@ public class TGTableViewer implements TGRedrawListener, TGUpdateListener, Langua
 	
 	public void updateHScroll(){
 		int width = (getEditor().getTablature().getCaret().getTrack().countMeasures() * this.table.getRowHeight());
-		this.hSroll.setIncrement(this.table.getScrollIncrement());
-		this.hSroll.setMaximum(width);
-		this.hSroll.setThumb(Math.min(width ,this.table.getColumnCanvas().getControl().getClientArea().width));
+		this.hScroll.setIncrement(this.table.getScrollIncrement());
+		this.hScroll.setMaximum(width);
+		this.hScroll.setThumb(Math.min(width ,this.table.getColumnCanvas().getControl().getClientArea().width));
 	}
 	
 	public TGTable getTable(){
@@ -148,7 +155,7 @@ public class TGTableViewer implements TGRedrawListener, TGUpdateListener, Langua
 	}
 	
 	public int getHScrollSelection(){
-		return this.hSroll.getSelection();
+		return this.hScroll.getSelection();
 	}
 	
 	public TablatureEditor getEditor(){
@@ -211,19 +218,26 @@ public class TGTableViewer implements TGRedrawListener, TGUpdateListener, Langua
 						}
 						
 						public void mouseDown(MouseEvent e) {
-							if(track.getNumber() != getEditor().getTablature().getCaret().getTrack().getNumber()){
-								ActionData actionData = new ActionData();
-								actionData.put(GoToTrackAction.PROPERTY_TRACK, track);
-								
-								TuxGuitar.instance().getAction(GoToTrackAction.NAME).process(actionData);
+							if( track.getNumber() != getEditor().getTablature().getCaret().getTrack().getNumber() ){
+								TGSynchronizer.instance().executeLater(new TGSynchronizer.TGRunnable() {
+									public void run() throws TGException {
+										TGActionContext tgActionContext = TGActionManager.getInstance().createActionContext();
+										tgActionContext.setAttribute(GoToTrackAction.PROPERTY_TRACK, track);
+										TGActionManager.getInstance().execute(GoToTrackAction.NAME, tgActionContext);
+									}
+								});
 							}
 						}
 						
 						public void mouseDoubleClick(final MouseEvent e) {
 							new Thread(new Runnable() {
 								public void run() {
-									ActionLock.waitFor();
-									TuxGuitar.instance().getAction(TrackPropertiesAction.NAME).process(new ActionData());
+									TGActionLock.waitFor();
+									TGSynchronizer.instance().executeLater(new TGSynchronizer.TGRunnable() {
+										public void run() throws TGException {
+											TGActionManager.getInstance().execute(TrackPropertiesAction.NAME);
+										}
+									});
 								}
 							}).start();
 						}
@@ -340,19 +354,19 @@ public class TGTableViewer implements TGRedrawListener, TGUpdateListener, Langua
 	}
 	
 	private void followHorizontalScroll(int selectedMeasure){
-		int hScrollSelection = this.hSroll.getSelection();
-		int hScrollThumb = this.hSroll.getThumb();
+		int hScrollSelection = this.hScroll.getSelection();
+		int hScrollThumb = this.hScroll.getThumb();
 		
 		int measureSize = this.table.getRowHeight();
 		int measurePosition = ( (selectedMeasure * measureSize) - measureSize );
 		
 		if( (measurePosition - hScrollSelection) < 0 || (measurePosition + measureSize - hScrollSelection ) > hScrollThumb){
-			this.hSroll.setSelection(measurePosition);
+			this.hScroll.setSelection(measurePosition);
 		}
 	}
 	
 	public void loadConfig(){
-		this.autoSizeEnabled = TuxGuitar.instance().getConfig().getBooleanConfigValue(TGConfigKeys.TABLE_AUTO_SIZE);
+		this.autoSizeEnabled = TuxGuitar.instance().getConfig().getBooleanValue(TGConfigKeys.TABLE_AUTO_SIZE);
 		this.trackCount = 0;
 	}
 	

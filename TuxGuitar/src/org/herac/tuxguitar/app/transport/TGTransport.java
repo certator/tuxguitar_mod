@@ -25,8 +25,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.herac.tuxguitar.app.TuxGuitar;
-import org.herac.tuxguitar.app.actions.transport.TransportMetronomeAction;
-import org.herac.tuxguitar.app.actions.transport.TransportModeAction;
+import org.herac.tuxguitar.app.action.TGActionProcessor;
+import org.herac.tuxguitar.app.action.impl.transport.TransportMetronomeAction;
+import org.herac.tuxguitar.app.action.impl.transport.TransportModeAction;
 import org.herac.tuxguitar.app.editors.TGRedrawListener;
 import org.herac.tuxguitar.app.editors.TGUpdateListener;
 import org.herac.tuxguitar.app.helper.SyncThread;
@@ -130,11 +131,11 @@ public class TGTransport implements TGRedrawListener, TGUpdateListener, IconLoad
 		
 		this.metronome = new Button(composite,SWT.TOGGLE);
 		this.metronome.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		this.metronome.addSelectionListener(TuxGuitar.instance().getAction(TransportMetronomeAction.NAME));
+		this.metronome.addSelectionListener(new TGActionProcessor(TransportMetronomeAction.NAME));
 		
 		this.mode = new Button(composite,SWT.PUSH);
 		this.mode.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true));
-		this.mode.addSelectionListener(TuxGuitar.instance().getAction(TransportModeAction.NAME));
+		this.mode.addSelectionListener(new TGActionProcessor(TransportModeAction.NAME));
 		
 		this.loadOptionIcons();
 	}

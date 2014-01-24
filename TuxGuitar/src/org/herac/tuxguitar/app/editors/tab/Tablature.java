@@ -25,13 +25,13 @@ import org.herac.tuxguitar.app.system.config.TGConfigManager;
 import org.herac.tuxguitar.graphics.TGPainter;
 import org.herac.tuxguitar.graphics.TGRectangle;
 import org.herac.tuxguitar.graphics.TGResourceFactory;
-import org.herac.tuxguitar.graphics.control.TGLayoutHorizontal;
-import org.herac.tuxguitar.graphics.control.TGLayoutVertical;
 import org.herac.tuxguitar.graphics.control.TGBeatImpl;
 import org.herac.tuxguitar.graphics.control.TGController;
-import org.herac.tuxguitar.graphics.control.TGLayoutStyles;
-import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
 import org.herac.tuxguitar.graphics.control.TGLayout;
+import org.herac.tuxguitar.graphics.control.TGLayoutHorizontal;
+import org.herac.tuxguitar.graphics.control.TGLayoutStyles;
+import org.herac.tuxguitar.graphics.control.TGLayoutVertical;
+import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
 import org.herac.tuxguitar.player.base.MidiPlayerMode;
 import org.herac.tuxguitar.song.managers.TGSongManager;
 import org.herac.tuxguitar.song.models.TGBeat;
@@ -136,8 +136,9 @@ public class Tablature extends Composite implements TGController {
 				this.scrollX = xScroll.getSelection();
 				this.scrollY = yScroll.getSelection();
 				
-				this.getViewLayout().paint(painter,area,-this.scrollX,-this.scrollY);
-				this.getCaret().paintCaret(this.getViewLayout(),painter);
+				this.getViewLayout().paint(painter, area, -this.scrollX, -this.scrollY);
+				this.getCaret().paintCaret(this.getViewLayout(), painter);
+				this.getEditorKit().paintSelection(this.getViewLayout(), painter);
 				
 				this.width = this.viewLayout.getWidth();
 				this.height = this.viewLayout.getHeight();
@@ -232,7 +233,6 @@ public class Tablature extends Composite implements TGController {
 		if(!super.isDisposed() && !TuxGuitar.instance().isLocked()){
 			this.playedBeat = null;
 			this.playedMeasure = null;
-			this.editorKit.tryBack();
 			this.setPainting(true);
 			super.redraw();
 		}
@@ -240,9 +240,7 @@ public class Tablature extends Composite implements TGController {
 	
 	public void redrawPlayingMode(){
 		if(!super.isDisposed() && !isPainting() && !TuxGuitar.instance().isLocked()){
-			//TuxGuitar.instance().lock();
 			if(TuxGuitar.instance().getPlayer().isRunning()){
-				this.editorKit.tryBack();
 				this.setPainting(true);
 				
 				TGPainter painter = new TGPainterImpl(new GC(this));
@@ -251,7 +249,6 @@ public class Tablature extends Composite implements TGController {
 				
 				this.setPainting(false);
 			}
-			//TuxGuitar.instance().unlock();
 		}
 	}
 	
@@ -331,7 +328,7 @@ public class Tablature extends Composite implements TGController {
 	public void reloadViewLayout(){
 		TGConfigManager config = TuxGuitar.instance().getConfig();
 		
-		this.loadViewLayout(config.getIntConfigValue(TGConfigKeys.LAYOUT_STYLE), config.getIntConfigValue(TGConfigKeys.LAYOUT_MODE));
+		this.loadViewLayout(config.getIntegerValue(TGConfigKeys.LAYOUT_STYLE), config.getIntegerValue(TGConfigKeys.LAYOUT_MODE));
 	}
 	
 	private void loadViewLayout( int style, int mode ){
@@ -392,14 +389,14 @@ public class Tablature extends Composite implements TGController {
 		TGConfigManager config = TuxGuitar.instance().getConfig();
 		
 		styles.setBufferEnabled(true);
-		styles.setStringSpacing(config.getIntConfigValue(TGConfigKeys.TAB_LINE_SPACING));
-		styles.setScoreLineSpacing(config.getIntConfigValue(TGConfigKeys.SCORE_LINE_SPACING));
+		styles.setStringSpacing(config.getIntegerValue(TGConfigKeys.TAB_LINE_SPACING));
+		styles.setScoreLineSpacing(config.getIntegerValue(TGConfigKeys.SCORE_LINE_SPACING));
 		styles.setFirstMeasureSpacing(20);
 		styles.setMinBufferSeparator(20);
 		styles.setMinTopSpacing(30);
-		styles.setMinScoreTabSpacing(config.getIntConfigValue(TGConfigKeys.MIN_SCORE_TABLATURE_SPACING));
-		styles.setFirstTrackSpacing(config.getIntConfigValue(TGConfigKeys.FIRST_TRACK_SPACING));
-		styles.setTrackSpacing(config.getIntConfigValue(TGConfigKeys.TRACK_SPACING));
+		styles.setMinScoreTabSpacing(config.getIntegerValue(TGConfigKeys.MIN_SCORE_TABLATURE_SPACING));
+		styles.setFirstTrackSpacing(config.getIntegerValue(TGConfigKeys.FIRST_TRACK_SPACING));
+		styles.setTrackSpacing(config.getIntegerValue(TGConfigKeys.TRACK_SPACING));
 		styles.setChordFretIndexSpacing(8);
 		styles.setChordStringSpacing(5);
 		styles.setChordFretSpacing(6);

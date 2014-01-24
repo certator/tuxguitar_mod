@@ -2,14 +2,14 @@ package org.herac.tuxguitar.midiinput;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
 import java.util.Iterator;
 import java.util.TreeSet;
+
 import javax.sound.midi.ShortMessage;
 import javax.swing.Timer;
 
 import org.herac.tuxguitar.app.TuxGuitar;
-import org.herac.tuxguitar.app.actions.ActionLock;
+import org.herac.tuxguitar.app.action.TGActionLock;
 import org.herac.tuxguitar.app.editors.TablatureEditor;
 import org.herac.tuxguitar.app.editors.fretboard.FretBoard;
 import org.herac.tuxguitar.app.editors.tab.Caret;
@@ -18,7 +18,6 @@ import org.herac.tuxguitar.app.undo.undoables.measure.UndoableMeasureGeneric;
 import org.herac.tuxguitar.app.util.MessageDialog;
 import org.herac.tuxguitar.graphics.control.TGMeasureImpl;
 import org.herac.tuxguitar.graphics.control.TGTrackImpl;
-
 import org.herac.tuxguitar.song.managers.TGSongManager;
 import org.herac.tuxguitar.song.models.TGChord;
 import org.herac.tuxguitar.song.models.TGDuration;
@@ -26,7 +25,7 @@ import org.herac.tuxguitar.song.models.TGNote;
 import org.herac.tuxguitar.song.models.TGString;
 import org.herac.tuxguitar.song.models.TGVoice;
 import org.herac.tuxguitar.song.models.TGBeat;
-
+import org.herac.tuxguitar.util.TGException;
 import org.herac.tuxguitar.util.TGSynchronizer;
 
 public class MiProvider
@@ -231,7 +230,7 @@ static private	MiProvider	s_Instance;
 	if(inIsEmpty)
 		{
 		task = new TGSynchronizer.TGRunnable() {
-			public void run() throws Throwable {
+			public void run() throws TGException {
 				TuxGuitar.instance().hideExternalBeat();
 				}
 			};
@@ -239,14 +238,14 @@ static private	MiProvider	s_Instance;
 	else
 		{
 		task = new TGSynchronizer.TGRunnable() {
-			public void run() throws Throwable {
+			public void run() throws TGException {
 				TuxGuitar.instance().showExternalBeat(f_EchoBeat);
 				}
 			};
 		}
 
 	try {
-		TGSynchronizer.instance().runLater(task);
+		TGSynchronizer.instance().executeLater(task);
 		}
 	catch(Throwable t)
 		{
@@ -332,7 +331,7 @@ static private	MiProvider	s_Instance;
 
 				if(f_Buffer.finalize(f_MinVelocity, f_MinDuration * 1000) > 0)
 					{
-					if(!TuxGuitar.instance().getPlayer().isRunning() && !TuxGuitar.instance().isLocked() && !ActionLock.isLocked())
+					if(!TuxGuitar.instance().getPlayer().isRunning() && !TuxGuitar.instance().isLocked() && !TGActionLock.isLocked())
 						{
 						TablatureEditor	editor	= TuxGuitar.instance().getTablatureEditor();
 						Caret			caret	= editor.getTablature().getCaret();
@@ -345,7 +344,7 @@ static private	MiProvider	s_Instance;
 						//TGBeat		_beat		= f_Buffer.toBeat();
 
 						// emulates InsertChordAction
-						ActionLock.lock();
+						TGActionLock.lock();
 
 						UndoableMeasureGeneric undoable = UndoableMeasureGeneric.startUndo();
 
@@ -382,7 +381,7 @@ static private	MiProvider	s_Instance;
 
 						TuxGuitar.instance().getUndoableManager().addEdit(undoable.endUndo());
 
-						ActionLock.unlock();
+						TGActionLock.unlock();
 						TuxGuitar.instance().updateCache(true);
 						}
 					}

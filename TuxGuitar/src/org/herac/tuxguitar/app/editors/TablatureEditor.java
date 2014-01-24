@@ -44,12 +44,12 @@ public class TablatureEditor implements TGRedrawListener, TGUpdateListener{
 	}
 	
 	private void initKeyActions(){
-		TuxGuitar.instance().getkeyBindingManager().appendListenersTo(this.tablature);
+		TuxGuitar.instance().getKeyBindingManager().appendListenersTo(this.tablature);
 	}
 	
 	private void initMenu(){
 		Menu menu = TuxGuitar.instance().getItemManager().getPopupMenu();
-		menu.addMenuListener(getTablature().getEditorKit());
+		menu.addMenuListener(getTablature().getEditorKit().getMenuListener());
 		this.tablature.setMenu(menu);
 	}
 	
