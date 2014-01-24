@@ -1,27 +1,17 @@
 package org.herac.tuxguitar.io.image;
 
-import org.herac.tuxguitar.app.system.plugins.base.TGExporterPlugin;
 import org.herac.tuxguitar.io.base.TGRawExporter;
+import org.herac.tuxguitar.io.plugin.TGExporterPlugin;
 
 public class ImageExporterPlugin extends TGExporterPlugin{
+	
+	public static final String MODULE_ID = "tuxguitar-image";
 	
 	protected TGRawExporter getExporter() {
 		return new ImageExporterDialog();
 	}
 	
-	public String getVersion() {
-		return "0.1";
-	}
-	
-	public String getAuthor() {
-		return "Julian Casadesus <julian@casadesus.com.ar>";
-	}
-	
-	public String getName() {
-		return "Image exporter";
-	}
-	
-	public String getDescription() {
-		return "Image exporter";
+	public String getModuleId(){
+		return MODULE_ID;
 	}
 }

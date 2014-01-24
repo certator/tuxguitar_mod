@@ -1,27 +1,17 @@
 package org.herac.tuxguitar.io.lilypond;
 
-import org.herac.tuxguitar.app.system.plugins.base.TGExporterPlugin;
 import org.herac.tuxguitar.io.base.TGRawExporter;
+import org.herac.tuxguitar.io.plugin.TGExporterPlugin;
 
 public class LilypondPluginExporter extends TGExporterPlugin{
+	
+	public static final String MODULE_ID = "tuxguitar-lilypond";
 	
 	protected TGRawExporter getExporter() {
 		return new LilypondSongExporter();
 	}
 	
-	public String getAuthor() {
-		return "Julian Casadesus <julian@casadesus.com.ar>, updates by b4dc0d3r";
-	}
-	
-	public String getDescription() {
-		return "Lilypond exporter plugin";
-	}
-	
-	public String getName() {
-		return "Lilypond exporter";
-	}
-	
-	public String getVersion() {
-		return "1.1";
+	public String getModuleId(){
+		return MODULE_ID;
 	}
 }

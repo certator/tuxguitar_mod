@@ -12,8 +12,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.herac.tuxguitar.app.TuxGuitar;
-import org.herac.tuxguitar.app.actions.transport.TransportPlayAction;
-import org.herac.tuxguitar.app.actions.transport.TransportStopAction;
+import org.herac.tuxguitar.app.action.TGActionProcessor;
+import org.herac.tuxguitar.app.action.impl.transport.TransportPlayAction;
+import org.herac.tuxguitar.app.action.impl.transport.TransportStopAction;
 import org.herac.tuxguitar.app.items.ToolItems;
 /**
  * @author julian
@@ -56,10 +57,10 @@ public class TransportToolItems  extends ToolItems{
 		});
 		
 		this.stop = new ToolItem(toolBar,SWT.PUSH);
-		this.stop.addSelectionListener(TuxGuitar.instance().getAction(TransportStopAction.NAME));
+		this.stop.addSelectionListener(new TGActionProcessor(TransportStopAction.NAME));
 		
 		this.play = new ToolItem(toolBar,SWT.PUSH);
-		this.play.addSelectionListener(TuxGuitar.instance().getAction(TransportPlayAction.NAME));
+		this.play.addSelectionListener(new TGActionProcessor(TransportPlayAction.NAME));
 		
 		this.next = new ToolItem(toolBar,SWT.PUSH);
 		this.next.addSelectionListener(new SelectionAdapter() {

@@ -15,6 +15,8 @@
 		<pathelement location="${path.itext}"/>
 		<pathelement location="${path.swt}"/>
 		<pathelement location="${path.tuxguitar}"/>
+		<pathelement location="${path.tuxguitar-lib}"/>
+		<pathelement location="${path.tuxguitar-gm-utils}"/>
 	</path >
 	
 	<target name="init" depends="clean">

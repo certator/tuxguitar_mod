@@ -10,8 +10,9 @@ import org.herac.tuxguitar.song.models.TGString;
  * @author Nikola Kolarovic <nikola.kolarovic at gmail.com>
  *
  */
-public class TGTunerPlugin extends org.herac.tuxguitar.app.system.plugins.base.TGToolItemPlugin {
-
+public class TGTunerPlugin extends org.herac.tuxguitar.app.tools.custom.TGToolItemPlugin {
+	
+	public static final String MODULE_ID = "tuxguitar-tuner";
 	
 	protected void doAction() {
 		List strings = TuxGuitar.instance().getTablatureEditor().getTablature().getCaret().getTrack().getStrings();
@@ -28,26 +29,11 @@ public class TGTunerPlugin extends org.herac.tuxguitar.app.system.plugins.base.T
 		
 	}
 
+	public String getModuleId(){
+		return MODULE_ID;
+	}
+	
 	protected String getItemName() {
 		return "Guitar Tuner";
 	}
-
-	public String getName() {
-		return "GuitarTuner";
-	}
-	
-	public String getAuthor() {
-		return "Nikola Kolarovic";
-	}
-
-	public String getDescription() {
-		return "Visual tuner that analyses the most dominant frequency from your microphone" +
-			   " and displays it on the tuner scale.";
-	}
-
-	public String getVersion() {
-		return "0.01b";
-	}	
-	
-
 }

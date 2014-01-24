@@ -10,9 +10,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
-import org.herac.tuxguitar.app.TuxGuitar;
-import org.herac.tuxguitar.app.actions.help.ShowAboutAction;
-import org.herac.tuxguitar.app.actions.help.ShowDocAction;
+import org.herac.tuxguitar.app.action.TGActionProcessor;
+import org.herac.tuxguitar.app.action.impl.help.ShowAboutAction;
+import org.herac.tuxguitar.app.action.impl.help.ShowDocAction;
 import org.herac.tuxguitar.app.items.MenuItems;
 
 /**
@@ -35,11 +35,11 @@ public class HelpMenuItem extends MenuItems{
 	public void showItems(){
 		//--Doc
 		this.doc = new MenuItem(this.menu, SWT.PUSH);
-		this.doc.addSelectionListener(TuxGuitar.instance().getAction(ShowDocAction.NAME));
+		this.doc.addSelectionListener(new TGActionProcessor(ShowDocAction.NAME));
 		
 		//--ABOUT
 		this.about = new MenuItem(this.menu, SWT.PUSH);
-		this.about.addSelectionListener(TuxGuitar.instance().getAction(ShowAboutAction.NAME));
+		this.about.addSelectionListener(new TGActionProcessor(ShowAboutAction.NAME));
 		
 		this.helpMenuItem.setMenu(this.menu);
 		

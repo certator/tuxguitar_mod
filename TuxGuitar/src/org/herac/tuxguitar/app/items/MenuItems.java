@@ -12,9 +12,9 @@ public abstract class MenuItems implements ItemBase {
 	protected void setMenuItemTextAndAccelerator(MenuItem menuItem, String key,String action) {
 		String text = TuxGuitar.getProperty(key);
 		if (action != null) {
-			KeyBinding keyBinding = TuxGuitar.instance().getkeyBindingManager().getKeyBindingForAction(action);
+			KeyBinding keyBinding = TuxGuitar.instance().getKeyBindingManager().getKeyBindingForAction(action);
 			if (keyBinding != null) {
-				text += "\t" + keyBinding.toString();
+				text += "\t" + keyBinding.toString() + "\u0000";
 			}
 		}
 		menuItem.setText(text);

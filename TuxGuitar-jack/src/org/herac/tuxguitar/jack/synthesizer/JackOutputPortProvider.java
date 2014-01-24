@@ -4,32 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.herac.tuxguitar.jack.JackClient;
-import org.herac.tuxguitar.jack.settings.JackSettings;
+import org.herac.tuxguitar.jack.provider.JackClientProvider;
 import org.herac.tuxguitar.player.base.MidiOutputPortProvider;
 
 public class JackOutputPortProvider implements MidiOutputPortProvider{
 	
 	private List jackOutputPorts;
-	private JackClient jackClient;
-	private JackSettings jackSettings;
+	private JackClientProvider jackClientProvider;
 	
-	public JackOutputPortProvider(JackClient jackClient,JackSettings jackSettings){
-		this.jackClient = jackClient;
-		this.jackSettings = jackSettings;
+	public JackOutputPortProvider(JackClientProvider jackClientProvider){
+		this.jackClientProvider = jackClientProvider;
 	}
 	
 	public List listPorts() {
-		if(this.jackOutputPorts == null){
+		if( this.jackOutputPorts == null ){
 			this.jackOutputPorts = new ArrayList();
-			this.jackOutputPorts.add(new JackOutputPort( this.jackClient , this.jackSettings ));
+			
+			JackClient jackClient = this.jackClientProvider.getJackClient();
+			if( jackClient != null ){
+				this.jackOutputPorts.add(new JackSynthesizerPort(jackClient));
+			}
 		}
 		return this.jackOutputPorts;
 	}
 	
 	public void closeAll(){
-		if(this.jackClient.isPortsOpen()){
-			this.jackClient.closePorts();
-		}
+		// TODO
 	}
-	
 }

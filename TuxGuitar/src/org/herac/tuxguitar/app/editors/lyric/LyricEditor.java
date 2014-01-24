@@ -16,11 +16,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.herac.tuxguitar.app.TuxGuitar;
-import org.herac.tuxguitar.app.actions.ActionData;
-import org.herac.tuxguitar.app.actions.edit.RedoAction;
-import org.herac.tuxguitar.app.actions.edit.UndoAction;
-import org.herac.tuxguitar.app.actions.track.GoNextTrackAction;
-import org.herac.tuxguitar.app.actions.track.GoPreviousTrackAction;
+import org.herac.tuxguitar.app.action.TGActionProcessor;
+import org.herac.tuxguitar.app.action.impl.edit.RedoAction;
+import org.herac.tuxguitar.app.action.impl.edit.UndoAction;
+import org.herac.tuxguitar.app.action.impl.track.GoNextTrackAction;
+import org.herac.tuxguitar.app.action.impl.track.GoPreviousTrackAction;
 import org.herac.tuxguitar.app.editors.TGUpdateListener;
 import org.herac.tuxguitar.app.system.icons.IconLoader;
 import org.herac.tuxguitar.app.system.keybindings.KeyBinding;
@@ -139,13 +139,13 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 		
 		this.previous.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				TuxGuitar.instance().getAction(GoPreviousTrackAction.NAME).process(new ActionData());
+				new TGActionProcessor(GoPreviousTrackAction.NAME).widgetSelected(e);
 				composite.layout();
 			}
 		});
 		this.next.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				TuxGuitar.instance().getAction(GoNextTrackAction.NAME).process(new ActionData());
+				new TGActionProcessor(GoNextTrackAction.NAME).widgetSelected(e);
 				composite.layout();
 			}
 		});
@@ -165,7 +165,7 @@ public class LyricEditor implements TGUpdateListener,IconLoader,LanguageLoader{
 			public void keyPressed(KeyEvent event) {
 				for( int i = 0 ; i < KB_ACTIONS.length ; i ++ ){
 					if(event.keyCode == KB_ACTIONS[i].getKeyBinding().getKey() && event.stateMask == KB_ACTIONS[i].getKeyBinding().getMask()){
-						TuxGuitar.instance().getAction(KB_ACTIONS[i].getAction()).processEvent(event);
+						new TGActionProcessor(KB_ACTIONS[i].getAction()).processEvent(event);
 						return;
 					}
 				}
